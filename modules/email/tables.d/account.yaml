@@ -1,0 +1,33 @@
+name: account
+description: E-mail accounts correspond to something a mail user can login into. Basically an account represents a postbox. An account is bound to a specific address. Further addresses can be linked to accounts via aliases. 
+inherits: addresses
+
+primary_key:
+ - id
+
+columns:
+ -
+  tag: column_tpl
+  template: email.address_id
+  description: Account is bound to this email address. This also defines the login name.
+ -
+  tag: column_tpl
+  template: unix_user.user_id
+ -
+  tag: column_tpl
+  template: commons.password
+ -
+  tag: column
+  name: quota
+  type: int
+  description: Quota for mailbox in MiB 
+ -
+  tag: column_tpl
+  template: backend.job
+
+checks:
+ -
+  name: ensure quota valid
+  description: quota should be positive number
+  check: account.quota >= 0
+

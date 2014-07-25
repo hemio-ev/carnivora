@@ -1,0 +1,15 @@
+modules:
+ - dns
+ - domain 
+ - email 
+ - backend
+ - jabber 
+ - user
+ - unix_user
+ - commons
+
+module_dirs:
+ - modules
+
+pre_code: |
+ CREATE EXTENSION "uuid-ossp";

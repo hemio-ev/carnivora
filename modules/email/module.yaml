@@ -1,0 +1,33 @@
+name: email
+description: E-Mail System
+dependencies: [ domains ]
+
+column_templates:
+ -
+    template: address_id
+    name: id
+    type: uuid
+    description: email address
+    references: email.address.id
+
+domains:
+ -
+  name: local_part
+  description: Local part of an e-mail address, the thing in front of the @
+  type: varchar(64)
+  
+  checks:
+   -
+    name: valid_characters
+    description: a
+    check: "VALUE ~ '[A-Za-z0-9.]'"
+    #check: "regexp_matches(VALUE, '[A-Za-z0-9.!#$%&'*+-/=?^_`{|}~]+')"
+   -
+    name: no_starting_dot
+    description: b
+    check: left(VALUE, 1) <> '.'
+   -
+    name: no_ending_dot
+    description: c
+    check: right(VALUE, 1) <> '.'
+

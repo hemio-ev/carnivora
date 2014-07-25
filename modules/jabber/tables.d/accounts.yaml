@@ -1,0 +1,27 @@
+name: accounts
+description: Jabber accounts
+primary_key:
+ - node
+ - rr_id
+
+columns:
+ -
+  tag: column
+  name: node
+  type: varchar(255)
+  description: part in front of the @ in account name
+ -
+  tag: column
+  name: rr_id
+  description: part behing @
+  type: integer
+ -
+  tag: column_tpl
+  template: commons.password
+ -
+  tag: column_tpl
+  template: backend.job
+ -
+  tag: column_tpl
+  template: user.owner
+

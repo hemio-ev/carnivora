@@ -1,0 +1,19 @@
+name: list
+description: Mailing lists
+
+primary_key:
+ - id
+
+columns:
+ -
+  tag: column_tpl
+  template: address_id
+ -
+  tag: column
+  name: options
+  type: integer
+  description: Would be nice to store arbritary key:value pairs 
+ -
+  tag: column_tpl
+  template: backend.job
+

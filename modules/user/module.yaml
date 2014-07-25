@@ -1,0 +1,9 @@
+name: user
+description: users that can own things
+
+column_templates:
+ -
+  template: owner
+  name: owner
+  type: varchar(50)
+  description: for ownage

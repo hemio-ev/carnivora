@@ -1,0 +1,13 @@
+name: dns
+description: dns
+
+domains:
+ -
+  name: domain_name
+  description: domain name 
+  type: varchar(253)
+  check: domain_name_is_valid(VALUE)
+ -
+  name: rdata
+  description: record entry
+  type: varchar

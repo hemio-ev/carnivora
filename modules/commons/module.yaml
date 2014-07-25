@@ -1,0 +1,24 @@
+name: commons
+description: Usefull templates and types
+
+column_templates:
+ -
+  template: password
+  name: password
+  type: commons.password
+  description: Unix shadow crypt format
+ -
+  template: uuid_serial
+  name: id
+  description: |
+      uuid serial number to identify database elements uniquely
+      The default value is generated using uuid_generate_v4().
+  type: uuid
+  default: uuid_generate_v4()
+  unique: true
+
+domains:
+ -
+  name: password
+  type: varchar(250)
+  description: "unix hash thingy - todo: propper checking of format"

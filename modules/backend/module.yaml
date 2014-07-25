@@ -1,0 +1,15 @@
+name: backend
+description: deliver stuff to vm clients
+
+column_templates:
+ -
+  template: job
+  name: backend_job
+  description: |
+      Status of database entry in backend. NULL: nothing pending,
+      new: entry not present on backend client, changed: update
+      pending on backend client, deleted: deletion peding on
+      backend client.    
+  type: varchar(20)
+  default: '''new'''
+  null: true

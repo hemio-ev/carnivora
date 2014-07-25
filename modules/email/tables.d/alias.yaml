@@ -1,0 +1,24 @@
+name: alias
+description: Aliases for e-mail accounts, owner is determined by accounts.owner
+
+primary_key:
+ - alias
+
+columns:
+ -
+  tag: column_tpl
+  template: address_id
+  name: alias
+  description: Alias address
+ -
+  tag: column
+  name: account_id
+  type: uuid
+
+  references: email.account.id
+  on_ref_delete: CASCADE
+  description: Account to which the mails will be delivered
+ -
+  tag: column_tpl
+  template: backend.job
+

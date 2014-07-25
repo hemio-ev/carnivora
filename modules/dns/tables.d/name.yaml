@@ -1,0 +1,16 @@
+name: name
+description: name entries
+ 
+columns:
+ -
+  tag: column_tpl
+  template: commons.uuid_serial
+      
+ -
+  tag: column
+  name: domain_name
+  type: varchar(254)
+  description: domain name 
+
+primary_key:
+ - id
