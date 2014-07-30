@@ -4,9 +4,14 @@ description: dns
 domains:
  -
   name: domain_name
-  description: domain name 
+  description: Domain name
   type: varchar(253)
   check: domain_name_is_valid(VALUE)
+ -
+  name: type
+  description: Resource record type
+  type: varchar(253)
+  check: "VALUE IN ('MX', 'A', 'AAAA', 'CNAME', 'SRV')"
  -
   name: rdata
   description: record entry

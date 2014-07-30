@@ -1,12 +1,13 @@
 modules:
+ - backend
+ - commons
  - dns
  - domain 
  - email 
- - backend
  - jabber 
- - user
  - unix_user
- - commons
+ - user
+ - system
 
 module_dirs:
  - modules

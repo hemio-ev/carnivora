@@ -17,7 +17,7 @@ columns:
   tag: column
   name: name
   type: dns.domain_name
-  description: Domain name like sub.example.org.
+  description: Name like sub.example.org. This defines to which name the resource record pertains.
  -
   tag: column
   name: type

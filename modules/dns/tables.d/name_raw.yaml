@@ -16,4 +16,10 @@ columns:
   name: rdata
   type: varchar(10000)
   description: Complete record entry. Meaning and allowed values depend on value of dns.name.type
+ -
+  tag: column
+  name: ttl
+  type: integer
+  check: VALUE >= 0 AND VALUE <= 172800
+  description: Ensure that TTL is positive and put maximum to 48h
 
