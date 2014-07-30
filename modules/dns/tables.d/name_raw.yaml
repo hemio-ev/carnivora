@@ -1,0 +1,19 @@
+name: name_raw
+description: Direct name server entries. Not based on host name server entry suggestions from system.host_name
+
+primary_key:
+ - id
+
+columns:
+ -
+  tag: column
+  name: id
+  type: uuid
+  description: Name entry that is implemented
+  references: dns.name.id
+ -
+  tag: column
+  name: rdata
+  type: varchar(10000)
+  description: Complete record entry. Meaning and allowed values depend on value of dns.name.type
+

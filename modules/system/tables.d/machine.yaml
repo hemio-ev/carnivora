@@ -1,0 +1,12 @@
+name: machine
+description: Physical or virtual machines that host services
+
+primary_key:
+ - name
+
+columns:
+ -
+  tag: column
+  name: name
+  type: varchar(50)
+  description: Machine name

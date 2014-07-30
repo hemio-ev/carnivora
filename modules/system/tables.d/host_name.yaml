@@ -1,0 +1,30 @@
+name: host_name
+description: Resource records for host
+unique:
+ -
+  - id
+
+primary_key:
+ - name
+ - type
+
+columns:
+ -
+  tag: column_tpl
+  template: commons.uuid_serial
+ -
+  tag: column
+  name: name
+  type: dns.domain_name 
+  description: Name
+  references: system.host.name
+ -
+  tag: column
+  name: type
+  type: dns.type
+  description: Type like A, MX, ...
+ -
+  tag: column
+  name: rdata
+  type: varchar
+  description: RDATA

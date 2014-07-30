@@ -1,0 +1,19 @@
+name: host
+description: Names under which services are made available. Bound to machines.
+
+primary_key:
+ - name
+
+columns:
+ -
+  tag: column
+  name: name
+  type: dns.domain_name
+  description: Host name
+ -
+  tag: column
+  name: machine
+  type: varchar(50)
+  description: Machine
+  references: system.machine.name
+

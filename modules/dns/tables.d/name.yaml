@@ -1,16 +1,25 @@
 name: name
-description: name entries
- 
+description: Ensures uniqueness of name server entries
+
+primary_key:
+ - name
+ - type
+
+unique:
+ -
+  - id
+
 columns:
  -
   tag: column_tpl
   template: commons.uuid_serial
-      
  -
   tag: column
-  name: domain_name
-  type: varchar(254)
-  description: domain name 
-
-primary_key:
- - id
+  name: name
+  type: dns.domain_name
+  description: Domain name like sub.example.org.
+ -
+  tag: column
+  name: type
+  type: dns.type
+  description: Type (?) like MX, A, AAAA, ...
