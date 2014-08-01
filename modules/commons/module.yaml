@@ -22,3 +22,4 @@ domains:
   name: password
   type: varchar(250)
   description: "unix hash thingy - todo: propper checking of format"
+

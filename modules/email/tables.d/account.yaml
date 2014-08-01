@@ -20,6 +20,7 @@ columns:
   tag: column
   name: quota
   type: int
+  null: true
   description: Quota for mailbox in MiB 
  -
   tag: column_tpl
