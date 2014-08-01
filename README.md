@@ -3,9 +3,15 @@ carnivora
 
 A powerfull backend for web-service management. Written in YamSql.
 
+Documentation for predefined structures can be found here:
+
+http://qua-bla.github.io/carnivora/
+
 # Installation
 
 ## HamSql
+
+https://github.com/qua-bla/hamsql
 
 *missing*
 
