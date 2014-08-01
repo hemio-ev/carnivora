@@ -13,3 +13,19 @@ column_templates:
   type: varchar(20)
   default: '''new'''
   null: true
+
+function_templates:
+ -
+  template: backend
+  description: |
+      Tries to identify if connected role has the right to perform
+      backend tasks for some machine. If this is the case, it
+      identifies the machine. Otherwise it rises an exception.
+  variables:
+   -
+    name: v_machine
+    type: dns.domain_name
+  
+  body_prelude: |
+   v_machine := (SELECT "machine" FROM "backend".get_login());
+

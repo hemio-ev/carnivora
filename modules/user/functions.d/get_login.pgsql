@@ -10,7 +10,7 @@ return_columns:
   name: name
   type: varchar
 
-body:
+body: |
  IF (SELECT TRUE FROM "user"."session"
     WHERE "id"="user".session_id())
  THEN

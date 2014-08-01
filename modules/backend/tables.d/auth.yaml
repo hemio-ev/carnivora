@@ -1,0 +1,21 @@
+name: auth
+description: Backend authentication for machines using sql roles
+
+primary_key:
+ -
+  role
+
+columns:
+ -
+  tag: column
+  name: role
+  type: varchar
+  description: Grantee of rights for machine backend data
+ -
+  tag: column
+  name: machine
+  type: dns.domain_name
+  description: Machine for which the rights are granted
+  references: system.machine.name
+  on_delete: DELETE
+  

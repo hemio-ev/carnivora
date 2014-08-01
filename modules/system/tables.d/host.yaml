@@ -13,7 +13,7 @@ columns:
  -
   tag: column
   name: machine
-  type: varchar(50)
+  type: dns.domain_name
   description: Machine
   references: system.machine.name
 
