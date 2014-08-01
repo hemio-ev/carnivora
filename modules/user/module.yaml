@@ -1,5 +1,5 @@
 name: user
-description: users that can own things
+description: Users that can own things
 
 column_templates:
  -
@@ -7,3 +7,30 @@ column_templates:
   name: owner
   type: varchar(50)
   description: for ownage
+  references: user.user.name
+
+roles:
+ -
+  name: userlogin
+  description: Do user actions via this group
+  login: false
+  members:
+   - edentata
+
+function_templates:
+ -
+  template: userlogin
+  description: complicated...
+  priv_execute: 
+   - userlogin
+
+  variables:
+   -
+    name: v_owner
+    type: varchar
+
+  body_prelude: |
+   -- begin userlogin prelude
+   v_owner := (SELECT "name" FROM "user".get_login());
+   -- end userlogin prelude
+
