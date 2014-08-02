@@ -2,35 +2,23 @@ name: address
 description: "Collection of all addresses known to the mailservers to avoid collisions. No direct functionalities follows from entries in this list. Many tables have references to this table."
 
 primary_key:
- - id
-
-unique:
- -
-  - local_part
-  - domain
+ - local_part
+ - domain
 
 columns:
  -
   tag: column_tpl
-  template: commons.uuid_serial
+  template: email.local_part
  -
-  tag: column
-  name: local_part
-  type: email.local_part
-  description: Local part of the address
- -
-  tag: column
-  name: domain
-  type: uuid
-  references: dns.name_host.id
-  description: Domain part of the address
+  tag: column_tpl
+  template: email.domain
  -
   tag: column_tpl
   template: user.owner
 
-checks:
- -
-  name: address_local_valid
-  check: "true" #address_local_new_valid(address)
-  description: what a check
+#checks:
+# -
+#  name: address_local_valid
+#  check: "true" #address_local_new_valid(address)
+#  description: what a check
 

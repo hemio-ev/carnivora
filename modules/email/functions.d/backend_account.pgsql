@@ -12,9 +12,8 @@ return_columns:
 
 body: |
  RETURN QUERY
-    SELECT email.account.id FROM email.account
-        JOIN email.address USING (id)
-        JOIN dns.name_host ON dns.name_host.id = email.address.domain
+    SELECT email.account.domain FROM email.account
+        JOIN dns.name_host ON dns.name_host.id = email.account.domain
         JOIN system.host_name ON dns.name_host.host_name_entry = system.host_name.id
         JOIN system.host USING (name)
     

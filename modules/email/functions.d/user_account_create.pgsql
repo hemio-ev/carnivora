@@ -14,17 +14,8 @@ parameters:
   name: p_domain
   type: dns.domain_name
 
-variables:
- -
-  name: v_id
-  type: uuid
-  default: commons.uuid()
-
 body: |
- INSERT INTO email.address
-    (id, local_part, domain, owner) VALUES
-    (v_id, p_local_part, dns.name_host_find(p_domain, 'MX'), v_owner);
  INSERT INTO email.account
-    (id, password) VALUES
-    (v_id, 'pw');
+    (local_part, domain, owner, password) VALUES
+    (p_local_part, dns.name_host_find(p_domain, 'MX'), v_owner, 'pw');
  RETURN 72;

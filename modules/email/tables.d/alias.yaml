@@ -1,15 +1,19 @@
 name: alias
 description: Aliases for e-mail accounts, owner is determined by accounts.owner
+inherits: 
+ - email.address
 
 primary_key:
- - alias
+ - local_part
+ - domain
 
 columns:
  -
   tag: column_tpl
-  template: address_id
-  name: alias
-  description: Alias address
+  template: email.local_part
+ -
+  tag: column_tpl
+  template: email.domain
  -
   tag: column
   name: account_id
@@ -18,6 +22,9 @@ columns:
   references: email.account.id
   on_ref_delete: CASCADE
   description: Account to which the mails will be delivered
+ -
+  tag: column_tpl
+  template: user.owner
  -
   tag: column_tpl
   template: backend.job

@@ -4,11 +4,16 @@ dependencies: [ domains ]
 
 column_templates:
  -
-    template: address_id
-    name: id
-    type: uuid
-    description: email address
-    references: email.address.id
+  template: local_part
+  name: local_part
+  type: email.local_part
+  description: Local part of the address
+ -
+  template: domain
+  name: domain
+  type: uuid
+  references: dns.name_host.id
+  description: Domain part of the address
 
 domains:
  -
