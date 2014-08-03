@@ -9,11 +9,21 @@ primary_key:
  - name
  - type
 
+foreign_key:
+ -
+  name: rr_by_host
+  columns:
+   - type
+   - host_name
+  ref_table: system.host_name
+  ref_columns:
+   - type
+   - name
+
 columns:
  -
   tag: column
-  name: host_name_entry
-  type: uuid
-  references: system.host_name.id
+  name: host_name
+  type: dns.domain_name
   description: Predefined entry for host 
 

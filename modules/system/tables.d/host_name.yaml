@@ -1,17 +1,11 @@
 name: host_name
 description: Resource records for host
-unique:
- -
-  - id
 
 primary_key:
  - name
  - type
 
 columns:
- -
-  tag: column_tpl
-  template: commons.uuid_serial
  -
   tag: column
   name: name
