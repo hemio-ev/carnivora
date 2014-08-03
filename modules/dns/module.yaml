@@ -16,3 +16,26 @@ domains:
   name: rdata
   description: record entry
   type: varchar
+
+column_templates:
+ -
+  template: name
+  name: name
+  type: dns.domain_name
+  description: Name like sub.example.org. This defines to which name the resource record pertains.
+ -
+  template: type
+  name: type
+  type: dns.type
+  description: Type (?) like MX, A, AAAA, ...
+
+table_templates:
+ -
+  template: name
+  columns:
+   -
+    tag: column_tpl
+    template: dns.name
+   -
+    tag: column_tpl
+    template: dns.type

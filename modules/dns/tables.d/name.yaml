@@ -1,25 +1,10 @@
 name: name
 description: Ensures uniqueness of name server entries
+templates:
+ - dns.name
 
 primary_key:
  - name
  - type
 
-unique:
- -
-  - id
-
-columns:
- -
-  tag: column_tpl
-  template: commons.uuid_serial
- -
-  tag: column
-  name: name
-  type: dns.domain_name
-  description: Name like sub.example.org. This defines to which name the resource record pertains.
- -
-  tag: column
-  name: type
-  type: dns.type
-  description: Type (?) like MX, A, AAAA, ...
+columns: []

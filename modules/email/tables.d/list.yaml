@@ -2,6 +2,8 @@ name: list
 description: Mailing lists
 inherits: 
  - email.address
+templates:
+ - email.address
 
 primary_key:
  - local_part
@@ -9,19 +11,10 @@ primary_key:
 
 columns:
  -
-  tag: column_tpl
-  template: email.local_part
- -
-  tag: column_tpl
-  template: email.domain
- -
   tag: column
   name: options
   type: integer
   description: Would be nice to store arbritary key:value pairs 
- -
-  tag: column_tpl
-  template: user.owner
  -
   tag: column_tpl
   template: backend.job

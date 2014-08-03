@@ -1,9 +1,9 @@
 name: account
 description: E-mail accounts correspond to something a mail user can login into. Basically an account represents a postbox. An account is bound to a specific address. Further addresses can be linked to accounts via aliases. 
-inherits: 
+inherits:
  - email.address
-
-unique: [[id]]
+templates:
+ - email.address
 
 primary_key:
  - local_part
@@ -12,22 +12,10 @@ primary_key:
 columns:
  -
   tag: column_tpl
-  template: commons.uuid_serial
- -
-  tag: column_tpl
-  template: email.local_part
- -
-  tag: column_tpl
-  template: email.domain
- -
-  tag: column_tpl
   template: unix_user.user_id
  -
   tag: column_tpl
   template: commons.password
- -
-  tag: column_tpl
-  template: user.owner
  -
   tag: column
   name: quota

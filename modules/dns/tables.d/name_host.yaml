@@ -1,16 +1,15 @@
 name: name_host
 description: Name server entries based on host name server entry suggestions from system.host_name
+templates:
+ - dns.name
+inherits:
+ - dns.name
 
 primary_key:
- - id
+ - name
+ - type
 
 columns:
- -
-  tag: column
-  name: id
-  type: uuid
-  description: Name entry that is implemented
-  references: dns.name.id
  -
   tag: column
   name: host_name_entry
