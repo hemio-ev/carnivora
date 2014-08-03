@@ -17,5 +17,5 @@ parameters:
 body: |
  INSERT INTO email.account
     (local_part, domain, owner, password) VALUES
-    (p_local_part, dns.name_host_find(p_domain, 'MX'), v_owner, 'pw');
+    (p_local_part, p_domain, v_owner, 'pw');
  RETURN 72;

@@ -26,9 +26,8 @@ variables:
   type: uuid
 
 body: |
- INSERT INTO dns.name (name, type) VALUES (p_name, p_type);
- v_name_id := (SELECT id FROM dns.name WHERE name=p_name AND type=p_type);
- v_host_name_id := (SELECT id FROM system.host_name WHERE name=p_host_name AND type=p_type);
- INSERT INTO dns.name_host (id, host_name_entry) VALUES (v_name_id, v_host_name_id);
+ -- TODO: here we have to ensure uniqueness via dns.name manually
+ INSERT INTO dns.name_host (name, type, host_name)
+     VALUES (p_name, p_type, p_host_name);
  RETURN 73;
 

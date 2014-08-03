@@ -7,7 +7,7 @@ templates:
 
 foreign_keys:
  -
-  name: test2
+  name: reference to account
   columns:
    - account_local_part
    - account_domain

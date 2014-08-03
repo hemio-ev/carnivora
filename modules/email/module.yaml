@@ -20,7 +20,7 @@ table_templates:
 
   foreign_keys:
    -
-    name: test1
+    name: only allow valid mx hosts
     columns:
      - domain
      - rr_type
