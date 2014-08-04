@@ -2,7 +2,18 @@ name: accounts
 description: Jabber accounts
 primary_key:
  - node
- - rr_id
+ - domain
+
+foreign_keys:
+ -
+  name: ensure domain has a correspoding rr
+  columns:
+   - domain
+   - rr_type
+  ref_table: dns.name_host
+  ref_columns:
+   - name
+   - type
 
 columns:
  -
@@ -12,9 +23,15 @@ columns:
   description: part in front of the @ in account name
  -
   tag: column
-  name: rr_id
-  description: part behing @
-  type: integer
+  name: domain
+  description: part behind @
+  type: dns.domain_name
+ -
+  tag: column
+  name: rr_type
+  description: Allowed resource record type, for FK with dns.name_host
+  type: dns.type
+  default: "'SRV'"
  -
   tag: column_tpl
   template: commons.password
@@ -25,3 +42,8 @@ columns:
   tag: column_tpl
   template: user.owner
 
+checks:
+ -
+  name: rr_type alyways SRV
+  description: see name
+  check: rr_type = 'SRV'
