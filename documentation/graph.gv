@@ -1,0 +1,50 @@
+digraph G {
+    rankdir="LR"
+    rank="same"
+    size="9,9"
+    node [shape="box"]
+    edge [dir="both"]
+    
+    subgraph cluster_carnivora {
+        label = "Carnivora";
+        style = filled;
+        color = lightgrey;
+        node [style=filled,color=white];
+
+        yamsql [label="Collection of tables\n and functions\n(YamSql)"]
+        subgraph cluster_functions {
+            label = "SQL-Functions"
+            api_backend [label="Backend API"]
+            api_frontend [label="Frontend API"]
+        }
+    }
+
+    subgraph cluster_client {
+        label = "Client software"
+        color=invis; // hide cluster border
+
+        genconfig [label="Genconfig\n(Python)"]
+        edentata [label="Edentata\n(PHP)"]
+
+        reload [label="server reload"]
+        dir_depl [label="(home) directory deployment"]
+        config [label="config files"]
+
+        html_interface [label="HTML interface"]
+    }
+
+    server [label="SQL-Server\n(PostgreSQL)", style=filled,color="black",fontcolor="white"];
+
+    yamsql -> server [label="Deployment using\nHamSql\n(Haskell)", style=dashed, dir="forward", shape=box]
+
+    server -> api_backend [dir="forward"]
+    api_backend -> genconfig [dir="forward"]
+    server -> api_frontend -> edentata
+
+    genconfig -> config [dir="forward"]
+    genconfig -> reload [dir="forward"]
+    genconfig -> dir_depl [dir="forward"]
+
+    edentata -> html_interface
+}
+

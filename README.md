@@ -7,6 +7,8 @@ Documentation for predefined structures can be found here:
 
 http://qua-bla.github.io/carnivora/
 
+![General structure of carnivora project](documentation/structure.svg)
+
 # Installation
 
 ## HamSql
