@@ -7,8 +7,8 @@ Documentation for predefined structures can be found here:
 
 http://qua-bla.github.io/carnivora/
 
-![General structure of carnivora project](master/documentation/structure.png)
-![General structure of carnivora project (SVG)](master/documentation/structure.svg)
+![General structure of carnivora project](documentation/structure.png)
+![General structure of carnivora project (SVG)](../raw/master/documentation/structure.svg)
 
 # Installation
 
