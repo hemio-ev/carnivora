@@ -1,4 +1,4 @@
-name: user_account_create
+name: frontend_account_create
 description: Create e-mail accounts
 
 return: integer
@@ -18,4 +18,4 @@ body: |
  INSERT INTO email.account
     (local_part, domain, owner, password) VALUES
     (p_local_part, p_domain, v_owner, 'pw');
- RETURN 72;
+ RETURN 0;

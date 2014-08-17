@@ -1,5 +1,5 @@
-name: name_host_create
-description: Creates a resource record where the rdata is defined via system.host_name
+name: frontend_name_host_create
+description: Creates a resource record where the rdata is defined via a system.host_name entry
 
 templates:
  - user.userlogin
@@ -26,8 +26,7 @@ variables:
   type: uuid
 
 body: |
- -- TODO: here we have to ensure uniqueness via dns.name manually
  INSERT INTO dns.name_host (name, type, host_name)
      VALUES (p_name, p_type, p_host_name);
- RETURN 73;
+ RETURN 0;
 
