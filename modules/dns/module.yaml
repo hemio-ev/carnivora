@@ -20,7 +20,7 @@ domains:
 column_templates:
  -
   template: name
-  name: name
+  name: domain
   type: dns.domain_name
   description: Name like sub.example.org. This defines to which name the resource record pertains.
  -
@@ -28,8 +28,39 @@ column_templates:
   name: type
   type: dns.type
   description: Type (?) like MX, A, AAAA, ...
+ -
+  template: rdata
+  name: rdata
+  type: varchar
+  description: fancy rdata storage
+ -
+  template: ttl
+  name: ttl
+  type: integer
+  check: VALUE >= 0 AND VALUE <= 172800
+  description: Time to live, check ensure that TTL is positive and put maximum to 48h
 
 table_templates:
+ -
+  template: reference_service
+  columns:
+   -
+    tag: column
+    name: domain
+    type: dns.domain_name
+    description: Domain name
+    template: dns.name
+  foreign_keys:
+   -
+    name: reference dns (service)
+    columns:
+     - domain
+     - service
+    ref_table: dns.service
+    ref_columns:
+     - domain
+     - service
+
  -
   template: name
   columns:

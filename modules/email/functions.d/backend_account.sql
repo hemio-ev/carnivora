@@ -16,9 +16,8 @@ return_columns:
 body: |
  RETURN QUERY
     SELECT email.account.local_part, email.account.domain FROM email.account
-        JOIN dns.name_host ON dns.name_host.name = email.account.domain
-        JOIN system.host_name ON system.host_name.name = dns.name_host.host_name
-        JOIN system.host ON system.host.name = system.host_name.name
+        JOIN dns.service USING (domain, service)
+        JOIN system.service_machine USING (service, service_name)
         
-        -- ensure
-        WHERE system.host.machine = v_machine;
+        WHERE system.service_machine.machine_name = v_machine;
+

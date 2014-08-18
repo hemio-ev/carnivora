@@ -3,6 +3,7 @@ description: E-mail accounts correspond to something a mail user can login into.
 inherits:
  - email.address
 templates:
+ - dns.reference_service
  - email.address
 
 primary_key:

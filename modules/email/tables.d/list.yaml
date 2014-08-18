@@ -3,6 +3,7 @@ description: Mailing lists
 inherits: 
  - email.address
 templates:
+ - dns.reference_service
  - email.address
 
 primary_key:

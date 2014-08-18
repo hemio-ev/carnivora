@@ -18,35 +18,19 @@ table_templates:
  -
   template: address
 
-  foreign_keys:
-   -
-    name: only allow valid mx hosts
-    columns:
-     - domain
-     - rr_type
-    ref_table: dns.name_host
-    ref_columns:
-     - name
-     - type
-
   columns:
+   -
+    tag: column
+    name: service
+    type: varchar
+    description: strange thing
+    check: VALUE == 'email'
+    default: "'email'"
    -
     tag: column
     name: local_part
     type: email.local_part
     description: Local part of the address
-   -
-    tag: column
-    name: domain
-    type: dns.domain_name
-    description: Domain part of the address
-   -
-    tag: column
-    name: rr_type
-    type: dns.type
-    description: strange thing
-    check: VALUE == 'MX'
-    default: "'MX'"
    -
     tag: column_tpl
     template: user.owner

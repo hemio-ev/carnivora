@@ -1,0 +1,15 @@
+name: service
+description: Name server entries based on system.service (i.e. system.service_dns)
+templates:
+ - system.reference_service
+
+primary_key:
+ - domain
+ - service
+
+columns:
+ -
+  tag: column
+  name: domain
+  type: dns.domain_name
+  description: domain for which the entries should be created 

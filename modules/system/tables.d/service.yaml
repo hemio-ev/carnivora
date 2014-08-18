@@ -1,19 +1,19 @@
-name: host
+name: service
 description: Names under which services are made available. Bound to machines.
 
 primary_key:
- - name
+ - service_name
+ - service
 
 columns:
  -
   tag: column
-  name: name
+  name: service_name
   type: dns.domain_name
   description: Host name
  -
   tag: column
-  name: machine
-  type: dns.domain_name
-  description: Machine
-  references: system.machine.name
+  name: service
+  type: varchar
+  description: email, ssh, ...
 

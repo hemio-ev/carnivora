@@ -1,2 +1,30 @@
 name: system
 description: System
+
+table_templates:
+ -
+  template: reference_service
+  description: All to reference to system.service
+  columns:
+   -
+    tag: column
+    name: service_name
+    type: dns.domain_name
+    description: Host name
+   -
+    tag: column
+    name: service
+    type: varchar
+    description: email, ssh, ...
+  foreign_keys:
+   -
+    name: reference service
+    columns:
+     - service_name
+     - service
+    ref_table: system.service
+    ref_columns:
+     - service_name
+     - service
+
+

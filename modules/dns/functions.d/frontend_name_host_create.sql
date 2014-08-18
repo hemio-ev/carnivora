@@ -1,19 +1,19 @@
-name: frontend_name_host_create
-description: Creates a resource record where the rdata is defined via a system.host_name entry
+name: frontend_service_create
+description: Creates a collection of resource record where the entries are defined via a system.service_dns entries
 
 templates:
  - user.userlogin
 
 parameters:
  -
-  name: p_name
+  name: p_domain
   type: dns.domain_name
  -
-  name: p_type
+  name: p_service_name
+  type: dns.domain_name
+ -
+  name: p_service
   type: dns.type
- -
-  name: p_host_name
-  type: dns.domain_name
 
 return: integer
 
@@ -26,7 +26,7 @@ variables:
   type: uuid
 
 body: |
- INSERT INTO dns.name_host (name, type, host_name)
-     VALUES (p_name, p_type, p_host_name);
+ INSERT INTO dns.service (domain, service_name, service)
+     VALUES (p_domain, p_service_name, p_service);
  RETURN 0;
 

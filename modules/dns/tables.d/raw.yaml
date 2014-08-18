@@ -1,0 +1,26 @@
+name: raw
+description: Direct name server entries. Not based on host name server entry suggestions from system.host_name
+
+primary_key:
+ - domain
+ - type
+
+columns:
+ -
+  tag: column
+  name: domain
+  type: dns.domain_name
+  description: domain of entry 
+ -
+  tag: column_tpl
+  template: commons.uuid_serial
+ -
+  tag: column_tpl
+  template: dns.type
+ -
+  tag: column_tpl
+  template: dns.rdata
+ -
+  tag: column_tpl
+  template: dns.ttl
+

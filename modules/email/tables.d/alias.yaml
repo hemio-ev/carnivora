@@ -3,6 +3,7 @@ description: Aliases for e-mail accounts, owner is determined by accounts.owner
 inherits:
  - email.address
 templates: 
+ - dns.reference_service
  - email.address
 
 foreign_keys:

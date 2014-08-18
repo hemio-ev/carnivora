@@ -1,0 +1,18 @@
+name: service_machine
+description: Assignment of machines to services
+
+primary_key:
+ - machine_name
+ - service_name
+ - service
+
+templates:
+ - system.reference_service
+
+columns:
+ -
+  tag: column
+  name: machine_name
+  type: dns.domain_name
+  description: Assigns machine
+  references: system.machine.name
