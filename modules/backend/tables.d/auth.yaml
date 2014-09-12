@@ -1,5 +1,5 @@
 name: auth
-description: Backend authentication for machines using sql roles
+description: Grants rights to backend API clients based on SQL roles.
 
 primary_key:
  -
@@ -10,12 +10,12 @@ columns:
   tag: column
   name: role
   type: varchar
-  description: Grantee of rights for machine backend data
+  description: Grantee for right to access the backend date for the defined machine. A role is basically a user or a user group on the SQL server.
  -
   tag: column
   name: machine
   type: dns.domain_name
-  description: Machine for which the rights are granted
   references: system.machine.name
   on_delete: DELETE
+  description: Machine for which the rights are granted.
   

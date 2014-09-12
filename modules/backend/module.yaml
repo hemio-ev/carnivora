@@ -1,5 +1,8 @@
 name: backend
-description: deliver stuff to vm clients
+description: |
+ The backend module provides everything required for the backend API.
+ The backend API delivers content required for building configs etc.
+ to clients, called machines.
 
 column_templates:
  -
