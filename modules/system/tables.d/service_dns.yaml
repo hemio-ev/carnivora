@@ -9,14 +9,10 @@ templates:
 
 columns:
  -
-  tag: column_tpl
   template: commons.uuid_serial
  -
-  tag: column_tpl
   template: dns.type
  -
-  tag: column_tpl
   template: dns.rdata
  -
-  tag: column_tpl
   template: dns.ttl

@@ -6,7 +6,6 @@ primary_key:
 
 columns:
  -
-  tag: column
   name: name
   type: dns.domain_name
   description: Machine name

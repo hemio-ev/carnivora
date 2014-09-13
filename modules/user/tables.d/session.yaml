@@ -6,16 +6,13 @@ primary_key:
 
 columns:
  -
-  tag: column
   name: id
   type: varchar
   description: Session id
   default: '"user".session_id()'
  -
-  tag: column_tpl
   template: user.owner
  -
-  tag: column
   name: started
   type: timestamp
   description: Session started at this time

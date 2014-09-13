@@ -6,15 +6,12 @@ primary_key:
 
 columns:
  -
-  tag: column
   name: name
   type: varchar(255)
   description: User name
  -
-  tag: column_tpl
   template: commons.password
  -
-  tag: column
   name: login
   type: bool
   description: Login enabled

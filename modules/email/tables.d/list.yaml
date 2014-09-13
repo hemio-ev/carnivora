@@ -12,11 +12,9 @@ primary_key:
 
 columns:
  -
-  tag: column
   name: options
   type: integer
   description: Would be nice to store arbritary key:value pairs 
  -
-  tag: column_tpl
   template: backend.job
 

@@ -7,20 +7,15 @@ primary_key:
 
 columns:
  -
-  tag: column
   name: domain
   type: dns.domain_name
   description: domain of entry 
  -
-  tag: column_tpl
   template: commons.uuid_serial
  -
-  tag: column_tpl
   template: dns.type
  -
-  tag: column_tpl
   template: dns.rdata
  -
-  tag: column_tpl
   template: dns.ttl
 

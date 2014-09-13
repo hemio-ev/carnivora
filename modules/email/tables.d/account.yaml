@@ -12,19 +12,15 @@ primary_key:
 
 columns:
  -
-  tag: column_tpl
   template: unix_user.user_id
  -
-  tag: column_tpl
   template: commons.password
  -
-  tag: column
   name: quota
   type: int
   null: true
   description: Quota for mailbox in MiB 
  -
-  tag: column_tpl
   template: backend.job
 
 checks:

@@ -24,16 +24,13 @@ primary_key:
 
 columns:
  -
-  tag: column
   name: account_local_part
   type: email.local_part
   description: Account to which the mails will be delivered
  -
-  tag: column
   name: account_domain
   type: dns.domain_name
   description: Account to which the mails will be delivered
  -
-  tag: column_tpl
   template: backend.job
 

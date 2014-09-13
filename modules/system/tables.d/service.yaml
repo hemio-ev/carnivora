@@ -7,12 +7,10 @@ primary_key:
 
 columns:
  -
-  tag: column
   name: service_name
   type: dns.domain_name
   description: Host name
  -
-  tag: column
   name: service
   type: varchar
   description: email, ssh, ...
