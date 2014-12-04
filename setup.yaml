@@ -1,4 +1,4 @@
-modules:
+modules: 
  - _local_user
  - backend
  - commons
@@ -14,4 +14,4 @@ module_dirs:
  - modules
 
 pre_code: |
- CREATE EXTENSION "uuid-ossp";
+ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";

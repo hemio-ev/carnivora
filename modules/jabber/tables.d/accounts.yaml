@@ -14,7 +14,11 @@ columns:
   type: varchar
   description: Ensures that referenced domain is jabber enabled.
   default: "'jabber'"
-  check: VALUE == 'jabber'
+  checks:
+   -
+    name: check
+    description: ensure service is jabber
+    check: VALUE == 'jabber'
  -
   name: node
   type: varchar(255)

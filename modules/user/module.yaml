@@ -14,8 +14,6 @@ roles:
   name: userlogin
   description: Do user actions via this group
   login: false
-  members:
-   - edentata
 
 function_templates:
  -

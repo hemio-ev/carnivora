@@ -1,17 +1,28 @@
 name: dns
 description: dns
 
+exec_post_install: |
+ SELECT * FROM dns.raw
+
 domains:
  -
   name: domain_name
   description: Domain name
   type: varchar(253)
-  check: domain_name_is_valid(VALUE)
+  checks:
+   -
+    name: check domain validity
+    description: check domain validity
+    check: domain_name_is_valid(VALUE)
  -
   name: type
   description: Resource record type
   type: varchar(253)
-  check: "VALUE IN ('MX', 'A', 'AAAA', 'CNAME', 'SRV')"
+  checks:
+   - 
+    name: resource type
+    description: check
+    check: "VALUE IN ('MX', 'A', 'AAAA', 'CNAME', 'SRV')"
  -
   name: rdata
   description: record entry
@@ -35,21 +46,24 @@ column_templates:
   description: fancy rdata storage
  -
   template: ttl
+  description: Time to live
   name: ttl
   type: integer
-  check: VALUE >= 0 AND VALUE <= 172800
-  description: Time to live, check ensure that TTL is positive and put maximum to 48h
+  checks:
+   -
+    name: ttl range
+    description: Ensure that TTL is positive and put maximum to 48h
+    check: VALUE >= 0 AND VALUE <= 172800
 
 table_templates:
  -
   template: reference_service
+  description: Reference service
   columns:
    -
-    tag: column
     name: domain
     type: dns.domain_name
     description: Domain name
-    template: dns.name
   foreign_keys:
    -
     name: reference dns (service)
@@ -63,6 +77,7 @@ table_templates:
 
  -
   template: name
+  description: Name
   columns:
    -
     tag: column_tpl

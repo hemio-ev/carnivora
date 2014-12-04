@@ -17,6 +17,7 @@ column_templates:
 table_templates:
  -
   template: address
+  description: Address
 
   columns:
    -
@@ -24,7 +25,11 @@ table_templates:
     name: service
     type: varchar
     description: strange thing
-    check: VALUE == 'email'
+    checks:
+     -
+      name: service type
+      description: ensures that service type is email
+      check: VALUE == 'email'
     default: "'email'"
    -
     tag: column
