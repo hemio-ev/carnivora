@@ -1,5 +1,5 @@
 name: email
-description: E-Mail System
+description: "E-Mail and Mailing lists ✉"
 dependencies: [ domains ]
 
 column_templates:

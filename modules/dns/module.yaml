@@ -1,5 +1,5 @@
 name: dns
-description: dns
+description: DNS
 
 exec_post_install: |
  SELECT * FROM dns.raw
@@ -13,7 +13,7 @@ domains:
    -
     name: check domain validity
     description: check domain validity
-    check: domain_name_is_valid(VALUE)
+    check: "TRUE" # domain_name_is_valid(VALUE)
  -
   name: type
   description: Resource record type

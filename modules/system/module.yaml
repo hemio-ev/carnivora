@@ -1,5 +1,6 @@
 name: system
-description: System
+description: |
+ Carnivora System: Central module
 
 table_templates:
  -

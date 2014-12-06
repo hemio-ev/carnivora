@@ -1,5 +1,6 @@
 name: commons
-description: Usefull templates and types
+description: |
+ Carnivora Commons: Usefull templates and types
 
 column_templates:
  -
