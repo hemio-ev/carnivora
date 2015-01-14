@@ -5,4 +5,5 @@ description: |
 
 return: varchar
 
-body: RETURN (SELECT backend_start || '.' || pid FROM pg_stat_activity);
+body: |
+ RETURN session_user || '.' || pg_backend_pid();
