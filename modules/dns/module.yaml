@@ -20,7 +20,7 @@ domains:
   type: varchar(253)
   checks:
    - 
-    name: resource type
+    name: resource type must be (MX, A, etc)
     description: check
     check: "VALUE IN ('MX', 'A', 'AAAA', 'CNAME', 'SRV')"
  -

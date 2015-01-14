@@ -4,7 +4,7 @@ description: |
  Returns valid if sueccessfull, invalid otherwise.
 
 priv_execute: [userlogin]
-return: varchar
+return: boolean
 
 parameters:
  -
@@ -20,8 +20,10 @@ body: |
         WHERE name = p_name AND password = p_password AND login)
  THEN
     INSERT INTO "user"."session" (owner) VALUES (p_name);
-    RETURN 'valid';
+    RETURN TRUE;
  ELSE
-    RETURN 'invalid';
+    RAISE 'Carnivora: invalid user login'
+     USING DETAIL = '$CARNIVORA:LOGIN_INVALID$';
+    RETURN FALSE;
  END IF;
 
