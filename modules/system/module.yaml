@@ -15,7 +15,7 @@ table_templates:
    -
     tag: column
     name: service
-    type: varchar
+    type: varchar(50)
     description: email, ssh, ...
   foreign_keys:
    -

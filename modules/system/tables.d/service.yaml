@@ -12,6 +12,6 @@ columns:
   description: Host name
  -
   name: service
-  type: varchar
+  type: varchar(50)
   description: email, ssh, ...
 
