@@ -14,7 +14,7 @@ columns:
  -
   name: options
   type: integer
-  description: Would be nice to store arbritary key:value pairs 
+  description: Would be nice to store arbitrary key:value pairs 
  -
   template: backend.job
 

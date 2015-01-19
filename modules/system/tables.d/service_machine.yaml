@@ -1,5 +1,8 @@
 name: service_machine
-description: Assignment of machines to services
+description: |
+ List of machines that provice a certain service. This information is
+ used to provide these machines access to the data they need to provide
+ the service. See also the module 'backend'.
 
 primary_key:
  - machine_name

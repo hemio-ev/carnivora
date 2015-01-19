@@ -1,5 +1,6 @@
 name: account
-description: E-mail accounts correspond to something a mail user can login into. Basically an account represents a postbox. An account is bound to a specific address. Further addresses can be linked to accounts via aliases. 
+description: |
+ E-mail accounts correspond to something a mail user can login into. Basically an account represents a mailbox. An account is bound to a specific address. Further addresses can be linked to accounts via aliases. 
 inherits:
  - email.address
 templates:

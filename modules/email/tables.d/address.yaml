@@ -1,5 +1,8 @@
 name: address
-description: "Collection of all addresses known to the mailservers to avoid collisions. No direct functionalities follows from entries in this list. Many tables have references to this table."
+description: |
+ Collection of all addresses known to the mailservers to avoid collisions.
+ No direct functionalities follows from entries in this list. Many tables 
+ have references to this table.
 templates:
  - dns.reference_service
  - email.address

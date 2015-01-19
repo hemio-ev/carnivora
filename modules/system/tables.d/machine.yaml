@@ -1,5 +1,5 @@
 name: machine
-description: Physical or virtual machines that host services
+description: Physical or virtual machines that host services.
 
 primary_key:
  - name

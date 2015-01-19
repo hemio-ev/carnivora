@@ -2,6 +2,10 @@ name: email
 description: "E-Mail and Mailing lists ✉"
 dependencies: [ domains ]
 
+exec_post_install: |
+ SELECT system.setup_register_service('email', 'email');
+ SELECT system.setup_register_service('email', 'email__list');
+
 column_templates:
  -
   template: name

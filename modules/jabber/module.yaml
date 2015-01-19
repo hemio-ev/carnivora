@@ -1,2 +1,5 @@
 name: jabber
 description: Jabber (XMPP)
+
+exec_post_install: |
+ SELECT system.setup_register_service('jabber', 'jabber');

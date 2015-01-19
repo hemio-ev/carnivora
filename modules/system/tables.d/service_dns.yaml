@@ -1,5 +1,11 @@
 name: service_dns
-description: Resource records for services
+description: |
+ Resource records that have to be present to use a service. The records
+ in this table can be understood as 'templates'. The table does not
+ contain a name (domain) for the records. Rather for every domain that
+ uses this service, all appropriate records are created for this domain
+ based on this table. The assignment from domain to services can
+ be found in dns.service.
 
 primary_key:
  - id
