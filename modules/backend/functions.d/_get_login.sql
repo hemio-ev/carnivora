@@ -8,7 +8,7 @@ return: TABLE
 return_columns:
  -
   name: machine
-  type: dns.domain_name
+  type: dns.t_domain
 
 body: |
  IF (SELECT TRUE FROM "backend"."auth"

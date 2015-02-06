@@ -7,7 +7,7 @@ column_templates:
  -
   template: owner
   name: owner
-  type: varchar(50)
+  type: commons.t_key
   description: for ownage
   references: user.user.name
 
@@ -27,10 +27,16 @@ function_templates:
   variables:
    -
     name: v_owner
-    type: varchar
+    type: commons.t_key
 
   body_prelude: |
    -- begin userlogin prelude
    v_owner := (SELECT "name" FROM "user"._get_login());
    -- end userlogin prelude
 
+domains:
+ -
+  name: t_user
+  type: commons.t_key
+  description: Username
+  

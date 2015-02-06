@@ -15,6 +15,6 @@ templates:
 columns:
  -
   name: machine_name
-  type: dns.domain_name
+  type: dns.t_domain
   description: Assigns machine
   references: system.machine.name

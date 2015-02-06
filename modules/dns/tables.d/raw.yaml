@@ -8,7 +8,7 @@ primary_key:
 columns:
  -
   name: domain
-  type: dns.domain_name
+  type: dns.t_domain
   description: domain of entry 
  -
   template: commons.uuid_serial

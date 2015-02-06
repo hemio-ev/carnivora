@@ -7,13 +7,13 @@ templates:
 parameters:
  -
   name: p_domain
-  type: dns.domain_name
+  type: dns.t_domain
  -
   name: p_service_name
-  type: dns.domain_name
+  type: dns.t_domain
  -
   name: p_service
-  type: dns.type
+  type: dns.t_type
 
 return: integer
 

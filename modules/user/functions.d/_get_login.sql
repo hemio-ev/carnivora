@@ -8,7 +8,7 @@ return: TABLE
 return_columns:
  -
   name: name
-  type: varchar
+  type: commons.t_key
 
 body: |
  IF (SELECT TRUE FROM "user"."session"
@@ -20,4 +20,3 @@ body: |
     RAISE 'Database connection is not associated to a user login.'
         USING HINT := 'Use user.login(...) first.';
  END IF;
-

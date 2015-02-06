@@ -17,4 +17,3 @@ columns:
   type: timestamp
   description: Session started at this time
   default: CURRENT_TIMESTAMP
-

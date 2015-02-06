@@ -5,13 +5,13 @@ return: TABLE
 return_columns:
  -
   name: local_part
-  type: email.local_part
+  type: email.t_local_part
  -
   name: domain
-  type: dns.domain_name
+  type: dns.t_domain
  -
   name: owner
-  type: varchar(50)
+  type: commons.t_key
 
 body: |
  RETURN QUERY (

@@ -9,10 +9,10 @@ return: integer
 parameters:
  -
   name: p_module
-  type: varchar
+  type: commons.t_key
  -
   name: p_service
-  type: varchar
+  type: commons.t_key
 
 body: |
  INSERT INTO system.service_index

@@ -2,8 +2,9 @@ name: dns
 description: DNS
 
 domains:
+
  -
-  name: domain_name
+  name: t_domain
   description: Domain name
   type: varchar(253)
   checks:
@@ -11,8 +12,9 @@ domains:
     name: check domain validity
     description: check domain validity
     check: "TRUE" # domain_name_is_valid(VALUE)
+
  -
-  name: type
+  name: t_type
   description: Resource record type
   type: varchar(253)
   checks:
@@ -20,37 +22,43 @@ domains:
     name: resource type must be (MX, A, etc)
     description: check
     check: "VALUE IN ('MX', 'A', 'AAAA', 'CNAME', 'SRV')"
+
  -
-  name: rdata
+  name: t_rdata
   description: record entry
   type: varchar
 
-column_templates:
  -
-  template: name
-  name: domain
-  type: dns.domain_name
-  description: Name like sub.example.org. This defines to which name the resource record pertains.
- -
-  template: type
-  name: type
-  type: dns.type
-  description: Type (?) like MX, A, AAAA, ...
- -
-  template: rdata
-  name: rdata
-  type: varchar
-  description: fancy rdata storage
- -
-  template: ttl
-  description: Time to live
-  name: ttl
+  name: t_ttl
+  description: ttl
   type: integer
   checks:
    -
     name: ttl range
     description: Ensure that TTL is positive and put maximum to 48h
     check: VALUE >= 0 AND VALUE <= 172800
+
+column_templates:
+ -
+  template: name
+  name: domain
+  type: dns.t_domain
+  description: Name like sub.example.org. This defines to which name the resource record pertains.
+ -
+  template: type
+  name: type
+  type: dns.t_type
+  description: Type (?) like MX, A, AAAA, ...
+ -
+  template: rdata
+  name: rdata
+  type: dns.t_rdata
+  description: fancy rdata storage
+ -
+  template: ttl
+  name: ttl
+  description: Time to live
+  type: dns.t_ttl
 
 table_templates:
  -
@@ -59,7 +67,7 @@ table_templates:
   columns:
    -
     name: domain
-    type: dns.domain_name
+    type: dns.t_domain
     description: Domain name
   foreign_keys:
    -

@@ -7,7 +7,7 @@ primary_key:
 columns:
  -
   name: name
-  type: varchar(255)
+  type: commons.t_key
   description: User name
  -
   template: commons.password

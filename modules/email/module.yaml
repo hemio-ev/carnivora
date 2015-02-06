@@ -10,12 +10,12 @@ column_templates:
  -
   template: name
   name: name
-  type: dns.domain_name
+  type: dns.t_domain
   description: Name like sub.example.org. This defines to which name the resource record pertains.
  -
   template: type
   name: type
-  type: dns.type
+  type: dns.t_type
   description: Type (?) like MX, A, AAAA, ...
 
 table_templates:
@@ -27,7 +27,7 @@ table_templates:
    -
     tag: column
     name: service
-    type: varchar
+    type: commons.t_key
     description: strange thing
     checks:
      -
@@ -38,7 +38,7 @@ table_templates:
    -
     tag: column
     name: local_part
-    type: email.local_part
+    type: email.t_local_part
     description: Local part of the address
    -
     tag: column_tpl
@@ -46,7 +46,7 @@ table_templates:
 
 domains:
  -
-  name: local_part
+  name: t_local_part
   description: Local part of an e-mail address, the thing in front of the @
   type: varchar(64)
   

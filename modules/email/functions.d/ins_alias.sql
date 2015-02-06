@@ -9,16 +9,16 @@ templates:
 parameters:
  -
   name: p_alias_local_part
-  type: email.local_part 
+  type: email.t_local_part 
  -
   name: p_alias_domain
-  type: dns.domain_name
+  type: dns.t_domain
  -
   name: p_account_local_part
-  type: email.local_part 
+  type: email.t_local_part 
  -
   name: p_account_domain
-  type: dns.domain_name
+  type: dns.t_domain
 
 body: |
  INSERT INTO email.alias

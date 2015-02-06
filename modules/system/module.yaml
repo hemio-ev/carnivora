@@ -10,12 +10,12 @@ table_templates:
    -
     tag: column
     name: service_name
-    type: dns.domain_name
+    type: dns.t_domain
     description: Host name
    -
     tag: column
     name: service
-    type: varchar(50)
+    type: system.t_service
     description: email, ssh, ...
   foreign_keys:
    -
@@ -28,4 +28,9 @@ table_templates:
      - service_name
      - service
 
-
+domains:
+ -
+  name: t_service
+  type: commons.t_key
+  description: Service
+  

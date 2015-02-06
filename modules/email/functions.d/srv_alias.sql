@@ -8,16 +8,16 @@ return: TABLE
 return_columns:
  -
   name: alias_local_part
-  type: email.local_part
+  type: email.t_local_part
  -
   name: alias_domain
-  type: dns.domain_name
+  type: dns.t_domain
  -
   name: account_local_part
-  type: email.local_part
+  type: email.t_local_part
  -
   name: account_domain
-  type: dns.domain_name
+  type: dns.t_domain
 
 body: |
  RETURN QUERY

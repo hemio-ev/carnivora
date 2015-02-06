@@ -6,7 +6,7 @@ column_templates:
  -
   template: password
   name: password
-  type: commons.password
+  type: commons.t_password
   description: Unix shadow crypt format
  -
   template: uuid_serial
@@ -20,7 +20,10 @@ column_templates:
 
 domains:
  -
-  name: password
+  name: t_password
   type: varchar(250)
   description: "unix hash thingy - todo: propper checking of format"
-
+ -
+  name: t_key
+  type: varchar(50)
+  description: Key

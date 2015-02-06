@@ -11,11 +11,11 @@ primary_key:
 columns:
  -
   name: service
-  type: varchar(50)
+  type: commons.t_key
   description: Service
  -
   name: user_name
-  type: varchar(255)
+  type: commons.t_key
   null: true
   description: If NULL, the entry is the default for all users.
  -

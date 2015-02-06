@@ -7,13 +7,13 @@ return: integer
 parameters:
  -
   name: p_user
-  type: varchar(50)
+  type: commons.t_key
  -
   name: p_service
-  type: varchar(50)
+  type: commons.t_key
  -
   name: p_domain
-  type: dns.domain_name
+  type: dns.t_domain
 
 body: |
  RETURN (

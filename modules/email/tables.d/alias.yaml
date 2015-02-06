@@ -25,11 +25,11 @@ primary_key:
 columns:
  -
   name: account_local_part
-  type: email.local_part
+  type: email.t_local_part
   description: Account to which the mails will be delivered
  -
   name: account_domain
-  type: dns.domain_name
+  type: dns.t_domain
   description: Account to which the mails will be delivered
  -
   template: backend.job

@@ -19,11 +19,11 @@ primary_key:
 columns:
  -
   name: service_name
-  type: dns.domain_name
+  type: dns.t_domain
   description: Host name
  -
   name: service
-  type: varchar(50)
+  type: system.t_service
   description: email, ssh, ...
   references: system.service_index.service
 

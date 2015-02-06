@@ -8,11 +8,11 @@ primary_key:
 columns:
  -
   name: role
-  type: varchar
+  type: commons.t_key
   description: Grantee for right to access the backend date for the defined machine. A role is basically a user or a user group on the SQL server.
  -
   name: machine
-  type: dns.domain_name
+  type: dns.t_domain
   references: system.machine.name
 #  on_delete: DELETE
   description: Machine for which the rights are granted.

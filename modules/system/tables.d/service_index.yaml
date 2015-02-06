@@ -12,9 +12,9 @@ primary_key:
 columns:
  -
   name: service
-  type: varchar(50)
+  type: system.t_service
   description: service name
  -
   name: module
-  type: varchar(50)
+  type: commons.t_key
   description: Module name, just to keep track who uses this name

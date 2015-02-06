@@ -9,7 +9,7 @@ return: boolean
 parameters:
  -
    name: p_name
-   type: varchar(50)
+   type: commons.t_key
  -
    name: p_password
    type: varchar(255)

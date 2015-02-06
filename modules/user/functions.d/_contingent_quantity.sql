@@ -7,10 +7,10 @@ return: integer
 parameters:
  -
   name: p_user
-  type: varchar(50)
+  type: commons.t_key
  -
   name: p_service
-  type: varchar(50)
+  type: commons.t_key
 
 body: |
  RETURN (

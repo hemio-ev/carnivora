@@ -14,10 +14,10 @@ return: TABLE
 return_columns:
  -
   name: domain
-  type: dns.domain_name
+  type: dns.t_domain
  -
   name: service
-  type: varchar(50)
+  type: commons.t_key
 
 body: |
  RETURN QUERY

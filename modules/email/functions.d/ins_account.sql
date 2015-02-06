@@ -10,13 +10,13 @@ templates:
 parameters:
  -
   name: p_local_part
-  type: email.local_part 
+  type: email.t_local_part 
  -
   name: p_domain
-  type: dns.domain_name
+  type: dns.t_domain
  -
   name: password
-  type: varchar
+  type: varchar(255)
 
 variables:
  -
