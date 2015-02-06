@@ -4,8 +4,8 @@ description: List all mail accounts for machine
 templates:
  - backend.backend
 
-return: TABLE
-return_columns:
+returns: TABLE
+returns_columns:
  -
   name: local_part
   type: email.t_local_part

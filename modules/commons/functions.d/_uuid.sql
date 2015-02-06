@@ -1,5 +1,5 @@
 name: _uuid
 description: Returns new uuid
 
-return: uuid
+returns: uuid
 body: RETURN uuid_generate_v4();

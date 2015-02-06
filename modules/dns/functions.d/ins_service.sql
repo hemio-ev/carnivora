@@ -15,7 +15,7 @@ parameters:
   name: p_service
   type: dns.t_type
 
-return: integer
+returns: integer
 
 variables:
  -

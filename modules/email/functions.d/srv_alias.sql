@@ -4,8 +4,8 @@ description: List all mail aliases for machine
 templates:
  - backend.backend
 
-return: TABLE
-return_columns:
+returns: TABLE
+returns_columns:
  -
   name: alias_local_part
   type: email.t_local_part

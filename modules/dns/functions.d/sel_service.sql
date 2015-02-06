@@ -10,8 +10,8 @@ description: |
 
  TODO: Their is no owner of dns entries and therefore no access check at all!
 
-return: TABLE
-return_columns:
+returns: TABLE
+returns_columns:
  -
   name: domain
   type: dns.t_domain

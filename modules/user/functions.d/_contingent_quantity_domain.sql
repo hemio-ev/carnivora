@@ -2,7 +2,7 @@ name: _contingent_quantity_domain
 description: |
  Contingent
 
-return: integer
+returns: integer
 
 parameters:
  -

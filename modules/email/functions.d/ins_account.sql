@@ -2,7 +2,7 @@ name: ins_account
 description: |
  Creates e-mail account
 
-return: integer
+returns: integer
 
 templates:
  - user.userlogin

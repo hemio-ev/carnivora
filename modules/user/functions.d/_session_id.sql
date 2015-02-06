@@ -5,7 +5,7 @@ description: |
 
  Not sure if this stays unique with distributed infrastructure!
 
-return: varchar
+returns: varchar
 
 body: |
  RETURN 

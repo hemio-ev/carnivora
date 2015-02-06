@@ -4,7 +4,7 @@ description: |
  Returns valid if sueccessfull, invalid otherwise.
 
 priv_execute: [userlogin]
-return: boolean
+returns: boolean
 
 parameters:
  -

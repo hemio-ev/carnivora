@@ -1,7 +1,7 @@
 name: ins_alias
 description: Create e-mail aliases
 
-return: integer
+returns: integer
 
 templates:
  - user.userlogin

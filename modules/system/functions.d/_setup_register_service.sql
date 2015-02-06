@@ -4,7 +4,7 @@ description: |
  Returns the total number of service names registered
  for this module.
 
-return: integer
+returns: integer
 
 parameters:
  -

@@ -4,8 +4,8 @@ description: |
  Throws an error if the current user is not a grantee
  for a machine.
 
-return: TABLE
-return_columns:
+returns: TABLE
+returns_columns:
  -
   name: machine
   type: dns.t_domain

@@ -5,8 +5,8 @@ name: sel_account
 description: List all accounts
 
 
-return: TABLE
-return_columns:
+returns: TABLE
+returns_columns:
  -
   name: domain
   type: dns.t_domain

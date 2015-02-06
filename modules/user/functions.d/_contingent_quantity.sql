@@ -2,7 +2,7 @@ name: _contingent_quantity
 description: |
  Contingent
 
-return: integer
+returns: integer
 
 parameters:
  -

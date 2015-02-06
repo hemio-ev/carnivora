@@ -4,8 +4,8 @@ description: |
  Throws an exception if no login is associated to the
  current database connection.
 
-return: TABLE
-return_columns:
+returns: TABLE
+returns_columns:
  -
   name: name
   type: commons.t_key
