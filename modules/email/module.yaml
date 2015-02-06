@@ -6,6 +6,21 @@ exec_post_install: |
  SELECT system._setup_register_service('email', 'email');
  SELECT system._setup_register_service('email', 'email__list');
 
+function_templates:
+ -
+  template: insert
+  description: does the contingent checks
+  body_prelude: |
+    v_num_total := (SELECT COUNT(*) FROM email._address() AS t WHERE t.owner=v_owner);
+    v_num_domain := (SELECT COUNT(*) FROM email._address() AS t WHERE t.owner=v_owner AND t.domain = p_domain);
+
+    PERFORM "user"._contingent_exceeded(
+        p_user:=v_owner,
+        p_domain:=p_domain, 
+        p_service:='email',
+        p_current_quantity_total:=v_num_total,
+        p_current_quantity_domain:=v_num_domain);
+
 column_templates:
  -
   template: name
@@ -25,7 +40,6 @@ table_templates:
 
   columns:
    -
-    tag: column
     name: service
     type: commons.t_key
     description: strange thing
@@ -36,13 +50,9 @@ table_templates:
       check: VALUE == 'email'
     default: "'email'"
    -
-    tag: column
     name: local_part
     type: email.t_local_part
     description: Local part of the address
-   -
-    tag: column_tpl
-    template: user.owner
 
 domains:
  -

@@ -33,4 +33,3 @@ columns:
   description: Mailbox to which the mails will be delivered
  -
   template: backend.job
-

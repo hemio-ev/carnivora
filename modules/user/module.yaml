@@ -7,7 +7,7 @@ column_templates:
  -
   template: owner
   name: owner
-  type: commons.t_key
+  type: user.t_user
   description: for ownage
   references: user.user.name
 
@@ -33,6 +33,15 @@ function_templates:
    -- begin userlogin prelude
    v_owner := (SELECT "name" FROM "user"._get_login());
    -- end userlogin prelude
+   
+table_templates:
+ -
+  template: ownable
+  description: For tables in which rows can be owned by users.
+  
+  columns:
+   -
+    template: user.owner
 
 domains:
  -

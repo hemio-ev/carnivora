@@ -5,6 +5,7 @@ inherits:
 templates: 
  - dns.reference_service
  - email.address
+ - user.ownable
 
 primary_key:
  - local_part

@@ -7,10 +7,10 @@ returns: integer
 parameters:
  -
   name: p_user
-  type: commons.t_key
+  type: user.t_user
  -
   name: p_service
-  type: commons.t_key
+  type: system.t_service
  -
   name: p_domain
   type: dns.t_domain

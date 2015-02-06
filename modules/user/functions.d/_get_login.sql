@@ -8,7 +8,7 @@ returns: TABLE
 returns_columns:
  -
   name: name
-  type: commons.t_key
+  type: user.t_user
 
 body: |
  IF (SELECT TRUE FROM "user"."session"

@@ -23,7 +23,7 @@ body: |
     RETURN TRUE;
  ELSE
     RAISE 'Carnivora: invalid user login'
-     USING DETAIL = '$CARNIVORA:LOGIN_INVALID$';
+     USING DETAIL = '$carnivora:user:login_invalid$';
     RETURN FALSE;
  END IF;
 

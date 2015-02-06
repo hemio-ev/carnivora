@@ -12,4 +12,5 @@ columns:
   name: domain
   type: dns.t_domain
   description: domain for which the entries should be created
-
+ -
+  template: user.owner

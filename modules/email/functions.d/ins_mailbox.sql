@@ -6,6 +6,7 @@ returns: integer
 
 templates:
  - user.userlogin
+ - email.insert
 
 parameters:
  -
@@ -20,11 +21,14 @@ parameters:
 
 variables:
  -
-  name: v_test
+  name: v_num_total
+  type: int
+ -
+  name: v_num_domain
   type: int
 
 body: |
- v_test := (SELECT COUNT(*) FROM email._address() AS t WHERE t.owner=v_owner);
+
  INSERT INTO email.mailbox
     (local_part, domain, owner, password) VALUES
     (p_local_part, p_domain, v_owner, 'pw');
