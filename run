@@ -1,0 +1,17 @@
+#!/bin/bash -e
+
+psql -c "DROP DATABASE test1;" postgres postgres
+psql -c "CREATE DATABASE test1;" postgres postgres
+
+../hamsql/Main -p > sql.sql
+../hamsql/Main -d > doc/doc.html
+../hamsql/Main -g > doc/doc-graph.dot
+dot -Tpdf -o doc/doc-graph.pdf doc/doc-graph.dot
+
+cp doc/doc.html ../carnivora-doc/index.html
+cp doc/s.css ../carnivora-doc/
+
+../hamsql/Main -e -c"postgres://postgres:a@localhost/test1"
+
+psql -P null=/NULL/ -f "test/test.sql" test1 postgres
+

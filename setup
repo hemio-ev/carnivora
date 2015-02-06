@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+psql -c "DROP DATABASE test1;" postgres postgres
+psql -c "CREATE DATABASE test1;" postgres postgres
+
+../hamsql/Main -e -c"postgres://postgres:a@localhost/test1"
