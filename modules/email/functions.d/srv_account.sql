@@ -1,4 +1,4 @@
-name: backend_account
+name: srv_account
 description: List all mail accounts for machine
 
 templates:

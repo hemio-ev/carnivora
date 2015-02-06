@@ -9,7 +9,7 @@ columns:
   name: id
   type: varchar
   description: Session id
-  default: '"user".session_id()'
+  default: '"user"._session_id()'
  -
   template: user.owner
  -

@@ -1,4 +1,4 @@
-name: login
+name: ins_login
 description: |
  Try to bind database connection to new user session.
  Returns valid if sueccessfull, invalid otherwise.

@@ -1,4 +1,4 @@
-name: get_login
+name: _get_login
 description: |
  Shows informations for the current backend login.
  Throws an error if the current user is not a grantee

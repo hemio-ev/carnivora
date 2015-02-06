@@ -1,4 +1,4 @@
-name: uuid
+name: _uuid
 description: Returns new uuid
 
 return: uuid

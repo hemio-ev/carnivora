@@ -1,9 +1,6 @@
 name: dns
 description: DNS
 
-exec_post_install: |
- SELECT * FROM dns.raw
-
 domains:
  -
   name: domain_name

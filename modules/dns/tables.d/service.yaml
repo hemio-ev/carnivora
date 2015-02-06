@@ -11,4 +11,5 @@ columns:
  -
   name: domain
   type: dns.domain_name
-  description: domain for which the entries should be created 
+  description: domain for which the entries should be created
+

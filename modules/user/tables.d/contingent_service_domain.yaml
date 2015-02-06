@@ -1,0 +1,35 @@
+name: contingent_service_domain
+description: |
+ Number of times the service can be used by a user per domain.
+ An entry must exist to make a service 'visible' to a user.
+ The exact interpretation depends on the module.
+ 
+primary_key:
+ - service
+ - user_name
+
+columns:
+ -
+  name: service
+  type: varchar(50)
+  description: Service
+ -
+  name: domain
+  type: dns.domain_name
+  description: Domain for which the contigent holds
+ -
+  name: user_name
+  type: varchar(255)
+  null: true
+  description: If NULL, the entry is the default for all users.
+ -
+  name: quantity
+  type: integer
+  default: "0"
+  description: Value -1 is interpreted as "unlimited".
+ -
+  name: options
+  type: varchar
+  default: "''"
+  description: arb. options
+

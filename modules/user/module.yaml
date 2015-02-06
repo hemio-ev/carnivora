@@ -31,6 +31,6 @@ function_templates:
 
   body_prelude: |
    -- begin userlogin prelude
-   v_owner := (SELECT "name" FROM "user".get_login());
+   v_owner := (SELECT "name" FROM "user"._get_login());
    -- end userlogin prelude
 

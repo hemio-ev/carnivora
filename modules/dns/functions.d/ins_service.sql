@@ -1,4 +1,4 @@
-name: frontend_service_create
+name: ins_service
 description: Creates a collection of resource record where the entries are defined via a system.service_dns entries
 
 templates:

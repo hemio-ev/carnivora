@@ -1,0 +1,20 @@
+name: redirect
+description: Redirects
+inherits:
+ - email.address
+templates: 
+ - dns.reference_service
+ - email.address
+
+primary_key:
+ - local_part
+ - domain
+
+columns:
+ -
+  name: account_local_part
+  type: varchar
+  description: TODO ensure email. External address to which the mails will be delivered
+ -
+  template: backend.job
+

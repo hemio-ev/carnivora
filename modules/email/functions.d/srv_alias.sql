@@ -1,4 +1,4 @@
-name: backend_alias
+name: srv_alias
 description: List all mail aliases for machine
 
 templates:

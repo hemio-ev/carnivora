@@ -1,4 +1,4 @@
-name: frontend_alias_create
+name: ins_alias
 description: Create e-mail aliases
 
 return: integer

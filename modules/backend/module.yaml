@@ -31,5 +31,5 @@ function_templates:
     type: dns.domain_name
   
   body_prelude: |
-   v_machine := (SELECT "machine" FROM "backend".get_login());
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
 
