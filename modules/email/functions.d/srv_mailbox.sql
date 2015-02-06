@@ -1,5 +1,5 @@
-name: srv_account
-description: List all mail accounts for machine
+name: srv_mailbox
+description: List all mail mailboxs for machine
 
 templates:
  - backend.backend
@@ -15,7 +15,7 @@ returns_columns:
 
 body: |
  RETURN QUERY
-    SELECT email.account.local_part, email.account.domain FROM email.account
+    SELECT t.local_part, t.domain FROM email.mailbox AS t
         JOIN dns.service USING (domain, service)
         JOIN system.service_machine USING (service, service_name)
         

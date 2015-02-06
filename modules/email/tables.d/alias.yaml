@@ -1,5 +1,5 @@
 name: alias
-description: Aliases for e-mail accounts, owner is determined by accounts.owner
+description: Aliases for e-mail mailboxes, owner is determined by mailbox.owner
 inherits:
  - email.address
 templates: 
@@ -8,11 +8,11 @@ templates:
 
 foreign_keys:
  -
-  name: reference to account
+  name: reference to a mailbox
   columns:
-   - account_local_part
-   - account_domain
-  ref_table: email.account
+   - mailbox_local_part
+   - mailbox_domain
+  ref_table: email.mailbox
   ref_columns:
    - local_part
    - domain
@@ -24,13 +24,13 @@ primary_key:
 
 columns:
  -
-  name: account_local_part
+  name: mailbox_local_part
   type: email.t_local_part
-  description: Account to which the mails will be delivered
+  description: Mailbox to which the mails will be delivered
  -
-  name: account_domain
+  name: mailbox_domain
   type: dns.t_domain
-  description: Account to which the mails will be delivered
+  description: Mailbox to which the mails will be delivered
  -
   template: backend.job
 

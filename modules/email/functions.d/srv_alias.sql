@@ -13,10 +13,10 @@ returns_columns:
   name: alias_domain
   type: dns.t_domain
  -
-  name: account_local_part
+  name: mailbox_local_part
   type: email.t_local_part
  -
-  name: account_domain
+  name: mailbox_domain
   type: dns.t_domain
 
 body: |
@@ -24,8 +24,8 @@ body: |
     SELECT
         email.alias.local_part, 
         email.alias.domain, 
-        email.alias.account_local_part, 
-        email.alias.account_domain
+        email.alias.mailbox_local_part, 
+        email.alias.mailbox_domain
     FROM email.alias
 
         JOIN dns.service USING (domain, service)

@@ -56,12 +56,12 @@ INSERT INTO dns.service (service_name, service, domain) VALUES ('mail.example.or
 SELECT "user"._get_login();
 
 
-SELECT email.ins_account('vorname', 'my.example.com', 'my-pw');
+SELECT email.ins_mailbox('vorname', 'my.example.com', 'my-pw');
 SELECT email.ins_alias('vorname.nachname', 'my.example.com', 'vorname', 'my.example.com');
 SELECT email.ins_alias('v.name', 'my.example.com', 'vorname', 'my.example.com');
 
 SELECT backend._get_login();
-SELECT * FROM email.srv_account();
+SELECT * FROM email.srv_mailbox();
 SELECT * FROM email.srv_alias();
 
 SELECT * FROM email._address();

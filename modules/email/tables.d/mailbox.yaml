@@ -1,6 +1,9 @@
-name: account
+name: mailbox
 description: |
- E-mail accounts correspond to something a mail user can login into. Basically an account represents a mailbox. An account is bound to a specific address. Further addresses can be linked to accounts via aliases. 
+ E-mail mailboxs correspond to something a mail user can login into. Basically 
+ a mailbox represents a mailbox. A mailbox is bound to a specific address. 
+ Further addresses can be linked to mailboxs via aliases. 
+ 
 inherits:
  - email.address
 templates:
@@ -28,5 +31,5 @@ checks:
  -
   name: ensure quota valid
   description: quota should be positive number
-  check: account.quota >= 0
+  check: mailbox.quota >= 0
 

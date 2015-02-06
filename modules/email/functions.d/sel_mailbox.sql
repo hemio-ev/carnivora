@@ -1,8 +1,8 @@
 templates:
  - user.userlogin
 
-name: sel_account
-description: List all accounts
+name: sel_mailbox
+description: List all mailboxes
 
 
 returns: TABLE
@@ -26,12 +26,12 @@ returns_columns:
 body: |
  RETURN QUERY
   SELECT
-   acc.domain, 
-   acc.local_part, 
-   acc.owner, 
-   acc.quota, 
-   acc.backend_job
+   t.domain, 
+   t.local_part, 
+   t.owner, 
+   t.quota, 
+   t.backend_job
   FROM
-   email.account AS acc
+   email.mailbox AS t
   WHERE
-   acc.owner = v_owner;
+   t.owner = v_owner;

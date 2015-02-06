@@ -1,6 +1,6 @@
-name: ins_account
+name: ins_mailbox
 description: |
- Creates e-mail account
+ Creates an email box
 
 returns: integer
 
@@ -25,7 +25,7 @@ variables:
 
 body: |
  v_test := (SELECT COUNT(*) FROM email._address() AS t WHERE t.owner=v_owner);
- INSERT INTO email.account
+ INSERT INTO email.mailbox
     (local_part, domain, owner, password) VALUES
     (p_local_part, p_domain, v_owner, 'pw');
  RETURN 0;
