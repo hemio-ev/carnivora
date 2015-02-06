@@ -8,12 +8,12 @@ templates:
  - user.ownable
 
 primary_key:
- - local_part
+ - localpart
  - domain
 
 columns:
  -
-  name: account_local_part
+  name: account_localpart
   type: varchar
   description: TODO ensure email. External address to which the mails will be delivered
  -

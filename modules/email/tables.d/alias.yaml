@@ -10,22 +10,22 @@ foreign_keys:
  -
   name: reference to a mailbox
   columns:
-   - mailbox_local_part
+   - mailbox_localpart
    - mailbox_domain
   ref_table: email.mailbox
   ref_columns:
-   - local_part
+   - localpart
    - domain
   on_delete: CASCADE
 
 primary_key:
- - local_part
+ - localpart
  - domain
 
 columns:
  -
-  name: mailbox_local_part
-  type: email.t_local_part
+  name: mailbox_localpart
+  type: email.t_localpart
   description: Mailbox to which the mails will be delivered
  -
   name: mailbox_domain

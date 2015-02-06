@@ -50,13 +50,13 @@ table_templates:
       check: VALUE == 'email'
     default: "'email'"
    -
-    name: local_part
-    type: email.t_local_part
+    name: localpart
+    type: email.t_localpart
     description: Local part of the address
 
 domains:
  -
-  name: t_local_part
+  name: t_localpart
   description: Local part of an e-mail address, the thing in front of the @
   type: varchar(64)
   

@@ -11,11 +11,11 @@ returns_columns:
   name: domain
   type: dns.t_domain
  -
-  name: local_part
-  type: email.t_local_part
+  name: localpart
+  type: email.t_localpart
  -
   name: owner
-  type: commons.t_key
+  type: user.t_user
  -
   name: quota
   type: int
@@ -27,7 +27,7 @@ body: |
  RETURN QUERY
   SELECT
    t.domain, 
-   t.local_part, 
+   t.localpart, 
    t.owner, 
    t.quota, 
    t.backend_job

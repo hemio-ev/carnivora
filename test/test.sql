@@ -66,4 +66,6 @@ SELECT * FROM email.srv_mailbox();
 SELECT * FROM email.srv_alias();
 
 SELECT * FROM email._address();
+SELECT * FROM email.sel_alias();
+SELECT * FROM email.sel_mailbox();
 

@@ -10,8 +10,8 @@ templates:
 
 parameters:
  -
-  name: p_local_part
-  type: email.t_local_part 
+  name: p_localpart
+  type: email.t_localpart 
  -
   name: p_domain
   type: dns.t_domain
@@ -30,7 +30,7 @@ variables:
 body: |
 
  INSERT INTO email.mailbox
-    (local_part, domain, owner, password) VALUES
-    (p_local_part, p_domain, v_owner, 'pw');
+    (localpart, domain, owner, password) VALUES
+    (p_localpart, p_domain, v_owner, 'pw');
  RETURN 0;
 

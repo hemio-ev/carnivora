@@ -7,15 +7,15 @@ templates:
 returns: TABLE
 returns_columns:
  -
-  name: local_part
-  type: email.t_local_part
+  name: localpart
+  type: email.t_localpart
  -
   name: domain
   type: dns.t_domain
 
 body: |
  RETURN QUERY
-    SELECT t.local_part, t.domain FROM email.mailbox AS t
+    SELECT t.localpart, t.domain FROM email.mailbox AS t
         JOIN dns.service USING (domain, service)
         JOIN system.service_machine USING (service, service_name)
         

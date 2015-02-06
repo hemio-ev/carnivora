@@ -8,7 +8,7 @@ templates:
  - user.ownable
 
 primary_key:
- - local_part
+ - localpart
  - domain
 
 columns:

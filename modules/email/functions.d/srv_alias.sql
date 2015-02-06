@@ -7,14 +7,14 @@ templates:
 returns: TABLE
 returns_columns:
  -
-  name: alias_local_part
-  type: email.t_local_part
+  name: alias_localpart
+  type: email.t_localpart
  -
   name: alias_domain
   type: dns.t_domain
  -
-  name: mailbox_local_part
-  type: email.t_local_part
+  name: mailbox_localpart
+  type: email.t_localpart
  -
   name: mailbox_domain
   type: dns.t_domain
@@ -22,9 +22,9 @@ returns_columns:
 body: |
  RETURN QUERY
     SELECT
-        email.alias.local_part, 
+        email.alias.localpart, 
         email.alias.domain, 
-        email.alias.mailbox_local_part, 
+        email.alias.mailbox_localpart, 
         email.alias.mailbox_domain
     FROM email.alias
 

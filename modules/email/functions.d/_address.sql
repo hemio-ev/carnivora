@@ -4,8 +4,8 @@ description: List all addresses
 returns: TABLE
 returns_columns:
  -
-  name: local_part
-  type: email.t_local_part
+  name: localpart
+  type: email.t_localpart
  -
   name: domain
   type: dns.t_domain
@@ -15,14 +15,14 @@ returns_columns:
 
 body: |
  RETURN QUERY (
-  SELECT t.local_part, t.domain, t.owner FROM email.mailbox AS t
+  SELECT t.localpart, t.domain, t.owner FROM email.mailbox AS t
   UNION ALL
-  SELECT t.local_part, t.domain, t.owner FROM email.redirect AS t
+  SELECT t.localpart, t.domain, t.owner FROM email.redirect AS t
   UNION ALL
-  SELECT t.local_part, t.domain, s.owner FROM email.alias AS t
+  SELECT t.localpart, t.domain, s.owner FROM email.alias AS t
    LEFT JOIN email.mailbox AS s
     ON
-     t.mailbox_local_part = s.local_part AND
+     t.mailbox_localpart = s.localpart AND
      t.mailbox_domain = s.domain
  );
 
