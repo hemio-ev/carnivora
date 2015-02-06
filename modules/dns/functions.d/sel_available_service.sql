@@ -1,7 +1,7 @@
 templates:
  - user.userlogin
 
-name: sel_service
+name: sel_available_service
 description: |
  List all domains that have a service entry in dns with their service.
  This is particularly usefull since these domains are ready for use with
@@ -17,9 +17,16 @@ returns_columns:
   type: dns.t_domain
  -
   name: service
-  type: commons.t_key
+  type: system.t_service
 
 body: |
- RETURN QUERY
-  SELECT s.domain, s.service FROM dns.service AS s
-   GROUP BY s.domain, s.service;
+    RETURN QUERY
+        SELECT t.domain, t.service FROM dns.service AS t
+    WHERE
+        "user"._contingent_remaining(
+            p_domain := t.domain,
+            p_service := t.service,
+            p_user := t.owner,
+            p_current_quantity_total := 0,
+            p_current_quantity_domain := 0
+        ) > 0;

@@ -27,7 +27,7 @@ INSERT INTO system.service_machine
 
 INSERT INTO "user".contingent_service
     (service, user_name, quantity) VALUES
-    ('email', 'user1',4)
+    ('email', 'user1',5)
 ;
 
 --INSERT INTO "user".contingent_service_domain

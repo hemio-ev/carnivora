@@ -16,7 +16,7 @@ parameters:
   name: p_domain
   type: dns.t_domain
  -
-  name: password
+  name: p_password
   type: varchar(255)
 
 variables:
