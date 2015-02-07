@@ -17,3 +17,4 @@ role_prefix: carnivora_
 
 pre_code: |
  CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+ CREATE EXTENSION IF NOT EXISTS "plpython3u";

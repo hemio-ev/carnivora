@@ -24,6 +24,15 @@ domains:
   type: varchar(250)
   description: "unix hash thingy - todo: propper checking of format"
  -
+  name: t_password_plaintext
+  type: varchar(255)
+  description: Password in plaintext
+  checks:
+   -
+    name: min password length
+    description: Ensure that passwords at least have 8 chars
+    check: character_length(VALUE) >= 8 
+ -
   name: t_key
   type: varchar(50)
   description: Key

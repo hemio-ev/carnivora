@@ -8,10 +8,10 @@ templates:
 
 parameters:
  -
-  name: p_alias_localpart
+  name: p_localpart
   type: email.t_localpart 
  -
-  name: p_alias_domain
+  name: p_domain
   type: dns.t_domain
  -
   name: p_mailbox_localpart
@@ -33,7 +33,7 @@ body: |
 
         INSERT INTO email.alias
             (localpart, domain, mailbox_localpart, mailbox_domain) VALUES
-            (p_alias_localpart, p_alias_domain, p_mailbox_localpart, p_mailbox_domain);
+            (p_localpart, p_domain, p_mailbox_localpart, p_mailbox_domain);
 
         RETURN FALSE;
     ELSE

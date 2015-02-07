@@ -12,12 +12,16 @@ parameters:
    type: commons.t_key
  -
    name: p_password
-   type: varchar(255)
+   type: commons.t_password_plaintext
 
 body: |
  IF
-    (SELECT TRUE FROM "user"."user"
-        WHERE name = p_name AND password = p_password AND login)
+    (SELECT TRUE FROM "user"."user" AS t
+        WHERE
+            name = p_name AND
+            commons._passwords_equal(p_password, t.password) AND
+            t.login
+    )
  THEN
     INSERT INTO "user"."session" (owner) VALUES (p_name);
     RETURN TRUE;

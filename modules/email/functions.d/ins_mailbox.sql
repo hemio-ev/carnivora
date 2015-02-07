@@ -17,7 +17,7 @@ parameters:
   type: dns.t_domain
  -
   name: p_password
-  type: varchar(255)
+  type: commons.t_password_plaintext
 
 variables:
  -
@@ -31,6 +31,6 @@ body: |
 
  INSERT INTO email.mailbox
     (localpart, domain, owner, password) VALUES
-    (p_localpart, p_domain, v_owner, 'pw');
+    (p_localpart, p_domain, v_owner, commons._hash_password(p_password));
  RETURN 0;
 

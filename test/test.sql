@@ -27,7 +27,7 @@ INSERT INTO system.service_machine
 
 INSERT INTO "user".contingent_service
     (service, user_name, quantity) VALUES
-    ('email', 'user1',5)
+    ('email', 'user1', 15)
 ;
 
 --INSERT INTO "user".contingent_service_domain
@@ -37,7 +37,7 @@ INSERT INTO "user".contingent_service
 
 INSERT INTO "user"."user"
     (name, password, login) VALUES
-    ('user1', 'pw', true)
+    ('user1', commons._hash_password('testtest'), true)
     ,('user2', 'pw', true)
 ;
 
@@ -47,7 +47,7 @@ INSERT INTO backend.auth
 ;
 
 --SELECT "user".login('user1', 'pw-falsch');
-SELECT "user".ins_login('user1', 'pw');
+SELECT "user".ins_login('user1', 'testtest');
 
 INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'email', 'my.example.com', 'user1');
 
@@ -55,11 +55,11 @@ INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.exa
 SELECT "user"._get_login();
 
 
-SELECT email.ins_mailbox('vorname', 'my.example.com', 'my-pw');
+SELECT email.ins_mailbox('vorname', 'my.example.com', 'my-pw-123');
 SELECT email.ins_alias('vorname.nachname', 'my.example.com', 'vorname', 'my.example.com');
 SELECT email.ins_alias('v.name', 'my.example.com', 'vorname', 'my.example.com');
 
-SELECT email.ins_mailbox('jobs', 'my.example.com', 'my-pw');
+SELECT email.ins_mailbox('jobs', 'my.example.com', 'my-pw-456');
 
 SELECT backend._get_login();
 SELECT * FROM email.srv_mailbox();
