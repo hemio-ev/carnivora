@@ -60,6 +60,7 @@ SELECT email.ins_alias('vorname.nachname', 'my.example.com', 'vorname', 'my.exam
 SELECT email.ins_alias('v.name', 'my.example.com', 'vorname', 'my.example.com');
 
 SELECT email.ins_mailbox('jobs', 'my.example.com', 'my-pw-456');
+SELECT email.upd_mailbox('jobs', 'my.example.com', 'my-new-pw');
 
 SELECT backend._get_login();
 SELECT * FROM email.srv_mailbox();
