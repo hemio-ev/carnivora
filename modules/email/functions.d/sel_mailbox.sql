@@ -20,8 +20,8 @@ returns_columns:
   name: quota
   type: int
  -
-  name: backend_job
-  type: varchar(20)
+  name: backend_status
+  type: backend.t_status
 
 body: |
  RETURN QUERY
@@ -30,7 +30,7 @@ body: |
    t.localpart, 
    t.owner, 
    t.quota, 
-   t.backend_job
+   t.backend_status
   FROM
    email.mailbox AS t
   WHERE

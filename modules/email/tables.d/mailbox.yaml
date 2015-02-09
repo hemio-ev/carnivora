@@ -10,6 +10,7 @@ templates:
  - dns.reference_service
  - email.address
  - user.ownable
+ - backend.status
 
 primary_key:
  - localpart
@@ -25,8 +26,6 @@ columns:
   type: int
   null: true
   description: Quota for mailbox in MiB 
- -
-  template: backend.job
 
 checks:
  -

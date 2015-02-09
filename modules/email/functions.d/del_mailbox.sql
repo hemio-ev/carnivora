@@ -1,5 +1,5 @@
-name: upd_mailbox
-description: Change mailbox password
+name: del_mailbox
+description: Delete mailbox
 
 templates:
  - user.userlogin
@@ -13,11 +13,9 @@ parameters:
  -
   name: p_domain
   type: dns.t_domain
- -
-  name: p_password
-  type: commons.t_password_plaintext
 
 body: |
+
     IF (
         SELECT TRUE FROM email.mailbox AS t
         WHERE
@@ -28,8 +26,7 @@ body: |
     THEN
         UPDATE email.mailbox AS t
             SET
-                password = commons._hash_password(p_password),
-                backend_status = 'upd'
+                backend_status = 'del'
             WHERE
                 t.localpart = p_localpart AND
                 t.domain = p_domain;

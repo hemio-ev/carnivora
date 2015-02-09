@@ -5,17 +5,23 @@ description: |
  The backend API delivers content required for building configs etc.
  to clients, called machines.
 
+domains:
+ -
+  name: t_status
+  description: Backend status
+  type: VARCHAR(20)
+
 column_templates:
  -
   template: job
-  name: backend_job
+  name: backend_status
   description: |
       Status of database entry in backend. NULL: nothing pending,
-      new: entry not present on backend client, changed: update
-      pending on backend client, deleted: deletion peding on
+      new: entry not present on backend client, upd: update
+      pending on backend client, del: deletion peding on
       backend client.    
-  type: varchar(20)
-  default: '''new'''
+  type: backend.t_status
+  default: "'ins'"
   null: true
 
 function_templates:
@@ -33,3 +39,11 @@ function_templates:
   body_prelude: |
    v_machine := (SELECT "machine" FROM "backend"._get_login());
 
+table_templates:
+ -
+  template: status
+  description: Backend
+  columns:
+   -
+    template: backend.job
+      

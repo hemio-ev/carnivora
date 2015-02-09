@@ -6,6 +6,7 @@ templates:
  - dns.reference_service
  - email.address
  - user.ownable
+ - backend.status
 
 primary_key:
  - localpart
@@ -16,6 +17,4 @@ columns:
   name: options
   type: integer
   description: Would be nice to store arbitrary key:value pairs 
- -
-  template: backend.job
 

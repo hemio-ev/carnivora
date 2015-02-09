@@ -5,6 +5,7 @@ inherits:
 templates: 
  - dns.reference_service
  - email.address
+ - backend.status
 
 foreign_keys:
  -
@@ -31,5 +32,3 @@ columns:
   name: mailbox_domain
   type: dns.t_domain
   description: Mailbox to which the mails will be delivered
- -
-  template: backend.job
