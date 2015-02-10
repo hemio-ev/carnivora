@@ -1,4 +1,4 @@
-INSERT INTO system.machine
+INSERT INTO backend.machine
     (name) VALUES
     ('mail-server.example.org'),
     ('web-server.example.org')
@@ -38,7 +38,7 @@ INSERT INTO "user".contingent_service
 INSERT INTO "user"."user"
     (name, password, login) VALUES
     ('user1', commons._hash_password('testtest'), true)
-    ,('user2', 'pw', true)
+    ,('user2', commons._hash_password('testtest2'), true)
 ;
 
 INSERT INTO backend.auth
@@ -56,7 +56,7 @@ SELECT "user"._get_login();
 
 
 SELECT email.ins_mailbox('vorname', 'my.example.com', 'my-pw-123');
-SELECT email.ins_alias('vorname.nachname', 'my.example.com', 'vorname', 'my.example.com');
+SELECT email.ins_alias('vorname-nachname', 'my.example.com', 'vorname', 'my.example.com');
 SELECT email.ins_alias('v.name', 'my.example.com', 'vorname', 'my.example.com');
 
 SELECT email.ins_mailbox('jobs', 'my.example.com', 'my-pw-456');

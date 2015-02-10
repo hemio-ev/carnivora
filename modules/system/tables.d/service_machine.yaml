@@ -17,5 +17,4 @@ columns:
   name: machine_name
   type: dns.t_domain
   description: Assigns machine
-  references: system.machine.name
-
+  references: backend.machine.name

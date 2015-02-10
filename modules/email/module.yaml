@@ -57,15 +57,14 @@ table_templates:
 domains:
  -
   name: t_localpart
-  description: Local part of an e-mail address, the thing in front of the @
+  description: Local part of an email address, the thing in front of the @
   type: varchar(64)
   
   checks:
    -
     name: valid_characters
-    description: a
-    check: "VALUE ~ '[A-Za-z0-9.]'"
-    #check: "regexp_matches(VALUE, '[A-Za-z0-9.!#$%&'*+-/=?^_`{|}~]+')"
+    description: Only allow lower-case addresses
+    check: VALUE ~ '^[a-z0-9.-]+$'
    -
     name: no_starting_dot
     description: b
@@ -74,4 +73,3 @@ domains:
     name: no_ending_dot
     description: c
     check: right(VALUE, 1) <> '.'
-

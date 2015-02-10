@@ -22,9 +22,8 @@ returns_columns:
 body: |
  RETURN QUERY
     SELECT t.localpart, t.domain, t.password, t.quota FROM email.mailbox AS t
-        JOIN dns.service USING (domain, service)
-        JOIN system.service_machine AS sys USING (service, service_name)
         
         WHERE
-            sys.machine_name = v_machine AND
+            backend._machine_priviledged(t.service, t.domain) AND
             backend._active(t.backend_status);
+

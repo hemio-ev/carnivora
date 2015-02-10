@@ -9,11 +9,14 @@ columns:
  -
   name: role
   type: commons.t_key
-  description: Grantee for right to access the backend date for the defined machine. A role is basically a user or a user group on the SQL server.
+  unique: true
+  description: |
+   Grantee for right to access the backend date for the defined machine.
+   A role is basically a user or a user group on the SQL server.
  -
   name: machine
   type: dns.t_domain
-  references: system.machine.name
-#  on_delete: DELETE
+  references: backend.machine.name
+  on_ref_delete: CASCADE
   description: Machine for which the rights are granted.
   
