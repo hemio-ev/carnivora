@@ -22,14 +22,17 @@ returns_columns:
 body: |
  RETURN QUERY
     SELECT
-        email.alias.localpart, 
-        email.alias.domain, 
-        email.alias.mailbox_localpart, 
-        email.alias.mailbox_domain
-    FROM email.alias
+        t.localpart, 
+        t.domain, 
+        t.mailbox_localpart, 
+        t.mailbox_domain
+    FROM email.alias AS t
 
         JOIN dns.service USING (domain, service)
         JOIN system.service_machine USING (service, service_name)
         
-    WHERE system.service_machine.machine_name = v_machine;
+    WHERE
+        system.service_machine.machine_name = v_machine
+        AND
+        backend._active(t.backend_status);
 

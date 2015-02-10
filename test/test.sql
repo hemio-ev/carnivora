@@ -70,3 +70,4 @@ SELECT * FROM email._address();
 SELECT * FROM email.sel_alias();
 SELECT * FROM email.sel_mailbox();
 
+SELECT email.ack_mailbox();

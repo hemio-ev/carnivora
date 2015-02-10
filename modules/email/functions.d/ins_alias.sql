@@ -27,7 +27,8 @@ body: |
         WHERE
             t.domain=p_mailbox_domain AND
             t.localpart=p_mailbox_localpart AND
-            t.owner=v_owner
+            t.owner=v_owner AND
+            backend._active(t.backend_status)
     )
     THEN
 
@@ -37,6 +38,5 @@ body: |
 
         RETURN FALSE;
     ELSE
-        RAISE 'The used mailbox is not available'
-            USING DETAIL = '$carnivora:email:mailbox_missing$';
+        PERFORM commons._raise_inaccessible_or_missing();
     END IF;

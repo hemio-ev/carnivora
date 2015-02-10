@@ -23,7 +23,8 @@ body: |
         WHERE
             t.localpart = p_localpart AND
             t.domain = p_domain AND
-            t.owner = v_owner
+            t.owner = v_owner AND
+            backend._active(t.backend_status)
     )
     THEN
         UPDATE email.mailbox AS t

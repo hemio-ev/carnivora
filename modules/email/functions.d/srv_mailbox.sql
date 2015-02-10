@@ -12,12 +12,19 @@ returns_columns:
  -
   name: domain
   type: dns.t_domain
+ -
+  name: password
+  type: commons.t_password
+ -
+  name: quota
+  type: integer
 
 body: |
  RETURN QUERY
-    SELECT t.localpart, t.domain FROM email.mailbox AS t
+    SELECT t.localpart, t.domain, t.password, t.quota FROM email.mailbox AS t
         JOIN dns.service USING (domain, service)
-        JOIN system.service_machine USING (service, service_name)
+        JOIN system.service_machine AS sys USING (service, service_name)
         
-        WHERE system.service_machine.machine_name = v_machine;
-
+        WHERE
+            sys.machine_name = v_machine AND
+            backend._active(t.backend_status);

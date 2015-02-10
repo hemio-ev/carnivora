@@ -1,7 +1,7 @@
 name: service_index
 description: |
  Just a list of services that exist. Modules do register their names
- here. A name must be prefixed with '<module_name>__' (example: email__)
+ here. A name must be prefixed with '<module name>__' (example: email__)
  or consist of the module name only.
 
  Use system.setup_register_service(...) to insert into this table.

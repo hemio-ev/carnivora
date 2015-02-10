@@ -18,3 +18,4 @@ columns:
   type: dns.t_domain
   description: Assigns machine
   references: system.machine.name
+

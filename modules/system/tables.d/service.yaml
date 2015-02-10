@@ -5,10 +5,12 @@ description: |
  Such a system can consist of multiple physical or virtual machines. The corresponding
  machines are listed in system.service_machine. A core feature of services is the
  definition of 'templates' for dns records that have to be present for every domain 
- that uses this service. Such 'templates' have to be defined in system.service_dns.
- They can be assigned to specific domains in dns.service.
+ that uses this service. Such 'templates' have can be defined in system.service_dns.
+ Domain names can be enabled for services in dns.service. Service enabled domains
+ are automatically equipped with the required dns entries accorting to the existing
+ 'templates'.
 
- The service_name might be exposed to the client as address he has connect to. For
+ The service_name might be exposed to users as the address of this service. For
  example as SMTP or SSH server etc. The exact interpretation of the service_name
  depends on the module and the frontend.
 
