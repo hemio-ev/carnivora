@@ -19,13 +19,11 @@ https://github.com/qua-bla/hamsql
 
 ## Database
 - aptitude install postgresql postgresql-contrib
-- aptitude install postgresql-plpython-9.3
-
-> createlang -p <port> plpython2u <database>
+- aptitude install postgresql-plpython3-9.4
 
 # Usage
 
 run `hamsql -e -c"postgres://<user>@localhost/<empty-database>"` to run a full installation
-* create tables and functions for modules
-* create users and grant defined access
+* creates tables and functions for modules
+* creates users and grant defined access
 
