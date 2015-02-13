@@ -1,5 +1,5 @@
 name: srv_mailbox
-description: List all mail mailboxs for machine
+description: Lists all mailboxes
 
 templates:
  - backend.backend
@@ -26,4 +26,3 @@ body: |
         WHERE
             backend._machine_priviledged(t.service, t.domain) AND
             backend._active(t.backend_status);
-

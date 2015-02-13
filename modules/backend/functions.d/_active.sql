@@ -9,4 +9,4 @@ parameters:
   type: backend.t_status
 
 body: |
-    RETURN backend_status <> 'del';
+    RETURN backend_status IS NULL OR backend_status <> 'del';

@@ -2,7 +2,7 @@ name: ins_mailbox
 description: |
  Creates an email box
 
-returns: integer
+returns: void
 
 templates:
  - user.userlogin
@@ -32,5 +32,5 @@ body: |
  INSERT INTO email.mailbox
     (localpart, domain, owner, password) VALUES
     (p_localpart, p_domain, v_owner, commons._hash_password(p_password));
- RETURN 0;
 
+ PERFORM backend._notify('email', p_domain);

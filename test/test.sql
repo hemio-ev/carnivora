@@ -50,6 +50,7 @@ INSERT INTO backend.auth
 SELECT "user".ins_login('user1', 'testtest');
 
 INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'email', 'my.example.com', 'user1');
+INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'email', 'another.example.com', 'user1');
 
 
 SELECT "user"._get_login();
@@ -71,3 +72,4 @@ SELECT * FROM email.sel_alias();
 SELECT * FROM email.sel_mailbox();
 
 SELECT email.ack_mailbox();
+

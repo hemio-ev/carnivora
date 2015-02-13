@@ -1,5 +1,5 @@
 name: srv_alias
-description: List all mail aliases for machine
+description: Lists all email aliases
 
 templates:
  - backend.backend
@@ -27,12 +27,7 @@ body: |
         t.mailbox_localpart, 
         t.mailbox_domain
     FROM email.alias AS t
-
-        JOIN dns.service USING (domain, service)
-        JOIN system.service_machine USING (service, service_name)
         
     WHERE
-        system.service_machine.machine_name = v_machine
-        AND
+        backend._machine_priviledged(t.service, t.domain) AND
         backend._active(t.backend_status);
-

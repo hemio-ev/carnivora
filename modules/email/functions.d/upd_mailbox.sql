@@ -19,21 +19,23 @@ parameters:
 
 body: |
     IF (
-        SELECT TRUE FROM email.mailbox AS t
+        SELECT TRUE FROM email.mailbox
         WHERE
-            t.localpart = p_localpart AND
-            t.domain = p_domain AND
-            t.owner = v_owner AND
-            backend._active(t.backend_status)
+            localpart = p_localpart AND
+            domain = p_domain AND
+            owner = v_owner AND
+            backend._active(backend_status)
     )
     THEN
-        UPDATE email.mailbox AS t
+        UPDATE email.mailbox
             SET
                 password = commons._hash_password(p_password),
                 backend_status = 'upd'
             WHERE
-                t.localpart = p_localpart AND
-                t.domain = p_domain;
+                localpart = p_localpart AND
+                domain = p_domain;
+
+        PERFORM backend._notify('email', p_domain);
     ELSE
         PERFORM commons._raise_inaccessible_or_missing();
     END IF;

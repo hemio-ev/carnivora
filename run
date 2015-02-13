@@ -1,5 +1,17 @@
 #!/bin/bash -e
 
+psql -c "
+-- http://stackoverflow.com/questions/5108876/kill-a-postgresql-session-connection
+SELECT 
+    pg_terminate_backend(pid) 
+FROM 
+    pg_stat_activity 
+WHERE 
+    -- don't kill my own connection!
+    pid <> pg_backend_pid()
+    -- don't kill the connections to other databases
+    AND datname = 'test1';
+" postgres postgres
 psql -c "DROP DATABASE test1;" postgres postgres
 psql -c "CREATE DATABASE test1;" postgres postgres
 
