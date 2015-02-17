@@ -1,0 +1,34 @@
+name: list_subscriber
+description: list subscribers
+
+templates: 
+ - backend.status
+
+foreign_keys:
+ -
+  name: reference to a list
+  columns:
+   - list_localpart
+   - list_domain
+  ref_table: email.list
+  ref_columns:
+   - localpart
+   - domain
+  on_delete: CASCADE
+
+primary_key:
+ - address
+
+columns:
+ -
+  name: address
+  type: email.t_address
+  description: Subscribers address
+ -
+  name: list_localpart
+  type: email.t_localpart
+  description: List
+ -
+  name: list_domain
+  type: dns.t_domain
+  description: List

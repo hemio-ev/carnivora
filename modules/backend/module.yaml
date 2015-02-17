@@ -17,8 +17,8 @@ column_templates:
   name: backend_status
   description: |
       Status of database entry in backend. NULL: nothing pending,
-      new: entry not present on backend client, upd: update
-      pending on backend client, del: deletion peding on
+      'ins': entry not present on backend client, 'upd': update
+      pending on backend client, 'del': deletion peding on
       backend client.    
   type: backend.t_status
   default: "'ins'"

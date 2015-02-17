@@ -41,8 +41,8 @@ table_templates:
   columns:
    -
     name: service
-    type: commons.t_key
-    description: strange thing
+    type: system.t_service
+    description: Enforce service type in dns.service
     checks:
      -
       name: service type
@@ -73,3 +73,8 @@ domains:
     name: no_ending_dot
     description: c
     check: right(VALUE, 1) <> '.'
+
+ -
+  name: t_address
+  description: Email address, TODO validity checks
+  type: varchar(253)

@@ -1,10 +1,11 @@
 name: list
 description: Mailing lists
+
 inherits: 
  - email.address
+ 
 templates:
  - dns.reference_service
- - email.address
  - user.ownable
  - backend.status
 
@@ -14,7 +15,26 @@ primary_key:
 
 columns:
  -
-  name: options
-  type: integer
-  description: Would be nice to store arbitrary key:value pairs 
+  name: localpart
+  type: email.t_localpart
+  description: Local part of the address
+ -
+  name: service
+  type: system.t_service
+  description: Enforce service type in dns.service
+  checks:
+   -
+    name: service type
+    description: ensures that service type is email__list
+    check: VALUE == 'email__list'
+  default: "'email__list'"
 
+ -
+  name: admin
+  type: email.t_address
+  description: Email address of the list admin
+ -
+  name: options
+  type: varchar
+  description: Would be nice to store arbitrary key:value pairs 
+  default: "'not implemented'"

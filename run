@@ -26,5 +26,5 @@ cp doc/s.css ../carnivora-doc/
 ../hamsql/Main -e -c"postgres://postgres:a@localhost/test1"
 
 export PAGER=cat
-psql -P null=/NULL/ -f "test/test.sql" test1 postgres
+psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/test.sql" test1 postgres
 
