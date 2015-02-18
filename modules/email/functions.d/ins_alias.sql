@@ -31,6 +31,8 @@ body: |
             backend._active(backend_status)
     )
     THEN
+        PERFORM email._address_valid(p_localpart, p_domain);
+
         INSERT INTO email.alias
             (localpart, domain, mailbox_localpart, mailbox_domain) VALUES
             (p_localpart, p_domain, p_mailbox_localpart, p_mailbox_domain);

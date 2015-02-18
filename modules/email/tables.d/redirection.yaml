@@ -1,0 +1,20 @@
+name: redirection
+description: Redirections
+inherits:
+ - email.address
+templates: 
+ - dns.reference_service
+ - email.address
+ - user.ownable
+ - backend.status
+
+primary_key:
+ - localpart
+ - domain
+
+columns:
+ -
+  name: destination
+  type: email.t_address
+  description: External address to which the mails will be delivered
+

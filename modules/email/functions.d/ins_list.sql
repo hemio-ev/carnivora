@@ -38,6 +38,8 @@ body: |
         p_current_quantity_total:=v_num_total,
         p_current_quantity_domain:=v_num_domain);
 
+    PERFORM email._address_valid(p_localpart, p_domain);
+
     INSERT INTO email.list
         (localpart, domain, owner, admin) VALUES
         (p_localpart, p_domain, v_owner, p_admin);
