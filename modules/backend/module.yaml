@@ -5,6 +5,11 @@ description: |
  The backend API delivers content required for building configs etc.
  to clients, called machines.
 
+roles:
+ -
+  name: backend
+  description: vms
+
 domains:
  -
   name: t_status
@@ -35,6 +40,10 @@ function_templates:
    -
     name: v_machine
     type: dns.t_domain
+  security_definer: true
+#  owner: postgres
+  priv_execute:
+   - backend
   
   body_prelude: |
    v_machine := (SELECT "machine" FROM "backend"._get_login());

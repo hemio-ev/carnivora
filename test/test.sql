@@ -67,20 +67,22 @@ SELECT email.ins_alias('v.name', 'my.example.com', 'vorname', 'my.example.com');
 SELECT email.ins_mailbox('jobs', 'my.example.com', 'testtest');
 SELECT email.upd_mailbox('jobs', 'my.example.com', 'my-new-pw');
 
+SELECT email.ins_redirection('guest', 'my.example.com', 'other-server.example.com');
+
 SELECT email.ins_list('all', 'lists.example.com', 'admin@my.example.com');
 SELECT email.ins_list_subscriber('user@xy.example.org', 'all', 'lists.example.com');
 SELECT email.ins_list_subscriber('user25@xy.example.org', 'all', 'lists.example.com');
 SELECT email.ins_list_subscriber('name@xy.example.org', 'all', 'lists.example.com');
 SELECT email.ins_list_subscriber('LLkd@abc.example.org', 'all', 'lists.example.com');
 
-SELECT backend._get_login();
+-- SELECT backend._get_login();
 SELECT * FROM email.srv_mailbox();
-SELECT * FROM email.srv_alias();
+-- SELECT * FROM email.srv_alias();
 
-SELECT * FROM email._address();
-SELECT * FROM email.sel_alias();
-SELECT * FROM email.sel_mailbox();
-SELECT * FROM email.sel_list();
+-- SELECT * FROM email._address();
+-- SELECT * FROM email.sel_alias();
+-- SELECT * FROM email.sel_mailbox();
+-- SELECT * FROM email.sel_list();
 
-SELECT email.ack_mailbox();
+-- SELECT email.ack_mailbox();
 
