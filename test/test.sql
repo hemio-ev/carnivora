@@ -75,9 +75,11 @@ SELECT email.ins_list_subscriber('user25@xy.example.org', 'all', 'lists.example.
 SELECT email.ins_list_subscriber('name@xy.example.org', 'all', 'lists.example.com');
 SELECT email.ins_list_subscriber('LLkd@abc.example.org', 'all', 'lists.example.com');
 
--- SELECT backend._get_login();
 SELECT * FROM email.srv_mailbox();
--- SELECT * FROM email.srv_alias();
+SELECT * FROM email.srv_alias();
+SELECT * FROM email.srv_redirection();
+SELECT * FROM email.srv_list();
+SELECT * FROM email.srv_list_subscriber();
 
 -- SELECT * FROM email._address();
 -- SELECT * FROM email.sel_alias();

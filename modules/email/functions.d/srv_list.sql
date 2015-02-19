@@ -1,5 +1,5 @@
-name: srv_mailbox
-description: Lists all mailboxes
+name: srv_list
+description: Lists all mailinglists
 
 templates:
  - backend.backend
@@ -13,11 +13,8 @@ returns_columns:
   name: domain
   type: dns.t_domain
  -
-  name: password
-  type: commons.t_password
- -
-  name: quota
-  type: integer
+  name: admin
+  type: email.t_address
  -
   name: backend_status
   type: backend.t_status
@@ -34,7 +31,7 @@ body: |
         
         -- DELETE
         d AS (
-            DELETE FROM email.mailbox AS t
+            DELETE FROM email.list AS t
             WHERE
                 backend._deleted(t.backend_status) AND
                 backend._machine_priviledged(t.service, t.domain)
@@ -42,7 +39,7 @@ body: |
         
         -- UPDATE
         s AS (
-            UPDATE email.mailbox AS t
+            UPDATE email.list AS t
                 SET backend_status = NULL
             WHERE
                 backend._machine_priviledged(t.service, t.domain) AND
@@ -51,13 +48,13 @@ body: |
 
         -- SELECT
         SELECT
-            t.localpart, 
-            t.domain, 
-            t.password, 
-            t.quota,
+            t.localpart,
+            t.domain,
+            t.admin,
             t.backend_status
-        FROM email.mailbox AS t
+        FROM email.list AS t
         
         WHERE
             backend._machine_priviledged(t.service, t.domain) AND
             (backend._active(t.backend_status) OR p_include_inactive);
+
