@@ -18,10 +18,21 @@ parameters:
   type: email.t_address
 
 body: |
-    UPDATE email.list_subscriber
+    UPDATE email.list_subscriber AS t
         SET backend_status = 'del'
-        WHERE
-            list_localpart = p_list_localpart AND
-            list_domain = p_list_domain AND
-            address = p_address;
 
+        FROM email.list AS s
+        WHERE
+            s.localpart = t.list_localpart AND
+            s.domain = t.list_domain AND
+            s.owner = v_owner AND
+
+            t.list_localpart = p_list_localpart AND
+            t.list_domain = p_list_domain AND
+            t.address = p_address;
+
+    IF FOUND THEN
+        PERFORM backend._notify('email__list', p_list_domain);
+    ELSE
+        PERFORM commons._raise_inaccessible_or_missing();
+    END IF;

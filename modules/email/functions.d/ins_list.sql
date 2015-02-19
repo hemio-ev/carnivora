@@ -1,6 +1,6 @@
 name: ins_list
 description: |
- Creates an email list
+ Creates a mailing list
 
 returns: void
 
@@ -16,7 +16,7 @@ parameters:
   type: dns.t_domain
  -
   name: p_admin
-  type: commons.t_password_plaintext
+  type: email.t_address
 
 variables:
  -

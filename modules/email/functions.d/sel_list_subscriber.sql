@@ -1,6 +1,9 @@
 name: sel_list_subscriber
 description: a
 
+templates:
+ - user.userlogin
+
 returns: TABLE
 returns_columns:
  -
@@ -24,5 +27,11 @@ body: |
             t.list_domain,
             t.backend_status
         FROM email.list_subscriber AS t
-        ;
+        JOIN email.list AS s
+        ON
+            t.list_localpart = s.localpart AND
+            t.list_domain = s.domain
+        WHERE
+            s.owner = v_owner;
+
 
