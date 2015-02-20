@@ -33,5 +33,5 @@ body: |
 
         PERFORM backend._notify('email__list', p_list_domain);
     ELSE
-        PERFORM _raise_inaccessible_or_missing();
+        PERFORM commons._raise_inaccessible_or_missing();
     END IF;

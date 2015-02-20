@@ -1,5 +1,5 @@
-name: upd_mailbox
-description: Change mailbox password
+name: upd_list
+description: Change list admin
 
 templates:
  - user.userlogin
@@ -14,13 +14,13 @@ parameters:
   name: p_domain
   type: dns.t_domain
  -
-  name: p_password
-  type: commons.t_password_plaintext
+  name: p_admin
+  type: email.t_address
 
 body: |
-    UPDATE email.mailbox
+    UPDATE email.list
         SET
-            password = commons._hash_password(p_password),
+            admin = p_admin,
             backend_status = 'upd'
     WHERE
         localpart = p_localpart AND
@@ -29,7 +29,7 @@ body: |
         backend._active(backend_status);
 
     IF FOUND THEN
-        PERFORM backend._notify('email', p_domain);
+        PERFORM backend._notify('email__list', p_domain);
     ELSE
         PERFORM commons._raise_inaccessible_or_missing();
     END IF;
