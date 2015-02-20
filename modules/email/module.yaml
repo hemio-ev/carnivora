@@ -5,6 +5,7 @@ dependencies: [ domains ]
 exec_post_install: |
  SELECT system._setup_register_service('email', 'email');
  SELECT system._setup_register_service('email', 'email__list');
+ SELECT system._setup_register_service('email', 'web');
 
 function_templates:
  -

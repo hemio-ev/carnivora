@@ -11,13 +11,15 @@ primary_key:
 columns:
  -
   name: service
-  type: commons.t_key
+  type: system.t_service
   description: Service
+  references: system.service_index.service
  -
   name: user_name
   type: commons.t_key
   null: true
   description: If NULL, the entry is the default for all users.
+  references: user.user.name
  -
   name: quantity
   type: integer

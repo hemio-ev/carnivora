@@ -1,3 +1,9 @@
+INSERT INTO "user"."user"
+    (name, password, login) VALUES
+    ('user1', commons._hash_password('testtest'), true)
+    ,('user2', commons._hash_password('testtest2'), true)
+;
+
 INSERT INTO backend.machine
     (name) VALUES
     ('mail-server.example.org'),
@@ -10,6 +16,8 @@ INSERT INTO system.service
 --    ('web.example.org.', 'ssh'),
     ('mail.example.org', 'email'),
     ('mail.example.org', 'jabber'),
+    ('hosting.example.org', 'web'),
+    ('jabber.example.org', 'jabber'),
     ('mail.example.org', 'email__list')
 ;
 
@@ -41,28 +49,25 @@ INSERT INTO "user".contingent_service
 --    ('email', 'user1', 'my.example.com', 4)
 --;
 
-INSERT INTO "user"."user"
-    (name, password, login) VALUES
-    ('user1', commons._hash_password('testtest'), true)
-    ,('user2', commons._hash_password('testtest2'), true)
-;
-
 INSERT INTO backend.auth
     (machine, role) VALUES
     ('mail-server.example.org', 'postgres')
 ;
 
---SELECT "user".login('user1', 'pw-falsch');
+INSERT INTO dns.registered (domain, public_suffix, owner)
+    VALUES
+    ('example.org', 'org', 'user1');
+
+INSERT INTO dns.service (registered,service_name, service, domain)
+    VALUES
+    ('example.org','mail.example.org', 'email', 'my.example.com'),
+    ('example.org','mail.example.org', 'email', 'another.example.com'),
+    ('example.org','mail.example.org', 'email__list', 'lists.example.com'),
+    ('example.org','mail.example.org', 'jabber', 'jab.example.com');
+
+
 SELECT "user".ins_login('user1', 'testtest');
-
-INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'email', 'my.example.com', 'user1');
-INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'email', 'another.example.com', 'user1');
-INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'email__list', 'lists.example.com', 'user1');
-INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'jabber', 'jab.example.com', 'user1');
-
-
 SELECT "user"._get_login();
-
 
 SELECT email.ins_mailbox('vorname', 'my.example.com', 'my-pw-123');
 SELECT email.ins_alias('vorname-nachname', 'my.example.com', 'vorname', 'my.example.com');
@@ -96,3 +101,7 @@ SELECT jabber.upd_account('name','jab.example.com','password');
 SELECT * FROM jabber.sel_account();
 SELECT * FROM jabber.srv_account();
 
+SELECT dns.ins_service('example.org', 'www.example.org', 'hosting.example.org', 'web');
+SELECT dns.del_service('www.example.org', 'web');
+
+SELECT * FROM dns.sel_service();

@@ -18,6 +18,8 @@ foreign_keys:
 
 primary_key:
  - address
+ - list_localpart
+ - list_domain
 
 columns:
  -

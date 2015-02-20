@@ -1,0 +1,19 @@
+name: registered
+description: Domains registered under a public suffix.
+
+templates:
+ - user.ownable
+ - backend.status
+
+primary_key:
+ - domain
+
+columns:
+ -
+  name: domain
+  type: dns.t_domain
+  description: Domain
+ -
+  name: public_suffix
+  type: varchar
+  description: Public Suffix

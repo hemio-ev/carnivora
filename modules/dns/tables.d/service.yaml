@@ -1,16 +1,21 @@
 name: service
 description: Name server entries based on system.service (i.e. system.service_dns)
+
 templates:
  - system.reference_service
-
+ - backend.status
+ 
 primary_key:
  - domain
  - service
 
 columns:
  -
+  name: registered
+  type: dns.t_domain
+  description: Registered domain of which domain is a sub domain
+  references: dns.registered.domain
+ -
   name: domain
   type: dns.t_domain
   description: domain for which the entries should be created
- -
-  template: user.owner

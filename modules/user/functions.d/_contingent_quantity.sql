@@ -21,12 +21,13 @@ body: |
             t.quantity
         FROM "user"."contingent_service" AS t
         
-        INNER JOIN dns.service AS s
-            ON s.domain = p_domain AND s.service = p_service AND s.owner = p_user
-        
+        JOIN dns.service AS s
+            ON s.domain = p_domain AND s.service = p_service
+        JOIN dns.registered AS r
+            ON r.domain = s.registered AND r.owner = p_user
+ 
         WHERE
-            t.service = p_service
-            AND
+            t.service = p_service AND
             (t.user_name = p_user OR t.user_name IS NULL)
         
         ORDER BY t.user_name IS NULL DESC

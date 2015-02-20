@@ -22,11 +22,13 @@ returns_columns:
 body: |
     RETURN QUERY
         SELECT t.domain, t.service FROM dns.service AS t
-    WHERE
-        "user"._contingent_remaining(
-            p_domain := t.domain,
-            p_service := t.service,
-            p_user := t.owner,
-            p_current_quantity_total := 0,
-            p_current_quantity_domain := 0
-        ) > 0;
+        JOIN dns.registered AS s
+            ON s.domain = t.registered
+        WHERE
+            "user"._contingent_remaining(
+                p_domain := t.domain,
+                p_service := t.service,
+                p_user := s.owner,
+                p_current_quantity_total := 0,
+                p_current_quantity_domain := 0
+            ) > 0;
