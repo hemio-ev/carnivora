@@ -1,4 +1,4 @@
-name: accounts
+name: account
 description: Jabber accounts
 
 primary_key:
@@ -7,8 +7,16 @@ primary_key:
 
 templates:
  - dns.reference_service
+ - user.ownable
+ - backend.status
 
 columns:
+ -
+  name: node
+  type: email.t_localpart
+  description: part in front of the @ in account name
+ -
+  template: commons.password
  -
   name: service
   type: varchar
@@ -19,19 +27,3 @@ columns:
     name: check
     description: ensure service is jabber
     check: VALUE == 'jabber'
- -
-  name: node
-  type: varchar(255)
-  description: part in front of the @ in account name
- -
-  template: commons.password
- -
-  template: backend.job
- -
-  template: user.owner
-
-checks:
- -
-  name: rr_type alyways SRV
-  description: see name
-  check: service = 'jabber'

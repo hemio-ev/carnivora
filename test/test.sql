@@ -9,6 +9,7 @@ INSERT INTO system.service
 --    ('web.example.org.', 'webhosting'),
 --    ('web.example.org.', 'ssh'),
     ('mail.example.org', 'email'),
+    ('mail.example.org', 'jabber'),
     ('mail.example.org', 'email__list')
 ;
 
@@ -24,12 +25,14 @@ INSERT INTO system.service_machine
     --('web.example.org.', 'webhosting', 'web-server.example.org.'),
     --('web.example.org.', 'ssh', 'web-server.example.org.'),
     ('mail.example.org', 'email', 'mail-server.example.org'),
+    ('mail.example.org', 'jabber', 'mail-server.example.org'),
     ('mail.example.org', 'email__list', 'mail-server.example.org')
 ;
 
 INSERT INTO "user".contingent_service
     (service, user_name, quantity) VALUES
     ('email', 'user1', 17),
+    ('jabber', 'user1', 3),
     ('email__list', 'user1', 15)
 ;
 
@@ -55,6 +58,7 @@ SELECT "user".ins_login('user1', 'testtest');
 INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'email', 'my.example.com', 'user1');
 INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'email', 'another.example.com', 'user1');
 INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'email__list', 'lists.example.com', 'user1');
+INSERT INTO dns.service (service_name, service, domain, owner) VALUES ('mail.example.org', 'jabber', 'jab.example.com', 'user1');
 
 
 SELECT "user"._get_login();
@@ -81,10 +85,14 @@ SELECT * FROM email.srv_redirection();
 SELECT * FROM email.srv_list();
 SELECT * FROM email.srv_list_subscriber();
 
--- SELECT * FROM email._address();
--- SELECT * FROM email.sel_alias();
--- SELECT * FROM email.sel_mailbox();
--- SELECT * FROM email.sel_list();
+SELECT * FROM email.sel_alias();
+SELECT * FROM email.sel_mailbox();
+SELECT * FROM email.sel_list();
 
--- SELECT email.ack_mailbox();
+SELECT jabber.ins_account('name','jab.example.com','password');
+SELECT jabber.del_account('name','jab.example.com');
+SELECT jabber.ins_account('name','jab.example.com','password');
+SELECT jabber.upd_account('name','jab.example.com','password');
+SELECT * FROM jabber.sel_account();
+SELECT * FROM jabber.srv_account();
 
