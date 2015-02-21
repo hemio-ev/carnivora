@@ -1,7 +1,6 @@
 name: alias
 description: Aliases for e-mail mailboxes, owner is determined by mailbox.owner
-inherits:
- - email.address
+
 templates: 
  - dns.reference_service
  - email.address

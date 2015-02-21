@@ -27,4 +27,3 @@ body: |
   UNION ALL
   SELECT t.localpart, t.domain, t.owner FROM email.list AS t
  );
-

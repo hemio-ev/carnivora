@@ -17,6 +17,18 @@ column_templates:
   type: uuid
   default: uuid_generate_v4()
   unique: true
+ -
+   template: uid
+   name: uid
+   type: SERIAL
+   description: Unix user identifier
+   checks:
+    -
+     name: range
+     description: Range
+     check: uid > 100000 AND uid < 200000
+
+
 
 domains:
  -
@@ -43,3 +55,5 @@ domains:
   name: t_key
   type: varchar(50)
   description: Key
+
+

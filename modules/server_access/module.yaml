@@ -1,0 +1,8 @@
+name: server_access
+description: Explicit passwd entriesfor shell acounts, sftp etc.
+dependencies: [ hosts ]
+
+exec_post_install: |
+ SELECT system._setup_register_service('unix_user', 'ssh');
+ SELECT system._setup_register_service('unix_user', 'sftp');
+ SELECT setval('server_access.user_uid_seq', 100000);

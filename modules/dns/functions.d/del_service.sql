@@ -15,7 +15,15 @@ parameters:
 returns: void
 
 body: |
-    DELETE FROM dns.service AS t
+    WITH d AS (
+        DELETE FROM dns.service AS t
+        WHERE
+            domain = p_domain AND
+            service = p_service AND
+            EXISTS(SELECT TRUE FROM dns.registered AS s WHERE s.owner = v_owner AND s.domain = t.registered)
+    )
+    UPDATE dns.service AS t
+        SET backend_status = 'del'
     WHERE
         domain = p_domain AND
         service = p_service AND

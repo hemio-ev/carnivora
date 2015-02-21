@@ -19,3 +19,9 @@ columns:
   name: domain
   type: dns.t_domain
   description: domain for which the entries should be created
+
+checks:
+ -
+  name: proper_subdomain
+  description: Ensures that domain is a subdomain of registered
+  check: registered = substring(domain from char_length(domain)-char_length(registered)+1)

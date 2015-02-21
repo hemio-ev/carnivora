@@ -8,8 +8,6 @@ description: |
  this service. Usually this means that accounts etc. can be created for this
  domain.
 
- TODO: Their is no owner of dns entries and therefore no access check at all!
-
 returns: TABLE
 returns_columns:
  -
@@ -25,6 +23,7 @@ body: |
         JOIN dns.registered AS s
             ON s.domain = t.registered
         WHERE
+            s.owner = v_owner AND
             "user"._contingent_remaining(
                 p_domain := t.domain,
                 p_service := t.service,

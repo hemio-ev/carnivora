@@ -1,8 +1,5 @@
 name: list
 description: Mailing lists
-
-inherits: 
- - email.address
  
 templates:
  - dns.reference_service
@@ -26,7 +23,7 @@ columns:
    -
     name: service type
     description: ensures that service type is email__list
-    check: VALUE == 'email__list'
+    check: service = 'email__list'
   default: "'email__list'"
 
  -

@@ -17,6 +17,8 @@ INSERT INTO system.service
     ('mail.example.org', 'email'),
     ('mail.example.org', 'jabber'),
     ('hosting.example.org', 'web'),
+    ('hosting.example.org', 'ssh'),
+    ('hosting.example.org', 'sftp'),
     ('jabber.example.org', 'jabber'),
     ('mail.example.org', 'email__list')
 ;
@@ -56,14 +58,14 @@ INSERT INTO backend.auth
 
 INSERT INTO dns.registered (domain, public_suffix, owner)
     VALUES
-    ('example.org', 'org', 'user1');
+    ('example.com', 'com', 'user1');
 
 INSERT INTO dns.service (registered,service_name, service, domain)
     VALUES
-    ('example.org','mail.example.org', 'email', 'my.example.com'),
-    ('example.org','mail.example.org', 'email', 'another.example.com'),
-    ('example.org','mail.example.org', 'email__list', 'lists.example.com'),
-    ('example.org','mail.example.org', 'jabber', 'jab.example.com');
+    ('example.com','mail.example.org', 'email', 'my.example.com'),
+    ('example.com','mail.example.org', 'email', 'another.example.com'),
+    ('example.com','mail.example.org', 'email__list', 'lists.example.com'),
+    ('example.com','mail.example.org', 'jabber', 'jab.example.com');
 
 
 SELECT "user".ins_login('user1', 'testtest');
@@ -101,7 +103,10 @@ SELECT jabber.upd_account('name','jab.example.com','password');
 SELECT * FROM jabber.sel_account();
 SELECT * FROM jabber.srv_account();
 
-SELECT dns.ins_service('example.org', 'www.example.org', 'hosting.example.org', 'web');
-SELECT dns.del_service('www.example.org', 'web');
+SELECT dns.ins_service('example.com', 'www.example.com', 'hosting.example.org', 'web');
+SELECT dns.del_service('www.example.com', 'web');
+
+SELECT server_access.ins_user('test', 'hosting.example.org', 'sftp');
+SELECT server_access.del_user('test', 'hosting.example.org');
 
 SELECT * FROM dns.sel_service();

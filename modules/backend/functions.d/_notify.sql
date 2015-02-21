@@ -19,7 +19,7 @@ body: |
     PERFORM
         pg_notify(
             'carnivora_machine_' || machine_name,
-             p_service || ',' || p_domain
+             p_service || ',' || s.service_name
             )
     FROM system.service_machine AS t
         JOIN dns.service AS s
@@ -32,4 +32,3 @@ body: |
             t.service_name = s.service_name
     ;
 
-    

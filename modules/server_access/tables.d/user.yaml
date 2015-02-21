@@ -1,0 +1,23 @@
+name: user
+description: unix user
+
+primary_key:
+ - user
+ - service_name
+
+templates:
+ - system.reference_service
+ - backend.status
+ - user.ownable
+
+columns:
+  -
+   template: commons.uid
+  -
+   name: user
+   type: varchar
+   description: User
+  -
+   template: commons.password
+   null: true
+ 

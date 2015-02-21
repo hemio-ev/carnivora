@@ -21,4 +21,3 @@ body: |
         RAISE 'Email address already exists.'
             USING DETAIL = '$carnivora:email:address_already_exists';
     END IF;
-        

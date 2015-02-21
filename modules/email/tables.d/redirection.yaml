@@ -1,7 +1,6 @@
 name: redirection
 description: Redirections
-inherits:
- - email.address
+
 templates: 
  - dns.reference_service
  - email.address

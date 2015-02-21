@@ -26,4 +26,4 @@ columns:
    -
     name: check
     description: ensure service is jabber
-    check: VALUE == 'jabber'
+    check: service = 'jabber'

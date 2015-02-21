@@ -4,8 +4,6 @@ description: |
  a mailbox represents a mailbox. A mailbox is bound to a specific address. 
  Further addresses can be linked to mailboxs via aliases. 
  
-inherits:
- - email.address
 templates:
  - dns.reference_service
  - email.address
@@ -18,7 +16,7 @@ primary_key:
 
 columns:
  -
-  template: unix_user.user_id
+  template: commons.uid
  -
   template: commons.password
  -
