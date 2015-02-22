@@ -5,13 +5,13 @@ domains:
 
  -
   name: t_domain
-  description: Domain name
+  description: Domain name unicode (not IDN)
   type: varchar(253)
   checks:
    -
-    name: check domain validity
+    name: domain valid regex
     description: check domain validity
-    check: "TRUE" # domain_name_is_valid(VALUE)
+    check: commons._idn(VALUE) ~ '^[a-z\d-]{1,63}(\.[a-z\d-]{1,63})+$'
 
  -
   name: t_type

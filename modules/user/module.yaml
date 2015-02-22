@@ -27,11 +27,15 @@ function_templates:
   variables:
    -
     name: v_owner
-    type: commons.t_key
+    type: user.t_user
+   -
+    name: v_login
+    type: user.t_user
 
   body_prelude: |
    -- begin userlogin prelude
-   v_owner := (SELECT "name" FROM "user"._get_login());
+   v_login := (SELECT "name" FROM "user"._get_login());
+   v_owner := v_login;
    -- end userlogin prelude
    
 table_templates:
