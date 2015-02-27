@@ -4,10 +4,16 @@ description: Name server entries based on system.service (i.e. system.service_dn
 templates:
  - system.reference_service
  - backend.status
- 
+
 primary_key:
  - domain
  - service
+
+unique:
+ -
+  - domain
+  - service
+  - service_name
 
 columns:
  -

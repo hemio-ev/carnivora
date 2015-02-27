@@ -1,0 +1,68 @@
+name: site
+description: |
+ Website
+
+templates:
+ - dns.reference_service
+ - backend.status
+
+primary_key:
+ - domain
+
+columns:
+ -
+  name: user
+  type: server_access.t_user
+  description: Server account under which the htdocs reside
+ -
+  name: service
+  type: system.t_service
+  description: Ensure correct service type
+  default: "'web'"
+  checks:
+   -
+    name: ensure correct service
+    description: Service
+    check: web.site.service = 'web'
+ -
+  name: service_name
+  type: dns.t_domain
+  description: Service Name
+ -
+  name: https
+  type: commons.t_key
+  null: true
+  description: If null, HTTPS is deactivated
+
+foreign_keys:
+ -
+  name: https
+  columns:
+   - domain
+   - https
+  ref_table: web.https
+  ref_columns:
+   - domain
+   - identifier
+
+ -
+  name: server_access
+  columns:
+   - user
+   - service_name
+  ref_table: server_access.user
+  ref_columns:
+   - user
+   - service_name
+
+ -
+  name: dns
+  columns:
+   - domain
+   - service
+   - service_name
+  ref_table: dns.service
+  ref_columns:
+   - domain
+   - service
+   - service_name

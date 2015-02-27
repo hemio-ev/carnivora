@@ -9,7 +9,7 @@ returns: void
 parameters:
  -
   name: p_user
-  type: varchar
+  type: server_access.t_user
  -
   name: p_service_name
   type: dns.t_domain

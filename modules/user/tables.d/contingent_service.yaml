@@ -17,8 +17,7 @@ columns:
  -
   name: user_name
   type: commons.t_key
-  null: true
-  description: If NULL, the entry is the default for all users.
+  description: null not possible
   references: user.user.name
  -
   name: quantity

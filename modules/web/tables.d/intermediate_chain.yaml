@@ -1,0 +1,34 @@
+name: intermediate_chain
+description: xxx
+
+primary_key:
+ - domain
+ - identifier
+ - subject_key_identifier
+
+columns:
+ -
+  name: domain
+  type: dns.t_domain
+  description: Domain
+ -
+  name: identifier
+  type: commons.t_key
+  description: Identifier
+ -
+  name: subject_key_identifier
+  type: varchar
+  description: SubjectKeyIdentifier
+  references: web.intermediate_cert.subject_key_identifier
+
+foreign_keys:
+ -
+  name: https cert
+  columns:
+   - domain
+   - identifier
+  ref_table: web.https
+  ref_columns:
+   - domain
+   - identifier
+  on_delete: CASCADE

@@ -1,0 +1,14 @@
+name: web
+description: |
+ Web
+
+domains:
+ -
+  name: t_cert
+  type: text
+  description: PEM cert
+  checks:
+   -
+    name: base64
+    description: no newlines in db
+    check: VALUE ~ '^[a-zA-Z\d/+]+[=]{0,1}$'

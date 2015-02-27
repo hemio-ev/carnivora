@@ -1,0 +1,7 @@
+name: alias
+description: Aliases
+
+primary_key:
+ - domain
+
+columns: []

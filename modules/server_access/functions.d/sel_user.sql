@@ -8,7 +8,7 @@ returns: TABLE
 returns_columns:
  -
   name: user
-  type: varchar
+  type: server_access.t_user
  -
   name: password_login
   type: boolean

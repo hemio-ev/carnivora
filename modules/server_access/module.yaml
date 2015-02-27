@@ -3,6 +3,30 @@ description: Explicit passwd entriesfor shell acounts, sftp etc.
 dependencies: [ hosts ]
 
 exec_post_install: |
- SELECT system._setup_register_service('unix_user', 'ssh');
- SELECT system._setup_register_service('unix_user', 'sftp');
+ SELECT system._setup_register_service('server_access', 'server_access__ssh');
+ SELECT system._setup_register_service('server_access', 'server_access__sftp');
  SELECT setval('server_access.user_uid_seq', 100000);
+
+domains:
+ -
+  name: t_user
+  type: varchar(15)
+  description: |
+   Unix user. This type only allows a subset of those names allowed by POSIX.
+
+  checks:
+   -
+    name: valid_characters
+    description: Only allow lower-case characters.
+    check: VALUE ~ '^[a-z0-9_-]+$'
+   -
+    name: no_repeated_hyphens
+    description: |
+     Reserve double hyphens as a seperator for system generated users.
+    check: NOT (VALUE LIKE '%--%')
+   -
+    name: no_starting_hyphen
+    description: |
+     No hyphens at the beginning:
+     http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_431
+    check: left(VALUE, 1) <> '-'

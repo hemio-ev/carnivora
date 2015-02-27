@@ -15,7 +15,7 @@ columns:
    template: commons.uid
   -
    name: user
-   type: varchar
+   type: server_access.t_user
    description: User
   -
    template: commons.password

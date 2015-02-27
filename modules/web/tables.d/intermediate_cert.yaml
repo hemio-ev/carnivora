@@ -1,0 +1,23 @@
+name: intermediate_cert
+description: |
+ Intermediate certificates
+
+primary_key:
+ - subject_key_identifier
+
+columns:
+ -
+  name: subject_key_identifier
+  type: varchar
+  description: Identifies this certificate
+ -
+  name: authority_key_identifier
+  type: varchar
+  description: |
+   Subject key identifier of the cert that has signed this cert.
+   NULL is not allowed, since self signed cert do not belong into intermediate
+   certs.
+ -
+  name: x509_certificate
+  type: web.t_cert
+  description: Intermediate certificate
