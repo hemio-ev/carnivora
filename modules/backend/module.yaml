@@ -4,6 +4,8 @@ description: |
  The backend module provides everything required for the backend API.
  The backend API delivers content required for building configs etc.
  to clients, called machines.
+priv_all_all:
+ - system
 
 roles:
  -
@@ -24,7 +26,7 @@ column_templates:
       Status of database entry in backend. NULL: nothing pending,
       'ins': entry not present on backend client, 'upd': update
       pending on backend client, 'del': deletion peding on
-      backend client.    
+      backend client.
   type: backend.t_status
   default: "'ins'"
   null: true
@@ -41,10 +43,10 @@ function_templates:
     name: v_machine
     type: dns.t_domain
   security_definer: true
-#  owner: postgres
+  owner: system
   priv_execute:
    - backend
-  
+
   body_prelude: |
    v_machine := (SELECT "machine" FROM "backend"._get_login());
 
@@ -55,4 +57,4 @@ table_templates:
   columns:
    -
     template: backend.job
-      
+

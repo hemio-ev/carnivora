@@ -29,9 +29,9 @@ body: |
     v_num_total := (SELECT COUNT(*) FROM jabber.account AS t WHERE t.owner=v_owner);
     v_num_domain := (SELECT COUNT(*) FROM jabber.account AS t WHERE t.owner=v_owner AND t.domain = p_domain);
 
-    PERFORM "user"._contingent_exceeded(
-        p_user:=v_owner,
-        p_domain:=p_domain, 
+    PERFORM system._contingent_ensure(
+        p_owner:=v_owner,
+        p_domain:=p_domain,
         p_service:='jabber',
         p_current_quantity_total:=v_num_total,
         p_current_quantity_domain:=v_num_domain);

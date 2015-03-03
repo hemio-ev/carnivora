@@ -23,11 +23,19 @@ body: |
         JOIN dns.registered AS s
             ON s.domain = t.registered
         WHERE
-            s.owner = v_owner AND
-            "user"._contingent_remaining(
-                p_domain := t.domain,
-                p_service := t.service,
-                p_user := s.owner,
-                p_current_quantity_total := 0,
-                p_current_quantity_domain := 0
-            ) > 0;
+            (
+                s.owner = v_owner AND
+
+                    system._contingent_total(
+                        p_owner := s.owner,
+                        p_service := t.service,
+                        p_service_name := t.service_name
+                ) IS NOT NULL
+            ) OR
+            system._contingent_domain(
+                        p_owner := s.owner,
+                        p_service := t.service,
+                        p_service_name := t.service_name,
+                        p_domain := t.domain
+                ) IS NOT NULL
+    ;

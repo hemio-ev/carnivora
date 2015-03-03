@@ -4,11 +4,13 @@ description: |
  Returns valid if sueccessfull, invalid otherwise.
 
 priv_execute: [userlogin]
+security_definer: true
+owner: system
 returns: boolean
 
 parameters:
  -
-   name: p_name
+   name: p_owner
    type: commons.t_key
  -
    name: p_password
@@ -18,12 +20,12 @@ body: |
  IF
     (SELECT TRUE FROM "user"."user" AS t
         WHERE
-            name = p_name AND
+            owner = p_owner AND
             commons._passwords_equal(p_password, t.password) AND
             t.login
     )
  THEN
-    INSERT INTO "user"."session" (owner) VALUES (p_name);
+    INSERT INTO "user"."session" (owner) VALUES (p_owner);
     RETURN TRUE;
  ELSE
     RAISE 'Carnivora: invalid user login'

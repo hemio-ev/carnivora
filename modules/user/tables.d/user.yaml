@@ -2,11 +2,11 @@ name: user
 description: User
 
 primary_key:
- - name
+ - owner
 
 columns:
  -
-  name: name
+  name: owner
   type: commons.t_key
   description: User name
  -

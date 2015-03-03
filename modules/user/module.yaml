@@ -2,6 +2,10 @@ name: user
 description: |
  Carnivora Users: Users own things objects in the DB,
  and they can login into frontends (edentata)
+priv_all_all:
+ - system
+priv_usage:
+ - userlogin
 
 column_templates:
  -
@@ -9,19 +13,25 @@ column_templates:
   name: owner
   type: user.t_user
   description: for ownage
-  references: user.user.name
+  references: user.user.owner
 
 roles:
  -
   name: userlogin
   description: Do user actions via this group
   login: false
+ -
+  name: system
+  description: Highly priviledged user
+  login: false
 
 function_templates:
  -
   template: userlogin
   description: complicated...
-  priv_execute: 
+  security_definer: true
+  owner: system
+  priv_execute:
    - userlogin
 
   variables:
@@ -34,15 +44,15 @@ function_templates:
 
   body_prelude: |
    -- begin userlogin prelude
-   v_login := (SELECT "name" FROM "user"._get_login());
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := v_login;
    -- end userlogin prelude
-   
+
 table_templates:
  -
   template: ownable
   description: For tables in which rows can be owned by users.
-  
+
   columns:
    -
     template: user.owner
@@ -52,4 +62,3 @@ domains:
   name: t_user
   type: commons.t_key
   description: Username
-  

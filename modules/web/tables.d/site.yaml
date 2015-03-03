@@ -66,3 +66,8 @@ foreign_keys:
    - domain
    - service
    - service_name
+
+unique:
+ -
+  - domain
+  - service_name

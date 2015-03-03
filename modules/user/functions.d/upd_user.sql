@@ -14,6 +14,6 @@ parameters:
 body: |
     UPDATE "user".user
         SET password = commons._hash_password(p_password)
-    
+
     WHERE
-        name = v_login;
+        owner = v_login;

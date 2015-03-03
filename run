@@ -14,17 +14,19 @@ WHERE
 " postgres postgres
 psql -c "DROP DATABASE test1;" postgres postgres
 psql -c "CREATE DATABASE test1;" postgres postgres
+psql -c "ALTER DEFAULT PRIVILEGES REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;" test1 postgres
 
-../hamsql/Main -p > sql.sql
+../hamsql/Main -p -c"postgres://postgres@"> sql.sql
 ../hamsql/Main -d > doc/doc.html
 ../hamsql/Main -g > doc/doc-graph.dot
 dot -Tpdf -o doc/doc-graph.pdf doc/doc-graph.dot
-
 cp doc/doc.html ../carnivora-doc/index.html
 cp doc/s.css ../carnivora-doc/
 
-../hamsql/Main -e -c"postgres://postgres:a@localhost/test1"
+../hamsql/Main -e -c"postgres://postgres@/test1"
 
 export PAGER=cat
-psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/test.sql" test1 postgres
+psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/prepare.sql" test1 postgres
+psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/frontend.sql" test1 carnivora_edentata
+psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/backend.sql" test1 carnivora_mailserver
 

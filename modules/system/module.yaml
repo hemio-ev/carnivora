@@ -1,6 +1,10 @@
 name: system
 description: |
  Carnivora System: Central module
+priv_all_all:
+ - system
+priv_usage:
+ - userlogin
 
 table_templates:
  -
@@ -8,15 +12,14 @@ table_templates:
   description: All to reference to system.service
   columns:
    -
-    tag: column
     name: service_name
     type: dns.t_domain
     description: Host name
    -
-    tag: column
     name: service
     type: system.t_service
     description: email, ssh, ...
+
   foreign_keys:
    -
     name: reference service
@@ -28,9 +31,20 @@ table_templates:
      - service_name
      - service
 
+ -
+  template: contingent
+  description: Contingent
+  columns:
+   -
+    name: quantity
+    type: integer
+    default: "0"
+    description: Quantity
+
+
+
 domains:
  -
   name: t_service
   type: commons.t_key
   description: Service
-  

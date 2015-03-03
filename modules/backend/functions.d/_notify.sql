@@ -20,6 +20,14 @@ body: |
         pg_notify(
             'carnivora_machine_' || machine_name,
              p_service || ',' || s.service_name
+            ),
+        pg_notify(
+            'carnivora_machine_' || machine_name,
+             ',' || s.service_name
+            ),
+        pg_notify(
+            'carnivora_machine_' || machine_name,
+             p_service || ','
             )
     FROM system.service_machine AS t
         JOIN dns.service AS s

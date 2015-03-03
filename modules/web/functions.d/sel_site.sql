@@ -19,6 +19,9 @@ returns_columns:
  -
   name: https
   type: commons.t_key
+ -
+  name: backend_status
+  type: backend.t_status
 
 body: |
     RETURN QUERY
@@ -26,7 +29,8 @@ body: |
             t.domain,
             t.user,
             t.service_name,
-            t.https
+            t.https,
+            t.backend_status
         FROM web.site AS t
         JOIN server_access.user AS s
             USING ("user", service_name)

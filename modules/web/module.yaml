@@ -1,6 +1,10 @@
 name: web
 description: |
  Web
+priv_all_all:
+ - system
+priv_usage:
+ - userlogin
 
 domains:
  -

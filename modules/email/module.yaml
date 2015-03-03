@@ -1,6 +1,11 @@
 name: email
 description: "E-Mail and Mailing lists ✉"
 dependencies: [ domains ]
+priv_all_all:
+ - system
+priv_usage:
+ - userlogin
+ - backend
 
 exec_post_install: |
  SELECT system._setup_register_service('email', 'email');
@@ -16,9 +21,9 @@ function_templates:
     v_num_total := (SELECT COUNT(*) FROM email._address() AS t WHERE t.owner=v_owner);
     v_num_domain := (SELECT COUNT(*) FROM email._address() AS t WHERE t.owner=v_owner AND t.domain = p_domain);
 
-    PERFORM "user"._contingent_exceeded(
-        p_user:=v_owner,
-        p_domain:=p_domain, 
+    PERFORM system._contingent_ensure(
+        p_owner:=v_owner,
+        p_domain:=p_domain,
         p_service:='email',
         p_current_quantity_total:=v_num_total,
         p_current_quantity_domain:=v_num_domain);
@@ -61,7 +66,7 @@ domains:
   name: t_localpart
   description: Local part of an email address, the thing in front of the @
   type: varchar(64)
-  
+
   checks:
    -
     name: valid_characters

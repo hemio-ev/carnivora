@@ -1,6 +1,10 @@
 name: server_access
 description: Explicit passwd entriesfor shell acounts, sftp etc.
 dependencies: [ hosts ]
+priv_all_all:
+ - system
+priv_usage:
+ - userlogin
 
 exec_post_install: |
  SELECT system._setup_register_service('server_access', 'server_access__ssh');

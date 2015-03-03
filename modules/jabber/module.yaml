@@ -1,5 +1,10 @@
 name: jabber
 description: Jabber (XMPP)
+priv_all_all:
+ - system
+priv_usage:
+ - userlogin
+ - backend
 
 exec_post_install: |
  SELECT system._setup_register_service('jabber', 'jabber');

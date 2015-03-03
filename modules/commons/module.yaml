@@ -1,6 +1,8 @@
 name: commons
 description: |
  Carnivora Commons: Usefull templates and types
+priv_all_all:
+ - system
 
 column_templates:
  -
@@ -40,7 +42,7 @@ domains:
     name: crypt(3) password format
     description: Only allows SHA512 strings.
     check: VALUE ~ '^\$6\$[.\/a-zA-Z0-9]{8,16}\$[.\/a-zA-Z0-9]{86}$'
-    
+
  -
   name: t_password_plaintext
   type: varchar(255)
@@ -49,11 +51,17 @@ domains:
    -
     name: min password length
     description: Ensure that passwords at least have 8 chars
-    check: character_length(VALUE) >= 8 
- 
+    check: character_length(VALUE) >= 8
+
  -
   name: t_key
   type: varchar(50)
   description: Key
 
-
+function_templates:
+ -
+  template: public_util
+  description: Allows public access to function
+  priv_execute:
+   - userlogin
+   - backend

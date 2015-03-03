@@ -1,0 +1,21 @@
+name: contingent_domain
+description: |
+ Number of times the service can be used by a user per domain.
+ The exact interpretation depends on the module.
+
+templates:
+ - system.reference_service
+ - system.contingent
+ - user.ownable
+
+primary_key:
+ - service
+ - service_name
+ - domain
+ - owner
+
+columns:
+ -
+  name: domain
+  type: dns.t_domain
+  description: Domain for which the contingent holds

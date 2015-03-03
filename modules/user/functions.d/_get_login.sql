@@ -7,14 +7,14 @@ description: |
 returns: TABLE
 returns_columns:
  -
-  name: name
+  name: owner
   type: user.t_user
 
 body: |
  IF (SELECT TRUE FROM "user"."session"
     WHERE "id"="user"._session_id())
  THEN
-    RETURN QUERY SELECT "owner" FROM "user"."session"
+    RETURN QUERY SELECT t.owner FROM "user"."session" AS t
         WHERE "id"="user"._session_id();
  ELSE
     RAISE 'Database connection is not associated to a user login.'

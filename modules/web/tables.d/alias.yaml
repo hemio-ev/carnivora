@@ -1,0 +1,53 @@
+name: alias
+description: Aliases
+
+templates:
+ - dns.reference_service
+ - backend.status
+
+primary_key:
+ - domain
+
+columns:
+ -
+  name: service
+  type: system.t_service
+  description: Ensure correct service type
+  default: "'web'"
+  checks:
+   -
+    name: ensure correct service
+    description: Service
+    check: web.alias.service = 'web'
+ -
+  name: site
+  type: dns.t_domain
+  description: Site
+ -
+  name: service_name
+  type: dns.t_domain
+  description: x
+
+foreign_keys:
+ -
+  name: site
+  columns:
+   - site
+   - service_name
+  ref_table: web.site
+  ref_columns:
+   - domain
+   - service_name
+  on_delete: CASCADE
+
+ -
+  name: dns
+  columns:
+   - domain
+   - service
+   - service_name
+  ref_table: dns.service
+  ref_columns:
+   - domain
+   - service
+   - service_name

@@ -8,6 +8,7 @@ modules:
  - server_access
  - user
  - system
+ - web
 
 module_dirs:
  - modules

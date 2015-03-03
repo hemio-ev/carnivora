@@ -1,5 +1,9 @@
 name: dns
 description: DNS
+priv_all_all:
+ - system
+priv_usage:
+ - userlogin
 
 domains:
 
@@ -18,7 +22,7 @@ domains:
   description: Resource record type
   type: varchar(253)
   checks:
-   - 
+   -
     name: resource type must be (MX, A, etc)
     description: check
     check: "VALUE IN ('MX', 'A', 'AAAA', 'CNAME', 'SRV')"
