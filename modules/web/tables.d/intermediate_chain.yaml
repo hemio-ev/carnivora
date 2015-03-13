@@ -16,6 +16,10 @@ columns:
   type: commons.t_key
   description: Identifier
  -
+  name: order
+  type: integer
+  description: Ordering from leaf to root
+ -
   name: subject_key_identifier
   type: varchar
   description: SubjectKeyIdentifier

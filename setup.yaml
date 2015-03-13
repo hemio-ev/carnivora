@@ -2,6 +2,7 @@ modules:
  - _local_user
  - backend
  - commons
+ - domain_reseller
  - dns
  - email 
  - jabber 

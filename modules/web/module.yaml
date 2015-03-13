@@ -5,6 +5,7 @@ priv_all_all:
  - system
 priv_usage:
  - userlogin
+ - backend
 
 domains:
  -
@@ -15,4 +16,4 @@ domains:
    -
     name: base64
     description: no newlines in db
-    check: VALUE ~ '^[a-zA-Z\d/+]+[=]{0,1}$'
+    check: VALUE ~ '^[a-zA-Z\d/+]+[=]{0,2}$'

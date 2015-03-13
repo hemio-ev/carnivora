@@ -1,0 +1,68 @@
+name: handle
+description: Domain Handles (Contacts)
+
+primary_key:
+ - alias
+
+columns:
+# "internal"
+ -
+  name: alias
+  description: Free choosable alias
+  type: varchar
+ -
+  name: id
+  description: Internal id at reseller
+  type: varchar
+
+# mandatory fields
+ -
+  name: fname
+  description: First name
+  type: varchar
+ -
+  name: lname
+  description: Last name
+  type: varchar
+ -
+  name: address
+  description: Address
+  type: varchar
+ -
+  name: pcode
+  description: Postcode
+  type: varchar
+ -
+  name: city
+  description: City
+  type: varchar
+ -
+  name: country
+  description: Country
+  type: varchar
+ -
+  name: state
+  description: State
+  type: varchar
+ -
+  name: email
+  description: Email
+  type: varchar
+  null: true
+ -
+  name: phone
+  description: Phone
+  type: varchar
+  null: true
+
+# optional fields
+ -
+  name: fax
+  description: Fax
+  type: varchar
+  null: true
+ -
+  name: mobile_phone
+  description: Mobile phone
+  type: varchar
+  null: true

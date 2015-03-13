@@ -1,0 +1,8 @@
+name: domain_reseller
+description: Domains from reseller
+
+priv_all_all:
+ - system
+priv_usage:
+ - userlogin
+ - backend
