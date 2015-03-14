@@ -29,10 +29,11 @@ INSERT INTO system.service
 ;
 
 INSERT INTO system.service_dns
-    (service_name, service, type, rdata, ttl) VALUES
+    (service_name, service, type, rdata, ttl, domain_prefix) VALUES
 --    ('web.example.org.', 'webhosting', 'A', '127.0.0.1', 73),
 --    ('web.example.org.', 'ssh', 'A', '127.0.0.1', 73),
-    ('mail.example.org', 'email', 'MX', 'mail-server.example.org', 73)
+    ('mail.example.org', 'email', 'MX', '{"priority":20,"mailserver":"mail-server.example.org."}', 73, NULL),
+    ('mail.example.org', 'email', 'CNAME', '{"cname":"web.example.org."}', 3200, 'autoconfig.')
 ;
 
 INSERT INTO system.service_machine

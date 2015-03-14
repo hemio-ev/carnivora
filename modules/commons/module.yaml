@@ -34,6 +34,15 @@ column_templates:
 
 domains:
  -
+  name: t_port
+  type: integer
+  description: Port
+  checks:
+   -
+    name: invalid_port
+    description: Only allow port values
+    check: VALUE >= 0 AND VALUE <= 65535
+ -
   name: t_password
   type: varchar(250)
   description: "unix hash thingy - todo: propper checking of format"

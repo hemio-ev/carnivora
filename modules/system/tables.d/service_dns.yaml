@@ -12,13 +12,13 @@ primary_key:
 
 templates:
  - system.reference_service
+ - dns.resource_record
 
 columns:
  -
   template: commons.uuid_serial
  -
-  template: dns.type
- -
-  template: dns.rdata
- -
-  template: dns.ttl
+  name: domain_prefix
+  type: varchar
+  description: Prefix
+  null: true

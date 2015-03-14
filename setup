@@ -1,7 +1,3 @@
 #!/bin/bash -e
 
-psql -c "DROP DATABASE test1;" postgres postgres
-psql -c "CREATE DATABASE test1;" postgres postgres
-psql -c "ALTER DEFAULT PRIVILEGES REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;" test1 postgres
-
 ../hamsql/Main -e -c"postgres://postgres@/test1"

@@ -4,6 +4,7 @@ priv_all_all:
  - system
 priv_usage:
  - userlogin
+ - backend
 
 domains:
 
@@ -30,11 +31,11 @@ domains:
  -
   name: t_rdata
   description: record entry
-  type: varchar
+  type: jsonb
 
  -
   name: t_ttl
-  description: ttl
+  description: time to live
   type: integer
   checks:
    -
@@ -42,29 +43,80 @@ domains:
     description: Ensure that TTL is positive and put maximum to 48h
     check: VALUE >= 0 AND VALUE <= 172800
 
-column_templates:
- -
-  template: name
-  name: domain
-  type: dns.t_domain
-  description: Name like sub.example.org. This defines to which name the resource record pertains.
- -
-  template: type
-  name: type
-  type: dns.t_type
-  description: Type (?) like MX, A, AAAA, ...
- -
-  template: rdata
-  name: rdata
-  type: dns.t_rdata
-  description: fancy rdata storage
- -
-  template: ttl
-  name: ttl
-  description: Time to live
-  type: dns.t_ttl
-
 table_templates:
+ -
+  template: resource_record
+  description: Resource record
+  columns:
+    -
+     name: type
+     type: dns.t_type
+     description: Type (?) like MX, A, AAAA, ...
+     checks:
+      -
+       name: unknown
+       description: Check if type is supported
+       check: type IN ('A', 'AAAA', 'CNAME', 'MX', 'SRV')
+    -
+     name: rdata
+     type: dns.t_rdata
+     description: fancy rdata storage
+    -
+     name: ttl
+     description: Time to live, NULL indicates default value
+     type: dns.t_ttl
+     null: true
+  checks:
+   -
+    name: invalid_rdata_A
+    description: A
+    check: |
+        type<>'A' OR
+        rdata ? 'address' AND
+        (rdata->>'address')::cidr IS NOT NULL
+   -
+    name: invalid_rdata_AAAA
+    description: AAAA
+    check: |
+        type<>'AAAA' OR
+        rdata ? 'address' AND
+        (rdata->>'address')::cidr IS NOT NULL
+   -
+    name: invalid_rdata_CNAME
+    description: CNAME
+    check: |
+        type<>'CNAME' OR
+        rdata ? 'cname'
+   -
+    name: invalid_rdata_MX
+    description: MX
+    check: |
+        type<>'MX' OR
+        rdata ? 'priority' AND
+        rdata ? 'mailserver' AND
+        (rdata->>'priority')::int >= 0
+   -
+    name: invalid_rdata_SRV
+    description: SRV
+    check: |
+        type<>'SRV' OR
+        rdata ? 'service' AND
+        rdata ? 'proto' AND
+        rdata ? 'priority' AND
+        rdata ? 'weight' AND
+        rdata ? 'port' AND
+        rdata ? 'target' AND
+        (rdata->>'service')::commons.t_key IS NOT NULL AND
+        (rdata->>'proto')::commons.t_key IS NOT NULL AND
+        -- Limit integer range
+        (rdata->>'priority')::commons.t_port IS NOT NULL AND
+        (rdata->>'weight')::commons.t_port IS NOT NULL AND
+        (rdata->>'port')::commons.t_port IS NOT NULL AND
+        -- Could be relative or absolute
+        (rdata->>'target')::varchar IS NOT NULL
+
+
+
  -
   template: reference_service
   description: Reference service
@@ -83,14 +135,3 @@ table_templates:
     ref_columns:
      - domain
      - service
-
- -
-  template: name
-  description: Name
-  columns:
-   -
-    tag: column_tpl
-    template: dns.name
-   -
-    tag: column_tpl
-    template: dns.type

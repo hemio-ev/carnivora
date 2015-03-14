@@ -17,3 +17,8 @@ columns:
   name: public_suffix
   type: varchar
   description: Public Suffix
+ -
+  name: managed
+  type: boolean
+  description: Managed via this system
+  default: "TRUE"

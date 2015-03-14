@@ -1,21 +1,23 @@
 name: raw
-description: Direct name server entries. Not based on host name server entry suggestions from system.host_name
+description: Direct name server entries.
 
+templates:
+ - dns.resource_record
+ - backend.status
+ 
 primary_key:
  - domain
  - type
 
 columns:
  -
+  name: registered
+  type: dns.t_domain
+  description: Registered domain of which domain is a sub domain
+  references: dns.registered.domain
+ -
   name: domain
   type: dns.t_domain
-  description: domain of entry 
+  description: domain of entry
  -
   template: commons.uuid_serial
- -
-  template: dns.type
- -
-  template: dns.rdata
- -
-  template: dns.ttl
-

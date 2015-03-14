@@ -12,9 +12,6 @@ WHERE
     -- don't kill the connections to other databases
     AND datname = 'test1';
 " postgres postgres
-psql -c "DROP DATABASE test1;" postgres postgres
-psql -c "CREATE DATABASE test1;" postgres postgres
-psql -c "ALTER DEFAULT PRIVILEGES REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;" test1 postgres
 
 ../hamsql/Main -p -c"postgres://postgres@"> sql.sql
 ../hamsql/Main -d > doc/doc.html
