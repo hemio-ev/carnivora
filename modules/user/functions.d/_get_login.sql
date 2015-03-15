@@ -9,12 +9,15 @@ returns_columns:
  -
   name: owner
   type: user.t_user
+ -
+  name: act_as
+  type: user.t_user
 
 body: |
  IF (SELECT TRUE FROM "user"."session"
     WHERE "id"="user"._session_id())
  THEN
-    RETURN QUERY SELECT t.owner FROM "user"."session" AS t
+    RETURN QUERY SELECT t.owner, t.act_as FROM "user"."session" AS t
         WHERE "id"="user"._session_id();
  ELSE
     RAISE 'Database connection is not associated to a user login.'

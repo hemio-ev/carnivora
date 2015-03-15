@@ -45,7 +45,7 @@ function_templates:
   body_prelude: |
    -- begin userlogin prelude
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
-   v_owner := v_login;
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
 
 table_templates:

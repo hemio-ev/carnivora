@@ -13,6 +13,10 @@ columns:
  -
   template: user.owner
  -
+  name: act_as
+  type: user.t_user
+  description: Act as
+ -
   name: started
   type: timestamp
   description: Session started at this time

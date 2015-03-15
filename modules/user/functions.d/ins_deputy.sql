@@ -1,0 +1,21 @@
+name: ins_deputy
+description: Act as deputy
+
+templates:
+ - user.userlogin
+
+returns: void
+
+parameters:
+ -
+  name: p_act_as
+  type: user.t_user
+
+body: |
+    UPDATE "user".session AS t
+        SET act_as = p_act_as
+        FROM "user".deputy AS s
+        WHERE
+            s.deputy = t.owner AND
+            s.represented = p_act_as AND
+            t.id = "user"._session_id();

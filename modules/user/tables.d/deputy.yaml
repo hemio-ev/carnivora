@@ -1,0 +1,20 @@
+name: deputy
+description: Deputies for users
+
+primary_key:
+ - deputy
+ - represented
+
+columns:
+ -
+  name: deputy
+  description: Deputy
+  type: user.t_user
+  references: user.user.owner
+  on_ref_delete: CASCADE
+ -
+  name: represented
+  description: User for which the deputy can act
+  type: user.t_user
+  references: user.user.owner
+  on_ref_delete: CASCADE

@@ -25,7 +25,7 @@ body: |
             t.login
     )
  THEN
-    INSERT INTO "user"."session" (owner) VALUES (p_owner);
+    INSERT INTO "user"."session" (owner, act_as) VALUES (p_owner, p_owner);
     RETURN TRUE;
  ELSE
     RAISE 'Carnivora: invalid user login'
