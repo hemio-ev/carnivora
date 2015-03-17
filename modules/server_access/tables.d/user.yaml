@@ -20,4 +20,3 @@ columns:
   -
    template: commons.password
    null: true
- 

@@ -55,7 +55,7 @@ body: |
             t.ttl,
             u.managed,
             t.backend_status
-        FROM dns.raw AS t
+        FROM dns.custom AS t
         JOIN dns.registered AS u
             ON t.registered = u.domain
         ;

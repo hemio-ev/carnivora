@@ -19,12 +19,6 @@ returns_columns:
   name: backend_status
   type: backend.t_status
 
-parameters:
- -
-  name: p_include_inactive
-  type: boolean
-  default: "FALSE"
-
 body: |
     RETURN QUERY
         WITH

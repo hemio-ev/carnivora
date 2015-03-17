@@ -21,6 +21,9 @@ returns_columns:
  -
   name: authority_key_identifier
   type: varchar
+ -
+  name: backend_status
+  type: backend.t_status
 
 body: |
     RETURN QUERY

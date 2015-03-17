@@ -38,6 +38,11 @@ function_templates:
       Tries to identify if connected role has the right to perform
       backend tasks for some machine. If this is the case, it
       identifies the machine. Otherwise it rises an exception.
+  parameters:
+    -
+     name: p_include_inactive
+     type: boolean
+     default: "FALSE"
   variables:
    -
     name: v_machine
@@ -57,4 +62,3 @@ table_templates:
   columns:
    -
     template: backend.job
-

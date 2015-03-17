@@ -1,6 +1,9 @@
 name: https
 description: stores https information
 
+templates:
+ - backend.status
+
 primary_key:
  - identifier
  - domain

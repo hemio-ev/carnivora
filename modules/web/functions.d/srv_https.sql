@@ -22,23 +22,45 @@ returns_columns:
  -
   name: x509_chain
   type: varchar[]
+ -
+  name: backend_status
+  type: backend.t_status
 
 body: |
 
     RETURN QUERY
-    SELECT
-        t.identifier,
-        t.domain,
-        t.x509_request,
-        t.x509_certificate,
-        ARRAY(
-            SELECT s.x509_certificate::varchar
-            FROM web.intermediate_chain AS u
-            JOIN web.intermediate_cert AS s
-                USING (subject_key_identifier)
+        WITH
+
+        -- NO DELETE OPTION
+
+        -- UPDATE
+        s AS (
+            UPDATE web.https AS t
+                SET backend_status = NULL
             WHERE
-                u.domain = t.domain AND
-                u.identifier = t.identifier
-            ORDER by "order"
+                backend._machine_priviledged('web', t.domain) AND
+                backend._active(t.backend_status)
         )
-    FROM web.https AS t;
+
+        -- SELECT
+        SELECT
+            t.identifier,
+            t.domain,
+            t.x509_request,
+            t.x509_certificate,
+            ARRAY(
+                SELECT s.x509_certificate::varchar
+                FROM web.intermediate_chain AS u
+                JOIN web.intermediate_cert AS s
+                    USING (subject_key_identifier)
+                WHERE
+                    u.domain = t.domain AND
+                    u.identifier = t.identifier
+                ORDER by "order"
+            ),
+            t.backend_status
+        FROM web.https AS t
+
+        WHERE
+            backend._machine_priviledged('web', t.domain) AND
+            (backend._active(t.backend_status) OR p_include_inactive);

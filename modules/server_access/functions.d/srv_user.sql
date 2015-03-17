@@ -1,5 +1,5 @@
-name: srv_alias
-description: Lists all email aliases
+name: srv_user
+description: backend server_access.user
 
 templates:
  - backend.backend
@@ -7,16 +7,16 @@ templates:
 returns: TABLE
 returns_columns:
  -
-  name: localpart
-  type: email.t_localpart
+  name: user
+  type: server_access.t_user
  -
-  name: domain
-  type: dns.t_domain
+  name: password
+  type: commons.t_password
  -
-  name: mailbox_localpart
-  type: email.t_localpart
+  name: service
+  type: system.t_service
  -
-  name: mailbox_domain
+  name: service_name
   type: dns.t_domain
  -
   name: backend_status
@@ -28,7 +28,7 @@ body: |
 
         -- DELETE
         d AS (
-            DELETE FROM email.alias AS t
+            DELETE FROM server_access.user AS t
             WHERE
                 backend._deleted(t.backend_status) AND
                 backend._machine_priviledged(t.service, t.domain)
@@ -36,7 +36,7 @@ body: |
 
         -- UPDATE
         s AS (
-            UPDATE email.alias AS t
+            UPDATE server_access.user AS t
                 SET backend_status = NULL
             WHERE
                 backend._machine_priviledged(t.service, t.domain) AND
@@ -45,12 +45,12 @@ body: |
 
         -- SELECT
         SELECT
-            t.localpart,
-            t.domain,
-            t.mailbox_localpart,
-            t.mailbox_domain,
+            t.user,
+            t.password,
+            t.service,
+            t.service_name,
             t.backend_status
-        FROM email.alias AS t
+        FROM server_access.user AS t
 
         WHERE
             backend._machine_priviledged(t.service, t.domain) AND

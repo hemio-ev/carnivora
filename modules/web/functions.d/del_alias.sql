@@ -13,8 +13,9 @@ parameters:
 
 body: |
 
-    DELETE FROM web.alias AS t
-    USING web.site AS s, server_access.user AS u
+    UPDATE web.alias AS t
+        SET backend_status = 'del'
+    FROM web.site AS s, server_access.user AS u
     WHERE
         -- JOIN web.site
         s.domain = t.site AND

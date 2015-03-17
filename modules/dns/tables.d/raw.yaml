@@ -1,13 +1,12 @@
-name: raw
+name: custom
 description: Direct name server entries.
 
 templates:
  - dns.resource_record
  - backend.status
- 
+
 primary_key:
- - domain
- - type
+ - id
 
 columns:
  -
