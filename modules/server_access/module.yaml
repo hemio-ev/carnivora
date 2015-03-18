@@ -5,8 +5,10 @@ priv_all_all:
  - system
 priv_usage:
  - userlogin
+ - backend
 
 exec_post_install: |
+ SELECT system._setup_register_service('server_access', 'server_access');
  SELECT system._setup_register_service('server_access', 'server_access__ssh');
  SELECT system._setup_register_service('server_access', 'server_access__sftp');
  SELECT setval('server_access.user_uid_seq', 100000);

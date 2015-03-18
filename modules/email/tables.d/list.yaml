@@ -1,10 +1,11 @@
 name: list
 description: Mailing lists
- 
+
 templates:
  - dns.reference_service
  - user.ownable
  - backend.status
+ - email.address
 
 primary_key:
  - localpart
@@ -12,26 +13,11 @@ primary_key:
 
 columns:
  -
-  name: localpart
-  type: email.t_localpart
-  description: Local part of the address
- -
-  name: service
-  type: system.t_service
-  description: Enforce service type in dns.service
-  checks:
-   -
-    name: service type
-    description: ensures that service type is email__list
-    check: service = 'email__list'
-  default: "'email__list'"
-
- -
   name: admin
   type: email.t_address
   description: Email address of the list admin
  -
   name: options
-  type: varchar
-  description: Would be nice to store arbitrary key:value pairs 
-  default: "'not implemented'"
+  type: jsonb
+  description: Arbitrary options
+  null: true

@@ -33,4 +33,5 @@ body: |
                 u.user = s.user AND
                 s.service_name = t.service_name
 
-        WHERE s.owner = v_owner;
+        WHERE s.owner = v_owner
+        ORDER BY backend_status, domain;

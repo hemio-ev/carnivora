@@ -28,8 +28,4 @@ body: |
         owner = v_owner AND
         backend._active(backend_status);
 
-    IF FOUND THEN
-        PERFORM backend._notify('email', p_domain);
-    ELSE
-        PERFORM commons._raise_inaccessible_or_missing();
-    END IF;
+    PERFORM backend._conditional_notify(FOUND, 'email', p_domain);

@@ -20,7 +20,10 @@ parameters:
   type: dns.t_domain
 
 body: |
+
     INSERT INTO web.site
     (domain, "user", service_name)
     VALUES
     (p_domain, p_user, p_service_name);
+
+    PERFORM backend._notify('web', p_domain);

@@ -31,7 +31,7 @@ body: |
             DELETE FROM server_access.user AS t
             WHERE
                 backend._deleted(t.backend_status) AND
-                backend._machine_priviledged(t.service, t.domain)
+                backend._machine_priviledged_service(t.service, t.service_name)
         ),
 
         -- UPDATE
@@ -39,7 +39,7 @@ body: |
             UPDATE server_access.user AS t
                 SET backend_status = NULL
             WHERE
-                backend._machine_priviledged(t.service, t.domain) AND
+                backend._machine_priviledged_service(t.service, t.service_name) AND
                 backend._active(t.backend_status)
         )
 
@@ -53,5 +53,5 @@ body: |
         FROM server_access.user AS t
 
         WHERE
-            backend._machine_priviledged(t.service, t.domain) AND
+            backend._machine_priviledged_service(t.service, t.service_name) AND
             (backend._active(t.backend_status) OR p_include_inactive);

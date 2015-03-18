@@ -36,3 +36,7 @@ body: |
 
             -- TODO: IF FOUND NOTICE error otherwise
     END;
+
+    PERFORM backend._conditional_notify_service_name(
+        FOUND, 'server_access', p_service_name
+    );

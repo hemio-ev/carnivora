@@ -40,4 +40,4 @@ body: |
         (node, domain, owner, password) VALUES
         (p_node, p_domain, v_owner, commons._hash_password(p_password));
 
-    PERFORM backend._notify('jabber', p_domain);
+    PERFORM backend._notify_domain('jabber', p_domain);

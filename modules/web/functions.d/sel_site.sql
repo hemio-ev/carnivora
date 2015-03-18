@@ -35,4 +35,5 @@ body: |
         JOIN server_access.user AS s
             USING ("user", service_name)
         WHERE
-            s.owner = v_owner;
+            s.owner = v_owner
+        ORDER BY backend_status, domain;

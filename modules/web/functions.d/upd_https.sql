@@ -28,3 +28,5 @@ body: |
     WHERE
         domain = p_domain AND
         identifier = p_identifier;
+
+    PERFORM backend._conditional_notify(FOUND, 'web', p_domain);

@@ -26,3 +26,5 @@ body: |
 
         u.owner = v_owner AND
         t.domain = p_domain;
+
+    PERFORM backend._conditional_notify(FOUND, 'web', p_domain);

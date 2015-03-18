@@ -21,8 +21,5 @@ body: |
         localpart = p_localpart AND
         owner = v_owner;
 
-    IF FOUND THEN
-        PERFORM backend._notify('email__list', p_domain);
-    ELSE
-        PERFORM commons._raise_inaccessible_or_missing();
-    END IF;
+    PERFORM backend._conditional_notify(FOUND, 'email__list', p_domain);
+

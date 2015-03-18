@@ -26,10 +26,10 @@ returns_columns:
 body: |
  RETURN QUERY
   SELECT
-   t.domain, 
-   t.localpart, 
-   t.owner, 
-   t.quota, 
+   t.domain,
+   t.localpart,
+   t.owner,
+   t.quota,
    t.backend_status
   FROM
    email.mailbox AS t

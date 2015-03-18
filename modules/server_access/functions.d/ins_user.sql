@@ -34,6 +34,8 @@ body: |
     END IF;
 
     INSERT INTO server_access.user
-    (service, service_name, "user", password, owner)
+        (service, service_name, "user", password, owner)
     VALUES
-    (p_service, p_service_name, p_user, v_password, v_owner);
+        (p_service, p_service_name, p_user, v_password, v_owner);
+
+    PERFORM backend._notify_service_name('server_access', p_service_name);

@@ -31,8 +31,4 @@ body: |
             t.list_domain = p_list_domain AND
             t.address = p_address;
 
-    IF FOUND THEN
-        PERFORM backend._notify('email__list', p_list_domain);
-    ELSE
-        PERFORM commons._raise_inaccessible_or_missing();
-    END IF;
+    PERFORM backend._conditional_notify(FOUND, 'email', p_list_domain);

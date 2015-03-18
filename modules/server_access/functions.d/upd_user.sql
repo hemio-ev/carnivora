@@ -38,6 +38,6 @@ body: |
         "user" = p_user AND
         service_name = p_service_name;
 
-    IF NOT FOUND THEN
-        PERFORM commons._raise_inaccessible_or_missing();
-    END IF;
+    PERFORM backend._conditional_notify_service_name(
+        FOUND, 'server_access', p_service_name
+    );

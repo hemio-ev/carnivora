@@ -3,7 +3,6 @@ description: unix user
 
 primary_key:
  - user
- - service_name
 
 templates:
  - system.reference_service
@@ -20,3 +19,8 @@ columns:
   -
    template: commons.password
    null: true
+
+unique:
+ -
+  - user
+  - service_name

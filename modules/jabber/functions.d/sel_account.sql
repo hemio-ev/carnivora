@@ -19,9 +19,10 @@ returns_columns:
 body: |
     RETURN QUERY
         SELECT
-            t.node, 
-            t.domain, 
+            t.node,
+            t.domain,
             t.backend_status
         FROM jabber.account AS t
         WHERE
-            t.owner = v_owner;
+            t.owner = v_owner
+        ORDER BY t.backend_status, t.node, t.domain;
