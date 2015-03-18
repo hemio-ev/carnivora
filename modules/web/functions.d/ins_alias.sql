@@ -16,12 +16,24 @@ parameters:
 
 body: |
 
-    INSERT INTO web.alias
-    (domain, site, service_name)
-    VALUES
-    (p_domain, p_site,
-        (SELECT service_name FROM web.site
-        WHERE
-            domain = p_site));
+    PERFORM commons._raise_inaccessible_or_missing(
+        EXISTS(
+            SELECT TRUE FROM web.site AS t
+            JOIN server_access.user AS s
+                USING ("user", service_name)
+            WHERE
+                t.domain = p_site AND
+                s.owner = v_owner
+        )
+    );
 
-    PERFORM backend._notify('web', p_domain);
+    INSERT INTO web.alias
+        (domain, site, service_name)
+    VALUES
+        (
+            p_domain,
+            p_site,
+            (SELECT service_name FROM web.site WHERE domain = p_site)
+        );
+
+    PERFORM backend._notify_domain('web', p_domain);

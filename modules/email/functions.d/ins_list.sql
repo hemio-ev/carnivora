@@ -44,4 +44,4 @@ body: |
         (localpart, domain, owner, admin) VALUES
         (p_localpart, p_domain, v_owner, p_admin);
 
-    PERFORM backend._notify('email__list', p_domain);
+    PERFORM backend._notify_domain('email__list', p_domain);

@@ -16,6 +16,9 @@ returns_columns:
   name: password
   type: commons.t_password
  -
+  name: uid
+  type: integer
+ -
   name: quota
   type: integer
  -
@@ -48,6 +51,7 @@ body: |
             t.localpart,
             t.domain,
             t.password,
+            t.uid,
             t.quota,
             t.backend_status
         FROM email.mailbox AS t

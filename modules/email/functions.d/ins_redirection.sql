@@ -11,7 +11,7 @@ templates:
 parameters:
  -
   name: p_localpart
-  type: email.t_localpart 
+  type: email.t_localpart
  -
   name: p_domain
   type: dns.t_domain
@@ -35,5 +35,5 @@ body: |
         (localpart, domain, destination, owner) VALUES
         (p_localpart, p_domain, p_destination, v_owner);
 
-    PERFORM backend._notify('email', p_domain);
+    PERFORM backend._notify_domain('email', p_domain);
 

@@ -6,6 +6,16 @@ description: |
 
 returns: void
 
+parameters:
+ -
+  name: p_raise
+  description: Controls if the exception is raised
+  type: boolean
+  default: "FALSE"
+
 body: |
-    RAISE 'Object inaccessible or missing'
-        USING DETAIL = '$carnivora:commons:inaccessible_or_missing$';
+
+    IF NOT COALESCE(p_raise, FALSE) THEN
+        RAISE 'Object inaccessible or missing'
+            USING DETAIL = '$carnivora:commons:inaccessible_or_missing$';
+    END IF;
