@@ -11,13 +11,13 @@ parameters:
   name: p_domain
   type: dns.t_domain
  -
-  name: p_identifier
+  name: p_https_identifier
   type: commons.t_key
 
 body: |
 
     UPDATE web.site AS t
-        SET https = p_identifier
+        SET https = p_https_identifier
     FROM server_access.user AS s, dns.service AS u
     WHERE
         s.user = t.user AND

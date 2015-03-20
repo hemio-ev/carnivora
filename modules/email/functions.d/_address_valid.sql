@@ -19,5 +19,5 @@ body: |
             domain = p_domain
     ) THEN
         RAISE 'Email address already exists.'
-            USING DETAIL = '$carnivora:email:address_already_exists';
+            USING DETAIL = '$carnivora:email:address_already_exists$';
     END IF;

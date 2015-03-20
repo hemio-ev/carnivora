@@ -34,4 +34,4 @@ body: |
                 s.service_name = t.service_name
 
         WHERE s.owner = v_owner
-        ORDER BY backend_status, domain;
+        ORDER BY t.backend_status, t.domain;

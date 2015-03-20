@@ -32,6 +32,7 @@ body: |
             t.domain,
             t.x509_request,
             t.x509_certificate,
-            t.authority_key_identifier
+            t.authority_key_identifier,
+            t.backend_status
         FROM web.https AS t
-        ORDER BY backend_status, identifier;
+        ORDER BY t.backend_status, t.identifier;

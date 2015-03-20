@@ -15,16 +15,34 @@ parameters:
 returns: void
 
 body: |
-    WITH d AS (
+
+    BEGIN
+        -- perform DELETE to trigger potential foreign key errors
         DELETE FROM dns.service AS t
+        USING dns.registered AS s
         WHERE
-            domain = p_domain AND
-            service = p_service AND
-            EXISTS(SELECT TRUE FROM dns.registered AS s WHERE s.owner = v_owner AND s.domain = t.registered)
-    )
-    UPDATE dns.service AS t
-        SET backend_status = 'del'
-    WHERE
-        domain = p_domain AND
-        service = p_service AND
-        EXISTS(SELECT TRUE FROM dns.registered AS s WHERE s.owner = v_owner AND s.domain = t.registered);
+            s.domain = t.registered AND
+
+            t.domain = p_domain AND
+            t.service = p_service AND
+            s.owner = v_owner;
+
+        -- if not failed yet, emulate rollback of DELETE
+        RAISE transaction_rollback;
+    EXCEPTION
+        WHEN transaction_rollback THEN
+            UPDATE dns.service AS t
+                   SET backend_status = 'del'
+            FROM dns.registered AS s
+            WHERE
+                s.domain = t.registered AND
+
+                t.domain = p_domain AND
+                t.service = p_service AND
+                s.owner = v_owner;
+
+            PERFORM backend._conditional_notify(
+                FOUND, 'dns', p_domain
+            );
+
+    END;

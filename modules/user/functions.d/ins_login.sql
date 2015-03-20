@@ -32,4 +32,3 @@ body: |
      USING DETAIL = '$carnivora:user:login_invalid$';
     RETURN FALSE;
  END IF;
-

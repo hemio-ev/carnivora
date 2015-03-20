@@ -11,6 +11,11 @@ primary_key:
 
 columns:
  -
+  name: port
+  type: commons.t_port
+  description: Port, NULL = 80
+  null: true
+ -
   name: user
   type: server_access.t_user
   description: Server account under which the htdocs reside

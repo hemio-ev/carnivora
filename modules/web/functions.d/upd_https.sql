@@ -15,7 +15,7 @@ parameters:
   type: commons.t_key
  -
   name: p_x509_certificate
-  type: text
+  type: web.t_cert
  -
   name: p_authority_key_identifier
   type: varchar

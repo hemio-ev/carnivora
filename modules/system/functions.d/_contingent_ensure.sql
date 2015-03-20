@@ -106,7 +106,7 @@ body: |
     THEN
         RAISE 'Total contingent exceeded'
             USING
-                DETAIL = '$carnivora:system:contingent_domain_exceeded$',
+                DETAIL = '$carnivora:system:contingent_total_exceeded$',
                 HINT = (p_owner, p_service, p_domain, v_contingent_total);
     END IF;
 
