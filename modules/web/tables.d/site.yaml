@@ -8,13 +8,14 @@ templates:
 
 primary_key:
  - domain
+ - port
 
 columns:
  -
   name: port
   type: commons.t_port
-  description: Port, NULL = 80
-  null: true
+  description: Port
+  default: "80"
  -
   name: user
   type: server_access.t_user
@@ -76,3 +77,4 @@ unique:
  -
   - domain
   - service_name
+  - port

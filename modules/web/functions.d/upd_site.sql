@@ -11,13 +11,16 @@ parameters:
   name: p_domain
   type: dns.t_domain
  -
-  name: p_https_identifier
+  name: p_port
+  type: commons.t_port
+ -
+  name: p_identifier
   type: commons.t_key
 
 body: |
 
     UPDATE web.site AS t
-        SET https = p_https_identifier
+        SET https = p_identifier
     FROM server_access.user AS s, dns.service AS u
     WHERE
         s.user = t.user AND
@@ -28,6 +31,7 @@ body: |
         t.service = u.service AND
 
         s.owner = v_owner AND
-        t.domain = p_domain;
+        t.domain = p_domain AND
+        t.port = p_port;
 
     PERFORM backend._conditional_notify(FOUND, 'web', p_domain);

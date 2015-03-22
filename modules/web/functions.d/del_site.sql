@@ -10,6 +10,9 @@ parameters:
  -
   name: p_domain
   type: dns.t_domain
+ -
+  name: p_port
+  type: commons.t_port
 
 body: |
     UPDATE web.site AS t
@@ -21,6 +24,7 @@ body: |
         s.service_name = t.service_name AND
 
         t.domain = p_domain AND
+        t.port = p_port AND
         s.owner = v_owner;
 
     PERFORM backend._conditional_notify(FOUND, 'web', p_domain);

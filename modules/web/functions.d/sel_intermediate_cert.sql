@@ -13,7 +13,7 @@ returns_columns:
   name: authority_key_identifier
   type: varchar
  -
-  name: x509_cerificate
+  name: x509_certificate
   type: web.t_cert
 
 parameters:

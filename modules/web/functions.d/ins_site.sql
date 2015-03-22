@@ -13,6 +13,9 @@ parameters:
   name: p_domain
   type: dns.t_domain
  -
+  name: p_port
+  type: commons.t_port
+ -
   name: p_user
   type: server_access.t_user
  -
@@ -22,8 +25,8 @@ parameters:
 body: |
 
     INSERT INTO web.site
-    (domain, "user", service_name)
+    (domain, port, "user", service_name)
     VALUES
-    (p_domain, p_user, p_service_name);
+    (p_domain, p_port, p_user, p_service_name);
 
-    PERFORM backend._notify('web', p_domain);
+    PERFORM backend._notify_domain('web', p_domain);

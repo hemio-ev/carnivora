@@ -10,6 +10,9 @@ returns_columns:
   name: domain
   type: dns.t_domain
  -
+  name: port
+  type: commons.t_port
+ -
   name: identifier
   type: commons.t_key
  -
@@ -23,6 +26,7 @@ body: |
     RETURN QUERY
         SELECT
             t.domain,
+            t.port,
             t.identifier,
             t.subject_key_identifier,
             s.x509_certificate

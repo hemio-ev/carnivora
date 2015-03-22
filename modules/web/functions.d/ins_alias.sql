@@ -13,6 +13,9 @@ parameters:
  -
   name: p_site
   type: dns.t_domain
+ -
+  name: p_site_port
+  type: commons.t_port
 
 body: |
 
@@ -23,17 +26,19 @@ body: |
                 USING ("user", service_name)
             WHERE
                 t.domain = p_site AND
+                t.port = p_site_port AND
                 s.owner = v_owner
         )
     );
 
     INSERT INTO web.alias
-        (domain, site, service_name)
+        (domain, site, site_port, service_name)
     VALUES
         (
             p_domain,
             p_site,
-            (SELECT service_name FROM web.site WHERE domain = p_site)
+            p_site_port,
+            (SELECT service_name FROM web.site WHERE domain = p_site AND port = p_site_port)
         );
 
     PERFORM backend._notify_domain('web', p_domain);

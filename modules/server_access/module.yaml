@@ -16,7 +16,7 @@ exec_post_install: |
 domains:
  -
   name: t_user
-  type: varchar(15)
+  type: varchar(30)
   description: |
    Unix user. This type only allows a subset of those names allowed by POSIX.
 

@@ -10,6 +10,9 @@ returns_columns:
   name: domain
   type: dns.t_domain
  -
+  name: port
+  type: commons.t_port
+ -
   name: user
   type: server_access.t_user
  -
@@ -46,6 +49,7 @@ body: |
         -- SELECT
         SELECT
             t.domain,
+            t.port,
             t.user,
             t.service_name,
             t.https,

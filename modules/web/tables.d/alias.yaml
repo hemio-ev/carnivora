@@ -7,6 +7,7 @@ templates:
 
 primary_key:
  - domain
+ - site_port
 
 columns:
  -
@@ -24,6 +25,11 @@ columns:
   type: dns.t_domain
   description: Site
  -
+  name: site_port
+  type: commons.t_port
+  description: port
+  default: "80"
+ -
   name: service_name
   type: dns.t_domain
   description: x
@@ -34,10 +40,12 @@ foreign_keys:
   columns:
    - site
    - service_name
+   - site_port
   ref_table: web.site
   ref_columns:
    - domain
    - service_name
+   - port
   on_delete: CASCADE
 
  -

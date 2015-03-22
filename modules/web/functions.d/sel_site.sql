@@ -40,4 +40,4 @@ body: |
             USING ("user", service_name)
         WHERE
             s.owner = v_owner
-        ORDER BY t.backend_status, t.domain;
+        ORDER BY t.backend_status, t.domain, t.port;

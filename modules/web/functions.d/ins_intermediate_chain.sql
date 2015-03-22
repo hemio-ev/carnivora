@@ -11,6 +11,9 @@ parameters:
   name: p_domain
   type: dns.t_domain
  -
+  name: p_port
+  type: commons.t_port
+ -
   name: p_identifier
   type: commons.t_key
  -
@@ -22,6 +25,6 @@ parameters:
 
 body: |
     INSERT INTO web.intermediate_chain
-    (domain, identifier, "order", subject_key_identifier)
+    (domain, port, identifier, "order", subject_key_identifier)
     VALUES
-    (p_domain, p_identifier, p_order, p_subject_key_identifier);
+    (p_domain, p_port, p_identifier, p_order, p_subject_key_identifier);

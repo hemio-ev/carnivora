@@ -11,6 +11,9 @@ parameters:
   name: p_domain
   type: dns.t_domain
  -
+  name: p_port
+  type: commons.t_port
+ -
   name: p_identifier
   type: commons.t_key
  -
@@ -27,6 +30,7 @@ body: |
             authority_key_identifier = p_authority_key_identifier
     WHERE
         domain = p_domain AND
+        port = p_port AND
         identifier = p_identifier;
 
     PERFORM backend._conditional_notify(FOUND, 'web', p_domain);

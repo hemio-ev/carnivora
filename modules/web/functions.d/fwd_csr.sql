@@ -11,6 +11,9 @@ parameters:
   name: p_domain
   type: dns.t_domain
  -
+  name: p_port
+  type: commons.t_port
+ -
   name: p_identifier
   type: commons.t_key
  -
@@ -22,4 +25,5 @@ body: |
         SET x509_request = p_x509_request
     WHERE
         domain = p_domain AND
+        port = p_port AND
         identifier = p_identifier;

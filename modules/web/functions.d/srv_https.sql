@@ -14,6 +14,9 @@ returns_columns:
   name: domain
   type: dns.t_domain
  -
+  name: port
+  type: commons.t_port
+ -
   name: x509_request
   type: web.t_cert
  -
@@ -46,6 +49,7 @@ body: |
         SELECT
             t.identifier,
             t.domain,
+            t.port,
             t.x509_request,
             t.x509_certificate,
             ARRAY(

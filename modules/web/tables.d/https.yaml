@@ -17,8 +17,10 @@ columns:
   name: domain
   type: dns.t_domain
   description: Domain
-  references: web.site.domain
-  on_ref_delete: CASCADE
+ -
+  name: port
+  type: commons.t_port
+  description: Port
  -
   name: x509_request
   type: web.t_cert
@@ -41,3 +43,15 @@ columns:
    or a root certificate with an equal subjectKeyIdentifier.
 
    Is NULL whenever x509_certificate is NULL.
+
+foreign_keys:
+ -
+  name: site
+  columns:
+   - domain
+   - port
+  ref_table: web.site
+  ref_columns:
+   - domain
+   - port
+  on_delete: CASCADE

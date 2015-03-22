@@ -12,6 +12,10 @@ columns:
   type: dns.t_domain
   description: Domain
  -
+  name: port
+  type: commons.t_port
+  description: Port
+ -
   name: identifier
   type: commons.t_key
   description: Identifier
