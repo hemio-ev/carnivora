@@ -21,6 +21,9 @@ returns_columns:
  -
   name: x509_certificate
   type: web.t_cert
+ -
+  name: order
+  type: integer
 
 body: |
     RETURN QUERY
@@ -29,7 +32,9 @@ body: |
             t.port,
             t.identifier,
             t.subject_key_identifier,
-            s.x509_certificate
+            s.x509_certificate,
+            t.order
         FROM web.intermediate_chain AS t
         JOIN web.intermediate_cert AS s
-            USING (subject_key_identifier);
+            USING (subject_key_identifier)
+        ORDER BY t.order;

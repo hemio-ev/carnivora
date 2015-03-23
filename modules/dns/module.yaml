@@ -93,7 +93,7 @@ table_templates:
     check: |
         type<>'MX' OR
         rdata ? 'priority' AND
-        rdata ? 'mailserver' AND
+        rdata ? 'exchange' AND
         (rdata->>'priority')::int >= 0
    -
     name: invalid_rdata_SRV
@@ -114,8 +114,6 @@ table_templates:
         (rdata->>'port')::commons.t_port IS NOT NULL AND
         -- Could be relative or absolute
         (rdata->>'target')::varchar IS NOT NULL
-
-
 
  -
   template: reference_service

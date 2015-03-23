@@ -22,6 +22,9 @@ returns_columns:
   name: rdata
   type: dns.t_rdata
  -
+  name: ttl
+  type: dns.t_ttl
+ -
   name: backend_status
   type: backend.t_status
 
@@ -33,6 +36,7 @@ body: |
             t.domain,
             t.type,
             t.rdata,
+            t.ttl,
             t.backend_status
         FROM dns.custom AS t
         JOIN dns.registered AS s
