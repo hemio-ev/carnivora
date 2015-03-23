@@ -1,6 +1,10 @@
 name: handle
 description: Domain Handles (Contacts)
 
+templates:
+ - user.ownable
+ - backend.status
+
 primary_key:
  - alias
 
@@ -14,6 +18,8 @@ columns:
   name: id
   description: Internal id at reseller
   type: varchar
+  null: true
+  unique: true
 
 # mandatory fields
  -
@@ -47,13 +53,11 @@ columns:
  -
   name: email
   description: Email
-  type: varchar
-  null: true
+  type: email.t_address
  -
   name: phone
   description: Phone
   type: varchar
-  null: true
 
 # optional fields
  -
