@@ -42,4 +42,5 @@ body: |
         JOIN dns.registered AS s
             ON s.domain = t.registered
         WHERE
-            s.owner = v_owner;
+            s.owner = v_owner
+        ORDER BY backend_status, registered, domain;

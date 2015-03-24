@@ -21,4 +21,5 @@ body: |
         SELECT t.domain, t.public_suffix, t.backend_status
         FROM dns.registered AS t
         WHERE
-            t.owner = v_owner;
+            t.owner = v_owner
+        ORDER BY backend_status, domain;

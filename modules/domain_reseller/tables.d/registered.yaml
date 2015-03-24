@@ -1,0 +1,37 @@
+name: registered
+description: Addtional informations to dns.registered
+
+templates:
+ - backend.status
+
+primary_key:
+ - domain
+
+columns:
+ -
+  name: domain
+  type: dns.t_domain
+  references: dns.registered.domain
+  description: Domain
+ -
+  name: registrant
+  type: varchar
+  references: domain_reseller.handle.alias
+  description: Registrant (Owner)
+ -
+  name: admin_c
+  type: varchar
+  references: domain_reseller.handle.alias
+  description: Admin-C
+ -
+  name: tech_c
+  type: varchar
+  references: domain_reseller.handle.alias
+  description: Tech-C
+  null: true
+ -
+  name: zone_c
+  type: varchar
+  references: domain_reseller.handle.alias
+  description: Zone-C
+  null: true

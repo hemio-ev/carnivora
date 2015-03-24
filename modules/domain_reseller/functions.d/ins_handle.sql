@@ -54,8 +54,7 @@ body: |
     INSERT INTO domain_reseller.handle
     (
       owner,
-      backend_status,
-      "alias",
+      alias,
       fname,
       lname,
       address,
@@ -71,7 +70,6 @@ body: |
     VALUES
     (
       v_owner,
-      'ins',
       p_alias,
       p_fname,
       p_lname,
