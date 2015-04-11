@@ -21,6 +21,9 @@ returns_columns:
  -
   name: zone_c
   type: varchar
+ -
+  name: backend_status
+  type: backend.t_status
 
 body: |
     RETURN QUERY
@@ -29,7 +32,8 @@ body: |
             t.registrant,
             t.admin_c,
             t.tech_c,
-            t.zone_c
+            t.zone_c,
+            t.backend_status
         FROM domain_reseller.registered AS t
         JOIN dns.registered AS s
             USING (domain)

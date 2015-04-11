@@ -1,14 +1,13 @@
 modules: 
- - _local_user
  - backend
  - commons
- - domain_reseller
  - dns
+ - domain_reseller
  - email 
  - jabber 
  - server_access
- - user
  - system
+ - user
  - web
 
 module_dirs:
@@ -17,5 +16,8 @@ module_dirs:
 role_prefix: carnivora_
 
 pre_code: |
+ -- UUIDs
  CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+ -- Enable Python 3 as function language
  CREATE EXTENSION IF NOT EXISTS "plpython3u";
+

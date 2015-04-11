@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+database="test1"
+
 psql -c "
 -- http://stackoverflow.com/questions/5108876/kill-a-postgresql-session-connection
 SELECT 
@@ -10,20 +12,20 @@ WHERE
     -- don't kill my own connection!
     pid <> pg_backend_pid()
     -- don't kill the connections to other databases
-    AND datname = 'test1';
+    AND datname = '${database}';
 " postgres postgres
 
-../hamsql/Main -p -c"postgres://postgres@"> sql.sql
-../hamsql/Main -d > doc/doc.html
-../hamsql/Main -g > doc/doc-graph.dot
+hamsql doc -s setup.example.yaml > doc/doc.html
+hamsql doc -s setup.example.yaml -f dot > doc/doc-graph.dot
+hamsql install -s setup.example.yaml -c "postgres://postgres@/${database}" -p > install.sql
 dot -Tpdf -o doc/doc-graph.pdf doc/doc-graph.dot
 cp doc/doc.html ../carnivora-doc/index.html
 cp doc/s.css ../carnivora-doc/
 
-../hamsql/Main -e -c"postgres://postgres@/test1"
+hamsql install -s setup.example.yaml -d -c "postgres://postgres@/${database}"
 
 export PAGER=cat
-psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/prepare.sql" test1 postgres
-psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/frontend.sql" test1 carnivora_edentata
-psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/backend.sql" test1 carnivora_mailserver
+psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/prepare.sql" ${database} postgres
+psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/frontend.sql" ${database} carnivora_edentata
+psql -P null=/NULL/ --set ON_ERROR_STOP=1 -f "test/backend.sql" ${database} carnivora_mailserver
 
