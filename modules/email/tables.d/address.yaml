@@ -1,0 +1,15 @@
+name: address
+description: Collection of all known addresses
+primary_key:
+ - localpart
+ - domain
+
+columns:
+ -
+  name: localpart
+  type: email.t_localpart
+  description: Local part
+ -
+  name: domain
+  type: dns.t_domain
+  description: Domain

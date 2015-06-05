@@ -5,11 +5,13 @@ priv_all_all:
  - system
 
 column_templates:
+# password
  -
   template: password
   name: password
   type: commons.t_password
   description: Unix shadow crypt format
+# uuid
  -
   template: uuid_serial
   name: id
@@ -19,6 +21,7 @@ column_templates:
   type: uuid
   default: uuid_generate_v4()
   unique: true
+# uid
  -
    template: uid
    name: uid

@@ -18,5 +18,5 @@ body: |
         SELECT
             t.service,
             t.service_name
-        FROM system.service AS t;
- 
+        FROM system.service AS t
+        ORDER BY t.service, t.service_name;

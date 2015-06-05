@@ -22,11 +22,10 @@ variables:
  -
   name: v_password
   type: commons.t_password
+  default: "NULL"
 
 body: |
-    IF p_password IS NULL THEN
-        v_password := NULL;
-    ELSE
+    IF p_password IS NOT NULL THEN
         v_password := commons._hash_password(p_password);
     END IF;
 

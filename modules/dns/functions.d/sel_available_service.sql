@@ -38,4 +38,5 @@ body: |
                         p_service_name := t.service_name,
                         p_domain := t.domain
                 ) IS NOT NULL
+        ORDER BY t.service
     ;
