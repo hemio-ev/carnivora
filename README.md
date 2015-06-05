@@ -1,29 +1,26 @@
-carnivora
+Carnivora
 =========
 
 A powerfull backend for web-service management. Written in YamSql.
 
-Documentation for predefined structures can be found here:
+A documentation for the predefined structures [is available online](http://qua-bla.github.io/carnivora/). Currently this documentation is outdated.
 
-http://qua-bla.github.io/carnivora/
+# Installing Carnivora
 
-![General structure of carnivora project](documentation/structure.png)
+## Installing Perequisites
 
-# Installation
+The setup is performed via [HamSql](https://github.com/qua-bla/hamsql). It should be callable as `hamsql` in you shell. We also need the database server:
 
-## HamSql
+    apt-get install postgresql postgresql-contrib
+    apt-get install postgresql-plpython3-9.4
 
-https://github.com/qua-bla/hamsql
+# Running the Setup
 
-*missing*
+Simplest way to execute the setup on a system with a default PostgreSQL configuration is to run `sudo postgres -c ./setup`.
 
-## Database
-- aptitude install postgresql postgresql-contrib
-- aptitude install postgresql-plpython3-9.4
+Instead you may configure the connection settings for the current user in the `~/.pgpass` file which needs restricted permissions `chmod go= ~/.pgpass`. The format is:
 
-# Usage
+    hostname:port:database:username:password
 
-run `hamsql -e -c"postgres://<user>@localhost/<empty-database>"` to run a full installation
-* creates tables and functions for modules
-* creates users and grant defined access
+Then run `./setup`.
 
