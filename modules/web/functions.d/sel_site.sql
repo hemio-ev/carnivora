@@ -17,7 +17,7 @@ returns_columns:
   name: user
   type: server_access.t_user
  -
-  name: service_name
+  name: service_entity_name
   type: dns.t_domain
  -
   name: https
@@ -32,12 +32,12 @@ body: |
             t.domain,
             t.port,
             t.user,
-            t.service_name,
+            t.service_entity_name,
             t.https,
             t.backend_status
         FROM web.site AS t
         JOIN server_access.user AS s
-            USING ("user", service_name)
+            USING ("user", service_entity_name)
         WHERE
             s.owner = v_owner
         ORDER BY t.backend_status, t.domain, t.port;

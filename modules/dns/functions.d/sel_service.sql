@@ -16,7 +16,7 @@ returns_columns:
   name: service
   type: system.t_service
  -
-  name: service_name
+  name: service_entity_name
   type: dns.t_domain
  -
   name: backend_status
@@ -28,11 +28,11 @@ body: |
             t.registered,
             t.domain,
             t.service,
-            t.service_name,
+            t.service_entity_name,
             t.backend_status
         FROM dns.service AS t
         JOIN dns.registered AS s
             ON s.domain = t.registered
         WHERE
             s.owner = v_owner
-        ORDER BY backend_status, registered, domain, service, service_name;
+        ORDER BY backend_status, registered, domain, service, service_entity_name;

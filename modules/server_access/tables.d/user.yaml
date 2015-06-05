@@ -23,4 +23,5 @@ columns:
 unique:
  -
   - user
-  - service_name
+  - service_entity_name
+

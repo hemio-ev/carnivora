@@ -1,4 +1,4 @@
-name: service_machine
+name: service_entity_machine
 description: |
  List of machines that provice a certain service. This information is
  used to provide these machines access to the data they need to provide
@@ -6,7 +6,7 @@ description: |
 
 primary_key:
  - machine_name
- - service_name
+ - service_entity_name
  - service
 
 templates:

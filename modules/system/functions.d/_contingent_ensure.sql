@@ -32,7 +32,7 @@ variables:
   name: v_contingent_domain
   type: integer
  -
-  name: v_service_name
+  name: v_service_entity_name
   type: dns.t_domain
  -
   name: v_the_owner
@@ -45,9 +45,9 @@ body: |
     END IF;
 
     SELECT
-        t.service_name,
+        t.service_entity_name,
         s.owner
-    INTO v_service_name, v_the_owner
+    INTO v_service_entity_name, v_the_owner
     FROM dns.service AS t
     JOIN dns.registered AS s
         ON s.domain = t.registered
@@ -70,7 +70,7 @@ body: |
                 (
                     p_owner := p_owner,
                     p_service := p_service,
-                    p_service_name := v_service_name
+                    p_service_entity_name := v_service_entity_name
                 )
         );
 
@@ -79,7 +79,7 @@ body: |
                 (
                     p_owner := p_owner,
                     p_service := p_service,
-                    p_service_name := v_service_name,
+                    p_service_entity_name := v_service_entity_name,
                     p_domain := p_domain
                 )
         );
@@ -91,7 +91,7 @@ body: |
         RAISE 'You do no have a contingent'
             USING
                 DETAIL = '$carnivora:system:no_contingent$',
-                HINT = (p_owner, p_service, v_service_name);
+                HINT = (p_owner, p_service, v_service_entity_name);
     END IF;
 
     IF v_contingent_domain IS NULL AND p_owner <> v_the_owner
@@ -99,7 +99,7 @@ body: |
         RAISE 'You are not the owner of dns.service'
             USING
                 DETAIL = '$carnivora:system:contingent_not_owner$',
-                HINT = (p_owner, p_service, v_service_name);
+                HINT = (p_owner, p_service, v_service_entity_name);
     END IF;
 
     IF v_contingent_total <= p_current_quantity_total

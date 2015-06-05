@@ -12,7 +12,7 @@ parameters:
   name: p_service
   type: system.t_service
  -
-  name: p_service_name
+  name: p_service_entity_name
   type: dns.t_domain
  -
   name: p_domain
@@ -33,7 +33,7 @@ body: |
         WHERE
             t.owner = p_owner AND
             t.service = p_service AND
-            t.service_name = p_service_name AND
+            t.service_entity_name = p_service_entity_name AND
             t.domain = p_domain
     );
 
@@ -42,7 +42,7 @@ body: |
         FROM system.contingent_default_domain AS t
         WHERE
             t.service = p_service AND
-            t.service_name = p_service_name AND
+            t.service_entity_name = p_service_entity_name AND
             t.domain = p_domain
     );
 

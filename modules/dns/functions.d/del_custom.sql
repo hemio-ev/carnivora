@@ -22,6 +22,6 @@ body: |
                 t.id = p_id AND
                 s.owner = v_owner;
 
-            PERFORM backend._conditional_notify_service_name(
+            PERFORM backend._conditional_notify_service_entity_name(
                 FOUND, 'dns', 'example.com'
             );

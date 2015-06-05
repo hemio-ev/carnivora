@@ -1,4 +1,4 @@
-name: _setup_register_service
+name: _setup_register_service_entity
 description: |
  Allows modules to register their services during setup.
  Returns the total number of service names registered
@@ -15,6 +15,6 @@ parameters:
   type: commons.t_key
 
 body: |
- INSERT INTO system.service_index
+ INSERT INTO system.service
   (module, service) VALUES (p_module, p_service);
- RETURN (SELECT COUNT(*) FROM system.service_index AS s WHERE s.module=p_module);
+ RETURN (SELECT COUNT(*) FROM system.service AS s WHERE s.module=p_module);

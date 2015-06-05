@@ -12,7 +12,7 @@ parameters:
   name: p_service
   type: system.t_service
  -
-  name: p_service_name
+  name: p_service_entity_name
   type: dns.t_domain
 
 variables:
@@ -30,7 +30,7 @@ body: |
         WHERE
             t.owner = p_owner AND
             t.service = p_service AND
-            t.service_name = p_service_name
+            t.service_entity_name = p_service_entity_name
     );
 
     v_default := (
@@ -38,7 +38,7 @@ body: |
         FROM system.contingent_default_total AS t
         WHERE
             t.service = p_service AND
-            t.service_name = p_service_name
+            t.service_entity_name = p_service_entity_name
     );
 
     RETURN COALESCE(v_user, v_default);

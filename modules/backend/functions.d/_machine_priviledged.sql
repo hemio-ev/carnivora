@@ -4,7 +4,7 @@ description: |
  a certain service for a certain domain name.
 
  WARNING: The parameter p_domain must be a domain, which means an entry in
- the column dns.service.domain. It must not be confused with a service_name.
+ the column dns.service.domain. It must not be confused with a service_entity_name.
 
 returns: boolean
 
@@ -30,7 +30,7 @@ body: |
 
             WHERE
                 t.service = p_service AND
-                t.service_name = s.service_name AND
+                t.service_entity_name = s.service_entity_name AND
                 t.machine_name = v_machine
         )
     , FALSE);

@@ -21,7 +21,7 @@ body: |
     WHERE
         -- JOIN server_access.user
         s.user = t.user AND
-        s.service_name = t.service_name AND
+        s.service_entity_name = t.service_entity_name AND
 
         t.domain = p_domain AND
         t.port = p_port AND

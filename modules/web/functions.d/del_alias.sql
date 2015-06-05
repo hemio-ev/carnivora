@@ -24,7 +24,7 @@ body: |
         s.domain = t.site AND
 
         -- JOIN server_access.user
-        u.service_name = t.service_name AND
+        u.service_entity_name = t.service_entity_name AND
         u.user = s.user AND
 
         u.owner = v_owner AND

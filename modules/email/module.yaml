@@ -8,9 +8,9 @@ priv_usage:
  - backend
 
 exec_post_install: |
- SELECT system._setup_register_service('email', 'email');
- SELECT system._setup_register_service('email', 'email__list');
- SELECT system._setup_register_service('email', 'web');
+ SELECT system._setup_register_service_entity('email', 'email');
+ SELECT system._setup_register_service_entity('email', 'email__list');
+ SELECT system._setup_register_service_entity('email', 'web');
  SELECT setval('email.mailbox_uid_seq', 100000);
 
 function_templates:

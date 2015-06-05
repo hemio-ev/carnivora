@@ -29,13 +29,13 @@ body: |
                     system._contingent_total(
                         p_owner := s.owner,
                         p_service := t.service,
-                        p_service_name := t.service_name
+                        p_service_entity_name := t.service_entity_name
                 ) IS NOT NULL
             ) OR
             system._contingent_domain(
                         p_owner := s.owner,
                         p_service := t.service,
-                        p_service_name := t.service_name,
+                        p_service_entity_name := t.service_entity_name,
                         p_domain := t.domain
                 ) IS NOT NULL
         ORDER BY t.service

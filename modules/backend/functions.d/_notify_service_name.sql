@@ -1,8 +1,8 @@
-name: _notify_service_name
+name: _notify_service_entity_name
 description: |
  Informs all machines about changes.
 
- WARNING: The parameter p_service_name must be a servcie name. It must not be
+ WARNING: The parameter p_service_entity_name must be a servcie name. It must not be
  confused with a domain.
 
 parameters:
@@ -10,17 +10,17 @@ parameters:
   name: p_service
   type: system.t_service
  -
-  name: p_service_name
+  name: p_service_entity_name
   type: dns.t_domain
 
 returns: void
 
 body: |
     PERFORM
-        backend._notify(machine_name, p_service, p_service_name)
+        backend._notify(machine_name, p_service, p_service_entity_name)
 
     FROM system.service_machine AS t
         WHERE
             t.service = p_service AND
-            t.service_name = p_service_name
+            t.service_entity_name = p_service_entity_name
     ;

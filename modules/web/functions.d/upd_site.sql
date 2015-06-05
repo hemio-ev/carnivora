@@ -24,7 +24,7 @@ body: |
     FROM server_access.user AS s, dns.service AS u
     WHERE
         s.user = t.user AND
-        s.service_name = u.service_name AND
+        s.service_entity_name = u.service_entity_name AND
 
         -- dns.service JOIN
         t.domain = u.domain AND

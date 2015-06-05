@@ -11,7 +11,7 @@ parameters:
   name: p_user
   type: server_access.t_user
  -
-  name: p_service_name
+  name: p_service_entity_name
   type: system.t_service
 
 body: |
@@ -20,7 +20,7 @@ body: |
         DELETE FROM server_access.user
         WHERE
             "user" = p_user AND
-            service_name = p_service_name AND
+            service_entity_name = p_service_entity_name AND
             owner = v_owner;
 
         -- if not failed yet, emulate rollback of DELETE
@@ -31,11 +31,11 @@ body: |
                 SET backend_status = 'del'
             WHERE
                 "user" = p_user AND
-                service_name = p_service_name AND
+                service_entity_name = p_service_entity_name AND
                 owner = v_owner;
 
-            PERFORM backend._conditional_notify_service_name(
-                 FOUND, 'server_access', p_service_name
+            PERFORM backend._conditional_notify_service_entity_name(
+                 FOUND, 'server_access', p_service_entity_name
              );
 
     END;

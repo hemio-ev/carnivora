@@ -13,7 +13,7 @@ unique:
  -
   - domain
   - service
-  - service_name
+  - service_entity_name
 
 columns:
  -
@@ -31,3 +31,4 @@ checks:
   name: proper_subdomain
   description: Ensures that domain is a subdomain of registered
   check: registered = substring(domain from char_length(domain)-char_length(registered)+1)
+

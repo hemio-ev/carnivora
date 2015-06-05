@@ -11,7 +11,7 @@ parameters:
   name: p_user
   type: server_access.t_user
  -
-  name: p_service_name
+  name: p_service_entity_name
   type: dns.t_domain
  -
   name: p_password
@@ -35,8 +35,8 @@ body: |
         backend_status = 'upd'
     WHERE
         "user" = p_user AND
-        service_name = p_service_name;
+        service_entity_name = p_service_entity_name;
 
-    PERFORM backend._conditional_notify_service_name(
-        FOUND, 'server_access', p_service_name
+    PERFORM backend._conditional_notify_service_entity_name(
+        FOUND, 'server_access', p_service_entity_name
     );

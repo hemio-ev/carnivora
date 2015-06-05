@@ -36,7 +36,7 @@ body: |
         JOIN server_access.user AS s
             ON
                 u.user = s.user AND
-                s.service_name = t.service_name
+                s.service_entity_name = t.service_entity_name
 
         WHERE s.owner = v_owner
         ORDER BY t.backend_status, t.domain;

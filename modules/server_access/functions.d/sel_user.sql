@@ -16,7 +16,7 @@ returns_columns:
   name: service
   type: system.t_service
  -
-  name: service_name
+  name: service_entity_name
   type: dns.t_domain
  -
   name: backend_status
@@ -28,7 +28,7 @@ body: |
             t.user,
             t.password IS NOT NULL,
             t.service,
-            t.service_name,
+            t.service_entity_name,
             t.backend_status
         FROM
             server_access.user AS t

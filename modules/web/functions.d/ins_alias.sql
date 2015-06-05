@@ -23,7 +23,7 @@ body: |
         EXISTS(
             SELECT TRUE FROM web.site AS t
             JOIN server_access.user AS s
-                USING ("user", service_name)
+                USING ("user", service_entity_name)
             WHERE
                 t.domain = p_site AND
                 t.port = p_site_port AND
@@ -32,13 +32,13 @@ body: |
     );
 
     INSERT INTO web.alias
-        (domain, site, site_port, service_name)
+        (domain, site, site_port, service_entity_name)
     VALUES
         (
             p_domain,
             p_site,
             p_site_port,
-            (SELECT service_name FROM web.site WHERE domain = p_site AND port = p_site_port)
+            (SELECT service_entity_name FROM web.site WHERE domain = p_site AND port = p_site_port)
         );
 
     PERFORM backend._notify_domain('web', p_domain);

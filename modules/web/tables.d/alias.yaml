@@ -30,7 +30,7 @@ columns:
   description: port
   default: "80"
  -
-  name: service_name
+  name: service_entity_name
   type: dns.t_domain
   description: x
 
@@ -39,12 +39,12 @@ foreign_keys:
   name: site
   columns:
    - site
-   - service_name
+   - service_entity_name
    - site_port
   ref_table: web.site
   ref_columns:
    - domain
-   - service_name
+   - service_entity_name
    - port
   on_delete: CASCADE
 
@@ -53,9 +53,9 @@ foreign_keys:
   columns:
    - domain
    - service
-   - service_name
+   - service_entity_name
   ref_table: dns.service
   ref_columns:
    - domain
    - service
-   - service_name
+   - service_entity_name

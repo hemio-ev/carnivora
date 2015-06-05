@@ -10,7 +10,7 @@ parameters:
   name: p_service
   type: system.t_service
  -
-  name: p_service_name
+  name: p_service_entity_name
   type: dns.t_domain
 
 returns: void
@@ -19,11 +19,11 @@ body: |
     PERFORM
         pg_notify(
             'carnivora,' || p_machine,
-             p_service || ',' || p_service_name
+             p_service || ',' || p_service_entity_name
             ),
         pg_notify(
             'carnivora,' || p_machine,
-             '*,' || p_service_name
+             '*,' || p_service_entity_name
             ),
         pg_notify(
             'carnivora,' || p_machine,

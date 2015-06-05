@@ -12,7 +12,7 @@ table_templates:
   description: All to reference to system.service
   columns:
    -
-    name: service_name
+    name: service_entity_name
     type: dns.t_domain
     description: Host name
    -
@@ -24,11 +24,11 @@ table_templates:
    -
     name: reference service
     columns:
-     - service_name
+     - service_entity_name
      - service
-    ref_table: system.service
+    ref_table: system.service_entity
     ref_columns:
-     - service_name
+     - service_entity_name
      - service
 
  -

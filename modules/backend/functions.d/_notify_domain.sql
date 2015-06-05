@@ -3,7 +3,7 @@ description: |
  Informs all machines about changes.
 
  WARNING: The parameter p_domain must be a domain, which means an entry in
- the column dns.service.domain. It must not be confused with a service_name.
+ the column dns.service.domain. It must not be confused with a service_entity_name.
 
 parameters:
  -
@@ -17,7 +17,7 @@ returns: void
 
 body: |
     PERFORM
-        backend._notify(machine_name, p_service, s.service_name)
+        backend._notify(machine_name, p_service, s.service_entity_name)
 
     FROM system.service_machine AS t
         JOIN dns.service AS s
@@ -27,5 +27,5 @@ body: |
 
         WHERE
             t.service = p_service AND
-            t.service_name = s.service_name
+            t.service_entity_name = s.service_entity_name
     ;

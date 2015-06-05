@@ -1,4 +1,4 @@
-name: service_dns
+name: service_entity_dns
 description: |
  Resource records that have to be present to use a service. The records
  in this table can be understood as 'templates'. The table does not

@@ -16,7 +16,7 @@ returns_columns:
   name: service
   type: system.t_service
  -
-  name: service_name
+  name: service_entity_name
   type: dns.t_domain
  -
   name: backend_status
@@ -31,7 +31,7 @@ body: |
             DELETE FROM server_access.user AS t
             WHERE
                 backend._deleted(t.backend_status) AND
-                backend._machine_priviledged_service(t.service, t.service_name)
+                backend._machine_priviledged_service(t.service, t.service_entity_name)
         ),
 
         -- UPDATE
@@ -39,7 +39,7 @@ body: |
             UPDATE server_access.user AS t
                 SET backend_status = NULL
             WHERE
-                backend._machine_priviledged_service(t.service, t.service_name) AND
+                backend._machine_priviledged_service(t.service, t.service_entity_name) AND
                 backend._active(t.backend_status)
         )
 
@@ -48,10 +48,10 @@ body: |
             t.user,
             t.password,
             t.service,
-            t.service_name,
+            t.service_entity_name,
             t.backend_status
         FROM server_access.user AS t
 
         WHERE
-            backend._machine_priviledged_service(t.service, t.service_name) AND
+            backend._machine_priviledged_service(t.service, t.service_entity_name) AND
             (backend._active(t.backend_status) OR p_include_inactive);

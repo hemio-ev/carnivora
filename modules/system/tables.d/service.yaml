@@ -1,31 +1,20 @@
 name: service
 description: |
- Names under which services are made available. For example (mail.example.org, email)
- could be a mail-server system referred to as mail.example.org by carnivora.
- Such a system can consist of multiple physical or virtual machines. The corresponding
- machines are listed in system.service_machine. A core feature of services is the
- definition of 'templates' for dns records that have to be present for every domain 
- that uses this service. Such 'templates' have can be defined in system.service_dns.
- Domain names can be enabled for services in dns.service. Service enabled domains
- are automatically equipped with the required dns entries accorting to the existing
- 'templates'.
+ Just a list of services that exist. Modules do register their names
+ here. A name must be prefixed with '<module name>__' (example: email__)
+ or consist of the module name only.
 
- The service_name might be exposed to users as the address of this service. For
- example as SMTP or SSH server etc. The exact interpretation of the service_name
- depends on the module and the frontend.
+ Use system.setup_register_service(...) to insert into this table.
 
 primary_key:
- - service_name
  - service
 
 columns:
  -
-  name: service_name
-  type: dns.t_domain
-  description: Host name
- -
   name: service
   type: system.t_service
-  description: email, ssh, ...
-  references: system.service_index.service
-
+  description: service name
+ -
+  name: module
+  type: commons.t_key
+  description: Module name, just to keep track who uses this name

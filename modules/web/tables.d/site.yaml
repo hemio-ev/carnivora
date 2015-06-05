@@ -31,7 +31,7 @@ columns:
     description: Service
     check: web.site.service = 'web'
  -
-  name: service_name
+  name: service_entity_name
   type: dns.t_domain
   description: Service Name
  -
@@ -55,26 +55,26 @@ foreign_keys:
   name: server_access
   columns:
    - user
-   - service_name
+   - service_entity_name
   ref_table: server_access.user
   ref_columns:
    - user
-   - service_name
+   - service_entity_name
 
  -
   name: dns
   columns:
    - domain
    - service
-   - service_name
+   - service_entity_name
   ref_table: dns.service
   ref_columns:
    - domain
    - service
-   - service_name
+   - service_entity_name
 
 unique:
  -
   - domain
-  - service_name
+  - service_entity_name
   - port

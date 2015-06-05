@@ -12,7 +12,7 @@ parameters:
   name: p_domain
   type: dns.t_domain
  -
-  name: p_service_name
+  name: p_service_entity_name
   type: dns.t_domain
  -
   name: p_service
@@ -31,15 +31,15 @@ body: |
     END IF;
 
     UPDATE dns.service
-        SET service_name = p_service_name
+        SET service_entity_name = p_service_entity_name
     WHERE
         registered = p_registered AND
         domain = p_domain AND
         service = p_service;
 
     IF NOT FOUND THEN
-        INSERT INTO dns.service (registered, domain, service_name, service)
-             VALUES (p_registered, p_domain, p_service_name, p_service);
+        INSERT INTO dns.service (registered, domain, service_entity_name, service)
+             VALUES (p_registered, p_domain, p_service_entity_name, p_service);
     END IF;
 
     PERFORM backend._notify_domain('dns', p_domain);

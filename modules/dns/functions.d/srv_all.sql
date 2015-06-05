@@ -41,7 +41,7 @@ body: |
             t.backend_status
         FROM dns.service AS t
         JOIN system.service_dns AS s
-            USING (service, service_name)
+            USING (service, service_entity_name)
         JOIN dns.registered AS u
             ON t.registered = u.domain
 
