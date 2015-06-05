@@ -16,11 +16,14 @@ The setup is performed via [HamSql](https://github.com/qua-bla/hamsql). It shoul
 
 # Running the Setup
 
+### Default Method
+
 Simplest way to execute the setup on a system with a default PostgreSQL configuration is to run `sudo postgres -c ./setup`.
+
+### Advanced Method
 
 Instead you may configure the connection settings for the current user in the `~/.pgpass` file which needs restricted permissions `chmod go= ~/.pgpass`. The format is:
 
     hostname:port:database:username:password
 
 Then run `./setup`.
-
