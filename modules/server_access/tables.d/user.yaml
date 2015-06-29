@@ -22,6 +22,8 @@ columns:
 
 unique:
  -
-  - user
-  - service_entity_name
+  name: unique
+  columns:
+   - user
+   - service_entity_name
 

@@ -75,6 +75,8 @@ foreign_keys:
 
 unique:
  -
-  - domain
-  - service_entity_name
-  - port
+  name: unique
+  columns:
+   - domain
+   - service_entity_name
+   - port

@@ -19,7 +19,7 @@ body: |
     PERFORM
         backend._notify(machine_name, p_service, s.service_entity_name)
 
-    FROM system.service_machine AS t
+    FROM system.service_entity_machine AS t
         JOIN dns.service AS s
         ON
             s.service = p_service AND

@@ -22,7 +22,7 @@ parameters:
 body: |
     RETURN COALESCE(
         (
-        SELECT TRUE FROM system.service_machine AS t
+        SELECT TRUE FROM system.service_entity_machine AS t
             JOIN dns.service AS s
             ON
                 s.service = p_service AND

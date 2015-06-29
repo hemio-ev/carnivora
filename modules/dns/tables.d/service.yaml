@@ -11,9 +11,11 @@ primary_key:
 
 unique:
  -
-  - domain
-  - service
-  - service_entity_name
+  name: unique
+  columns:
+   - domain
+   - service
+   - service_entity_name
 
 columns:
  -
