@@ -1,4 +1,4 @@
-name: contingent_group_member
+name: inherit_acl
 description: |
  x
 
@@ -16,7 +16,7 @@ columns:
   type: user.t_user
  -
   name: priority
-  description: Priority, heigher values take precedence
+  description: Priority, higher values take precedence
   type: int
 
 unique:

@@ -7,7 +7,7 @@ primary_key:
 columns:
  -
   name: owner
-  type: commons.t_key
+  type: user.t_user
   description: User name
  -
   template: commons.password
