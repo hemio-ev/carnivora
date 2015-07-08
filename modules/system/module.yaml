@@ -8,8 +8,8 @@ priv_usage:
 
 table_templates:
  -
-  template: reference_service
-  description: All to reference to system.service
+  template: reference_service_entity
+  description: Reference to system.service_entity
   columns:
    -
     name: service_entity_name
@@ -17,7 +17,7 @@ table_templates:
     description: Host name
    -
     name: service
-    type: system.t_service
+    type: commons.t_key
     description: email, ssh, ...
 
   foreign_keys:
@@ -32,6 +32,27 @@ table_templates:
      - service
 
  -
+  template: reference_subservice_entity
+  description: Reference to system.subservice_entity
+  columns:
+   -
+    name: subservice
+    type: commons.t_key
+    description: account, alias, ...
+
+  foreign_keys:
+   -
+    name: reference subservice
+    columns:
+     - service_entity_name
+     - service
+     - subservice
+    ref_table: system.subservice_entity
+    ref_columns:
+     - service_entity_name
+     - service
+     - subservice
+ -
   template: contingent
   description: Contingent
   columns:
@@ -41,10 +62,3 @@ table_templates:
     default: "0"
     description: Quantity
 
-
-
-domains:
- -
-  name: t_service
-  type: commons.t_key
-  description: Service

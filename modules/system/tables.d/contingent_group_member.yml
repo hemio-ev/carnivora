@@ -1,0 +1,27 @@
+name: contingent_group_member
+description: |
+ x
+
+primary_key:
+ - owner
+ - priority
+
+templates:
+ - user.ownable
+
+columns:
+ -
+  name: donor
+  description: Donor
+  type: user.t_user
+ -
+  name: priority
+  description: Priority, heigher values take precedence
+  type: int
+
+unique:
+ -
+  name: abc
+  columns:
+   - owner
+   - priority

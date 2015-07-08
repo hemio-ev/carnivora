@@ -15,7 +15,7 @@ parameters:
   type: dns.t_domain
  -
   name: p_service
-  type: system.t_service
+  type: commons.t_key
  -
   name: p_password
   type: commons.t_password_plaintext

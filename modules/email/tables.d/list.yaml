@@ -3,15 +3,19 @@ description: Mailing lists
 
 templates:
  - dns.reference_service
+ - system.reference_subservice_entity
  - user.ownable
  - backend.status
- - email.address
 
 primary_key:
  - localpart
  - domain
 
 columns:
+ -
+  name: localpart
+  type: email.t_localpart
+  description: Local part of the email list address
  -
   name: admin
   type: email.t_address

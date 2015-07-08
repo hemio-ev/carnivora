@@ -10,7 +10,7 @@ parameters:
   type: user.t_user
  -
   name: p_service
-  type: system.t_service
+  type: commons.t_key
  -
   name: p_domain
   type: dns.t_domain

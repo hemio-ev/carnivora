@@ -10,7 +10,7 @@ parameters:
   type: dns.t_domain
  -
   name: p_service
-  type: system.t_service
+  type: commons.t_key
 
 returns: void
 

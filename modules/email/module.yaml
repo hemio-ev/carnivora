@@ -1,6 +1,6 @@
 name: email
 description: "E-Mail and Mailing lists ✉"
-dependencies: [ domains ]
+dependencies: [ dns ]
 priv_all_all:
  - system
 priv_usage:
@@ -8,9 +8,11 @@ priv_usage:
  - backend
 
 exec_post_install: |
- SELECT system._setup_register_service_entity('email', 'email');
- SELECT system._setup_register_service_entity('email', 'email__list');
- SELECT system._setup_register_service_entity('email', 'web');
+ SELECT system._setup_register_service('email', 'email');
+ SELECT system._setup_register_subservice('email', 'mailbox');
+ SELECT system._setup_register_subservice('email', 'alias');
+ SELECT system._setup_register_subservice('email', 'redirection');
+ SELECT system._setup_register_subservice('email', 'list');
  SELECT setval('email.mailbox_uid_seq', 100000);
 
 function_templates:
@@ -40,26 +42,10 @@ column_templates:
   type: dns.t_type
   description: Type (?) like MX, A, AAAA, ...
 
-table_templates:
- -
-  template: address
-  description: Address
-
-  columns:
-   -
-    name: service
-    type: system.t_service
-    description: Enforce service type in dns.service
-    checks:
-     -
-      name: service type
-      description: ensures that service type is email
-      check: service = 'email'
-    default: "'email'"
-   -
-    name: localpart
-    type: email.t_localpart
-    description: Local part of the address
+#   -
+#    name: localpart
+#    type: email.t_localpart
+#    description: Local part of the address
 
 domains:
  -

@@ -21,20 +21,6 @@ columns:
   type: server_access.t_user
   description: Server account under which the htdocs reside
  -
-  name: service
-  type: system.t_service
-  description: Ensure correct service type
-  default: "'web'"
-  checks:
-   -
-    name: ensure correct service
-    description: Service
-    check: web.site.service = 'web'
- -
-  name: service_entity_name
-  type: dns.t_domain
-  description: Service Name
- -
   name: https
   type: commons.t_key
   null: true
@@ -59,18 +45,6 @@ foreign_keys:
   ref_table: server_access.user
   ref_columns:
    - user
-   - service_entity_name
-
- -
-  name: dns
-  columns:
-   - domain
-   - service
-   - service_entity_name
-  ref_table: dns.service
-  ref_columns:
-   - domain
-   - service
    - service_entity_name
 
 unique:

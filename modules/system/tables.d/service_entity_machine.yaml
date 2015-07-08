@@ -10,7 +10,7 @@ primary_key:
  - service
 
 templates:
- - system.reference_service
+ - system.reference_service_entity
 
 columns:
  -

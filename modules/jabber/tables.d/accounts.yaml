@@ -7,6 +7,7 @@ primary_key:
 
 templates:
  - dns.reference_service
+ - system.reference_subservice_entity
  - user.ownable
  - backend.status
 
@@ -17,13 +18,3 @@ columns:
   description: part in front of the @ in account name
  -
   template: commons.password
- -
-  name: service
-  type: varchar
-  description: Ensures that referenced domain is jabber enabled.
-  default: "'jabber'"
-  checks:
-   -
-    name: check
-    description: ensure service is jabber
-    check: service = 'jabber'

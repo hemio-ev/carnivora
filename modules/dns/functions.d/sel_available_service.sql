@@ -15,7 +15,7 @@ returns_columns:
   type: dns.t_domain
  -
   name: service
-  type: system.t_service
+  type: commons.t_key
 
 body: |
     RETURN QUERY

@@ -1,12 +1,12 @@
 name: mailbox
 description: |
- E-mail mailboxs correspond to something a mail user can login into. Basically 
- a mailbox represents a mailbox. A mailbox is bound to a specific address. 
- Further addresses can be linked to mailboxs via aliases. 
- 
+ E-mail mailboxs correspond to something a mail user can login into. Basically
+ a mailbox represents a mailbox. A mailbox is bound to a specific address.
+ Further addresses can be linked to mailboxs via aliases.
+
 templates:
  - dns.reference_service
- - email.address
+ - system.reference_subservice_entity
  - user.ownable
  - backend.status
 
@@ -16,6 +16,10 @@ primary_key:
 
 columns:
  -
+  name: localpart
+  type: email.t_localpart
+  description: Local part
+ -
   template: commons.uid
  -
   template: commons.password
@@ -23,7 +27,7 @@ columns:
   name: quota
   type: int
   null: true
-  description: Quota for mailbox in MiB 
+  description: Quota for mailbox in MiB
 
 checks:
  -

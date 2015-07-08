@@ -1,10 +1,28 @@
 name: alias
 description: Aliases for e-mail mailboxes, owner is determined by mailbox.owner
 
-templates: 
+primary_key:
+ - localpart
+ - domain
+
+templates:
  - dns.reference_service
- - email.address
+ - system.reference_subservice_entity
  - backend.status
+
+columns:
+ -
+  name: localpart
+  type: email.t_localpart
+  description: Local part
+ -
+  name: mailbox_localpart
+  type: email.t_localpart
+  description: Mailbox to which the mails will be delivered
+ -
+  name: mailbox_domain
+  type: dns.t_domain
+  description: Mailbox to which the mails will be delivered
 
 foreign_keys:
  -
@@ -17,17 +35,3 @@ foreign_keys:
    - localpart
    - domain
   on_delete: CASCADE
-
-primary_key:
- - localpart
- - domain
-
-columns:
- -
-  name: mailbox_localpart
-  type: email.t_localpart
-  description: Mailbox to which the mails will be delivered
- -
-  name: mailbox_domain
-  type: dns.t_domain
-  description: Mailbox to which the mails will be delivered

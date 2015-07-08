@@ -5,7 +5,8 @@ primary_key:
  - user
 
 templates:
- - system.reference_service
+ - system.reference_service_entity
+ - system.reference_subservice_entity
  - backend.status
  - user.ownable
 

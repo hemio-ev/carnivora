@@ -1,0 +1,42 @@
+name: subservice_entity
+description: |
+ Names under which subservices are made available.
+
+primary_key:
+ - service_entity_name
+ - service
+ - subservice
+
+columns:
+ -
+  name: service_entity_name
+  type: dns.t_domain
+  description: Service entity name
+ -
+  name: service
+  type: commons.t_key
+  description: Service name
+ -
+  name: subservice
+  type: commons.t_key
+  description: account, alias, ...
+
+foreign_keys:
+ -
+  name: service ent
+  columns:
+   - service_entity_name
+   - service
+  ref_table: system.service_entity
+  ref_columns:
+   - service_entity_name
+   - service
+ -
+  name: subservice
+  columns:
+   - service
+   - subservice
+  ref_table: system.subservice
+  ref_columns:
+   - service
+   - subservice

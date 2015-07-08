@@ -123,13 +123,24 @@ table_templates:
     name: domain
     type: dns.t_domain
     description: Domain name
+   -
+    name: service
+    type: commons.t_key
+    description: Service
+   -
+    name: service_entity_name
+    type: dns.t_domain
+    description: ent. name
+
   foreign_keys:
    -
     name: reference dns (service)
     columns:
      - domain
      - service
+     - service_entity_name
     ref_table: dns.service
     ref_columns:
      - domain
      - service
+     - service_entity_name

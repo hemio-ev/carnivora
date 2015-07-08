@@ -8,7 +8,7 @@ description: |
 parameters:
  -
   name: p_service
-  type: system.t_service
+  type: commons.t_key
  -
   name: p_service_entity_name
   type: dns.t_domain

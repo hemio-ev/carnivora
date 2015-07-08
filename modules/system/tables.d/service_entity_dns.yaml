@@ -11,7 +11,7 @@ primary_key:
  - id
 
 templates:
- - system.reference_service
+ - system.reference_service_entity
  - dns.resource_record
 
 columns:

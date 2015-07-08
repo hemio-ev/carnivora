@@ -7,6 +7,10 @@ priv_usage:
  - userlogin
  - backend
 
+exec_post_install: |
+ SELECT system._setup_register_service('web', 'web');
+ SELECT system._setup_register_subservice('web', 'account');
+
 domains:
  -
   name: t_cert

@@ -1,0 +1,18 @@
+name: subservice
+description: |
+ Subservice
+
+primary_key:
+ - service
+ - subservice
+
+columns:
+ -
+  name: service
+  type: commons.t_key
+  description: Service name
+  references: system.service.service
+ -
+  name: subservice
+  type: commons.t_key
+  description: Sub part of the service

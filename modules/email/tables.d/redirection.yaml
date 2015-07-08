@@ -1,9 +1,9 @@
 name: redirection
 description: Redirections
 
-templates: 
+templates:
  - dns.reference_service
- - email.address
+ - system.reference_subservice_entity
  - user.ownable
  - backend.status
 
@@ -12,6 +12,10 @@ primary_key:
  - domain
 
 columns:
+ -
+  name: localpart
+  type: email.t_localpart
+  description: Local part
  -
   name: destination
   type: email.t_address

@@ -1,4 +1,4 @@
-name: _setup_register_service_entity
+name: _setup_register_service
 description: |
  Allows modules to register their services during setup.
  Returns the total number of service names registered

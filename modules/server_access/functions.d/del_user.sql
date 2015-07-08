@@ -12,7 +12,7 @@ parameters:
   type: server_access.t_user
  -
   name: p_service_entity_name
-  type: system.t_service
+  type: commons.t_key
 
 body: |
     BEGIN

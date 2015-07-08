@@ -14,7 +14,7 @@ returns_columns:
   type: boolean
  -
   name: service
-  type: system.t_service
+  type: commons.t_key
  -
   name: service_entity_name
   type: dns.t_domain

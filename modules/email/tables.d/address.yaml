@@ -1,5 +1,10 @@
 name: address
 description: Collection of all known addresses
+
+templates:
+ - dns.reference_service
+ - system.reference_subservice_entity
+
 primary_key:
  - localpart
  - domain
@@ -9,7 +14,3 @@ columns:
   name: localpart
   type: email.t_localpart
   description: Local part
- -
-  name: domain
-  type: dns.t_domain
-  description: Domain

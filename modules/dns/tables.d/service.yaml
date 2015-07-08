@@ -2,7 +2,7 @@ name: service
 description: Name server entries based on system.service (i.e. system.service_dns)
 
 templates:
- - system.reference_service
+ - system.reference_service_entity
  - backend.status
 
 primary_key:
