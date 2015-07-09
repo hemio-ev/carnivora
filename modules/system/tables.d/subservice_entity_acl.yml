@@ -13,4 +13,8 @@ primary_key:
  - service_entity_name
  - owner
 
-columns: []
+columns: 
+ -
+  name: domain_contingent
+  type: integer
+  description: Limit per domain
