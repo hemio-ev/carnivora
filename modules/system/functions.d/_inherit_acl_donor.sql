@@ -29,7 +29,7 @@ body: |
 
     SELECT
      curr.donor,
-     prev.priority_list || curr.priority),
+     prev.priority_list || curr.priority,
      cycle_detector || CAST(curr.donor AS varchar)
     FROM system.inherit_acl AS curr
      JOIN acl_donor AS prev
@@ -37,6 +37,9 @@ body: |
       prev.donor = curr.owner AND
       curr.donor <> ALL (prev.cycle_detector)
  )
- SELECT acl_donor.donor, acl_donor.priority_list FROM acl_donor
+ SELECT
+  acl_donor.donor,
+  array_append(acl_donor.priority_list, NULL)
+ FROM acl_donor
  -- Appending the NULL changes the ordering between arrays with different size
- ORDER BY acl_donor.priority_list || NULL DESC;
+ ORDER BY array_append(acl_donor.priority_list, NULL) DESC;

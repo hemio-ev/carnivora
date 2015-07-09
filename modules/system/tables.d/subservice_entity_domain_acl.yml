@@ -1,0 +1,25 @@
+name: subservice_entity_domain_acl
+description: |
+ Subservice entity per domain ACL
+
+templates:
+ - system.reference_service_entity
+ - system.reference_subservice_entity
+ - user.ownable
+
+primary_key:
+ - service
+ - subservice
+ - service_entity_name
+ - domain
+ - owner
+
+columns:
+ -
+  name: domain
+  type: dns.t_domain
+  description: Specific domain for which the access is granted
+ -
+  name: domain_contingent
+  type: integer
+  description: Limit per domain

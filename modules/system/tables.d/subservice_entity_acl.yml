@@ -1,0 +1,16 @@
+name: subservice_entity_acl
+description: |
+ Subservice entity ACL
+
+templates:
+ - system.reference_service_entity
+ - system.reference_subservice_entity
+ - user.ownable
+
+primary_key:
+ - service
+ - subservice
+ - service_entity_name
+ - owner
+
+columns: []
