@@ -3,6 +3,7 @@ description: Aliases
 
 templates:
  - dns.reference_service
+ - system.reference_subservice_entity
  - backend.status
 
 primary_key:

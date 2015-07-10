@@ -18,7 +18,7 @@ The setup is performed via [HamSql](https://github.com/qua-bla/hamsql). It shoul
 
 ### Default Method
 
-Simplest way to execute the setup on a system with a default PostgreSQL configuration is to run `sudo postgres -c ./setup`.
+Simplest way to execute the setup on a system with a default PostgreSQL configuration is to run `su postgres -c ./setup`.
 
 ### Advanced Method
 
