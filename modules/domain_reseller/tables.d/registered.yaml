@@ -2,6 +2,7 @@ name: registered
 description: Addtional informations to dns.registered
 
 templates:
+ - system.reference_service_entity
  - backend.status
 
 primary_key:
