@@ -4,6 +4,7 @@ description: Domains registered under a public suffix.
 templates:
  - user.ownable
  - backend.status
+ - system.reference_service_entity
 
 primary_key:
  - domain
