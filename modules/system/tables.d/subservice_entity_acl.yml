@@ -1,6 +1,6 @@
-name: subservice_entity_acl
+name: subservice_entity_contingent
 description: |
- Subservice entity ACL
+ Subservice entity contingent
 
 templates:
  - system.reference_service_entity

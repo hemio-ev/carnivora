@@ -1,5 +1,5 @@
-name: _effective_acl
-description: ACL
+name: _effective_contingent
+description: contingent
 
 returns: TABLE
 returns_columns:
@@ -23,22 +23,22 @@ body: |
  RETURN QUERY
   SELECT
    DISTINCT ON
-   (acl.service, acl.subservice, acl.service_entity_name, usr.owner)
-   acl.service,
-   acl.subservice,
-   acl.service_entity_name,
+   (contingent.service, contingent.subservice, contingent.service_entity_name, usr.owner)
+   contingent.service,
+   contingent.subservice,
+   contingent.service_entity_name,
    usr.owner,
-   acl.domain_contingent
-  FROM system.subservice_entity_acl AS acl
+   contingent.domain_contingent
+  FROM system.subservice_entity_contingent AS contingent
 
   CROSS JOIN "user"."user" AS usr
 
-  JOIN system._inherit_acl_donor(usr.owner) AS des
-    ON des.donor = acl.owner
+  JOIN system._inherit_contingent_donor(usr.owner) AS des
+    ON des.donor = contingent.owner
 
   ORDER BY
-   acl.service,
-   acl.subservice,
-   acl.service_entity_name,
+   contingent.service,
+   contingent.subservice,
+   contingent.service_entity_name,
    usr.owner,
    des.priority_list DESC;

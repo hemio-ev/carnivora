@@ -26,24 +26,24 @@ body: |
     SELECT t.domain, t.service_entity_name FROM dns.service AS t
         JOIN dns.registered AS d
             ON d.domain = t.registered
-        LEFT JOIN system._effective_acl_domain() AS acl_d
+        LEFT JOIN system._effective_contingent_domain() AS contingent_d
             ON
-                acl_d.domain = t.domain AND
-                acl_d.service = t.service AND
-                acl_d.subservice = p_subservice AND
-                acl_d.service_entity_name = t.service_entity_name AND
-                acl_d.owner = v_owner
+                contingent_d.domain = t.domain AND
+                contingent_d.service = t.service AND
+                contingent_d.subservice = p_subservice AND
+                contingent_d.service_entity_name = t.service_entity_name AND
+                contingent_d.owner = v_owner
 
-        LEFT JOIN system._effective_acl() AS acl
+        LEFT JOIN system._effective_contingent() AS contingent
             ON
-                acl.service = t.service AND
-                acl.subservice = p_subservice AND
-                acl.owner = v_owner AND
+                contingent.service = t.service AND
+                contingent.subservice = p_subservice AND
+                contingent.owner = v_owner AND
                 d.owner = v_owner
 
         WHERE
             t.service = p_service AND
-            COALESCE(acl_d.domain_contingent, acl.domain_contingent, 0) > 0
+            COALESCE(contingent_d.domain_contingent, contingent.domain_contingent, 0) > 0
         ORDER BY
             t.domain
     ;
