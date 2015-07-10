@@ -5,6 +5,7 @@ templates:
  - user.ownable
  - backend.status
  - system.reference_service_entity
+ - system.reference_subservice_entity
 
 primary_key:
  - domain
@@ -18,8 +19,3 @@ columns:
   name: public_suffix
   type: varchar
   description: Public Suffix
- -
-  name: managed
-  type: boolean
-  description: Managed via this system
-  default: "TRUE"

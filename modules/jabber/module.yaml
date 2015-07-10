@@ -9,3 +9,4 @@ priv_usage:
 exec_post_install: |
  SELECT system._setup_register_service('jabber', 'jabber');
  SELECT system._setup_register_subservice('jabber', 'account');
+ SELECT system._setup_register_subservice('jabber', 'dns_activatable');

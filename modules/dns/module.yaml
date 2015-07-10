@@ -6,6 +6,13 @@ priv_usage:
  - userlogin
  - backend
 
+
+exec_post_install: |
+ SELECT system._setup_register_service('dns', 'domain_registered');
+ SELECT system._setup_register_subservice('domain_registered', 'managed');
+ SELECT system._setup_register_subservice('domain_registered', 'managed_custom');
+ SELECT system._setup_register_subservice('domain_registered', 'unmanaged');
+
 domains:
 
  -

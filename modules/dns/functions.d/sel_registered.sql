@@ -15,10 +15,16 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+ -
+  name: subservice
+  type: commons.t_key
+ -
+  name: service_entity_name
+  type: dns.t_domain
 
 body: |
     RETURN QUERY
-        SELECT t.domain, t.public_suffix, t.backend_status
+        SELECT t.domain, t.public_suffix, t.backend_status, t.subservice, t.service_entity_name
         FROM dns.registered AS t
         WHERE
             t.owner = v_owner

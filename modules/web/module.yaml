@@ -11,6 +11,7 @@ exec_post_install: |
  SELECT system._setup_register_service('web', 'web');
  SELECT system._setup_register_subservice('web', 'site');
  SELECT system._setup_register_subservice('web', 'alias');
+ SELECT system._setup_register_subservice('web', 'dns_activatable');
 
 domains:
  -
