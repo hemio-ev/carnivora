@@ -5,6 +5,7 @@ returns: void
 
 templates:
  - user.userlogin
+ - email.insert
 
 parameters:
  -
@@ -19,6 +20,12 @@ parameters:
  -
   name: p_mailbox_domain
   type: dns.t_domain
+
+variables:
+ -
+  name: v_subservice
+  type: commons.t_key
+  default: "'alias'"
 
 body: |
 
@@ -36,8 +43,9 @@ body: |
      ));
 
     INSERT INTO email.alias
-        (localpart, domain, mailbox_localpart, mailbox_domain)
+        (service, subservice, localpart, domain, mailbox_localpart, mailbox_domain, service_entity_name)
     VALUES
-        (p_localpart, p_domain, p_mailbox_localpart, p_mailbox_domain);
+        ('email', 'alias', p_localpart, p_domain, p_mailbox_localpart, p_mailbox_domain,
+        (SELECT service_entity_name FROM dns.service WHERE service='email' AND domain = p_domain));
 
     PERFORM backend._notify_domain('email', p_domain);

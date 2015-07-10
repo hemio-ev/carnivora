@@ -11,6 +11,7 @@ columns:
   description: User name
  -
   template: commons.password
+  null: true
  -
   name: login
   type: bool

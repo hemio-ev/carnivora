@@ -33,11 +33,13 @@ body: |
         p_owner:=v_owner,
         p_domain:=p_domain,
         p_service:='jabber',
+        p_subservice:='account',
         p_current_quantity_total:=v_num_total,
         p_current_quantity_domain:=v_num_domain);
 
     INSERT INTO jabber.account
-        (node, domain, owner, password) VALUES
-        (p_node, p_domain, v_owner, commons._hash_password(p_password));
+        (service, subservice, node, domain, owner, password, service_entity_name) VALUES
+        ('jabber', 'account', p_node, p_domain, v_owner, commons._hash_password(p_password),
+        (SELECT service_entity_name FROM dns.service WHERE service='jabber' AND domain = p_domain));
 
     PERFORM backend._notify_domain('jabber', p_domain);

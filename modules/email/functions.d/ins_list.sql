@@ -6,6 +6,7 @@ returns: void
 
 templates:
  - user.userlogin
+ - email.insert
 
 parameters:
  -
@@ -20,28 +21,15 @@ parameters:
 
 variables:
  -
-  name: v_num_total
-  type: int
- -
-  name: v_num_domain
-  type: int
+  name: v_subservice
+  type: commons.t_key
+  default: "'list'"
 
 body: |
 
-    v_num_total := (SELECT COUNT(*) FROM email.list AS t WHERE t.owner=v_owner);
-    v_num_domain := (SELECT COUNT(*) FROM email.list AS t WHERE t.owner=v_owner AND t.domain = p_domain);
-
-    PERFORM system._contingent_ensure(
-        p_owner:=v_owner,
-        p_domain:=p_domain,
-        p_service:='email__list',
-        p_current_quantity_total:=v_num_total,
-        p_current_quantity_domain:=v_num_domain);
-
-    PERFORM email._address_valid(p_localpart, p_domain);
-
     INSERT INTO email.list
-        (localpart, domain, owner, admin) VALUES
-        (p_localpart, p_domain, v_owner, p_admin);
+        (service, subservice, localpart, domain, owner, admin, service_entity_name) VALUES
+        ('email', 'list', p_localpart, p_domain, v_owner, p_admin,
+        (SELECT service_entity_name FROM dns.service WHERE service='email' AND domain = p_domain));
 
-    PERFORM backend._notify_domain('email__list', p_domain);
+    PERFORM backend._notify_domain('email', p_domain);

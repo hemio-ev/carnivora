@@ -18,6 +18,9 @@ returns_columns:
  -
   name: domain_contingent
   type: int
+ -
+  name: total_contingent
+  type: int
 
 body: |
  RETURN QUERY
@@ -28,7 +31,8 @@ body: |
    contingent.subservice,
    contingent.service_entity_name,
    usr.owner,
-   contingent.domain_contingent
+   contingent.domain_contingent,
+   contingent.total_contingent
   FROM system.subservice_entity_contingent AS contingent
 
   CROSS JOIN "user"."user" AS usr
