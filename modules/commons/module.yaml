@@ -4,6 +4,17 @@ description: |
 priv_all_all:
  - system
 
+table_templates:
+ -
+  template: options
+  description: Adds JSON options
+  columns:
+   -
+    name: option
+    description: Free options
+    type: jsonb
+    default: "'{}'"
+
 column_templates:
 # password
  -
@@ -23,17 +34,15 @@ column_templates:
   unique: true
 # uid
  -
-   template: uid
-   name: uid
-   type: SERIAL
-   description: Unix user identifier
-   checks:
-    -
-     name: range
-     description: Range
-     check: uid > 100000 AND uid < 200000
-
-
+  template: uid
+  name: uid
+  type: SERIAL
+  description: Unix user identifier
+  checks:
+   -
+    name: range
+    description: Range
+    check: uid > 100000 AND uid < 200000
 
 domains:
  -

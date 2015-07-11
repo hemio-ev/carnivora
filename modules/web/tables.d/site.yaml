@@ -6,6 +6,7 @@ templates:
  - dns.reference_service
  - system.reference_subservice_entity
  - backend.status
+ - commons.options
 
 primary_key:
  - domain
@@ -16,7 +17,6 @@ columns:
   name: port
   type: commons.t_port
   description: Port
-  default: "80"
  -
   name: user
   type: server_access.t_user
@@ -26,6 +26,12 @@ columns:
   type: commons.t_key
   null: true
   description: If null, HTTPS is deactivated
+
+checks:
+ -
+  name: valid redirection
+  description: Ensure redirect URL exists for redirection
+  check: subservice <> 'http_redirect' OR (option->>'redirect_url')::varchar IS NOT NULL
 
 foreign_keys:
  -

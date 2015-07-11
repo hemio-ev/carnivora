@@ -8,6 +8,12 @@ templates:
 returns: TABLE
 returns_columns:
  -
+  name: service
+  type: commons.t_key
+ -
+  name: subservice
+  type: commons.t_key
+ -
   name: domain
   type: dns.t_domain
  -
@@ -25,16 +31,22 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+ -
+  name: option
+  type: jsonb
 
 body: |
     RETURN QUERY
         SELECT
+            t.service,
+            t.subservice,
             t.domain,
             t.port,
             t.user,
             t.service_entity_name,
             t.https,
-            t.backend_status
+            t.backend_status,
+            t.option
         FROM web.site AS t
         JOIN server_access.user AS s
             USING ("user", service_entity_name)
