@@ -1,5 +1,6 @@
 name: sel_activatable_service
-description: Preliminary implementation
+description: |
+ Activatable services
 
 templates:
  - user.userlogin
@@ -15,8 +16,13 @@ returns_columns:
 
 body: |
     RETURN QUERY
-        SELECT
-            t.service,
-            t.service_entity_name
-        FROM system.service AS t
-        ORDER BY t.service, t.service_entity_name;
+    SELECT
+        COALESCE(t.service, s.service) AS service,
+        COALESCE(t.service_entity_name, s.service_entity_name) AS service_entity_name
+    FROM system._effective_contingent() AS t
+    FULL OUTER JOIN system._effective_contingent_domain() AS s
+    USING (service, subservice, service_entity_name, owner)
+    WHERE
+        COALESCE(t.subservice, s.subservice) = 'dns_activatable' AND
+        COALESCE(t.owner, s.owner) = v_owner
+    ;
