@@ -16,3 +16,8 @@ columns:
   name: login
   type: bool
   description: Login enabled
+ -
+  name: contact_email
+  description: Optional contact email address
+  type: email.t_address
+  null: true

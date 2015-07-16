@@ -16,6 +16,9 @@ returns_columns:
   name: service
   type: commons.t_key
  -
+  name: subservice
+  type: commons.t_key
+ -
   name: service_entity_name
   type: dns.t_domain
  -
@@ -48,6 +51,7 @@ body: |
             t.user,
             t.password,
             t.service,
+            t.subservice,
             t.service_entity_name,
             t.backend_status
         FROM server_access.user AS t
