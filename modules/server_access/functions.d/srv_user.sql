@@ -24,6 +24,9 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+ -
+  name: uid
+  type: int
 
 body: |
     RETURN QUERY
@@ -53,7 +56,8 @@ body: |
             t.service,
             t.subservice,
             t.service_entity_name,
-            t.backend_status
+            t.backend_status,
+            t.uid
         FROM server_access.user AS t
 
         WHERE
