@@ -3,6 +3,7 @@ description: xxx
 
 primary_key:
  - domain
+ - port
  - identifier
  - subject_key_identifier
 
@@ -34,9 +35,11 @@ foreign_keys:
   name: https cert
   columns:
    - domain
+   - port
    - identifier
   ref_table: web.https
   ref_columns:
    - domain
+   - port
    - identifier
   on_delete: CASCADE

@@ -38,10 +38,12 @@ foreign_keys:
   name: https
   columns:
    - domain
+   - port
    - https
   ref_table: web.https
   ref_columns:
    - domain
+   - port
    - identifier
 
  -

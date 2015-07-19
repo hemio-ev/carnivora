@@ -7,6 +7,7 @@ templates:
 primary_key:
  - identifier
  - domain
+ - port
 
 columns:
  -
