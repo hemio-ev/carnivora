@@ -32,10 +32,12 @@ body: |
     );
 
     INSERT INTO web.alias
-        (domain, site, site_port, service_entity_name)
+        (domain, service, subservice, site, site_port, service_entity_name)
     VALUES
         (
             p_domain,
+            'web',
+            'alias',
             p_site,
             p_site_port,
             (SELECT service_entity_name FROM web.site WHERE domain = p_site AND port = p_site_port)

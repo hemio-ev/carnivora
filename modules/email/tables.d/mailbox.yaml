@@ -9,6 +9,7 @@ templates:
  - system.reference_subservice_entity
  - user.ownable
  - backend.status
+ - commons.options
 
 primary_key:
  - localpart

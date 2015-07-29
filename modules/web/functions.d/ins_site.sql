@@ -25,8 +25,8 @@ parameters:
 body: |
 
     INSERT INTO web.site
-    (domain, port, "user", service_entity_name)
+    (domain, service, subservice, port, "user", service_entity_name)
     VALUES
-    (p_domain, p_port, p_user, p_service_entity_name);
+    (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name);
 
     PERFORM backend._notify_domain('web', p_domain);

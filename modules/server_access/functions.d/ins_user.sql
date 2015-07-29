@@ -14,7 +14,7 @@ parameters:
   name: p_service_entity_name
   type: dns.t_domain
  -
-  name: p_service
+  name: p_subservice
   type: commons.t_key
  -
   name: p_password
@@ -34,8 +34,8 @@ body: |
     END IF;
 
     INSERT INTO server_access.user
-        (service, service_entity_name, "user", password, owner)
+        (service, subservice, service_entity_name, "user", password, owner)
     VALUES
-        (p_service, p_service_entity_name, p_user, v_password, v_owner);
+        ('server_access', p_subservice, p_service_entity_name, p_user, v_password, v_owner);
 
     PERFORM backend._notify_service_entity_name('server_access', p_service_entity_name);

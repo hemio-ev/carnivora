@@ -1,8 +1,9 @@
 name: list_subscriber
 description: list subscribers
 
-templates: 
+templates:
  - backend.status
+ - commons.options
 
 foreign_keys:
  -
