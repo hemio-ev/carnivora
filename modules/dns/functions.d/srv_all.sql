@@ -22,9 +22,6 @@ returns_columns:
   name: ttl
   type: dns.t_ttl
  -
-  name: managed
-  type: boolean
- -
   name: backend_status
   type: backend.t_status
 
@@ -37,13 +34,14 @@ body: |
             s.type,
             s.rdata,
             s.ttl,
-            u.managed,
             t.backend_status
         FROM dns.service AS t
-        JOIN system.service_dns AS s
+        JOIN system.service_entity_dns AS s
             USING (service, service_entity_name)
         JOIN dns.registered AS u
             ON t.registered = u.domain
+        WHERE
+            u.subservice = 'managed'
 
         UNION ALL
 
@@ -53,11 +51,10 @@ body: |
             t.type,
             t.rdata,
             t.ttl,
-            u.managed,
             t.backend_status
         FROM dns.custom AS t
         JOIN dns.registered AS u
             ON t.registered = u.domain
+        WHERE
+            u.subservice = 'managed'
         ;
-
-

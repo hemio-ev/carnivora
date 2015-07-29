@@ -6,3 +6,8 @@ priv_all_all:
 priv_usage:
  - userlogin
  - backend
+
+exec_post_install: |
+ SELECT system._setup_register_service('domain_reseller', 'domain_reseller');
+ SELECT system._setup_register_subservice('domain_reseller', 'handle');
+ SELECT system._setup_register_subservice('domain_reseller', 'domain');

@@ -2,6 +2,8 @@ name: handle
 description: Domain Handles (Contacts)
 
 templates:
+ - system.reference_service_entity
+ - system.reference_subservice_entity
  - user.ownable
  - backend.status
 
