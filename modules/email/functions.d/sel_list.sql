@@ -21,15 +21,20 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+ -
+  name: num_subscribers
+  type: bigint
 
 body: |
     RETURN QUERY
         SELECT
-            t.domain, 
+            t.domain,
             t.localpart,
             t.owner,
-            t.admin, 
-            t.backend_status
+            t.admin,
+            t.backend_status,
+            (SELECT COUNT(*) FROM email.list_subscriber AS s
+            WHERE s.list_localpart=t.localpart AND s.list_domain=t.domain)
         FROM
             email.list AS t
         WHERE
