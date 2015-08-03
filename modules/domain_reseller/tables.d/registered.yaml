@@ -12,6 +12,7 @@ columns:
   name: domain
   type: dns.t_domain
   references: dns.registered.domain
+  on_ref_delete: CASCADE
   description: Domain
  -
   name: registrant
