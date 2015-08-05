@@ -15,7 +15,8 @@ parameters:
   type: dns.t_domain
 
 body: |
-    DELETE FROM jabber.account
+    UPDATE jabber.account
+    SET backend_status = 'del'
     WHERE
         node = p_node AND
         domain = p_domain AND

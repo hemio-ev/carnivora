@@ -14,7 +14,7 @@ The setup is performed via [HamSql](https://github.com/qua-bla/hamsql). It shoul
     apt-get install postgresql postgresql-contrib
     apt-get install postgresql-plpython3-9.4
 
-# Running the Setup
+## Running the Setup
 
 ### Default Method
 
