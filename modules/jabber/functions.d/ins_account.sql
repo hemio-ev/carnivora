@@ -42,4 +42,4 @@ body: |
         ('jabber', 'account', p_node, p_domain, v_owner, commons._hash_password(p_password),
         (SELECT service_entity_name FROM dns.service WHERE service='jabber' AND domain = p_domain));
 
-    PERFORM backend._notify_domain('jabber', p_domain);
+    PERFORM backend._notify_domain('jabber', 'account', p_domain);

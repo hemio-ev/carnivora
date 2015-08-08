@@ -37,4 +37,4 @@ body: |
 
             s.owner = v_owner;
 
-        PERFORM backend._conditional_notify(FOUND, 'email', p_domain);
+        PERFORM backend._conditional_notify(FOUND, 'email', 'alias', p_domain);

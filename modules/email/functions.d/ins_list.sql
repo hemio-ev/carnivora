@@ -32,4 +32,4 @@ body: |
         ('email', 'list', p_localpart, p_domain, v_owner, p_admin,
         (SELECT service_entity_name FROM dns.service WHERE service='email' AND domain = p_domain));
 
-    PERFORM backend._notify_domain('email', p_domain);
+    PERFORM backend._notify_domain('email', 'list', p_domain);

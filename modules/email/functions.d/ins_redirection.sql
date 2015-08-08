@@ -34,4 +34,4 @@ body: |
         ('email', 'redirection', p_localpart, p_domain, p_destination, v_owner,
         (SELECT service_entity_name FROM dns.service WHERE service='email' AND domain = p_domain));
 
-    PERFORM backend._notify_domain('email', p_domain);
+    PERFORM backend._notify_domain('email', 'redirection', p_domain);

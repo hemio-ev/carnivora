@@ -23,4 +23,4 @@ body: |
             domain = p_domain AND
             owner = v_owner;
 
-    PERFORM backend._conditional_notify(FOUND, 'email', p_domain);
+    PERFORM backend._conditional_notify(FOUND, 'email', 'redirection', p_domain);

@@ -8,15 +8,18 @@ parameters:
   name: p_condition
   type: boolean
  -
+  name: p_service_entity_name
+  type: dns.t_domain
+ -
   name: p_service
   type: commons.t_key
  -
-  name: p_service_entity_name
-  type: dns.t_domain
+  name: p_subservice
+  type: commons.t_key
 
 body: |
     IF p_condition THEN
-        PERFORM backend._notify_service_entity_name(p_service, p_service_entity_name);
+        PERFORM backend._notify_service_entity_name(p_service_entity_name, p_service, p_subservice);
     ELSE
         PERFORM commons._raise_inaccessible_or_missing();
     END IF;

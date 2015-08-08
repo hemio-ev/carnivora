@@ -43,4 +43,4 @@ body: |
             (SELECT service_entity_name FROM web.site WHERE domain = p_site AND port = p_site_port)
         );
 
-    PERFORM backend._notify_domain('web', p_domain);
+    PERFORM backend._notify_domain('web', 'alias', p_domain);

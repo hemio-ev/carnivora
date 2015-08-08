@@ -21,5 +21,5 @@ body: |
         localpart = p_localpart AND
         owner = v_owner;
 
-    PERFORM backend._conditional_notify(FOUND, 'email__list', p_domain);
+    PERFORM backend._conditional_notify(FOUND, 'email', 'list', p_domain);
 

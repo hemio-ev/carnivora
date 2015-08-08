@@ -35,4 +35,4 @@ body: |
     VALUES
         (p_address, p_list_localpart, p_list_domain);
 
-    PERFORM backend._notify_domain('email__list', p_list_domain);
+    PERFORM backend._notify_domain('email', 'list', p_list_domain);

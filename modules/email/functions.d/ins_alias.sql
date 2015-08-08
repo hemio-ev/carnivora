@@ -48,4 +48,4 @@ body: |
         ('email', 'alias', p_localpart, p_domain, p_mailbox_localpart, p_mailbox_domain,
         (SELECT service_entity_name FROM dns.service WHERE service='email' AND domain = p_domain));
 
-    PERFORM backend._notify_domain('email', p_domain);
+    PERFORM backend._notify_domain('email', 'alias', p_domain);

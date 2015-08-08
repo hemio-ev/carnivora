@@ -22,4 +22,4 @@ body: |
         domain = p_domain AND
         owner = v_owner;
 
-    PERFORM backend._conditional_notify(FOUND, 'jabber', p_domain);
+    PERFORM backend._conditional_notify(FOUND, 'jabber', 'account', p_domain);

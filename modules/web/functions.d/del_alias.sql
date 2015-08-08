@@ -31,4 +31,4 @@ body: |
         t.domain = p_domain AND
         t.site_port = p_site_port;
 
-    PERFORM backend._conditional_notify(FOUND, 'web', p_domain);
+    PERFORM backend._conditional_notify(FOUND, 'web', 'alias', p_domain);

@@ -7,17 +7,20 @@ description: |
 
 parameters:
  -
+  name: p_service_entity_name
+  type: dns.t_domain
+ -
   name: p_service
   type: commons.t_key
  -
-  name: p_service_entity_name
-  type: dns.t_domain
+  name: p_subservice
+  type: commons.t_key
 
 returns: void
 
 body: |
     PERFORM
-        backend._notify(machine_name, p_service, p_service_entity_name)
+        backend._notify(machine_name, p_service_entity_name, p_service, p_subservice)
 
     FROM system.service_entity_machine AS t
         WHERE

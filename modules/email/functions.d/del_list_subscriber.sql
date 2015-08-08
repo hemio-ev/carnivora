@@ -31,4 +31,4 @@ body: |
             t.list_domain = p_list_domain AND
             t.address = p_address;
 
-    PERFORM backend._conditional_notify(FOUND, 'email', p_list_domain);
+    PERFORM backend._conditional_notify(FOUND, 'email', 'list', p_list_domain);

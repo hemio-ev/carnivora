@@ -11,12 +11,15 @@ parameters:
   name: p_service
   type: commons.t_key
  -
+  name: p_subservice
+  type: commons.t_key
+ -
   name: p_domain
   type: dns.t_domain
 
 body: |
     IF p_condition THEN
-        PERFORM backend._notify_domain(p_service, p_domain);
+        PERFORM backend._notify_domain(p_service, p_subservice, p_domain);
     ELSE
         PERFORM commons._raise_inaccessible_or_missing();
     END IF;

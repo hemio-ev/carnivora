@@ -29,4 +29,4 @@ body: |
     VALUES
     (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name);
 
-    PERFORM backend._notify_domain('web', p_domain);
+    PERFORM backend._notify_domain('web', 'site', p_domain);

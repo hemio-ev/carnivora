@@ -10,6 +10,9 @@ parameters:
   name: p_service
   type: commons.t_key
  -
+  name: p_subservice
+  type: commons.t_key
+ -
   name: p_domain
   type: dns.t_domain
 
@@ -17,7 +20,7 @@ returns: void
 
 body: |
     PERFORM
-        backend._notify(machine_name, p_service, s.service_entity_name)
+        backend._notify(machine_name, s.service_entity_name, p_service, p_subservice)
 
     FROM system.service_entity_machine AS t
         JOIN dns.service AS s

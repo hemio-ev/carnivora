@@ -12,6 +12,11 @@ parameters:
   type: server_access.t_user
  -
   name: p_service_entity_name
+  type: dns.t_domain
+
+variables:
+ -
+  name: v_subservice
   type: commons.t_key
 
 body: |
@@ -32,11 +37,11 @@ body: |
             WHERE
                 "user" = p_user AND
                 service_entity_name = p_service_entity_name AND
-                owner = v_owner;
+                owner = v_owner
+            RETURNING subservice INTO v_subservice;
 
             PERFORM backend._conditional_notify_service_entity_name(
-                 FOUND, 'server_access', p_service_entity_name
+                 FOUND,  p_service_entity_name, 'server_access', v_subservice
              );
-
     END;
 

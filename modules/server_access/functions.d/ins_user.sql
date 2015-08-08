@@ -38,4 +38,4 @@ body: |
     VALUES
         ('server_access', p_subservice, p_service_entity_name, p_user, v_password, v_owner);
 
-    PERFORM backend._notify_service_entity_name('server_access', p_service_entity_name);
+    PERFORM backend._notify_service_entity_name(p_service_entity_name, 'server_access', p_subservice);

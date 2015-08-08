@@ -28,4 +28,4 @@ body: |
         owner = v_owner AND
         backend._active(backend_status);
 
-    PERFORM backend._conditional_notify(FOUND, 'email', p_domain);
+    PERFORM backend._conditional_notify(FOUND, 'email', 'mailbox', p_domain);

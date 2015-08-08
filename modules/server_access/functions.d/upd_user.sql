@@ -23,6 +23,9 @@ variables:
   name: v_password
   type: commons.t_password
   default: "NULL"
+ -
+  name: v_subservice
+  type: commons.t_key
 
 body: |
     IF p_password IS NOT NULL THEN
@@ -35,8 +38,9 @@ body: |
         backend_status = 'upd'
     WHERE
         "user" = p_user AND
-        service_entity_name = p_service_entity_name;
+        service_entity_name = p_service_entity_name
+    RETURNING subservice INTO v_subservice;
 
     PERFORM backend._conditional_notify_service_entity_name(
-        FOUND, 'server_access', p_service_entity_name
+        FOUND, p_service_entity_name, 'server_access', v_subservice
     );
