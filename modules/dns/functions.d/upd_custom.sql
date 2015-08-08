@@ -28,5 +28,3 @@ body: |
 
         t.id = p_id AND
         s.owner = v_owner;
-
-

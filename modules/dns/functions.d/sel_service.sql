@@ -35,4 +35,4 @@ body: |
             ON s.domain = t.registered
         WHERE
             s.owner = v_owner
-        ORDER BY backend_status, registered, domain, service, service_entity_name;
+        ORDER BY backend_status, registered, dns._domain_order(t.domain), service, service_entity_name;

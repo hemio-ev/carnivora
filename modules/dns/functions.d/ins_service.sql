@@ -42,5 +42,4 @@ body: |
              VALUES (p_registered, p_domain, p_service_entity_name, p_service);
     END IF;
 
-    PERFORM backend._notify_domain('dns', p_domain);
-
+    PERFORM backend._notify_domain('dns', 'service', p_domain);

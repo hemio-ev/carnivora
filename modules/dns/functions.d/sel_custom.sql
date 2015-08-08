@@ -43,4 +43,4 @@ body: |
             ON s.domain = t.registered
         WHERE
             s.owner = v_owner
-        ORDER BY backend_status, registered, domain;
+        ORDER BY backend_status, registered, dns._domain_order(t.domain);
