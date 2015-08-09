@@ -20,13 +20,22 @@ parameters:
 
 returns: void
 
+variables:
+ -
+  name: v_nameserver
+  type: dns.t_domain
+ -
+  name: v_managed
+  type: commons.t_key
+
 body: |
-    IF NOT EXISTS(
-        SELECT TRUE FROM dns.registered
+
+    SELECT service_entity_name, subservice INTO v_nameserver, v_managed FROM dns.registered
         WHERE
             domain = p_registered AND
-            owner = v_owner
-    ) THEN
+            owner = v_owner;
+
+    IF v_nameserver IS NULL THEN
         PERFORM commons._raise_inaccessible_or_missing();
     END IF;
 
@@ -42,4 +51,4 @@ body: |
              VALUES (p_registered, p_domain, p_service_entity_name, p_service);
     END IF;
 
-    PERFORM backend._notify_domain('dns', 'service', p_domain);
+    PERFORM backend._notify_service_entity_name(v_nameserver, 'dns', v_managed);

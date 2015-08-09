@@ -25,3 +25,5 @@ body: |
     (domain, public_suffix, owner, service, subservice, service_entity_name)
     VALUES
     (p_domain, p_public_suffix, v_owner, 'domain_registered', p_subservice, p_service_entity_name);
+
+    PERFORM backend._notify_service_entity_name(p_service_entity_name, 'domain_registered', p_subservice);

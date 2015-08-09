@@ -9,9 +9,11 @@ priv_usage:
 
 exec_post_install: |
  SELECT system._setup_register_service('dns', 'domain_registered');
+ SELECT system._setup_register_service('dns', 'dns');
  SELECT system._setup_register_subservice('domain_registered', 'managed');
  SELECT system._setup_register_subservice('domain_registered', 'managed_custom');
  SELECT system._setup_register_subservice('domain_registered', 'unmanaged');
+ SELECT system._setup_register_subservice('dns', 'managed');
 
 domains:
 

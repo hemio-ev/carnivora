@@ -11,6 +11,9 @@ parameters:
  -
   name: p_alias
   type: varchar
+ -
+  name: p_service_entity_name
+  type: dns.t_domain
 
 # mandatory fields
  -
@@ -53,6 +56,9 @@ body: |
 
     INSERT INTO domain_reseller.handle
     (
+      service_entity_name,
+      service,
+      subservice,
       owner,
       alias,
       fname,
@@ -69,6 +75,9 @@ body: |
     )
     VALUES
     (
+      p_service_entity_name,
+      'domain_reseller',
+      'handle',
       v_owner,
       p_alias,
       p_fname,
