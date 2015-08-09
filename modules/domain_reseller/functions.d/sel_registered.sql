@@ -22,6 +22,21 @@ returns_columns:
   name: zone_c
   type: varchar
  -
+  name: payable
+  type: timestamp
+ -
+  name: period
+  type: integer
+ -
+  name: registrar_status
+  type: varchar
+ -
+  name: registry_status
+  type: varchar
+ -
+  name: last_status
+  type: varchar
+ -
   name: backend_status
   type: backend.t_status
 
@@ -33,7 +48,12 @@ body: |
             t.admin_c,
             t.tech_c,
             t.zone_c,
-            t.backend_status
+            t.payable,
+            t.period,
+            t.registrar_status,
+            t.registry_status,
+            t.last_status,
+            s.backend_status
         FROM domain_reseller.registered AS t
         JOIN dns.registered AS s
             USING (domain)

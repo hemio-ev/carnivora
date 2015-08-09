@@ -49,8 +49,8 @@ domains:
   checks:
    -
     name: ttl range
-    description: Ensure that TTL is positive and put maximum to 48h
-    check: VALUE >= 0 AND VALUE <= 172800
+    description: Ensure that TTL is at least one minute and put maximum to 48h
+    check: VALUE >= 60 AND VALUE <= 172800
 
 table_templates:
  -

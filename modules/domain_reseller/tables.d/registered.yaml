@@ -1,9 +1,6 @@
 name: registered
 description: Addtional informations to dns.registered
 
-templates:
- - backend.status
-
 primary_key:
  - domain
 
@@ -35,4 +32,29 @@ columns:
   type: varchar
   references: domain_reseller.handle.alias
   description: Zone-C
+  null: true
+ -
+  name: payable
+  description: Payable
+  type: timestamp
+  null: true
+ -
+  name: period
+  description: renewal period (years)
+  type: integer
+  null: true
+ -
+  name: registrar_status
+  description: registrar_status
+  type: varchar
+  null: true
+ -
+  name: registry_status
+  description: registry_status
+  type: varchar
+  null: true
+ -
+  name: last_status
+  description: last_status
+  type: varchar
   null: true

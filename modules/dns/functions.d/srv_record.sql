@@ -1,4 +1,4 @@
-name: srv_records
+name: srv_record
 description: |
  Servers both record types combined: Raw entries and the ones assembled
  from records templates for services (system.service_entity_dns).

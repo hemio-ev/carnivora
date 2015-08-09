@@ -14,6 +14,14 @@ parameters:
 
 returns: void
 
+variables:
+ -
+  name: v_nameserver
+  type: dns.t_domain
+ -
+  name: v_managed
+  type: commons.t_key
+
 body: |
 
     BEGIN
@@ -39,10 +47,12 @@ body: |
 
                 t.domain = p_domain AND
                 t.service = p_service AND
-                s.owner = v_owner;
+                s.owner = v_owner
+            RETURNING s.service_entity_name, s.subservice
+            INTO v_nameserver, v_managed;
 
-            PERFORM backend._conditional_notify(
-                FOUND, 'dns', p_domain
+            PERFORM backend._conditional_notify_service_entity_name(
+                FOUND, v_nameserver, 'dns', v_managed
             );
 
     END;
