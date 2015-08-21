@@ -16,8 +16,7 @@ The setup is performed via [HamSql](https://github.com/qua-bla/hamsql).
 It should be callable as `hamsql` in you shell. We also need the
 database server:
 
-    apt-get install postgresql postgresql-contrib
-    apt-get install postgresql-plpython3-9.4
+    apt-get install postgresql postgresql-contrib postgresql-plpython3-9.4
 
 Configuration
 -------------
@@ -55,13 +54,13 @@ configuration is to run
 
     su postgres -c "hamsql install -d -s examples/setup.yaml -c postgres://postgres@/carnivora"
 
-### Advanced Method
+Supplying the database name (here carnivora) via the `-c` option is
+mandatory. The database will be create if it is not present. Additional
+or deviating connection options can be provided.
 
-Instead you may configure the connection settings for the current user
-in the `~/.pgpass` file which needs restricted permissions
-`chmod go= ~/.pgpass`. The format is:
+Additional options for the current user can also be configured
+in the `~/.pgpass` file which needs the restricted permissions
+`chmod go= ~/.pgpass`. The files format is:
 
     hostname:port:database:username:password
-
-Then run `./setup`.
 
