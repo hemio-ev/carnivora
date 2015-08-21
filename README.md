@@ -11,8 +11,7 @@ A documentation for the predefined structures is available in [doc/doc.md](doc/d
 
 The setup is performed via [HamSql](https://github.com/qua-bla/hamsql). It should be callable as `hamsql` in you shell. We also need the database server:
 
-    apt-get install postgresql postgresql-contrib
-    apt-get install postgresql-plpython3-9.4
+    apt-get install postgresql postgresql-contrib postgresql-plpython3-9.4
 
 ## Running the Setup
 
