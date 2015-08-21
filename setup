@@ -1,6 +1,0 @@
-#!/bin/bash -e
-
-database="carnivora"
-
-hamsql install -d -s setup.example.yaml -c "postgres://postgres@/${database}"
-
