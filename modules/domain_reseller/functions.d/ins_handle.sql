@@ -48,12 +48,15 @@ parameters:
  -
   name: p_organization
   type: varchar
+  default: 'NULL'
  -
   name: p_fax
   type: varchar
+  default: 'NULL'
  -
   name: p_mobile_phone
   type: varchar
+  default: 'NULL'
 
 body: |
 
