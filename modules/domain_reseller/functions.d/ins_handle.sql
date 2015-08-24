@@ -46,6 +46,9 @@ parameters:
 
 # optional fields
  -
+  name: p_organization
+  type: varchar
+ -
   name: p_fax
   type: varchar
  -
@@ -70,6 +73,7 @@ body: |
       state,
       email,
       phone,
+      organization,
       fax,
       mobile_phone
     )
@@ -89,6 +93,7 @@ body: |
       p_state,
       p_email,
       p_phone,
+      p_organization,
       p_fax,
       p_mobile_phone
     );

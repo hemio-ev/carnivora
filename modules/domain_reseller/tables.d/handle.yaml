@@ -63,6 +63,11 @@ columns:
 
 # optional fields
  -
+  name: organization
+  description: Organization
+  type: varchar
+  null: true
+ -
   name: fax
   description: Fax
   type: varchar
