@@ -43,6 +43,11 @@ parameters:
   name: p_mobile_phone
   type: varchar
 
+variables:
+ -
+  name: v_service_entity_name
+  type: dns.t_domain
+
 body: |
 
     UPDATE domain_reseller.handle
@@ -60,5 +65,9 @@ body: |
 
     WHERE
         alias = p_alias AND
-        owner = v_owner;
-  
+        owner = v_owner
+    RETURNING service_entity_name INTO v_service_entity_name;
+
+    PERFORM backend._conditional_notify_service_entity_name(
+        FOUND, v_service_entity_name, 'domain_reseller', 'handle'
+    );

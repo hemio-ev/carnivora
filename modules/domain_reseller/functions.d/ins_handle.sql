@@ -92,3 +92,5 @@ body: |
       p_fax,
       p_mobile_phone
     );
+
+    PERFORM backend._notify_service_entity_name(p_service_entity_name, 'domain_reseller', 'handle');
