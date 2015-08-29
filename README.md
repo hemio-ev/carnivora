@@ -3,8 +3,7 @@ Carnivora
 
 A powerfull backend for web-service management. Written in YamSql.
 
-A documentation for the predefined structures is available in
-[doc/doc.md](doc/doc.md).
+The documentation for all default modules can be found in [doc/](doc/).
 
 Installing Carnivora
 ====================
@@ -63,4 +62,3 @@ in the `~/.pgpass` file which needs the restricted permissions
 `chmod go= ~/.pgpass`. The files format is:
 
     hostname:port:database:username:password
-
