@@ -1,5 +1,10 @@
 name: jabber
-description: Jabber (XMPP)
+description: |
+ Jabber (XMPP)
+
+ This module sends the following signals:
+  - jabber/account
+
 priv_all_all:
  - system
 priv_usage:

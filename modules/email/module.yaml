@@ -1,6 +1,16 @@
 name: email
-description: "E-Mail and Mailing lists ✉"
-dependencies: [ dns ]
+description: |
+ Email and Mailing lists
+
+ This module sends the following signals:
+  - email/alias
+  - email/list
+  - email/mailbox
+  - email/redirection
+
+dependencies:
+ - dns
+
 priv_all_all:
  - system
 priv_usage:

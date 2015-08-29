@@ -1,0 +1,5000 @@
+<!DOCTYPE html><html><head><meta charset='utf-8' /><link rel='stylesheet' href='s.css' /></head><body>
+<section id="MODULE-_postgresql_user" class="level1">
+<h1>Module &quot;_postgresql_user&quot;</h1>
+<pre><code>PostgreSQL users and their priviledges</code></pre>
+<section class="level2">
+<h2>Roles</h2>
+<section id="ROLE-edentata" class="level3">
+<h3>Role &quot;edentata&quot;</h3>
+<p>Account for edentata web frontend</p>
+<ul>
+<li>Login: true</li>
+</ul>
+</section>
+<section id="ROLE-machine_example" class="level3">
+<h3>Role &quot;machine_example&quot;</h3>
+<p>Account for machine example</p>
+<ul>
+<li>Login: true</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="MODULE-backend" class="level1">
+<h1>Module &quot;backend&quot;</h1>
+<pre><code>Carnivora Backend:
+The backend module provides everything required for the backend API.
+The backend API delivers content required for building configs etc.
+to clients, called machines.</code></pre>
+<section class="level2">
+<h2>Tables</h2>
+<section id="TABLE-backend.auth" class="level3">
+<h3>Table &quot;backend&quot;.&quot;auth&quot;</h3>
+<pre><code>Grants rights to backend API clients based on SQL roles.</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>role</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-backend.auth.role" class="level5">
+<h5>role</h5>
+<pre><code>Grantee for right to access the backend date for the defined machine.
+A role is basically a user or a user group on the SQL server.</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-backend.auth.machine" class="level5">
+<h5>machine</h5>
+<pre><code>Machine for which the rights are granted.</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+<li>References: <a href="#COLUMN-backend.machine.name">backend.machine.name</a>
+<ul>
+<li>On delete: CASCADE</li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-backend.machine" class="level3">
+<h3>Table &quot;backend&quot;.&quot;machine&quot;</h3>
+<pre><code>Physical or virtual machines that hosts services.</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>name</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-backend.machine.name" class="level5">
+<h5>name</h5>
+<pre><code>Machine name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section class="level2">
+<h2>Functions</h2>
+<section id="FUNCTION-backend._active" class="level3">
+<h3>Function &quot;backend&quot;.&quot;_active&quot;</h3>
+<pre><code>Is not &#39;del&#39;</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>backend_status</strong> <em>backend.t_status</em></li>
+</ul></li>
+<li>Returns: boolean</li>
+</ul>
+</section>
+<section id="FUNCTION-backend._conditional_notify" class="level3">
+<h3>Function &quot;backend&quot;.&quot;_conditional_notify&quot;</h3>
+<pre><code>Notifies if first argument is true. Throws inaccessible otherwise.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_condition</strong> <em>boolean</em></li>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_subservice</strong> <em>commons.t_key</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: void</li>
+</ul>
+</section>
+<section id="FUNCTION-backend._conditional_notify_service_entity_name" class="level3">
+<h3>Function &quot;backend&quot;.&quot;_conditional_notify_service_entity_name&quot;</h3>
+<pre><code>Notifies if first argument is true. Throws inaccessible otherwise.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_condition</strong> <em>boolean</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_subservice</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Returns: void</li>
+</ul>
+</section>
+<section id="FUNCTION-backend._deleted" class="level3">
+<h3>Function &quot;backend&quot;.&quot;_deleted&quot;</h3>
+<pre><code>Is &#39;del&#39;</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>backend_status</strong> <em>backend.t_status</em></li>
+</ul></li>
+<li>Returns: boolean</li>
+</ul>
+</section>
+<section id="FUNCTION-backend._get_login" class="level3">
+<h3>Function &quot;backend&quot;.&quot;_get_login&quot;</h3>
+<pre><code>Shows informations for the current backend login.
+Throws an error if the current user is not a grantee
+for a machine.</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Returns: TABLE</li>
+</ul>
+</section>
+<section id="FUNCTION-backend._machine_priviledged" class="level3">
+<h3>Function &quot;backend&quot;.&quot;_machine_priviledged&quot;</h3>
+<pre><code>Checks if a currently connected machine is priviledged to obtain data for
+a certain service for a certain domain name.
+
+WARNING: The parameter p_domain must be a domain, which means an entry in
+the column dns.service.domain. It must not be confused with a service_entity_name.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: boolean</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-backend._machine_priviledged_service" class="level3">
+<h3>Function &quot;backend&quot;.&quot;_machine_priviledged_service&quot;</h3>
+<pre><code>Checks if a currently connected machine is priviledged to obtain data for
+a certain service for a certain servicee name.
+
+WARNING: The parameter p_server_name must be a service name. It must not be
+confused with a domain.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: boolean</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-backend._notify" class="level3">
+<h3>Function &quot;backend&quot;.&quot;_notify&quot;</h3>
+<pre><code>Informs all machines about changes.
+
+To listen to signals use LISTEN &quot;carnivora/machine.name.example&quot;.
+The payload has the form &#39;mail.domain.example/email/list&#39;.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_machine</strong> <em>dns.t_domain</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_subservice</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Returns: void</li>
+</ul>
+</section>
+<section id="FUNCTION-backend._notify_domain" class="level3">
+<h3>Function &quot;backend&quot;.&quot;_notify_domain&quot;</h3>
+<pre><code>Informs all machines about changes.
+
+WARNING: The parameter p_domain must be a domain, which means an entry in
+the column dns.service.domain. It must not be confused with a service_entity_name.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_subservice</strong> <em>commons.t_key</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: void</li>
+</ul>
+</section>
+<section id="FUNCTION-backend._notify_service_entity_name" class="level3">
+<h3>Function &quot;backend&quot;.&quot;_notify_service_entity_name&quot;</h3>
+<pre><code>Informs all machines about changes.
+
+WARNING: The parameter p_service_entity_name must be a servcie name. It must not be
+confused with a domain.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_subservice</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Returns: void</li>
+</ul>
+</section>
+</section>
+<section class="level2">
+<h2>Domains</h2>
+<section id="DOMAIN-backend." class="level3">
+<h3>Domain &quot;backend&quot;.&quot;t_status&quot;</h3>
+<pre><code>Backend status</code></pre>
+</section>
+</section>
+<section class="level2">
+<h2>Roles</h2>
+<section id="ROLE-backend" class="level3">
+<h3>Role &quot;backend&quot;</h3>
+<p>vms</p>
+<ul>
+<li>Login:</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="MODULE-commons" class="level1">
+<h1>Module &quot;commons&quot;</h1>
+<pre><code>Carnivora Commons: Usefull templates and types</code></pre>
+<section class="level2">
+<h2>Functions</h2>
+<section id="FUNCTION-commons._hash_password" class="level3">
+<h3>Function &quot;commons&quot;.&quot;_hash_password&quot;</h3>
+<pre><code>SHA512 hash of the password with 16 charcters random salt.
+The returned format is the traditional &#39;crypt(3)&#39; format.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_password</strong> <em>commons.t_password_plaintext</em></li>
+</ul></li>
+<li>Language: plpython3u</li>
+<li>Returns: commons.t_password</li>
+</ul>
+</section>
+<section id="FUNCTION-commons._idn" class="level3">
+<h3>Function &quot;commons&quot;.&quot;_idn&quot;</h3>
+<pre><code>Converts a unicode domain name to IDN (ASCII)</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>varchar</em></li>
+</ul></li>
+<li>Language: plpython3u</li>
+<li>Returns: varchar</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-commons._passwords_equal" class="level3">
+<h3>Function &quot;commons&quot;.&quot;_passwords_equal&quot;</h3>
+<pre><code>Compares a plaintext password with an arbitrary &#39;crypt(3)&#39; hashed password.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_password_plaintext</strong> <em>commons.t_password_plaintext</em></li>
+<li><strong>p_password_hash</strong> <em>commons.t_password</em></li>
+</ul></li>
+<li>Language: plpython3u</li>
+<li>Returns: boolean</li>
+</ul>
+</section>
+<section id="FUNCTION-commons._raise_inaccessible_or_missing" class="level3">
+<h3>Function &quot;commons&quot;.&quot;_raise_inaccessible_or_missing&quot;</h3>
+<pre><code>Raised whenever a operation on an object failes because it is not owned by
+the user or it is not found.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_raise</strong> <em>boolean</em> Controls if the exception is raised</li>
+</ul></li>
+<li>Returns: void</li>
+</ul>
+</section>
+<section id="FUNCTION-commons._reverse_array" class="level3">
+<h3>Function &quot;commons&quot;.&quot;_reverse_array&quot;</h3>
+<pre><code>Copied from </code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_array</strong> <em>anyarray</em></li>
+</ul></li>
+<li>Returns: anyarray</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-commons._uuid" class="level3">
+<h3>Function &quot;commons&quot;.&quot;_uuid&quot;</h3>
+<pre><code>Returns new uuid</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Returns: uuid</li>
+</ul>
+</section>
+</section>
+<section class="level2">
+<h2>Domains</h2>
+<section id="DOMAIN-commons." class="level3">
+<h3>Domain &quot;commons&quot;.&quot;t_port&quot;</h3>
+<pre><code>Port</code></pre>
+</section>
+<section id="DOMAIN-commons." class="level3">
+<h3>Domain &quot;commons&quot;.&quot;t_password&quot;</h3>
+<pre><code>unix hash thingy - todo: propper checking of format</code></pre>
+</section>
+<section id="DOMAIN-commons." class="level3">
+<h3>Domain &quot;commons&quot;.&quot;t_password_plaintext&quot;</h3>
+<pre><code>Password in plaintext</code></pre>
+</section>
+<section id="DOMAIN-commons." class="level3">
+<h3>Domain &quot;commons&quot;.&quot;t_key&quot;</h3>
+<pre><code>Key</code></pre>
+</section>
+</section>
+</section>
+<section id="MODULE-dns" class="level1">
+<h1>Module &quot;dns&quot;</h1>
+<pre><code>DNS</code></pre>
+<section class="level2">
+<h2>Tables</h2>
+<section id="TABLE-dns.custom" class="level3">
+<h3>Table &quot;dns&quot;.&quot;custom&quot;</h3>
+<pre><code>Direct name server entries.</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>id</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-dns.custom.type" class="level5">
+<h5>type</h5>
+<pre><code>Type (?) like MX, A, AAAA, ...</code></pre>
+<ul>
+<li>Type: dns.t_type</li>
+</ul>
+</section>
+<section id="COLUMN-dns.custom.rdata" class="level5">
+<h5>rdata</h5>
+<pre><code>fancy rdata storage</code></pre>
+<ul>
+<li>Type: dns.t_rdata</li>
+</ul>
+</section>
+<section id="COLUMN-dns.custom.ttl" class="level5">
+<h5>ttl</h5>
+<pre><code>Time to live, NULL indicates default value</code></pre>
+<ul>
+<li>Type: dns.t_ttl</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-dns.custom.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-dns.custom.registered" class="level5">
+<h5>registered</h5>
+<pre><code>Registered domain of which domain is a sub domain</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+<li>References: <a href="#COLUMN-dns.registered.domain">dns.registered.domain</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-dns.custom.domain" class="level5">
+<h5>domain</h5>
+<pre><code>domain of entry</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-dns.custom.id" class="level5">
+<h5>id</h5>
+<pre><code>uuid serial number to identify database elements uniquely
+The default value is generated using uuid_generate_v4().</code></pre>
+<ul>
+<li>Type: uuid</li>
+<li>Default value: uuid_generate_v4()</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-dns.registered" class="level3">
+<h3>Table &quot;dns&quot;.&quot;registered&quot;</h3>
+<pre><code>Domains registered under a public suffix.</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>domain</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference service</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.service_entity.service_entity_name">system.service_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-dns.registered.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-dns.registered.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-dns.registered.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>Host name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-dns.registered.service" class="level5">
+<h5>service</h5>
+<pre><code>email, ssh, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-dns.registered.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-dns.registered.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-dns.registered.public_suffix" class="level5">
+<h5>public_suffix</h5>
+<pre><code>Public Suffix</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-dns.service" class="level3">
+<h3>Table &quot;dns&quot;.&quot;service&quot;</h3>
+<pre><code>Name server entries based on system.service (i.e. system.service_dns)</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>domain</li>
+<li>service</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference service</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.service_entity.service_entity_name">system.service_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-dns.service.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>Host name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-dns.service.service" class="level5">
+<h5>service</h5>
+<pre><code>email, ssh, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-dns.service.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-dns.service.registered" class="level5">
+<h5>registered</h5>
+<pre><code>Registered domain of which domain is a sub domain</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+<li>References: <a href="#COLUMN-dns.registered.domain">dns.registered.domain</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-dns.service.domain" class="level5">
+<h5>domain</h5>
+<pre><code>domain for which the entries should be created</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section class="level2">
+<h2>Functions</h2>
+<section id="FUNCTION-dns._domain_order" class="level3">
+<h3>Function &quot;dns&quot;.&quot;_domain_order&quot;</h3>
+<pre><code>ORDER</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: varchar[]</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.del_custom" class="level3">
+<h3>Function &quot;dns&quot;.&quot;del_custom&quot;</h3>
+<pre><code>Delete Custom</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_id</strong> <em>uuid</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_nameserver</strong> <em>dns.t_domain</em></li>
+<li><strong>v_managed</strong> <em>commons.t_key</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.del_registered" class="level3">
+<h3>Function &quot;dns&quot;.&quot;del_registered&quot;</h3>
+<pre><code>Delete registered domain</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_nameserver</strong> <em>dns.t_domain</em></li>
+<li><strong>v_managed</strong> <em>commons.t_key</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.del_service" class="level3">
+<h3>Function &quot;dns&quot;.&quot;del_service&quot;</h3>
+<pre><code>deletes all service entries of a specific domain</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_nameserver</strong> <em>dns.t_domain</em></li>
+<li><strong>v_managed</strong> <em>commons.t_key</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.fwd_registered_status" class="level3">
+<h3>Function &quot;dns&quot;.&quot;fwd_registered_status&quot;</h3>
+<pre><code>Update status</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_backend_status</strong> <em>backend.t_status</em></li>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.ins_custom" class="level3">
+<h3>Function &quot;dns&quot;.&quot;ins_custom&quot;</h3>
+<pre><code>Ins Custom</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_registered</strong> <em>dns.t_domain</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_type</strong> <em>dns.t_type</em></li>
+<li><strong>p_rdata</strong> <em>dns.t_rdata</em></li>
+<li><strong>p_ttl</strong> <em>integer</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_nameserver</strong> <em>dns.t_domain</em></li>
+<li><strong>v_managed</strong> <em>commons.t_key</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.ins_registered" class="level3">
+<h3>Function &quot;dns&quot;.&quot;ins_registered&quot;</h3>
+<pre><code>registeres new domain</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_subservice</strong> <em>commons.t_key</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>p_public_suffix</strong> <em>varchar</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.ins_service" class="level3">
+<h3>Function &quot;dns&quot;.&quot;ins_service&quot;</h3>
+<pre><code>Creates service dns entry</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_registered</strong> <em>dns.t_domain</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_nameserver</strong> <em>dns.t_domain</em></li>
+<li><strong>v_managed</strong> <em>commons.t_key</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.sel_activatable_service" class="level3">
+<h3>Function &quot;dns&quot;.&quot;sel_activatable_service&quot;</h3>
+<pre><code>Activatable services</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.sel_available_service" class="level3">
+<h3>Function &quot;dns&quot;.&quot;sel_available_service&quot;</h3>
+<pre><code>List all domains that have a service entry in dns with their service.
+This is particularly usefull since these domains are ready for use with
+this service. Usually this means that accounts etc. can be created for this
+domain.</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.sel_custom" class="level3">
+<h3>Function &quot;dns&quot;.&quot;sel_custom&quot;</h3>
+<pre><code>sel custom</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.sel_nameserver" class="level3">
+<h3>Function &quot;dns&quot;.&quot;sel_nameserver&quot;</h3>
+<pre><code>Select available nameservers</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.sel_registered" class="level3">
+<h3>Function &quot;dns&quot;.&quot;sel_registered&quot;</h3>
+<pre><code>List registered domains</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.sel_service" class="level3">
+<h3>Function &quot;dns&quot;.&quot;sel_service&quot;</h3>
+<pre><code>Select service based dns entries</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.sel_usable_domain" class="level3">
+<h3>Function &quot;dns&quot;.&quot;sel_usable_domain&quot;</h3>
+<pre><code>Usable domains</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_subservice</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.srv_record" class="level3">
+<h3>Function &quot;dns&quot;.&quot;srv_record&quot;</h3>
+<pre><code>Servers both record types combined: Raw entries and the ones assembled
+from records templates for services (system.service_entity_dns).</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-dns.upd_custom" class="level3">
+<h3>Function &quot;dns&quot;.&quot;upd_custom&quot;</h3>
+<pre><code>Ins Custom</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_id</strong> <em>uuid</em></li>
+<li><strong>p_rdata</strong> <em>dns.t_rdata</em></li>
+<li><strong>p_ttl</strong> <em>integer</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_nameserver</strong> <em>dns.t_domain</em></li>
+<li><strong>v_managed</strong> <em>commons.t_key</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section class="level2">
+<h2>Domains</h2>
+<section id="DOMAIN-dns." class="level3">
+<h3>Domain &quot;dns&quot;.&quot;t_domain&quot;</h3>
+<pre><code>Domain name unicode (not IDN)</code></pre>
+</section>
+<section id="DOMAIN-dns." class="level3">
+<h3>Domain &quot;dns&quot;.&quot;t_type&quot;</h3>
+<pre><code>Resource record type</code></pre>
+</section>
+<section id="DOMAIN-dns." class="level3">
+<h3>Domain &quot;dns&quot;.&quot;t_rdata&quot;</h3>
+<pre><code>record entry</code></pre>
+</section>
+<section id="DOMAIN-dns." class="level3">
+<h3>Domain &quot;dns&quot;.&quot;t_ttl&quot;</h3>
+<pre><code>time to live</code></pre>
+</section>
+</section>
+</section>
+<section id="MODULE-domain_reseller" class="level1">
+<h1>Module &quot;domain_reseller&quot;</h1>
+<pre><code>Domains from reseller</code></pre>
+<section class="level2">
+<h2>Tables</h2>
+<section id="TABLE-domain_reseller.handle" class="level3">
+<h3>Table &quot;domain_reseller&quot;.&quot;handle&quot;</h3>
+<pre><code>Domain Handles (Contacts)</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>alias</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference service</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.service_entity.service_entity_name">system.service_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-domain_reseller.handle.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>Host name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.service" class="level5">
+<h5>service</h5>
+<pre><code>email, ssh, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.alias" class="level5">
+<h5>alias</h5>
+<pre><code>Free choosable alias</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.id" class="level5">
+<h5>id</h5>
+<pre><code>Internal id at reseller</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.fname" class="level5">
+<h5>fname</h5>
+<pre><code>First name</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.lname" class="level5">
+<h5>lname</h5>
+<pre><code>Last name</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.address" class="level5">
+<h5>address</h5>
+<pre><code>Address</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.pcode" class="level5">
+<h5>pcode</h5>
+<pre><code>Postcode</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.city" class="level5">
+<h5>city</h5>
+<pre><code>City</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.country" class="level5">
+<h5>country</h5>
+<pre><code>Country</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.state" class="level5">
+<h5>state</h5>
+<pre><code>State</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.email" class="level5">
+<h5>email</h5>
+<pre><code>Email</code></pre>
+<ul>
+<li>Type: email.t_address</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.phone" class="level5">
+<h5>phone</h5>
+<pre><code>Phone</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.organization" class="level5">
+<h5>organization</h5>
+<pre><code>Organization</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.fax" class="level5">
+<h5>fax</h5>
+<pre><code>Fax</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.handle.mobile_phone" class="level5">
+<h5>mobile_phone</h5>
+<pre><code>Mobile phone</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-domain_reseller.registered" class="level3">
+<h3>Table &quot;domain_reseller&quot;.&quot;registered&quot;</h3>
+<pre><code>Addtional informations to dns.registered</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>domain</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-domain_reseller.registered.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+<li>References: <a href="#COLUMN-dns.registered.domain">dns.registered.domain</a>
+<ul>
+<li>On delete: CASCADE</li>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.registered.registrant" class="level5">
+<h5>registrant</h5>
+<pre><code>Registrant (Owner)</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>References: <a href="#COLUMN-domain_reseller.handle.alias">domain_reseller.handle.alias</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.registered.admin_c" class="level5">
+<h5>admin_c</h5>
+<pre><code>Admin-C</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>References: <a href="#COLUMN-domain_reseller.handle.alias">domain_reseller.handle.alias</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.registered.tech_c" class="level5">
+<h5>tech_c</h5>
+<pre><code>Tech-C</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+<li>References: <a href="#COLUMN-domain_reseller.handle.alias">domain_reseller.handle.alias</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.registered.zone_c" class="level5">
+<h5>zone_c</h5>
+<pre><code>Zone-C</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+<li>References: <a href="#COLUMN-domain_reseller.handle.alias">domain_reseller.handle.alias</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.registered.payable" class="level5">
+<h5>payable</h5>
+<pre><code>Payable</code></pre>
+<ul>
+<li>Type: timestamp</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.registered.period" class="level5">
+<h5>period</h5>
+<pre><code>renewal period (years)</code></pre>
+<ul>
+<li>Type: integer</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.registered.registrar_status" class="level5">
+<h5>registrar_status</h5>
+<pre><code>registrar_status</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.registered.registry_status" class="level5">
+<h5>registry_status</h5>
+<pre><code>registry_status</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-domain_reseller.registered.last_status" class="level5">
+<h5>last_status</h5>
+<pre><code>last_status</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section class="level2">
+<h2>Functions</h2>
+<section id="FUNCTION-domain_reseller.del_handle" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;del_handle&quot;</h3>
+<pre><code>Delete Handle</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_alias</strong> <em>varchar</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.fwd_handle_id" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;fwd_handle_id&quot;</h3>
+<pre><code>Insert handle id</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_alias</strong> <em>varchar</em></li>
+<li><strong>p_id</strong> <em>varchar</em></li>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.fwd_registered_status" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;fwd_registered_status&quot;</h3>
+<pre><code>Update status</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_payable</strong> <em>timestamp</em></li>
+<li><strong>p_period</strong> <em>integer</em></li>
+<li><strong>p_registrar_status</strong> <em>varchar</em></li>
+<li><strong>p_registry_status</strong> <em>varchar</em></li>
+<li><strong>p_last_status</strong> <em>varchar</em></li>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.ins_handle" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;ins_handle&quot;</h3>
+<pre><code>Insert Handle</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_alias</strong> <em>varchar</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>p_fname</strong> <em>varchar</em></li>
+<li><strong>p_lname</strong> <em>varchar</em></li>
+<li><strong>p_address</strong> <em>varchar</em></li>
+<li><strong>p_pcode</strong> <em>varchar</em></li>
+<li><strong>p_city</strong> <em>varchar</em></li>
+<li><strong>p_country</strong> <em>varchar</em></li>
+<li><strong>p_state</strong> <em>varchar</em></li>
+<li><strong>p_email</strong> <em>email.t_address</em></li>
+<li><strong>p_phone</strong> <em>varchar</em></li>
+<li><strong>p_organization</strong> <em>varchar</em></li>
+<li><strong>p_fax</strong> <em>varchar</em></li>
+<li><strong>p_mobile_phone</strong> <em>varchar</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.ins_registered" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;ins_registered&quot;</h3>
+<pre><code>Insert Registered</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_registrant</strong> <em>varchar</em></li>
+<li><strong>p_admin_c</strong> <em>varchar</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.sel_handle" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;sel_handle&quot;</h3>
+<pre><code>Select Handle</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_hide_foreign</strong> <em>bool</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: SETOF domain_reseller.&quot;handle&quot;</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.sel_registered" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;sel_registered&quot;</h3>
+<pre><code>Select Registered</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.sel_reseller" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;sel_reseller&quot;</h3>
+<pre><code>Select available resellers</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.srv_handle" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;srv_handle&quot;</h3>
+<pre><code>srv handles</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: SETOF domain_reseller.&quot;handle&quot;</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.srv_registered" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;srv_registered&quot;</h3>
+<pre><code>Serve registerd domain details</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.upd_handle" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;upd_handle&quot;</h3>
+<pre><code>Update Handle</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_alias</strong> <em>varchar</em></li>
+<li><strong>p_address</strong> <em>varchar</em></li>
+<li><strong>p_pcode</strong> <em>varchar</em></li>
+<li><strong>p_city</strong> <em>varchar</em></li>
+<li><strong>p_country</strong> <em>varchar</em></li>
+<li><strong>p_state</strong> <em>varchar</em></li>
+<li><strong>p_email</strong> <em>email.t_address</em></li>
+<li><strong>p_phone</strong> <em>varchar</em></li>
+<li><strong>p_organization</strong> <em>varchar</em></li>
+<li><strong>p_fax</strong> <em>varchar</em></li>
+<li><strong>p_mobile_phone</strong> <em>varchar</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-domain_reseller.upd_registered" class="level3">
+<h3>Function &quot;domain_reseller&quot;.&quot;upd_registered&quot;</h3>
+<pre><code>Update Registered</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_admin_c</strong> <em>varchar</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_nameserver</strong> <em>dns.t_domain</em></li>
+<li><strong>v_managed</strong> <em>commons.t_key</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="MODULE-email" class="level1">
+<h1>Module &quot;email&quot;</h1>
+<pre><code>Email and Mailing lists
+
+This module sends the following signals:
+ - email/alias
+ - email/list
+ - email/mailbox
+ - email/redirection</code></pre>
+<section class="level2">
+<h2>Tables</h2>
+<section id="TABLE-email.address" class="level3">
+<h3>Table &quot;email&quot;.&quot;address&quot;</h3>
+<pre><code>Collection of all known addresses</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>localpart</li>
+<li>domain</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference dns (service)</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>service →</li>
+<li>service_entity_name →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-dns.service.domain">dns.service.domain</a></li>
+<li><a href="#COLUMN-dns.service.service">dns.service.service</a></li>
+<li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-email.address.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-email.address.service" class="level5">
+<h5>service</h5>
+<pre><code>Service</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-email.address.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>ent. name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-email.address.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-email.address.localpart" class="level5">
+<h5>localpart</h5>
+<pre><code>Local part</code></pre>
+<ul>
+<li>Type: email.t_localpart</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-email.alias" class="level3">
+<h3>Table &quot;email&quot;.&quot;alias&quot;</h3>
+<pre><code>Aliases for e-mail mailboxes, owner is determined by mailbox.owner</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>localpart</li>
+<li>domain</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference dns (service)</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>service →</li>
+<li>service_entity_name →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-dns.service.domain">dns.service.domain</a></li>
+<li><a href="#COLUMN-dns.service.service">dns.service.service</a></li>
+<li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference to a mailbox</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>mailbox_localpart →</li>
+<li>mailbox_domain →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-email.mailbox.localpart">email.mailbox.localpart</a></li>
+<li><a href="#COLUMN-email.mailbox.domain">email.mailbox.domain</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-email.alias.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-email.alias.service" class="level5">
+<h5>service</h5>
+<pre><code>Service</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-email.alias.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>ent. name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-email.alias.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-email.alias.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-email.alias.localpart" class="level5">
+<h5>localpart</h5>
+<pre><code>Local part</code></pre>
+<ul>
+<li>Type: email.t_localpart</li>
+</ul>
+</section>
+<section id="COLUMN-email.alias.mailbox_localpart" class="level5">
+<h5>mailbox_localpart</h5>
+<pre><code>Mailbox to which the mails will be delivered</code></pre>
+<ul>
+<li>Type: email.t_localpart</li>
+</ul>
+</section>
+<section id="COLUMN-email.alias.mailbox_domain" class="level5">
+<h5>mailbox_domain</h5>
+<pre><code>Mailbox to which the mails will be delivered</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-email.list" class="level3">
+<h3>Table &quot;email&quot;.&quot;list&quot;</h3>
+<pre><code>Mailing lists</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>localpart</li>
+<li>domain</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference dns (service)</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>service →</li>
+<li>service_entity_name →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-dns.service.domain">dns.service.domain</a></li>
+<li><a href="#COLUMN-dns.service.service">dns.service.service</a></li>
+<li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-email.list.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-email.list.service" class="level5">
+<h5>service</h5>
+<pre><code>Service</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-email.list.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>ent. name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-email.list.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-email.list.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-email.list.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-email.list.option" class="level5">
+<h5>option</h5>
+<pre><code>Free options</code></pre>
+<ul>
+<li>Type: jsonb</li>
+<li>Default value: '{}'</li>
+</ul>
+</section>
+<section id="COLUMN-email.list.localpart" class="level5">
+<h5>localpart</h5>
+<pre><code>Local part of the email list address</code></pre>
+<ul>
+<li>Type: email.t_localpart</li>
+</ul>
+</section>
+<section id="COLUMN-email.list.admin" class="level5">
+<h5>admin</h5>
+<pre><code>Email address of the list admin</code></pre>
+<ul>
+<li>Type: email.t_address</li>
+</ul>
+</section>
+<section id="COLUMN-email.list.options" class="level5">
+<h5>options</h5>
+<pre><code>Arbitrary options</code></pre>
+<ul>
+<li>Type: jsonb</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-email.list_subscriber" class="level3">
+<h3>Table &quot;email&quot;.&quot;list_subscriber&quot;</h3>
+<pre><code>list subscribers</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>address</li>
+<li>list_localpart</li>
+<li>list_domain</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference to a list</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>list_localpart →</li>
+<li>list_domain →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-email.list.localpart">email.list.localpart</a></li>
+<li><a href="#COLUMN-email.list.domain">email.list.domain</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-email.list_subscriber.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-email.list_subscriber.option" class="level5">
+<h5>option</h5>
+<pre><code>Free options</code></pre>
+<ul>
+<li>Type: jsonb</li>
+<li>Default value: '{}'</li>
+</ul>
+</section>
+<section id="COLUMN-email.list_subscriber.address" class="level5">
+<h5>address</h5>
+<pre><code>Subscribers address</code></pre>
+<ul>
+<li>Type: email.t_address</li>
+</ul>
+</section>
+<section id="COLUMN-email.list_subscriber.list_localpart" class="level5">
+<h5>list_localpart</h5>
+<pre><code>List</code></pre>
+<ul>
+<li>Type: email.t_localpart</li>
+</ul>
+</section>
+<section id="COLUMN-email.list_subscriber.list_domain" class="level5">
+<h5>list_domain</h5>
+<pre><code>List</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-email.mailbox" class="level3">
+<h3>Table &quot;email&quot;.&quot;mailbox&quot;</h3>
+<pre><code>E-mail mailboxs correspond to something a mail user can login into. Basically
+a mailbox represents a mailbox. A mailbox is bound to a specific address.
+Further addresses can be linked to mailboxs via aliases.</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>localpart</li>
+<li>domain</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference dns (service)</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>service →</li>
+<li>service_entity_name →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-dns.service.domain">dns.service.domain</a></li>
+<li><a href="#COLUMN-dns.service.service">dns.service.service</a></li>
+<li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-email.mailbox.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-email.mailbox.service" class="level5">
+<h5>service</h5>
+<pre><code>Service</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-email.mailbox.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>ent. name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-email.mailbox.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-email.mailbox.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-email.mailbox.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-email.mailbox.option" class="level5">
+<h5>option</h5>
+<pre><code>Free options</code></pre>
+<ul>
+<li>Type: jsonb</li>
+<li>Default value: '{}'</li>
+</ul>
+</section>
+<section id="COLUMN-email.mailbox.localpart" class="level5">
+<h5>localpart</h5>
+<pre><code>Local part</code></pre>
+<ul>
+<li>Type: email.t_localpart</li>
+</ul>
+</section>
+<section id="COLUMN-email.mailbox.uid" class="level5">
+<h5>uid</h5>
+<pre><code>Unix user identifier</code></pre>
+<ul>
+<li>Type: SERIAL</li>
+</ul>
+</section>
+<section id="COLUMN-email.mailbox.password" class="level5">
+<h5>password</h5>
+<pre><code>Unix shadow crypt format</code></pre>
+<ul>
+<li>Type: commons.t_password</li>
+</ul>
+</section>
+<section id="COLUMN-email.mailbox.quota" class="level5">
+<h5>quota</h5>
+<pre><code>Quota for mailbox in MiB</code></pre>
+<ul>
+<li>Type: int</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-email.redirection" class="level3">
+<h3>Table &quot;email&quot;.&quot;redirection&quot;</h3>
+<pre><code>Redirections</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>localpart</li>
+<li>domain</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference dns (service)</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>service →</li>
+<li>service_entity_name →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-dns.service.domain">dns.service.domain</a></li>
+<li><a href="#COLUMN-dns.service.service">dns.service.service</a></li>
+<li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-email.redirection.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-email.redirection.service" class="level5">
+<h5>service</h5>
+<pre><code>Service</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-email.redirection.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>ent. name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-email.redirection.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-email.redirection.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-email.redirection.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-email.redirection.localpart" class="level5">
+<h5>localpart</h5>
+<pre><code>Local part</code></pre>
+<ul>
+<li>Type: email.t_localpart</li>
+</ul>
+</section>
+<section id="COLUMN-email.redirection.destination" class="level5">
+<h5>destination</h5>
+<pre><code>External address to which the mails will be delivered</code></pre>
+<ul>
+<li>Type: email.t_address</li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section class="level2">
+<h2>Functions</h2>
+<section id="FUNCTION-email._address" class="level3">
+<h3>Function &quot;email&quot;.&quot;_address&quot;</h3>
+<pre><code>List all addresses</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Returns: TABLE</li>
+</ul>
+</section>
+<section id="FUNCTION-email._address_valid" class="level3">
+<h3>Function &quot;email&quot;.&quot;_address_valid&quot;</h3>
+<pre><code>x</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: void</li>
+</ul>
+</section>
+<section id="FUNCTION-email.del_alias" class="level3">
+<h3>Function &quot;email&quot;.&quot;del_alias&quot;</h3>
+<pre><code>Delete Alias</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_mailbox_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_mailbox_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.del_list" class="level3">
+<h3>Function &quot;email&quot;.&quot;del_list&quot;</h3>
+<pre><code>Delete mailing list</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.del_list_subscriber" class="level3">
+<h3>Function &quot;email&quot;.&quot;del_list_subscriber&quot;</h3>
+<pre><code>del</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_list_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_list_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_address</strong> <em>email.t_address</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.del_mailbox" class="level3">
+<h3>Function &quot;email&quot;.&quot;del_mailbox&quot;</h3>
+<pre><code>Delete mailbox</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.del_redirection" class="level3">
+<h3>Function &quot;email&quot;.&quot;del_redirection&quot;</h3>
+<pre><code>Delete redirection</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.ins_alias" class="level3">
+<h3>Function &quot;email&quot;.&quot;ins_alias&quot;</h3>
+<pre><code>Create e-mail aliases</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_mailbox_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_mailbox_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_subservice</strong> <em>commons.t_key</em> (default: <em>'alias'</em>)</li>
+<li><strong>v_num_total</strong> <em>int</em></li>
+<li><strong>v_num_domain</strong> <em>int</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.ins_list" class="level3">
+<h3>Function &quot;email&quot;.&quot;ins_list&quot;</h3>
+<pre><code>Creates a mailing list</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_admin</strong> <em>email.t_address</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_subservice</strong> <em>commons.t_key</em> (default: <em>'list'</em>)</li>
+<li><strong>v_num_total</strong> <em>int</em></li>
+<li><strong>v_num_domain</strong> <em>int</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.ins_list_subscriber" class="level3">
+<h3>Function &quot;email&quot;.&quot;ins_list_subscriber&quot;</h3>
+<pre><code>Adds a subscriber to a mailing list</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_address</strong> <em>email.t_address</em></li>
+<li><strong>p_list_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_list_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.ins_mailbox" class="level3">
+<h3>Function &quot;email&quot;.&quot;ins_mailbox&quot;</h3>
+<pre><code>Creates an email box</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_password</strong> <em>commons.t_password_plaintext</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_subservice</strong> <em>commons.t_key</em> (default: <em>'mailbox'</em>)</li>
+<li><strong>v_num_total</strong> <em>int</em></li>
+<li><strong>v_num_domain</strong> <em>int</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.ins_redirection" class="level3">
+<h3>Function &quot;email&quot;.&quot;ins_redirection&quot;</h3>
+<pre><code>Creates a redirection</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_destination</strong> <em>email.t_address</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_subservice</strong> <em>commons.t_key</em> (default: <em>'redirection'</em>)</li>
+<li><strong>v_num_total</strong> <em>int</em></li>
+<li><strong>v_num_domain</strong> <em>int</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.sel_alias" class="level3">
+<h3>Function &quot;email&quot;.&quot;sel_alias&quot;</h3>
+<pre><code>Select aliases</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.sel_list" class="level3">
+<h3>Function &quot;email&quot;.&quot;sel_list&quot;</h3>
+<pre><code>List all lists</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.sel_list_subscriber" class="level3">
+<h3>Function &quot;email&quot;.&quot;sel_list_subscriber&quot;</h3>
+<pre><code>a</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.sel_mailbox" class="level3">
+<h3>Function &quot;email&quot;.&quot;sel_mailbox&quot;</h3>
+<pre><code>List all mailboxes</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.sel_redirection" class="level3">
+<h3>Function &quot;email&quot;.&quot;sel_redirection&quot;</h3>
+<pre><code>Lists all redirections</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.srv_alias" class="level3">
+<h3>Function &quot;email&quot;.&quot;srv_alias&quot;</h3>
+<pre><code>Lists all email aliases</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.srv_list" class="level3">
+<h3>Function &quot;email&quot;.&quot;srv_list&quot;</h3>
+<pre><code>Lists all mailinglists</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.srv_list_subscriber" class="level3">
+<h3>Function &quot;email&quot;.&quot;srv_list_subscriber&quot;</h3>
+<pre><code>Lists all mailinglist subscribers</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.srv_mailbox" class="level3">
+<h3>Function &quot;email&quot;.&quot;srv_mailbox&quot;</h3>
+<pre><code>Lists all mailboxes</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.srv_redirection" class="level3">
+<h3>Function &quot;email&quot;.&quot;srv_redirection&quot;</h3>
+<pre><code>Lists all mailinglists</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.upd_list" class="level3">
+<h3>Function &quot;email&quot;.&quot;upd_list&quot;</h3>
+<pre><code>Change list admin</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_admin</strong> <em>email.t_address</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-email.upd_mailbox" class="level3">
+<h3>Function &quot;email&quot;.&quot;upd_mailbox&quot;</h3>
+<pre><code>Change mailbox password</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_localpart</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_password</strong> <em>commons.t_password_plaintext</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section class="level2">
+<h2>Domains</h2>
+<section id="DOMAIN-email." class="level3">
+<h3>Domain &quot;email&quot;.&quot;t_localpart&quot;</h3>
+<pre><code>Local part of an email address, the thing in front of the @</code></pre>
+</section>
+<section id="DOMAIN-email." class="level3">
+<h3>Domain &quot;email&quot;.&quot;t_address&quot;</h3>
+<pre><code>Email address, TODO validity checks</code></pre>
+</section>
+</section>
+</section>
+<section id="MODULE-jabber" class="level1">
+<h1>Module &quot;jabber&quot;</h1>
+<pre><code>Jabber (XMPP)
+
+This module sends the following signals:
+ - jabber/account</code></pre>
+<section class="level2">
+<h2>Tables</h2>
+<section id="TABLE-jabber.account" class="level3">
+<h3>Table &quot;jabber&quot;.&quot;account&quot;</h3>
+<pre><code>Jabber accounts</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>node</li>
+<li>domain</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference dns (service)</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>service →</li>
+<li>service_entity_name →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-dns.service.domain">dns.service.domain</a></li>
+<li><a href="#COLUMN-dns.service.service">dns.service.service</a></li>
+<li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-jabber.account.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-jabber.account.service" class="level5">
+<h5>service</h5>
+<pre><code>Service</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-jabber.account.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>ent. name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-jabber.account.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-jabber.account.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-jabber.account.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-jabber.account.node" class="level5">
+<h5>node</h5>
+<pre><code>part in front of the @ in account name</code></pre>
+<ul>
+<li>Type: email.t_localpart</li>
+</ul>
+</section>
+<section id="COLUMN-jabber.account.password" class="level5">
+<h5>password</h5>
+<pre><code>Unix shadow crypt format</code></pre>
+<ul>
+<li>Type: commons.t_password</li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section class="level2">
+<h2>Functions</h2>
+<section id="FUNCTION-jabber.del_account" class="level3">
+<h3>Function &quot;jabber&quot;.&quot;del_account&quot;</h3>
+<pre><code>Delete jabber account</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_node</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-jabber.ins_account" class="level3">
+<h3>Function &quot;jabber&quot;.&quot;ins_account&quot;</h3>
+<pre><code>Insert jabber account</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_node</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_password</strong> <em>commons.t_password_plaintext</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_num_total</strong> <em>integer</em></li>
+<li><strong>v_num_domain</strong> <em>integer</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-jabber.sel_account" class="level3">
+<h3>Function &quot;jabber&quot;.&quot;sel_account&quot;</h3>
+<pre><code>Select jabber accounts</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-jabber.srv_account" class="level3">
+<h3>Function &quot;jabber&quot;.&quot;srv_account&quot;</h3>
+<pre><code>Lists all jabber accounts</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-jabber.upd_account" class="level3">
+<h3>Function &quot;jabber&quot;.&quot;upd_account&quot;</h3>
+<pre><code>Change jabber account password</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_node</strong> <em>email.t_localpart</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_password</strong> <em>commons.t_password_plaintext</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="MODULE-server_access" class="level1">
+<h1>Module &quot;server_access&quot;</h1>
+<pre><code>Explicit passwd entriesfor shell acounts, sftp etc.</code></pre>
+<section class="level2">
+<h2>Tables</h2>
+<section id="TABLE-server_access.user" class="level3">
+<h3>Table &quot;server_access&quot;.&quot;user&quot;</h3>
+<pre><code>unix user</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>user</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference service</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.service_entity.service_entity_name">system.service_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-server_access.user.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>Host name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-server_access.user.service" class="level5">
+<h5>service</h5>
+<pre><code>email, ssh, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-server_access.user.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-server_access.user.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-server_access.user.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-server_access.user.uid" class="level5">
+<h5>uid</h5>
+<pre><code>Unix user identifier</code></pre>
+<ul>
+<li>Type: SERIAL</li>
+</ul>
+</section>
+<section id="COLUMN-server_access.user.user" class="level5">
+<h5>user</h5>
+<pre><code>User</code></pre>
+<ul>
+<li>Type: server_access.t_user</li>
+</ul>
+</section>
+<section id="COLUMN-server_access.user.password" class="level5">
+<h5>password</h5>
+<pre><code>Unix shadow crypt format</code></pre>
+<ul>
+<li>Type: commons.t_password</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section class="level2">
+<h2>Functions</h2>
+<section id="FUNCTION-server_access.del_user" class="level3">
+<h3>Function &quot;server_access&quot;.&quot;del_user&quot;</h3>
+<pre><code>delete</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_user</strong> <em>server_access.t_user</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_subservice</strong> <em>commons.t_key</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-server_access.ins_user" class="level3">
+<h3>Function &quot;server_access&quot;.&quot;ins_user&quot;</h3>
+<pre><code>ins user</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_user</strong> <em>server_access.t_user</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>p_subservice</strong> <em>commons.t_key</em></li>
+<li><strong>p_password</strong> <em>commons.t_password_plaintext</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_password</strong> <em>commons.t_password</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-server_access.sel_user" class="level3">
+<h3>Function &quot;server_access&quot;.&quot;sel_user&quot;</h3>
+<pre><code>sel user</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-server_access.srv_user" class="level3">
+<h3>Function &quot;server_access&quot;.&quot;srv_user&quot;</h3>
+<pre><code>backend server_access.user</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-server_access.upd_user" class="level3">
+<h3>Function &quot;server_access&quot;.&quot;upd_user&quot;</h3>
+<pre><code>passwd user</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_user</strong> <em>server_access.t_user</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>p_password</strong> <em>commons.t_password_plaintext</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_password</strong> <em>commons.t_password</em> (default: <em>NULL</em>)</li>
+<li><strong>v_subservice</strong> <em>commons.t_key</em></li>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section class="level2">
+<h2>Domains</h2>
+<section id="DOMAIN-server_access." class="level3">
+<h3>Domain &quot;server_access&quot;.&quot;t_user&quot;</h3>
+<pre><code>Unix user. This type only allows a subset of those names allowed by POSIX.</code></pre>
+</section>
+</section>
+</section>
+<section id="MODULE-system" class="level1">
+<h1>Module &quot;system&quot;</h1>
+<pre><code>Carnivora System: Central module</code></pre>
+<section class="level2">
+<h2>Tables</h2>
+<section id="TABLE-system.inherit_contingent" class="level3">
+<h3>Table &quot;system&quot;.&quot;inherit_contingent&quot;</h3>
+<pre><code>x</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>owner</li>
+<li>priority</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-system.inherit_contingent.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-system.inherit_contingent.donor" class="level5">
+<h5>donor</h5>
+<pre><code>Donor</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+</ul>
+</section>
+<section id="COLUMN-system.inherit_contingent.priority" class="level5">
+<h5>priority</h5>
+<pre><code>Priority, higher values take precedence</code></pre>
+<ul>
+<li>Type: int</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-system.service" class="level3">
+<h3>Table &quot;system&quot;.&quot;service&quot;</h3>
+<pre><code>Just a list of services that exist. Modules do register their names
+here.
+
+Use system.setup_register_service(...) to insert into this table.</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>service</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-system.service.service" class="level5">
+<h5>service</h5>
+<pre><code>Service name</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-system.service.module" class="level5">
+<h5>module</h5>
+<pre><code>Module name, just to keep track who uses this name</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-system.service_entity" class="level3">
+<h3>Table &quot;system&quot;.&quot;service_entity&quot;</h3>
+<pre><code>Names under which services are made available. For example (mail.example.org, email)
+could be a mail-server system referred to as mail.example.org by carnivora.
+Such a system can consist of multiple physical or virtual machines. The corresponding
+machines are listed in system.service_entity_machine. A core feature of services is the
+definition of &#39;templates&#39; for dns records which have to be present for every domain
+that uses this service. Such &#39;templates&#39; can be defined in system.service_dns.
+Domain names can be enabled for services in dns.service. Service enabled domains
+are automatically equipped with the required dns entries accorting to the existing
+&#39;templates&#39;.
+
+The service_entity_name might be exposed to users as the address of this service. For
+example as SMTP or SSH server etc. The exact interpretation of the service_entity_name
+depends on the module and the frontend.</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>service_entity_name</li>
+<li>service</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-system.service_entity.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>Host name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-system.service_entity.service" class="level5">
+<h5>service</h5>
+<pre><code>email, ssh, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+<li>References: <a href="#COLUMN-system.service.service">system.service.service</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-system.service_entity_dns" class="level3">
+<h3>Table &quot;system&quot;.&quot;service_entity_dns&quot;</h3>
+<pre><code>Resource records that have to be present to use a service. The records
+in this table can be understood as &#39;templates&#39;. The table does not
+contain a name (domain) for the records. Rather for every domain that
+uses this service, all appropriate records are created for this domain
+based on this table. The assignment from domain to services can
+be found in dns.service.</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>id</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference service</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.service_entity.service_entity_name">system.service_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-system.service_entity_dns.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>Host name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-system.service_entity_dns.service" class="level5">
+<h5>service</h5>
+<pre><code>email, ssh, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-system.service_entity_dns.type" class="level5">
+<h5>type</h5>
+<pre><code>Type (?) like MX, A, AAAA, ...</code></pre>
+<ul>
+<li>Type: dns.t_type</li>
+</ul>
+</section>
+<section id="COLUMN-system.service_entity_dns.rdata" class="level5">
+<h5>rdata</h5>
+<pre><code>fancy rdata storage</code></pre>
+<ul>
+<li>Type: dns.t_rdata</li>
+</ul>
+</section>
+<section id="COLUMN-system.service_entity_dns.ttl" class="level5">
+<h5>ttl</h5>
+<pre><code>Time to live, NULL indicates default value</code></pre>
+<ul>
+<li>Type: dns.t_ttl</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-system.service_entity_dns.id" class="level5">
+<h5>id</h5>
+<pre><code>uuid serial number to identify database elements uniquely
+The default value is generated using uuid_generate_v4().</code></pre>
+<ul>
+<li>Type: uuid</li>
+<li>Default value: uuid_generate_v4()</li>
+</ul>
+</section>
+<section id="COLUMN-system.service_entity_dns.domain_prefix" class="level5">
+<h5>domain_prefix</h5>
+<pre><code>Prefix</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-system.service_entity_machine" class="level3">
+<h3>Table &quot;system&quot;.&quot;service_entity_machine&quot;</h3>
+<pre><code>List of machines that provice a certain service. This information is
+used to provide these machines access to the data they need to provide
+the service. See also the module &#39;backend&#39;.</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>machine_name</li>
+<li>service_entity_name</li>
+<li>service</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference service</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.service_entity.service_entity_name">system.service_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-system.service_entity_machine.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>Host name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-system.service_entity_machine.service" class="level5">
+<h5>service</h5>
+<pre><code>email, ssh, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-system.service_entity_machine.machine_name" class="level5">
+<h5>machine_name</h5>
+<pre><code>Assigns machine</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+<li>References: <a href="#COLUMN-backend.machine.name">backend.machine.name</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-system.subservice" class="level3">
+<h3>Table &quot;system&quot;.&quot;subservice&quot;</h3>
+<pre><code>Subservice</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>service</li>
+<li>subservice</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-system.subservice.service" class="level5">
+<h5>service</h5>
+<pre><code>Service name</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+<li>References: <a href="#COLUMN-system.service.service">system.service.service</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>Sub part of the service</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-system.subservice_entity" class="level3">
+<h3>Table &quot;system&quot;.&quot;subservice_entity&quot;</h3>
+<pre><code>Names under which subservices are made available.</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>service_entity_name</li>
+<li>service</li>
+<li>subservice</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>service ent</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.service_entity.service_entity_name">system.service_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
+</ol></li>
+</ul></li>
+<li><strong>subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice.service">system.subservice.service</a></li>
+<li><a href="#COLUMN-system.subservice.subservice">system.subservice.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-system.subservice_entity.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>Service entity name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity.service" class="level5">
+<h5>service</h5>
+<pre><code>Service name</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-system.subservice_entity_contingent" class="level3">
+<h3>Table &quot;system&quot;.&quot;subservice_entity_contingent&quot;</h3>
+<pre><code>Subservice entity contingent</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>service</li>
+<li>subservice</li>
+<li>service_entity_name</li>
+<li>owner</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference service</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.service_entity.service_entity_name">system.service_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-system.subservice_entity_contingent.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>Host name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity_contingent.service" class="level5">
+<h5>service</h5>
+<pre><code>email, ssh, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity_contingent.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity_contingent.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity_contingent.domain_contingent" class="level5">
+<h5>domain_contingent</h5>
+<pre><code>Limit per domain</code></pre>
+<ul>
+<li>Type: integer</li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity_contingent.total_contingent" class="level5">
+<h5>total_contingent</h5>
+<pre><code>Limit on the total</code></pre>
+<ul>
+<li>Type: integer</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-system.subservice_entity_domain_contingent" class="level3">
+<h3>Table &quot;system&quot;.&quot;subservice_entity_domain_contingent&quot;</h3>
+<pre><code>Subservice entity per domain contingent</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>service</li>
+<li>subservice</li>
+<li>service_entity_name</li>
+<li>domain</li>
+<li>owner</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference service</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.service_entity.service_entity_name">system.service_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-system.subservice_entity_domain_contingent.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>Host name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity_domain_contingent.service" class="level5">
+<h5>service</h5>
+<pre><code>email, ssh, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity_domain_contingent.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity_domain_contingent.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity_domain_contingent.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Specific domain for which the access is granted</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-system.subservice_entity_domain_contingent.domain_contingent" class="level5">
+<h5>domain_contingent</h5>
+<pre><code>Limit per domain</code></pre>
+<ul>
+<li>Type: integer</li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section class="level2">
+<h2>Functions</h2>
+<section id="FUNCTION-system._contingent_ensure" class="level3">
+<h3>Function &quot;system&quot;.&quot;_contingent_ensure&quot;</h3>
+<pre><code>Throws exceptions if the contingent is exceeded</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_owner</strong> <em>user.t_user</em></li>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_subservice</strong> <em>commons.t_key</em></li>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_current_quantity_total</strong> <em>integer</em></li>
+<li><strong>p_current_quantity_domain</strong> <em>integer</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_remaining</strong> <em>integer</em></li>
+<li><strong>v_total_contingent</strong> <em>integer</em></li>
+<li><strong>v_domain_contingent</strong> <em>integer</em></li>
+<li><strong>v_domain_contingent_default</strong> <em>integer</em></li>
+<li><strong>v_domain_contingent_specific</strong> <em>integer</em></li>
+<li><strong>v_service_entity_name</strong> <em>dns.t_domain</em></li>
+<li><strong>v_domain_owner</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+</ul>
+</section>
+<section id="FUNCTION-system._contingent_total" class="level3">
+<h3>Function &quot;system&quot;.&quot;_contingent_total&quot;</h3>
+<pre><code>Contingent</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_owner</strong> <em>user.t_user</em></li>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_user</strong> <em>integer</em></li>
+<li><strong>v_default</strong> <em>integer</em></li>
+</ul></li>
+<li>Returns: integer</li>
+</ul>
+</section>
+<section id="FUNCTION-system._effective_contingent" class="level3">
+<h3>Function &quot;system&quot;.&quot;_effective_contingent&quot;</h3>
+<pre><code>contingent</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Returns: TABLE</li>
+</ul>
+</section>
+<section id="FUNCTION-system._effective_contingent_domain" class="level3">
+<h3>Function &quot;system&quot;.&quot;_effective_contingent_domain&quot;</h3>
+<pre><code>contingent</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Returns: TABLE</li>
+</ul>
+</section>
+<section id="FUNCTION-system._inherit_contingent_donor" class="level3">
+<h3>Function &quot;system&quot;.&quot;_inherit_contingent_donor&quot;</h3>
+<pre><code>Returns all contingent donors for a given user with their priority.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_owner</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+</ul>
+</section>
+<section id="FUNCTION-system._setup_register_service" class="level3">
+<h3>Function &quot;system&quot;.&quot;_setup_register_service&quot;</h3>
+<pre><code>Allows modules to register their services during setup.
+Returns the total number of service names registered
+for this module.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_module</strong> <em>commons.t_key</em></li>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Returns: integer</li>
+</ul>
+</section>
+<section id="FUNCTION-system._setup_register_subservice" class="level3">
+<h3>Function &quot;system&quot;.&quot;_setup_register_subservice&quot;</h3>
+<pre><code>Allows modules to register their services during setup.
+Returns the total number of service names registered
+for this module.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+<li><strong>p_subservice</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Returns: integer</li>
+</ul>
+</section>
+<section id="FUNCTION-system.sel_inherit_contingent" class="level3">
+<h3>Function &quot;system&quot;.&quot;sel_inherit_contingent&quot;</h3>
+<pre><code>Select inherit contingent</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-system.sel_usable_host" class="level3">
+<h3>Function &quot;system&quot;.&quot;sel_usable_host&quot;</h3>
+<pre><code>Usable hosts</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_service</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="MODULE-user" class="level1">
+<h1>Module &quot;user&quot;</h1>
+<pre><code>Carnivora Users: Users own things objects in the DB,
+and they can login into frontends (edentata)</code></pre>
+<section class="level2">
+<h2>Tables</h2>
+<section id="TABLE-user.deputy" class="level3">
+<h3>Table &quot;user&quot;.&quot;deputy&quot;</h3>
+<pre><code>Deputies for users</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>deputy</li>
+<li>represented</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-user.deputy.deputy" class="level5">
+<h5>deputy</h5>
+<pre><code>Deputy</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+<li>On delete: CASCADE</li>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-user.deputy.represented" class="level5">
+<h5>represented</h5>
+<pre><code>User for which the deputy can act</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+<li>On delete: CASCADE</li>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-user.session" class="level3">
+<h3>Table &quot;user&quot;.&quot;session&quot;</h3>
+<pre><code>User login sessions</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>id</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-user.session.id" class="level5">
+<h5>id</h5>
+<pre><code>Session id</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Default value: &quot;user&quot;._session_id()</li>
+</ul>
+</section>
+<section id="COLUMN-user.session.owner" class="level5">
+<h5>owner</h5>
+<pre><code>for ownage</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+<li>References: <a href="#COLUMN-user.user.owner">user.user.owner</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+<section id="COLUMN-user.session.act_as" class="level5">
+<h5>act_as</h5>
+<pre><code>Act as</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+</ul>
+</section>
+<section id="COLUMN-user.session.started" class="level5">
+<h5>started</h5>
+<pre><code>Session started at this time</code></pre>
+<ul>
+<li>Type: timestamp</li>
+<li>Default value: CURRENT_TIMESTAMP</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-user.user" class="level3">
+<h3>Table &quot;user&quot;.&quot;user&quot;</h3>
+<pre><code>User</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>owner</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-user.user.owner" class="level5">
+<h5>owner</h5>
+<pre><code>User name</code></pre>
+<ul>
+<li>Type: user.t_user</li>
+</ul>
+</section>
+<section id="COLUMN-user.user.password" class="level5">
+<h5>password</h5>
+<pre><code>Unix shadow crypt format</code></pre>
+<ul>
+<li>Type: commons.t_password</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-user.user.login" class="level5">
+<h5>login</h5>
+<pre><code>Login enabled</code></pre>
+<ul>
+<li>Type: bool</li>
+</ul>
+</section>
+<section id="COLUMN-user.user.contact_email" class="level5">
+<h5>contact_email</h5>
+<pre><code>Optional contact email address</code></pre>
+<ul>
+<li>Type: email.t_address</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section class="level2">
+<h2>Functions</h2>
+<section id="FUNCTION-user._get_login" class="level3">
+<h3>Function &quot;user&quot;.&quot;_get_login&quot;</h3>
+<pre><code>Shows informations for the current user login.
+Throws an exception if no login is associated to the
+current database connection.</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Returns: TABLE</li>
+</ul>
+</section>
+<section id="FUNCTION-user._session_id" class="level3">
+<h3>Function &quot;user&quot;.&quot;_session_id&quot;</h3>
+<pre><code>Gives an id for the database connection that is unique over all database connections.
+It is used to identify user logins.
+
+Not sure if this stays unique with distributed infrastructure!</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Returns: varchar</li>
+</ul>
+</section>
+<section id="FUNCTION-user.ins_deputy" class="level3">
+<h3>Function &quot;user&quot;.&quot;ins_deputy&quot;</h3>
+<pre><code>Act as deputy</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_act_as</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-user.ins_login" class="level3">
+<h3>Function &quot;user&quot;.&quot;ins_login&quot;</h3>
+<pre><code>Try to bind database connection to new user session.
+Returns valid if sueccessfull, invalid otherwise.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_owner</strong> <em>commons.t_key</em></li>
+<li><strong>p_password</strong> <em>commons.t_password_plaintext</em></li>
+</ul></li>
+<li>Returns: boolean</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-user.sel_deputy" class="level3">
+<h3>Function &quot;user&quot;.&quot;sel_deputy&quot;</h3>
+<pre><code>sel deputy</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-user.upd_user" class="level3">
+<h3>Function &quot;user&quot;.&quot;upd_user&quot;</h3>
+<pre><code>change user passwd</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_password</strong> <em>commons.t_password_plaintext</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section class="level2">
+<h2>Domains</h2>
+<section id="DOMAIN-user." class="level3">
+<h3>Domain &quot;user&quot;.&quot;t_user&quot;</h3>
+<pre><code>Username</code></pre>
+</section>
+</section>
+<section class="level2">
+<h2>Roles</h2>
+<section id="ROLE-userlogin" class="level3">
+<h3>Role &quot;userlogin&quot;</h3>
+<p>Do user actions via this group</p>
+<ul>
+<li>Login:</li>
+</ul>
+</section>
+<section id="ROLE-system" class="level3">
+<h3>Role &quot;system&quot;</h3>
+<p>Highly priviledged user</p>
+<ul>
+<li>Login:</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="MODULE-web" class="level1">
+<h1>Module &quot;web&quot;</h1>
+<pre><code>Web</code></pre>
+<section class="level2">
+<h2>Tables</h2>
+<section id="TABLE-web.alias" class="level3">
+<h3>Table &quot;web&quot;.&quot;alias&quot;</h3>
+<pre><code>Aliases</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>domain</li>
+<li>site_port</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference dns (service)</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>service →</li>
+<li>service_entity_name →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-dns.service.domain">dns.service.domain</a></li>
+<li><a href="#COLUMN-dns.service.service">dns.service.service</a></li>
+<li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+<li><strong>site</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>site →</li>
+<li>service_entity_name →</li>
+<li>site_port →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-web.site.domain">web.site.domain</a></li>
+<li><a href="#COLUMN-web.site.service_entity_name">web.site.service_entity_name</a></li>
+<li><a href="#COLUMN-web.site.port">web.site.port</a></li>
+</ol></li>
+</ul></li>
+<li><strong>dns</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>service →</li>
+<li>service_entity_name →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-dns.service.domain">dns.service.domain</a></li>
+<li><a href="#COLUMN-dns.service.service">dns.service.service</a></li>
+<li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-web.alias.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-web.alias.service" class="level5">
+<h5>service</h5>
+<pre><code>Service</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-web.alias.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>ent. name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-web.alias.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-web.alias.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-web.alias.site" class="level5">
+<h5>site</h5>
+<pre><code>Site</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-web.alias.site_port" class="level5">
+<h5>site_port</h5>
+<pre><code>port</code></pre>
+<ul>
+<li>Type: commons.t_port</li>
+<li>Default value: 80</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-web.https" class="level3">
+<h3>Table &quot;web&quot;.&quot;https&quot;</h3>
+<pre><code>stores https information</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>identifier</li>
+<li>domain</li>
+<li>port</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>site</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>port →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-web.site.domain">web.site.domain</a></li>
+<li><a href="#COLUMN-web.site.port">web.site.port</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-web.https.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-web.https.identifier" class="level5">
+<h5>identifier</h5>
+<pre><code>PK</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-web.https.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-web.https.port" class="level5">
+<h5>port</h5>
+<pre><code>Port</code></pre>
+<ul>
+<li>Type: commons.t_port</li>
+</ul>
+</section>
+<section id="COLUMN-web.https.x509_request" class="level5">
+<h5>x509_request</h5>
+<pre><code>Certificate request</code></pre>
+<ul>
+<li>Type: web.t_cert</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-web.https.x509_certificate" class="level5">
+<h5>x509_certificate</h5>
+<pre><code>Certificate</code></pre>
+<ul>
+<li>Type: web.t_cert</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+<section id="COLUMN-web.https.authority_key_identifier" class="level5">
+<h5>authority_key_identifier</h5>
+<pre><code>Identifier of the certificate that has signed this cert.
+The Authority Key Identifier allows to build the chain of trust.
+See .
+Hopefully there exists an entry in web.intermediate_cert
+or a root certificate with an equal subjectKeyIdentifier.
+
+Is NULL whenever x509_certificate is NULL.</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-web.intermediate_cert" class="level3">
+<h3>Table &quot;web&quot;.&quot;intermediate_cert&quot;</h3>
+<pre><code>Intermediate certificates</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>subject_key_identifier</li>
+</ul></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-web.intermediate_cert.subject_key_identifier" class="level5">
+<h5>subject_key_identifier</h5>
+<pre><code>Identifies this certificate</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-web.intermediate_cert.authority_key_identifier" class="level5">
+<h5>authority_key_identifier</h5>
+<pre><code>Subject key identifier of the cert that has signed this cert.
+NULL is not allowed, since self signed cert do not belong into intermediate
+certs.</code></pre>
+<ul>
+<li>Type: varchar</li>
+</ul>
+</section>
+<section id="COLUMN-web.intermediate_cert.x509_certificate" class="level5">
+<h5>x509_certificate</h5>
+<pre><code>Intermediate certificate</code></pre>
+<ul>
+<li>Type: web.t_cert</li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-web.intermediate_chain" class="level3">
+<h3>Table &quot;web&quot;.&quot;intermediate_chain&quot;</h3>
+<pre><code>xxx</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>domain</li>
+<li>port</li>
+<li>identifier</li>
+<li>subject_key_identifier</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>https cert</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>port →</li>
+<li>identifier →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-web.https.domain">web.https.domain</a></li>
+<li><a href="#COLUMN-web.https.port">web.https.port</a></li>
+<li><a href="#COLUMN-web.https.identifier">web.https.identifier</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-web.intermediate_chain.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-web.intermediate_chain.port" class="level5">
+<h5>port</h5>
+<pre><code>Port</code></pre>
+<ul>
+<li>Type: commons.t_port</li>
+</ul>
+</section>
+<section id="COLUMN-web.intermediate_chain.identifier" class="level5">
+<h5>identifier</h5>
+<pre><code>Identifier</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-web.intermediate_chain.order" class="level5">
+<h5>order</h5>
+<pre><code>Ordering from leaf to root</code></pre>
+<ul>
+<li>Type: integer</li>
+</ul>
+</section>
+<section id="COLUMN-web.intermediate_chain.subject_key_identifier" class="level5">
+<h5>subject_key_identifier</h5>
+<pre><code>SubjectKeyIdentifier</code></pre>
+<ul>
+<li>Type: varchar</li>
+<li>References: <a href="#COLUMN-web.intermediate_cert.subject_key_identifier">web.intermediate_cert.subject_key_identifier</a>
+<ul>
+</ul></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="TABLE-web.site" class="level3">
+<h3>Table &quot;web&quot;.&quot;site&quot;</h3>
+<pre><code>Website</code></pre>
+<ul>
+<li>Primary key:
+<ul>
+<li>domain</li>
+<li>port</li>
+</ul></li>
+<li>Foreign keys:
+<ol>
+<li><strong>reference dns (service)</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>service →</li>
+<li>service_entity_name →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-dns.service.domain">dns.service.domain</a></li>
+<li><a href="#COLUMN-dns.service.service">dns.service.service</a></li>
+<li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
+</ol></li>
+</ul></li>
+<li><strong>reference subservice</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>service_entity_name →</li>
+<li>service →</li>
+<li>subservice →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-system.subservice_entity.service_entity_name">system.subservice_entity.service_entity_name</a></li>
+<li><a href="#COLUMN-system.subservice_entity.service">system.subservice_entity.service</a></li>
+<li><a href="#COLUMN-system.subservice_entity.subservice">system.subservice_entity.subservice</a></li>
+</ol></li>
+</ul></li>
+<li><strong>https</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>domain →</li>
+<li>port →</li>
+<li>https →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-web.https.domain">web.https.domain</a></li>
+<li><a href="#COLUMN-web.https.port">web.https.port</a></li>
+<li><a href="#COLUMN-web.https.identifier">web.https.identifier</a></li>
+</ol></li>
+</ul></li>
+<li><strong>server_access</strong>
+<ul>
+<li>Columns:
+<ol>
+<li>user →</li>
+<li>service_entity_name →</li>
+</ol></li>
+<li>Referenced columns:
+<ol>
+<li><a href="#COLUMN-server_access.user.user">server_access.user.user</a></li>
+<li><a href="#COLUMN-server_access.user.service_entity_name">server_access.user.service_entity_name</a></li>
+</ol></li>
+</ul></li>
+</ol></li>
+</ul>
+<section class="level4">
+<h4>Columns</h4>
+<section id="COLUMN-web.site.domain" class="level5">
+<h5>domain</h5>
+<pre><code>Domain name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-web.site.service" class="level5">
+<h5>service</h5>
+<pre><code>Service</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-web.site.service_entity_name" class="level5">
+<h5>service_entity_name</h5>
+<pre><code>ent. name</code></pre>
+<ul>
+<li>Type: dns.t_domain</li>
+</ul>
+</section>
+<section id="COLUMN-web.site.subservice" class="level5">
+<h5>subservice</h5>
+<pre><code>account, alias, ...</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+</ul>
+</section>
+<section id="COLUMN-web.site.backend_status" class="level5">
+<h5>backend_status</h5>
+<pre><code>Status of database entry in backend. NULL: nothing pending,
+&#39;ins&#39;: entry not present on backend client, &#39;upd&#39;: update
+pending on backend client, &#39;del&#39;: deletion peding on
+backend client.</code></pre>
+<ul>
+<li>Type: backend.t_status</li>
+<li>Can be <em>NULL</em></li>
+<li>Default value: 'ins'</li>
+</ul>
+</section>
+<section id="COLUMN-web.site.option" class="level5">
+<h5>option</h5>
+<pre><code>Free options</code></pre>
+<ul>
+<li>Type: jsonb</li>
+<li>Default value: '{}'</li>
+</ul>
+</section>
+<section id="COLUMN-web.site.port" class="level5">
+<h5>port</h5>
+<pre><code>Port</code></pre>
+<ul>
+<li>Type: commons.t_port</li>
+</ul>
+</section>
+<section id="COLUMN-web.site.user" class="level5">
+<h5>user</h5>
+<pre><code>Server account under which the htdocs reside</code></pre>
+<ul>
+<li>Type: server_access.t_user</li>
+</ul>
+</section>
+<section id="COLUMN-web.site.https" class="level5">
+<h5>https</h5>
+<pre><code>If null, HTTPS is deactivated</code></pre>
+<ul>
+<li>Type: commons.t_key</li>
+<li>Can be <em>NULL</em></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section class="level2">
+<h2>Functions</h2>
+<section id="FUNCTION-web.del_alias" class="level3">
+<h3>Function &quot;web&quot;.&quot;del_alias&quot;</h3>
+<pre><code>del</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_site_port</strong> <em>commons.t_port</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.del_intermediate_chain" class="level3">
+<h3>Function &quot;web&quot;.&quot;del_intermediate_chain&quot;</h3>
+<pre><code>sdf</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_port</strong> <em>commons.t_port</em></li>
+<li><strong>p_identifier</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.del_site" class="level3">
+<h3>Function &quot;web&quot;.&quot;del_site&quot;</h3>
+<pre><code>del</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_port</strong> <em>commons.t_port</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.fwd_x509_request" class="level3">
+<h3>Function &quot;web&quot;.&quot;fwd_x509_request&quot;</h3>
+<pre><code>x509 request</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_port</strong> <em>commons.t_port</em></li>
+<li><strong>p_identifier</strong> <em>commons.t_key</em></li>
+<li><strong>p_x509_request</strong> <em>web.t_cert</em></li>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.ins_alias" class="level3">
+<h3>Function &quot;web&quot;.&quot;ins_alias&quot;</h3>
+<pre><code>Insert alias</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_site</strong> <em>dns.t_domain</em></li>
+<li><strong>p_site_port</strong> <em>commons.t_port</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.ins_https" class="level3">
+<h3>Function &quot;web&quot;.&quot;ins_https&quot;</h3>
+<pre><code>Ins HTTPS</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_port</strong> <em>commons.t_port</em></li>
+<li><strong>p_identifier</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.ins_intermediate_cert" class="level3">
+<h3>Function &quot;web&quot;.&quot;ins_intermediate_cert&quot;</h3>
+<pre><code>Xxx</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_subject_key_identifier</strong> <em>varchar</em></li>
+<li><strong>p_authority_key_identifier</strong> <em>varchar</em></li>
+<li><strong>p_x509_certificate</strong> <em>web.t_cert</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.ins_intermediate_chain" class="level3">
+<h3>Function &quot;web&quot;.&quot;ins_intermediate_chain&quot;</h3>
+<pre><code>sdf</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_port</strong> <em>commons.t_port</em></li>
+<li><strong>p_identifier</strong> <em>commons.t_key</em></li>
+<li><strong>p_order</strong> <em>integer</em></li>
+<li><strong>p_subject_key_identifier</strong> <em>varchar</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.ins_site" class="level3">
+<h3>Function &quot;web&quot;.&quot;ins_site&quot;</h3>
+<pre><code>Insert site
+TODO: check owner and contingent</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_port</strong> <em>commons.t_port</em></li>
+<li><strong>p_user</strong> <em>server_access.t_user</em></li>
+<li><strong>p_service_entity_name</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.sel_alias" class="level3">
+<h3>Function &quot;web&quot;.&quot;sel_alias&quot;</h3>
+<pre><code>Select alias</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.sel_https" class="level3">
+<h3>Function &quot;web&quot;.&quot;sel_https&quot;</h3>
+<pre><code>sel https</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.sel_intermediate_cert" class="level3">
+<h3>Function &quot;web&quot;.&quot;sel_intermediate_cert&quot;</h3>
+<pre><code>int</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_subject_key_identifier</strong> <em>varchar</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.sel_intermediate_chain" class="level3">
+<h3>Function &quot;web&quot;.&quot;sel_intermediate_chain&quot;</h3>
+<pre><code>sel</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.sel_site" class="level3">
+<h3>Function &quot;web&quot;.&quot;sel_site&quot;</h3>
+<pre><code>Owner defined via server_access</code></pre>
+<ul>
+<li>Parameters: <em>non</em></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.srv_alias" class="level3">
+<h3>Function &quot;web&quot;.&quot;srv_alias&quot;</h3>
+<pre><code>backend web.alias</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.srv_https" class="level3">
+<h3>Function &quot;web&quot;.&quot;srv_https&quot;</h3>
+<pre><code>Certs</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.srv_site" class="level3">
+<h3>Function &quot;web&quot;.&quot;srv_site&quot;</h3>
+<pre><code>backend web.site</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_include_inactive</strong> <em>boolean</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_machine</strong> <em>dns.t_domain</em></li>
+</ul></li>
+<li>Returns: TABLE</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-backend">backend</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.upd_https" class="level3">
+<h3>Function &quot;web&quot;.&quot;upd_https&quot;</h3>
+<pre><code>upd https</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_port</strong> <em>commons.t_port</em></li>
+<li><strong>p_identifier</strong> <em>commons.t_key</em></li>
+<li><strong>p_x509_certificate</strong> <em>web.t_cert</em></li>
+<li><strong>p_authority_key_identifier</strong> <em>varchar</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="FUNCTION-web.upd_site" class="level3">
+<h3>Function &quot;web&quot;.&quot;upd_site&quot;</h3>
+<pre><code>set https identif.</code></pre>
+<ul>
+<li>Parameters:
+<ul>
+<li><strong>p_domain</strong> <em>dns.t_domain</em></li>
+<li><strong>p_port</strong> <em>commons.t_port</em></li>
+<li><strong>p_identifier</strong> <em>commons.t_key</em></li>
+</ul></li>
+<li>Variables defined for body:
+<ul>
+<li><strong>v_owner</strong> <em>user.t_user</em></li>
+<li><strong>v_login</strong> <em>user.t_user</em></li>
+</ul></li>
+<li>Returns: void</li>
+<li>Execute privilege:
+<ul>
+<li><a href="#ROLE-userlogin">userlogin</a></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section class="level2">
+<h2>Domains</h2>
+<section id="DOMAIN-web." class="level3">
+<h3>Domain &quot;web&quot;.&quot;t_cert&quot;</h3>
+<pre><code>PEM cert</code></pre>
+</section>
+</section>
+</section></body></html>
