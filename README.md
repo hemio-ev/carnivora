@@ -25,23 +25,25 @@ You can configure accounts that can connect to the database via
 via this config have the names `carnivora_edentata` and
 `carnivora_machine_example`.
 
-    name: _postgresql_user
-    description: PostgreSQL users and their priviledges
+```yaml
+name: _postgresql_user
+description: PostgreSQL users and their priviledges
 
-    roles:
-     -
-      name: edentata
-      login: true
-      description: Account for edentata web frontend
-      member_in:
-       - userlogin
+roles:
+ -
+  name: edentata
+  login: true
+  description: Account for edentata web frontend
+  member_in:
+   - userlogin
 
-     -
-      name: machine_example
-      description: Account for machine example
-      login: true
-      member_in:
-       - backend
+ -
+  name: machine_example
+  description: Account for machine example
+  login: true
+  member_in:
+   - backend
+```
 
 Running the Setup
 -----------------
