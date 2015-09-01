@@ -1,5 +1,7 @@
 name: service_entity_dns
 description: |
+ Service Entity DNS
+
  Resource records that have to be present to use a service. The records
  in this table can be understood as 'templates'. The table does not
  contain a name (domain) for the records. Rather for every domain that
@@ -20,5 +22,5 @@ columns:
  -
   name: domain_prefix
   type: varchar
-  description: Prefix
+  description: Domain prefix
   null: true

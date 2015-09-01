@@ -1,5 +1,13 @@
 name: server_access
-description: Explicit passwd entriesfor shell acounts, sftp etc.
+description: |
+ Server Access
+
+ Explicit passwd entries for shell acounts and sftp.
+
+ This module sends the following signals:
+  - server_access/sftp
+  - server_access/ssh
+
 dependencies: [ hosts ]
 priv_all_all:
  - system

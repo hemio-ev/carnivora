@@ -1,5 +1,5 @@
 name: registered
-description: Addtional informations to dns.registered
+description: Addtional informations to those stored in dns.registered
 
 primary_key:
  - domain
@@ -40,21 +40,21 @@ columns:
   null: true
  -
   name: period
-  description: renewal period (years)
+  description: Renewal period (years)
   type: integer
   null: true
  -
   name: registrar_status
-  description: registrar_status
+  description: Registrar status
   type: varchar
   null: true
  -
   name: registry_status
-  description: registry_status
+  description: Registry status
   type: varchar
   null: true
  -
   name: last_status
-  description: last_status
+  description: Last update status
   type: varchar
   null: true

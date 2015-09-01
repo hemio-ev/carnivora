@@ -1,5 +1,5 @@
 name: ins_registered
-description: Insert Registered
+description: Inserts details for registered domain
 
 templates:
  - user.userlogin

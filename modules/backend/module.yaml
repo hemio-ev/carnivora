@@ -1,9 +1,11 @@
 name: backend
 description: |
- Carnivora Backend:
+ Carnivora Backend
+
  The backend module provides everything required for the backend API.
  The backend API delivers content required for building configs etc.
  to clients, called machines.
+
 priv_all_all:
  - system
 

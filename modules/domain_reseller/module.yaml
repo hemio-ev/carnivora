@@ -1,5 +1,14 @@
 name: domain_reseller
-description: Domains from reseller
+description: |
+ Features for Domains Registered via a Reseller
+
+ Stores additional details for dns.registered domains. Also supports storing
+ contact informations (handles).
+
+ This module sends the following signals:
+  - domain_reseller/handle
+  - domain_registered/managed
+  - domain_registered/unmanaged
 
 priv_all_all:
  - system

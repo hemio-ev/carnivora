@@ -1,5 +1,5 @@
 name: ins_handle
-description: Insert Handle
+description: Inserts handle
 
 templates:
  - user.userlogin

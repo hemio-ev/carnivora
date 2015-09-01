@@ -21,7 +21,8 @@ Account for machine example
 Module "backend"
 ================
 
-    Carnivora Backend:
+    Carnivora Backend
+
     The backend module provides everything required for the backend API.
     The backend API delivers content required for building configs etc.
     to clients, called machines.
@@ -213,7 +214,9 @@ vms
 Module "commons"
 ================
 
-    Carnivora Commons: Usefull templates and types
+    Carnivora Commons
+
+    Usefull templates, functions and domains.
 
 Functions
 ---------
@@ -244,6 +247,8 @@ Functions
 
     Compares a plaintext password with an arbitrary 'crypt(3)' hashed password.
 
+    Uses 
+
 -   Parameters:
     -   **p\_password\_plaintext** *commons.t\_password\_plaintext*
     -   **p\_password\_hash** *commons.t\_password*
@@ -272,7 +277,7 @@ Functions
 
 ### Function "commons"."\_uuid"
 
-    Returns new uuid
+    Returns a random uuid
 
 -   Parameters: *non*
 -   Returns: uuid
@@ -371,7 +376,7 @@ Tables
 -   Primary key:
     -   domain
 -   Foreign keys:
-    1.  **reference service**
+    1.  **Reference service entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -379,7 +384,7 @@ Tables
             1.  [system.service\_entity.service\_entity\_name](#COLUMN-system.service_entity.service_entity_name)
             2.  [system.service\_entity.service](#COLUMN-system.service_entity.service)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -411,19 +416,19 @@ Tables
 
 ##### service\_entity\_name
 
-    Host name
+    Service entity name
 
 -   Type: dns.t\_domain
 
 ##### service
 
-    email, ssh, ...
+    Service (e.g. email, jabber)
 
 -   Type: commons.t\_key
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -447,7 +452,7 @@ Tables
     -   domain
     -   service
 -   Foreign keys:
-    1.  **reference service**
+    1.  **Reference service entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -459,13 +464,13 @@ Tables
 
 ##### service\_entity\_name
 
-    Host name
+    Service entity name
 
 -   Type: dns.t\_domain
 
 ##### service
 
-    email, ssh, ...
+    Service (e.g. email, jabber)
 
 -   Type: commons.t\_key
 
@@ -761,19 +766,29 @@ Domains
 Module "domain\_reseller"
 =========================
 
-    Domains from reseller
+    Features for Domains Registered via a Reseller
+
+    Stores additional details for dns.registered domains. Also supports storing
+    contact informations (handles).
+
+    This module sends the following signals:
+     - domain_reseller/handle
+     - domain_registered/managed
+     - domain_registered/unmanaged
 
 Tables
 ------
 
 ### Table "domain\_reseller"."handle"
 
-    Domain Handles (Contacts)
+    Handles (Domain Contacts)
+
+    Domain contacts that can be used as owner, admin-c, tech-c or zone-c.
 
 -   Primary key:
     -   alias
 -   Foreign keys:
-    1.  **reference service**
+    1.  **Reference service entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -781,7 +796,7 @@ Tables
             1.  [system.service\_entity.service\_entity\_name](#COLUMN-system.service_entity.service_entity_name)
             2.  [system.service\_entity.service](#COLUMN-system.service_entity.service)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -795,19 +810,19 @@ Tables
 
 ##### service\_entity\_name
 
-    Host name
+    Service entity name
 
 -   Type: dns.t\_domain
 
 ##### service
 
-    email, ssh, ...
+    Service (e.g. email, jabber)
 
 -   Type: commons.t\_key
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -919,7 +934,7 @@ Tables
 
 ### Table "domain\_reseller"."registered"
 
-    Addtional informations to dns.registered
+    Addtional informations to those stored in dns.registered
 
 -   Primary key:
     -   domain
@@ -977,28 +992,28 @@ Tables
 
 ##### period
 
-    renewal period (years)
+    Renewal period (years)
 
 -   Type: integer
 -   Can be *NULL*
 
 ##### registrar\_status
 
-    registrar_status
+    Registrar status
 
 -   Type: varchar
 -   Can be *NULL*
 
 ##### registry\_status
 
-    registry_status
+    Registry status
 
 -   Type: varchar
 -   Can be *NULL*
 
 ##### last\_status
 
-    last_status
+    Last update status
 
 -   Type: varchar
 -   Can be *NULL*
@@ -1008,7 +1023,7 @@ Functions
 
 ### Function "domain\_reseller"."del\_handle"
 
-    Delete Handle
+    Deletes handle
 
 -   Parameters:
     -   **p\_alias** *varchar*
@@ -1054,7 +1069,7 @@ Functions
 
 ### Function "domain\_reseller"."ins\_handle"
 
-    Insert Handle
+    Inserts handle
 
 -   Parameters:
     -   **p\_alias** *varchar*
@@ -1080,7 +1095,7 @@ Functions
 
 ### Function "domain\_reseller"."ins\_registered"
 
-    Insert Registered
+    Inserts details for registered domain
 
 -   Parameters:
     -   **p\_domain** *dns.t\_domain*
@@ -1095,7 +1110,7 @@ Functions
 
 ### Function "domain\_reseller"."sel\_handle"
 
-    Select Handle
+    Selects handles
 
 -   Parameters:
     -   **p\_hide\_foreign** *bool*
@@ -1108,7 +1123,7 @@ Functions
 
 ### Function "domain\_reseller"."sel\_registered"
 
-    Select Registered
+    Selects details for registered domains
 
 -   Parameters: *non*
 -   Variables defined for body:
@@ -1120,7 +1135,7 @@ Functions
 
 ### Function "domain\_reseller"."sel\_reseller"
 
-    Select available resellers
+    Selects available resellers
 
 -   Parameters: *non*
 -   Variables defined for body:
@@ -1132,7 +1147,7 @@ Functions
 
 ### Function "domain\_reseller"."srv\_handle"
 
-    srv handles
+    Serves handles
 
 -   Parameters:
     -   **p\_include\_inactive** *boolean*
@@ -1144,7 +1159,7 @@ Functions
 
 ### Function "domain\_reseller"."srv\_registered"
 
-    Serve registerd domain details
+    Serves details for registered domains
 
 -   Parameters:
     -   **p\_include\_inactive** *boolean*
@@ -1156,7 +1171,7 @@ Functions
 
 ### Function "domain\_reseller"."upd\_handle"
 
-    Update Handle
+    Updates handle
 
 -   Parameters:
     -   **p\_alias** *varchar*
@@ -1180,7 +1195,7 @@ Functions
 
 ### Function "domain\_reseller"."upd\_registered"
 
-    Update Registered
+    Updates details for registered domain
 
 -   Parameters:
     -   **p\_domain** *dns.t\_domain*
@@ -1226,7 +1241,7 @@ Tables
             2.  [dns.service.service](#COLUMN-dns.service.service)
             3.  [dns.service.service\_entity\_name](#COLUMN-dns.service.service_entity_name)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -1258,7 +1273,7 @@ Tables
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -1286,7 +1301,7 @@ Tables
             2.  [dns.service.service](#COLUMN-dns.service.service)
             3.  [dns.service.service\_entity\_name](#COLUMN-dns.service.service_entity_name)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -1326,7 +1341,7 @@ Tables
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -1377,7 +1392,7 @@ Tables
             2.  [dns.service.service](#COLUMN-dns.service.service)
             3.  [dns.service.service\_entity\_name](#COLUMN-dns.service.service_entity_name)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -1409,7 +1424,7 @@ Tables
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -1433,7 +1448,7 @@ Tables
 
 ##### option
 
-    Free options
+    Free options in JSON format
 
 -   Type: jsonb
 -   Default value: '{}'
@@ -1489,7 +1504,7 @@ Tables
 
 ##### option
 
-    Free options
+    Free options in JSON format
 
 -   Type: jsonb
 -   Default value: '{}'
@@ -1532,7 +1547,7 @@ Tables
             2.  [dns.service.service](#COLUMN-dns.service.service)
             3.  [dns.service.service\_entity\_name](#COLUMN-dns.service.service_entity_name)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -1564,7 +1579,7 @@ Tables
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -1588,7 +1603,7 @@ Tables
 
 ##### option
 
-    Free options
+    Free options in JSON format
 
 -   Type: jsonb
 -   Default value: '{}'
@@ -1636,7 +1651,7 @@ Tables
             2.  [dns.service.service](#COLUMN-dns.service.service)
             3.  [dns.service.service\_entity\_name](#COLUMN-dns.service.service_entity_name)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -1668,7 +1683,7 @@ Tables
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -2072,7 +2087,7 @@ Tables
             2.  [dns.service.service](#COLUMN-dns.service.service)
             3.  [dns.service.service\_entity\_name](#COLUMN-dns.service.service_entity_name)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -2104,7 +2119,7 @@ Tables
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -2214,7 +2229,13 @@ Functions
 Module "server\_access"
 =======================
 
-    Explicit passwd entriesfor shell acounts, sftp etc.
+    Server Access
+
+    Explicit passwd entries for shell acounts and sftp.
+
+    This module sends the following signals:
+     - server_access/sftp
+     - server_access/ssh
 
 Tables
 ------
@@ -2226,7 +2247,7 @@ Tables
 -   Primary key:
     -   user
 -   Foreign keys:
-    1.  **reference service**
+    1.  **Reference service entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -2234,7 +2255,7 @@ Tables
             1.  [system.service\_entity.service\_entity\_name](#COLUMN-system.service_entity.service_entity_name)
             2.  [system.service\_entity.service](#COLUMN-system.service_entity.service)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -2248,19 +2269,19 @@ Tables
 
 ##### service\_entity\_name
 
-    Host name
+    Service entity name
 
 -   Type: dns.t\_domain
 
 ##### service
 
-    email, ssh, ...
+    Service (e.g. email, jabber)
 
 -   Type: commons.t\_key
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -2387,7 +2408,9 @@ Domains
 Module "system"
 ===============
 
-    Carnivora System: Central module
+    Carnivora System
+
+    Manages services, service entities and contingents.
 
 Tables
 ------
@@ -2423,10 +2446,11 @@ Tables
 
 ### Table "system"."service"
 
-    Just a list of services that exist. Modules do register their names
-    here.
+    Services
 
-    Use system.setup_register_service(...) to insert into this table.
+    Just a list of services that exist. Modules do register their services here.
+    Use system._setup_register_service(, ) to insert into this
+    table.
 
 -   Primary key:
     -   service
@@ -2446,6 +2470,8 @@ Tables
 -   Type: commons.t\_key
 
 ### Table "system"."service\_entity"
+
+    Service Entity
 
     Names under which services are made available. For example (mail.example.org, email)
     could be a mail-server system referred to as mail.example.org by carnivora.
@@ -2482,6 +2508,8 @@ Tables
 
 ### Table "system"."service\_entity\_dns"
 
+    Service Entity DNS
+
     Resource records that have to be present to use a service. The records
     in this table can be understood as 'templates'. The table does not
     contain a name (domain) for the records. Rather for every domain that
@@ -2492,7 +2520,7 @@ Tables
 -   Primary key:
     -   id
 -   Foreign keys:
-    1.  **reference service**
+    1.  **Reference service entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -2504,13 +2532,13 @@ Tables
 
 ##### service\_entity\_name
 
-    Host name
+    Service entity name
 
 -   Type: dns.t\_domain
 
 ##### service
 
-    email, ssh, ...
+    Service (e.g. email, jabber)
 
 -   Type: commons.t\_key
 
@@ -2543,12 +2571,14 @@ Tables
 
 ##### domain\_prefix
 
-    Prefix
+    Domain prefix
 
 -   Type: varchar
 -   Can be *NULL*
 
 ### Table "system"."service\_entity\_machine"
+
+    Service Entity Machine
 
     List of machines that provice a certain service. This information is
     used to provide these machines access to the data they need to provide
@@ -2559,7 +2589,7 @@ Tables
     -   service\_entity\_name
     -   service
 -   Foreign keys:
-    1.  **reference service**
+    1.  **Reference service entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -2571,13 +2601,13 @@ Tables
 
 ##### service\_entity\_name
 
-    Host name
+    Service entity name
 
 -   Type: dns.t\_domain
 
 ##### service
 
-    email, ssh, ...
+    Service (e.g. email, jabber)
 
 -   Type: commons.t\_key
 
@@ -2590,7 +2620,7 @@ Tables
 
 ### Table "system"."subservice"
 
-    Subservice
+    Subservices
 
 -   Primary key:
     -   service
@@ -2600,20 +2630,24 @@ Tables
 
 ##### service
 
-    Service name
+    Service
 
 -   Type: commons.t\_key
 -   References: [system.service.service](#COLUMN-system.service.service)
 
 ##### subservice
 
-    Sub part of the service
+    Subservice (concretization the service)
 
 -   Type: commons.t\_key
 
 ### Table "system"."subservice\_entity"
 
+    Subservice Entity
+
     Names under which subservices are made available.
+
+    See also: Table system.service_entity
 
 -   Primary key:
     -   service\_entity\_name
@@ -2666,7 +2700,7 @@ Tables
     -   service\_entity\_name
     -   owner
 -   Foreign keys:
-    1.  **reference service**
+    1.  **Reference service entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -2674,7 +2708,7 @@ Tables
             1.  [system.service\_entity.service\_entity\_name](#COLUMN-system.service_entity.service_entity_name)
             2.  [system.service\_entity.service](#COLUMN-system.service_entity.service)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -2688,19 +2722,19 @@ Tables
 
 ##### service\_entity\_name
 
-    Host name
+    Service entity name
 
 -   Type: dns.t\_domain
 
 ##### service
 
-    email, ssh, ...
+    Service (e.g. email, jabber)
 
 -   Type: commons.t\_key
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -2734,7 +2768,7 @@ Tables
     -   domain
     -   owner
 -   Foreign keys:
-    1.  **reference service**
+    1.  **Reference service entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -2742,7 +2776,7 @@ Tables
             1.  [system.service\_entity.service\_entity\_name](#COLUMN-system.service_entity.service_entity_name)
             2.  [system.service\_entity.service](#COLUMN-system.service_entity.service)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -2756,19 +2790,19 @@ Tables
 
 ##### service\_entity\_name
 
-    Host name
+    Service entity name
 
 -   Type: dns.t\_domain
 
 ##### service
 
-    email, ssh, ...
+    Service (e.g. email, jabber)
 
 -   Type: commons.t\_key
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -3100,7 +3134,11 @@ Highly priviledged user
 Module "web"
 ============
 
-    Web
+    Websites
+
+    This module sends the following signals:
+     - web/alias
+     - web/site
 
 Tables
 ------
@@ -3123,7 +3161,7 @@ Tables
             2.  [dns.service.service](#COLUMN-dns.service.service)
             3.  [dns.service.service\_entity\_name](#COLUMN-dns.service.service_entity_name)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -3175,7 +3213,7 @@ Tables
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -3379,7 +3417,7 @@ Tables
             2.  [dns.service.service](#COLUMN-dns.service.service)
             3.  [dns.service.service\_entity\_name](#COLUMN-dns.service.service_entity_name)
 
-    2.  **reference subservice**
+    2.  **Reference subservice entity**
         -   Columns:
             1.  service\_entity\_name →
             2.  service →
@@ -3429,7 +3467,7 @@ Tables
 
 ##### subservice
 
-    account, alias, ...
+    Subservice (e.g. account, alias)
 
 -   Type: commons.t\_key
 
@@ -3446,7 +3484,7 @@ Tables
 
 ##### option
 
-    Free options
+    Free options in JSON format
 
 -   Type: jsonb
 -   Default value: '{}'

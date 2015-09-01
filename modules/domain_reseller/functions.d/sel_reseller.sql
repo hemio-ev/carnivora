@@ -1,5 +1,5 @@
 name: sel_reseller
-description: Select available resellers
+description: Selects available resellers
 
 templates:
  - user.userlogin

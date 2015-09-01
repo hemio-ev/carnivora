@@ -1,6 +1,10 @@
 name: subservice_entity
 description: |
+ Subservice Entity
+
  Names under which subservices are made available.
+
+ See also: Table system.service_entity
 
 primary_key:
  - service_entity_name

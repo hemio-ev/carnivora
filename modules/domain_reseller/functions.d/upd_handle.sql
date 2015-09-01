@@ -1,5 +1,5 @@
 name: upd_handle
-description: Update Handle
+description: Updates handle
 
 templates:
  - user.userlogin

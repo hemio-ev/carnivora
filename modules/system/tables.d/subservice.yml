@@ -1,6 +1,6 @@
 name: subservice
 description: |
- Subservice
+ Subservices
 
 primary_key:
  - service
@@ -10,9 +10,9 @@ columns:
  -
   name: service
   type: commons.t_key
-  description: Service name
+  description: Service
   references: system.service.service
  -
   name: subservice
   type: commons.t_key
-  description: Sub part of the service
+  description: Subservice (concretization the service)

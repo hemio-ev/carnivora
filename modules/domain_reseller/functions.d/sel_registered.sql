@@ -1,5 +1,5 @@
 name: sel_registered
-description: Select Registered
+description: Selects details for registered domains
 
 templates:
  - user.userlogin

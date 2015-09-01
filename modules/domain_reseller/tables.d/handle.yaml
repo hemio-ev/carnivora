@@ -1,5 +1,8 @@
 name: handle
-description: Domain Handles (Contacts)
+description: |
+ Handles (Domain Contacts)
+
+ Domain contacts that can be used as owner, admin-c, tech-c or zone-c.
 
 templates:
  - system.reference_service_entity

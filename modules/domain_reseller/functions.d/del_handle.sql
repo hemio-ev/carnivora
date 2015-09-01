@@ -1,5 +1,5 @@
 name: del_handle
-description: Delete Handle
+description: Deletes handle
 
 templates:
  - user.userlogin

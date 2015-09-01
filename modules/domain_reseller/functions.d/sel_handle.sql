@@ -1,5 +1,5 @@
 name: sel_handle
-description: Select Handle
+description: Selects handles
 
 templates:
  - user.userlogin

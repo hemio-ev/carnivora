@@ -1,6 +1,5 @@
 name: srv_registered
-description: |
- Serve registerd domain details
+description: Serves details for registered domains
 
 templates:
  - backend.backend

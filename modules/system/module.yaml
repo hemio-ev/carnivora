@@ -1,6 +1,9 @@
 name: system
 description: |
- Carnivora System: Central module
+ Carnivora System
+
+ Manages services, service entities and contingents.
+
 priv_all_all:
  - system
 priv_usage:
@@ -14,15 +17,15 @@ table_templates:
    -
     name: service_entity_name
     type: dns.t_domain
-    description: Host name
+    description: Service entity name
    -
     name: service
     type: commons.t_key
-    description: email, ssh, ...
+    description: Service (e.g. email, jabber)
 
   foreign_keys:
    -
-    name: reference service
+    name: Reference service entity
     columns:
      - service_entity_name
      - service
@@ -38,11 +41,11 @@ table_templates:
    -
     name: subservice
     type: commons.t_key
-    description: account, alias, ...
+    description: Subservice (e.g. account, alias)
 
   foreign_keys:
    -
-    name: reference subservice
+    name: Reference subservice entity
     columns:
      - service_entity_name
      - service
@@ -52,13 +55,3 @@ table_templates:
      - service_entity_name
      - service
      - subservice
- -
-  template: contingent
-  description: Contingent
-  columns:
-   -
-    name: quantity
-    type: integer
-    default: "0"
-    description: Quantity
-

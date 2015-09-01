@@ -1,5 +1,7 @@
 name: service_entity_machine
 description: |
+ Service Entity Machine
+
  List of machines that provice a certain service. This information is
  used to provide these machines access to the data they need to provide
  the service. See also the module 'backend'.

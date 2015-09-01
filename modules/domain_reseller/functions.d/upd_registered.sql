@@ -1,5 +1,5 @@
 name: upd_registered
-description: Update Registered
+description: Updates details for registered domain
 
 templates:
  - user.userlogin

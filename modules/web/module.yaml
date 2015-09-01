@@ -1,6 +1,11 @@
 name: web
 description: |
- Web
+ Websites
+
+ This module sends the following signals:
+  - web/alias
+  - web/site
+
 priv_all_all:
  - system
 priv_usage:

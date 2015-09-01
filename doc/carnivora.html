@@ -22,7 +22,8 @@
 </section>
 <section id="MODULE-backend" class="level1">
 <h1>Module &quot;backend&quot;</h1>
-<pre><code>Carnivora Backend:
+<pre><code>Carnivora Backend
+
 The backend module provides everything required for the backend API.
 The backend API delivers content required for building configs etc.
 to clients, called machines.</code></pre>
@@ -263,7 +264,9 @@ confused with a domain.</code></pre>
 </section>
 <section id="MODULE-commons" class="level1">
 <h1>Module &quot;commons&quot;</h1>
-<pre><code>Carnivora Commons: Usefull templates and types</code></pre>
+<pre><code>Carnivora Commons
+
+Usefull templates, functions and domains.</code></pre>
 <section class="level2">
 <h2>Functions</h2>
 <section id="FUNCTION-commons._hash_password" class="level3">
@@ -298,7 +301,9 @@ The returned format is the traditional &#39;crypt(3)&#39; format.</code></pre>
 </section>
 <section id="FUNCTION-commons._passwords_equal" class="level3">
 <h3>Function &quot;commons&quot;.&quot;_passwords_equal&quot;</h3>
-<pre><code>Compares a plaintext password with an arbitrary &#39;crypt(3)&#39; hashed password.</code></pre>
+<pre><code>Compares a plaintext password with an arbitrary &#39;crypt(3)&#39; hashed password.
+
+Uses </code></pre>
 <ul>
 <li>Parameters:
 <ul>
@@ -339,7 +344,7 @@ the user or it is not found.</code></pre>
 </section>
 <section id="FUNCTION-commons._uuid" class="level3">
 <h3>Function &quot;commons&quot;.&quot;_uuid&quot;</h3>
-<pre><code>Returns new uuid</code></pre>
+<pre><code>Returns a random uuid</code></pre>
 <ul>
 <li>Parameters: <em>non</em></li>
 <li>Returns: uuid</li>
@@ -454,7 +459,7 @@ The default value is generated using uuid_generate_v4().</code></pre>
 </ul></li>
 <li>Foreign keys:
 <ol>
-<li><strong>reference service</strong>
+<li><strong>Reference service entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -467,7 +472,7 @@ The default value is generated using uuid_generate_v4().</code></pre>
 <li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -510,21 +515,21 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-dns.registered.service_entity_name" class="level5">
 <h5>service_entity_name</h5>
-<pre><code>Host name</code></pre>
+<pre><code>Service entity name</code></pre>
 <ul>
 <li>Type: dns.t_domain</li>
 </ul>
 </section>
 <section id="COLUMN-dns.registered.service" class="level5">
 <h5>service</h5>
-<pre><code>email, ssh, ...</code></pre>
+<pre><code>Service (e.g. email, jabber)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
 </section>
 <section id="COLUMN-dns.registered.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -556,7 +561,7 @@ backend client.</code></pre>
 </ul></li>
 <li>Foreign keys:
 <ol>
-<li><strong>reference service</strong>
+<li><strong>Reference service entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -575,14 +580,14 @@ backend client.</code></pre>
 <h4>Columns</h4>
 <section id="COLUMN-dns.service.service_entity_name" class="level5">
 <h5>service_entity_name</h5>
-<pre><code>Host name</code></pre>
+<pre><code>Service entity name</code></pre>
 <ul>
 <li>Type: dns.t_domain</li>
 </ul>
 </section>
 <section id="COLUMN-dns.service.service" class="level5">
 <h5>service</h5>
-<pre><code>email, ssh, ...</code></pre>
+<pre><code>Service (e.g. email, jabber)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -992,12 +997,22 @@ from records templates for services (system.service_entity_dns).</code></pre>
 </section>
 <section id="MODULE-domain_reseller" class="level1">
 <h1>Module &quot;domain_reseller&quot;</h1>
-<pre><code>Domains from reseller</code></pre>
+<pre><code>Features for Domains Registered via a Reseller
+
+Stores additional details for dns.registered domains. Also supports storing
+contact informations (handles).
+
+This module sends the following signals:
+ - domain_reseller/handle
+ - domain_registered/managed
+ - domain_registered/unmanaged</code></pre>
 <section class="level2">
 <h2>Tables</h2>
 <section id="TABLE-domain_reseller.handle" class="level3">
 <h3>Table &quot;domain_reseller&quot;.&quot;handle&quot;</h3>
-<pre><code>Domain Handles (Contacts)</code></pre>
+<pre><code>Handles (Domain Contacts)
+
+Domain contacts that can be used as owner, admin-c, tech-c or zone-c.</code></pre>
 <ul>
 <li>Primary key:
 <ul>
@@ -1005,7 +1020,7 @@ from records templates for services (system.service_entity_dns).</code></pre>
 </ul></li>
 <li>Foreign keys:
 <ol>
-<li><strong>reference service</strong>
+<li><strong>Reference service entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -1018,7 +1033,7 @@ from records templates for services (system.service_entity_dns).</code></pre>
 <li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -1039,21 +1054,21 @@ from records templates for services (system.service_entity_dns).</code></pre>
 <h4>Columns</h4>
 <section id="COLUMN-domain_reseller.handle.service_entity_name" class="level5">
 <h5>service_entity_name</h5>
-<pre><code>Host name</code></pre>
+<pre><code>Service entity name</code></pre>
 <ul>
 <li>Type: dns.t_domain</li>
 </ul>
 </section>
 <section id="COLUMN-domain_reseller.handle.service" class="level5">
 <h5>service</h5>
-<pre><code>email, ssh, ...</code></pre>
+<pre><code>Service (e.g. email, jabber)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
 </section>
 <section id="COLUMN-domain_reseller.handle.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -1186,7 +1201,7 @@ backend client.</code></pre>
 </section>
 <section id="TABLE-domain_reseller.registered" class="level3">
 <h3>Table &quot;domain_reseller&quot;.&quot;registered&quot;</h3>
-<pre><code>Addtional informations to dns.registered</code></pre>
+<pre><code>Addtional informations to those stored in dns.registered</code></pre>
 <ul>
 <li>Primary key:
 <ul>
@@ -1258,7 +1273,7 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-domain_reseller.registered.period" class="level5">
 <h5>period</h5>
-<pre><code>renewal period (years)</code></pre>
+<pre><code>Renewal period (years)</code></pre>
 <ul>
 <li>Type: integer</li>
 <li>Can be <em>NULL</em></li>
@@ -1266,7 +1281,7 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-domain_reseller.registered.registrar_status" class="level5">
 <h5>registrar_status</h5>
-<pre><code>registrar_status</code></pre>
+<pre><code>Registrar status</code></pre>
 <ul>
 <li>Type: varchar</li>
 <li>Can be <em>NULL</em></li>
@@ -1274,7 +1289,7 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-domain_reseller.registered.registry_status" class="level5">
 <h5>registry_status</h5>
-<pre><code>registry_status</code></pre>
+<pre><code>Registry status</code></pre>
 <ul>
 <li>Type: varchar</li>
 <li>Can be <em>NULL</em></li>
@@ -1282,7 +1297,7 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-domain_reseller.registered.last_status" class="level5">
 <h5>last_status</h5>
-<pre><code>last_status</code></pre>
+<pre><code>Last update status</code></pre>
 <ul>
 <li>Type: varchar</li>
 <li>Can be <em>NULL</em></li>
@@ -1295,7 +1310,7 @@ backend client.</code></pre>
 <h2>Functions</h2>
 <section id="FUNCTION-domain_reseller.del_handle" class="level3">
 <h3>Function &quot;domain_reseller&quot;.&quot;del_handle&quot;</h3>
-<pre><code>Delete Handle</code></pre>
+<pre><code>Deletes handle</code></pre>
 <ul>
 <li>Parameters:
 <ul>
@@ -1362,7 +1377,7 @@ backend client.</code></pre>
 </section>
 <section id="FUNCTION-domain_reseller.ins_handle" class="level3">
 <h3>Function &quot;domain_reseller&quot;.&quot;ins_handle&quot;</h3>
-<pre><code>Insert Handle</code></pre>
+<pre><code>Inserts handle</code></pre>
 <ul>
 <li>Parameters:
 <ul>
@@ -1395,7 +1410,7 @@ backend client.</code></pre>
 </section>
 <section id="FUNCTION-domain_reseller.ins_registered" class="level3">
 <h3>Function &quot;domain_reseller&quot;.&quot;ins_registered&quot;</h3>
-<pre><code>Insert Registered</code></pre>
+<pre><code>Inserts details for registered domain</code></pre>
 <ul>
 <li>Parameters:
 <ul>
@@ -1417,7 +1432,7 @@ backend client.</code></pre>
 </section>
 <section id="FUNCTION-domain_reseller.sel_handle" class="level3">
 <h3>Function &quot;domain_reseller&quot;.&quot;sel_handle&quot;</h3>
-<pre><code>Select Handle</code></pre>
+<pre><code>Selects handles</code></pre>
 <ul>
 <li>Parameters:
 <ul>
@@ -1437,7 +1452,7 @@ backend client.</code></pre>
 </section>
 <section id="FUNCTION-domain_reseller.sel_registered" class="level3">
 <h3>Function &quot;domain_reseller&quot;.&quot;sel_registered&quot;</h3>
-<pre><code>Select Registered</code></pre>
+<pre><code>Selects details for registered domains</code></pre>
 <ul>
 <li>Parameters: <em>non</em></li>
 <li>Variables defined for body:
@@ -1454,7 +1469,7 @@ backend client.</code></pre>
 </section>
 <section id="FUNCTION-domain_reseller.sel_reseller" class="level3">
 <h3>Function &quot;domain_reseller&quot;.&quot;sel_reseller&quot;</h3>
-<pre><code>Select available resellers</code></pre>
+<pre><code>Selects available resellers</code></pre>
 <ul>
 <li>Parameters: <em>non</em></li>
 <li>Variables defined for body:
@@ -1471,7 +1486,7 @@ backend client.</code></pre>
 </section>
 <section id="FUNCTION-domain_reseller.srv_handle" class="level3">
 <h3>Function &quot;domain_reseller&quot;.&quot;srv_handle&quot;</h3>
-<pre><code>srv handles</code></pre>
+<pre><code>Serves handles</code></pre>
 <ul>
 <li>Parameters:
 <ul>
@@ -1490,7 +1505,7 @@ backend client.</code></pre>
 </section>
 <section id="FUNCTION-domain_reseller.srv_registered" class="level3">
 <h3>Function &quot;domain_reseller&quot;.&quot;srv_registered&quot;</h3>
-<pre><code>Serve registerd domain details</code></pre>
+<pre><code>Serves details for registered domains</code></pre>
 <ul>
 <li>Parameters:
 <ul>
@@ -1509,7 +1524,7 @@ backend client.</code></pre>
 </section>
 <section id="FUNCTION-domain_reseller.upd_handle" class="level3">
 <h3>Function &quot;domain_reseller&quot;.&quot;upd_handle&quot;</h3>
-<pre><code>Update Handle</code></pre>
+<pre><code>Updates handle</code></pre>
 <ul>
 <li>Parameters:
 <ul>
@@ -1540,7 +1555,7 @@ backend client.</code></pre>
 </section>
 <section id="FUNCTION-domain_reseller.upd_registered" class="level3">
 <h3>Function &quot;domain_reseller&quot;.&quot;upd_registered&quot;</h3>
-<pre><code>Update Registered</code></pre>
+<pre><code>Updates details for registered domain</code></pre>
 <ul>
 <li>Parameters:
 <ul>
@@ -1600,7 +1615,7 @@ This module sends the following signals:
 <li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -1642,7 +1657,7 @@ This module sends the following signals:
 </section>
 <section id="COLUMN-email.address.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -1682,7 +1697,7 @@ This module sends the following signals:
 <li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -1737,7 +1752,7 @@ This module sends the following signals:
 </section>
 <section id="COLUMN-email.alias.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -1803,7 +1818,7 @@ backend client.</code></pre>
 <li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -1845,7 +1860,7 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-email.list.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -1874,7 +1889,7 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-email.list.option" class="level5">
 <h5>option</h5>
-<pre><code>Free options</code></pre>
+<pre><code>Free options in JSON format</code></pre>
 <ul>
 <li>Type: jsonb</li>
 <li>Default value: '{}'</li>
@@ -1947,7 +1962,7 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-email.list_subscriber.option" class="level5">
 <h5>option</h5>
-<pre><code>Free options</code></pre>
+<pre><code>Free options in JSON format</code></pre>
 <ul>
 <li>Type: jsonb</li>
 <li>Default value: '{}'</li>
@@ -2004,7 +2019,7 @@ Further addresses can be linked to mailboxs via aliases.</code></pre>
 <li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -2046,7 +2061,7 @@ Further addresses can be linked to mailboxs via aliases.</code></pre>
 </section>
 <section id="COLUMN-email.mailbox.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -2075,7 +2090,7 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-email.mailbox.option" class="level5">
 <h5>option</h5>
-<pre><code>Free options</code></pre>
+<pre><code>Free options in JSON format</code></pre>
 <ul>
 <li>Type: jsonb</li>
 <li>Default value: '{}'</li>
@@ -2138,7 +2153,7 @@ backend client.</code></pre>
 <li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -2180,7 +2195,7 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-email.redirection.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -2748,7 +2763,7 @@ This module sends the following signals:
 <li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -2790,7 +2805,7 @@ This module sends the following signals:
 </section>
 <section id="COLUMN-jabber.account.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -2943,7 +2958,13 @@ backend client.</code></pre>
 </section>
 <section id="MODULE-server_access" class="level1">
 <h1>Module &quot;server_access&quot;</h1>
-<pre><code>Explicit passwd entriesfor shell acounts, sftp etc.</code></pre>
+<pre><code>Server Access
+
+Explicit passwd entries for shell acounts and sftp.
+
+This module sends the following signals:
+ - server_access/sftp
+ - server_access/ssh</code></pre>
 <section class="level2">
 <h2>Tables</h2>
 <section id="TABLE-server_access.user" class="level3">
@@ -2956,7 +2977,7 @@ backend client.</code></pre>
 </ul></li>
 <li>Foreign keys:
 <ol>
-<li><strong>reference service</strong>
+<li><strong>Reference service entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -2969,7 +2990,7 @@ backend client.</code></pre>
 <li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -2990,21 +3011,21 @@ backend client.</code></pre>
 <h4>Columns</h4>
 <section id="COLUMN-server_access.user.service_entity_name" class="level5">
 <h5>service_entity_name</h5>
-<pre><code>Host name</code></pre>
+<pre><code>Service entity name</code></pre>
 <ul>
 <li>Type: dns.t_domain</li>
 </ul>
 </section>
 <section id="COLUMN-server_access.user.service" class="level5">
 <h5>service</h5>
-<pre><code>email, ssh, ...</code></pre>
+<pre><code>Service (e.g. email, jabber)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
 </section>
 <section id="COLUMN-server_access.user.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -3175,7 +3196,9 @@ backend client.</code></pre>
 </section>
 <section id="MODULE-system" class="level1">
 <h1>Module &quot;system&quot;</h1>
-<pre><code>Carnivora System: Central module</code></pre>
+<pre><code>Carnivora System
+
+Manages services, service entities and contingents.</code></pre>
 <section class="level2">
 <h2>Tables</h2>
 <section id="TABLE-system.inherit_contingent" class="level3">
@@ -3218,10 +3241,11 @@ backend client.</code></pre>
 </section>
 <section id="TABLE-system.service" class="level3">
 <h3>Table &quot;system&quot;.&quot;service&quot;</h3>
-<pre><code>Just a list of services that exist. Modules do register their names
-here.
+<pre><code>Services
 
-Use system.setup_register_service(...) to insert into this table.</code></pre>
+Just a list of services that exist. Modules do register their services here.
+Use system._setup_register_service(, ) to insert into this
+table.</code></pre>
 <ul>
 <li>Primary key:
 <ul>
@@ -3248,7 +3272,9 @@ Use system.setup_register_service(...) to insert into this table.</code></pre>
 </section>
 <section id="TABLE-system.service_entity" class="level3">
 <h3>Table &quot;system&quot;.&quot;service_entity&quot;</h3>
-<pre><code>Names under which services are made available. For example (mail.example.org, email)
+<pre><code>Service Entity
+
+Names under which services are made available. For example (mail.example.org, email)
 could be a mail-server system referred to as mail.example.org by carnivora.
 Such a system can consist of multiple physical or virtual machines. The corresponding
 machines are listed in system.service_entity_machine. A core feature of services is the
@@ -3291,7 +3317,9 @@ depends on the module and the frontend.</code></pre>
 </section>
 <section id="TABLE-system.service_entity_dns" class="level3">
 <h3>Table &quot;system&quot;.&quot;service_entity_dns&quot;</h3>
-<pre><code>Resource records that have to be present to use a service. The records
+<pre><code>Service Entity DNS
+
+Resource records that have to be present to use a service. The records
 in this table can be understood as &#39;templates&#39;. The table does not
 contain a name (domain) for the records. Rather for every domain that
 uses this service, all appropriate records are created for this domain
@@ -3304,7 +3332,7 @@ be found in dns.service.</code></pre>
 </ul></li>
 <li>Foreign keys:
 <ol>
-<li><strong>reference service</strong>
+<li><strong>Reference service entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -3323,14 +3351,14 @@ be found in dns.service.</code></pre>
 <h4>Columns</h4>
 <section id="COLUMN-system.service_entity_dns.service_entity_name" class="level5">
 <h5>service_entity_name</h5>
-<pre><code>Host name</code></pre>
+<pre><code>Service entity name</code></pre>
 <ul>
 <li>Type: dns.t_domain</li>
 </ul>
 </section>
 <section id="COLUMN-system.service_entity_dns.service" class="level5">
 <h5>service</h5>
-<pre><code>email, ssh, ...</code></pre>
+<pre><code>Service (e.g. email, jabber)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -3368,7 +3396,7 @@ The default value is generated using uuid_generate_v4().</code></pre>
 </section>
 <section id="COLUMN-system.service_entity_dns.domain_prefix" class="level5">
 <h5>domain_prefix</h5>
-<pre><code>Prefix</code></pre>
+<pre><code>Domain prefix</code></pre>
 <ul>
 <li>Type: varchar</li>
 <li>Can be <em>NULL</em></li>
@@ -3378,7 +3406,9 @@ The default value is generated using uuid_generate_v4().</code></pre>
 </section>
 <section id="TABLE-system.service_entity_machine" class="level3">
 <h3>Table &quot;system&quot;.&quot;service_entity_machine&quot;</h3>
-<pre><code>List of machines that provice a certain service. This information is
+<pre><code>Service Entity Machine
+
+List of machines that provice a certain service. This information is
 used to provide these machines access to the data they need to provide
 the service. See also the module &#39;backend&#39;.</code></pre>
 <ul>
@@ -3390,7 +3420,7 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 </ul></li>
 <li>Foreign keys:
 <ol>
-<li><strong>reference service</strong>
+<li><strong>Reference service entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -3409,14 +3439,14 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 <h4>Columns</h4>
 <section id="COLUMN-system.service_entity_machine.service_entity_name" class="level5">
 <h5>service_entity_name</h5>
-<pre><code>Host name</code></pre>
+<pre><code>Service entity name</code></pre>
 <ul>
 <li>Type: dns.t_domain</li>
 </ul>
 </section>
 <section id="COLUMN-system.service_entity_machine.service" class="level5">
 <h5>service</h5>
-<pre><code>email, ssh, ...</code></pre>
+<pre><code>Service (e.g. email, jabber)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -3435,7 +3465,7 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 </section>
 <section id="TABLE-system.subservice" class="level3">
 <h3>Table &quot;system&quot;.&quot;subservice&quot;</h3>
-<pre><code>Subservice</code></pre>
+<pre><code>Subservices</code></pre>
 <ul>
 <li>Primary key:
 <ul>
@@ -3447,7 +3477,7 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 <h4>Columns</h4>
 <section id="COLUMN-system.subservice.service" class="level5">
 <h5>service</h5>
-<pre><code>Service name</code></pre>
+<pre><code>Service</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 <li>References: <a href="#COLUMN-system.service.service">system.service.service</a>
@@ -3457,7 +3487,7 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 </section>
 <section id="COLUMN-system.subservice.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>Sub part of the service</code></pre>
+<pre><code>Subservice (concretization the service)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -3466,7 +3496,11 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 </section>
 <section id="TABLE-system.subservice_entity" class="level3">
 <h3>Table &quot;system&quot;.&quot;subservice_entity&quot;</h3>
-<pre><code>Names under which subservices are made available.</code></pre>
+<pre><code>Subservice Entity
+
+Names under which subservices are made available.
+
+See also: Table system.service_entity</code></pre>
 <ul>
 <li>Primary key:
 <ul>
@@ -3542,7 +3576,7 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 </ul></li>
 <li>Foreign keys:
 <ol>
-<li><strong>reference service</strong>
+<li><strong>Reference service entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -3555,7 +3589,7 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 <li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -3576,21 +3610,21 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 <h4>Columns</h4>
 <section id="COLUMN-system.subservice_entity_contingent.service_entity_name" class="level5">
 <h5>service_entity_name</h5>
-<pre><code>Host name</code></pre>
+<pre><code>Service entity name</code></pre>
 <ul>
 <li>Type: dns.t_domain</li>
 </ul>
 </section>
 <section id="COLUMN-system.subservice_entity_contingent.service" class="level5">
 <h5>service</h5>
-<pre><code>email, ssh, ...</code></pre>
+<pre><code>Service (e.g. email, jabber)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
 </section>
 <section id="COLUMN-system.subservice_entity_contingent.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -3635,7 +3669,7 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 </ul></li>
 <li>Foreign keys:
 <ol>
-<li><strong>reference service</strong>
+<li><strong>Reference service entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -3648,7 +3682,7 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 <li><a href="#COLUMN-system.service_entity.service">system.service_entity.service</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -3669,21 +3703,21 @@ the service. See also the module &#39;backend&#39;.</code></pre>
 <h4>Columns</h4>
 <section id="COLUMN-system.subservice_entity_domain_contingent.service_entity_name" class="level5">
 <h5>service_entity_name</h5>
-<pre><code>Host name</code></pre>
+<pre><code>Service entity name</code></pre>
 <ul>
 <li>Type: dns.t_domain</li>
 </ul>
 </section>
 <section id="COLUMN-system.subservice_entity_domain_contingent.service" class="level5">
 <h5>service</h5>
-<pre><code>email, ssh, ...</code></pre>
+<pre><code>Service (e.g. email, jabber)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
 </section>
 <section id="COLUMN-system.subservice_entity_domain_contingent.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -4112,7 +4146,11 @@ Returns valid if sueccessfull, invalid otherwise.</code></pre>
 </section>
 <section id="MODULE-web" class="level1">
 <h1>Module &quot;web&quot;</h1>
-<pre><code>Web</code></pre>
+<pre><code>Websites
+
+This module sends the following signals:
+ - web/alias
+ - web/site</code></pre>
 <section class="level2">
 <h2>Tables</h2>
 <section id="TABLE-web.alias" class="level3">
@@ -4141,7 +4179,7 @@ Returns valid if sueccessfull, invalid otherwise.</code></pre>
 <li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -4213,7 +4251,7 @@ Returns valid if sueccessfull, invalid otherwise.</code></pre>
 </section>
 <section id="COLUMN-web.alias.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -4475,7 +4513,7 @@ certs.</code></pre>
 <li><a href="#COLUMN-dns.service.service_entity_name">dns.service.service_entity_name</a></li>
 </ol></li>
 </ul></li>
-<li><strong>reference subservice</strong>
+<li><strong>Reference subservice entity</strong>
 <ul>
 <li>Columns:
 <ol>
@@ -4545,7 +4583,7 @@ certs.</code></pre>
 </section>
 <section id="COLUMN-web.site.subservice" class="level5">
 <h5>subservice</h5>
-<pre><code>account, alias, ...</code></pre>
+<pre><code>Subservice (e.g. account, alias)</code></pre>
 <ul>
 <li>Type: commons.t_key</li>
 </ul>
@@ -4564,7 +4602,7 @@ backend client.</code></pre>
 </section>
 <section id="COLUMN-web.site.option" class="level5">
 <h5>option</h5>
-<pre><code>Free options</code></pre>
+<pre><code>Free options in JSON format</code></pre>
 <ul>
 <li>Type: jsonb</li>
 <li>Default value: '{}'</li>

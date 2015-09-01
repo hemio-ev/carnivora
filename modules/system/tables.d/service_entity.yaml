@@ -1,5 +1,7 @@
 name: service_entity
 description: |
+ Service Entity
+
  Names under which services are made available. For example (mail.example.org, email)
  could be a mail-server system referred to as mail.example.org by carnivora.
  Such a system can consist of multiple physical or virtual machines. The corresponding
@@ -28,4 +30,3 @@ columns:
   type: commons.t_key
   description: email, ssh, ...
   references: system.service.service
-

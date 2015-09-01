@@ -1,9 +1,10 @@
 name: service
 description: |
- Just a list of services that exist. Modules do register their names
- here.
+ Services
 
- Use system.setup_register_service(...) to insert into this table.
+ Just a list of services that exist. Modules do register their services here.
+ Use system._setup_register_service(<module>, <service>) to insert into this
+ table.
 
 primary_key:
  - service

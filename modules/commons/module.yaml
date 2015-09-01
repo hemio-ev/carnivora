@@ -1,6 +1,9 @@
 name: commons
 description: |
- Carnivora Commons: Usefull templates and types
+ Carnivora Commons
+
+ Usefull templates, functions and domains.
+
 priv_all_all:
  - system
 
@@ -11,7 +14,7 @@ table_templates:
   columns:
    -
     name: option
-    description: Free options
+    description: Free options in JSON format
     type: jsonb
     default: "'{}'"
 

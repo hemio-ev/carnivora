@@ -1,6 +1,5 @@
 name: srv_handle
-description: |
- srv handles
+description: Serves handles
 
 templates:
  - backend.backend
