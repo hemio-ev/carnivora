@@ -1,12 +1,11 @@
 name: ins_login
 description: |
  Try to bind database connection to new user session.
- Returns valid if sueccessfull, invalid otherwise.
 
 priv_execute: [userlogin]
 security_definer: true
 owner: system
-returns: boolean
+returns: void
 
 parameters:
  -
@@ -26,9 +25,7 @@ body: |
     )
  THEN
     INSERT INTO "user"."session" (owner, act_as) VALUES (p_owner, p_owner);
-    RETURN TRUE;
  ELSE
     RAISE 'Carnivora: invalid user login'
      USING DETAIL = '$carnivora:user:login_invalid$';
-    RETURN FALSE;
  END IF;

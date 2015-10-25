@@ -73,8 +73,8 @@ domains:
   description: Password in plaintext
   checks:
    -
-    name: min password length
-    description: Ensure that passwords at least have 8 chars
+    name: minimum password length 8
+    description: Ensures that passwords at least have 8 chars
     check: character_length(VALUE) >= 8
 
  -
