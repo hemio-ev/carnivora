@@ -2,6 +2,8 @@ name: _idn
 description: |
  Converts a unicode domain name to IDN (ASCII)
 
+ Currently using IDNA2003.
+
 templates:
  - commons.public_util
 

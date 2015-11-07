@@ -81,6 +81,15 @@ domains:
   name: t_key
   type: varchar(50)
   description: Key
+ -
+  name: t_hexvarchar
+  type: varchar
+  description: Varchar only with HEX values
+  checks:
+   -
+    name: invalid characters
+    description: Only allows numbers and chars a-f for hex representation
+    check: VALUE ~ '^[0-9a-f]*$'
 
 function_templates:
  -

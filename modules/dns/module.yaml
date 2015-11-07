@@ -19,13 +19,27 @@ domains:
 
  -
   name: t_domain
-  description: Domain name unicode (not IDN)
-  type: varchar(253)
+  description: Fully qualified domain name (without trailing dot)
+  type: varchar
   checks:
    -
     name: domain valid regex
     description: check domain validity
-    check: commons._idn(VALUE) ~ '^[a-z\d-]{1,63}(\.[a-z\d-]{1,63})+$'
+    check: |
+     VALUE ~ '^[a-z\d-]{1,63}(\.[a-z\d-]{1,63})+$' AND
+     octet_length(VALUE) <= 253
+ -
+  name: t_domain_rdata
+  description: |
+    Fully qualified or relative domain name. Trailing dot marks a FQDN.
+  type: varchar
+  checks:
+   -
+    name: invalid rdata domain
+    description: check
+    check: |
+     VALUE ~ '^[a-z\d-]{1,63}(\.[a-z\d-]{1,63})+(\.){0,1}$' AND
+     octet_length(VALUE) <= 253
 
  -
   name: t_type
@@ -33,13 +47,23 @@ domains:
   type: varchar(253)
   checks:
    -
-    name: resource type must be (MX, A, etc)
-    description: check
-    check: "VALUE IN ('MX', 'A', 'AAAA', 'CNAME', 'SRV')"
+    name: Invalid or unsupported resource type
+    description: Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
+    check: |
+     VALUE IN (
+      'A',
+      'AAAA',
+      'CNAME',
+      'MX',
+      'NS',
+      'SRV',
+      'SSHFP',
+      'TXT'
+     )
 
  -
   name: t_rdata
-  description: record entry
+  description: Resource record data (Rdata)
   type: jsonb
 
  -
@@ -60,12 +84,7 @@ table_templates:
     -
      name: type
      type: dns.t_type
-     description: Type (?) like MX, A, AAAA, ...
-     checks:
-      -
-       name: unknown
-       description: Check if type is supported
-       check: type IN ('A', 'AAAA', 'CNAME', 'MX', 'SRV')
+     description: Type (A, AAAA, CNAME, MX, SRV, TXT, ...)
     -
      name: rdata
      type: dns.t_rdata
@@ -95,7 +114,8 @@ table_templates:
     description: CNAME
     check: |
         type<>'CNAME' OR
-        rdata ? 'cname'
+        rdata ? 'cname' AND
+        (rdata->>'cname')::dns.t_domain_rdata IS NOT NULL
    -
     name: invalid_rdata_MX
     description: MX
@@ -103,7 +123,16 @@ table_templates:
         type<>'MX' OR
         rdata ? 'priority' AND
         rdata ? 'exchange' AND
-        (rdata->>'priority')::int >= 0
+        (rdata->>'priority')::int >= 0 AND
+        (rdata->>'exchange')::dns.t_domain_rdata IS NOT NULL
+
+   -
+    name: NS
+    description: NS
+    check: |
+        type<>'NS' OR
+        rdata ? 'nsdname' AND
+        (rdata->>'nsdname')::dns.t_domain_rdata IS NOT NULL
    -
     name: invalid_rdata_SRV
     description: SRV
@@ -123,6 +152,28 @@ table_templates:
         (rdata->>'port')::commons.t_port IS NOT NULL AND
         -- Could be relative or absolute
         (rdata->>'target')::varchar IS NOT NULL
+   -
+    name: invalid_rdata_SSHFP
+    description: SSHFP
+    check: |
+        type<>'SSHFP' OR
+        rdata ? 'algorithm' AND
+        rdata ? 'fptype' AND
+        rdata ? 'fingerprint' AND
+        (rdata->>'algorithm')::int >= 0 AND
+        (rdata->>'fptype')::int >= 0 AND
+        octet_length((rdata->>'fingerprint')::commons.t_hexvarchar) <= 255
+   -
+    name: invalid_rdata_TXT
+    description: TXT
+    check: |
+        type<>'TXT' OR
+        rdata ? 'txtdata' AND
+        (rdata->>'txtdata')::varchar[] IS NOT NULL AND
+        -- minimum number of strings is 1
+        cardinality((rdata->>'txtdata')::varchar[]) >= 1 AND
+        -- check if there are strings with more then 255 bytes
+        dns._rdata_txtdata_valid((rdata->>'txtdata')::varchar[])
 
  -
   template: reference_service

@@ -8,7 +8,7 @@ columns:
  -
   name: owner
   type: user.t_user
-  description: User name
+  description: User name, login name
  -
   template: commons.password
   null: true
@@ -18,6 +18,6 @@ columns:
   description: Login enabled
  -
   name: contact_email
-  description: Optional contact email address
+  description: Optional contact email address, can be used as login name
   type: email.t_address
   null: true
