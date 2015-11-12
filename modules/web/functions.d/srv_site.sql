@@ -22,6 +22,12 @@ returns_columns:
   name: https
   type: commons.t_key
  -
+  name: subservice
+  type: commons.t_key
+ -
+  name: option
+  type: jsonb
+ -
   name: backend_status
   type: backend.t_status
 
@@ -53,6 +59,8 @@ body: |
             t.user,
             t.service_entity_name,
             t.https,
+            t.subservice,
+            t.option,
             t.backend_status
         FROM web.site AS t
 
