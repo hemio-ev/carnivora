@@ -170,11 +170,11 @@ table_templates:
     check: |
         type<>'TXT' OR
         rdata ? 'txtdata' AND
-        (rdata->>'txtdata')::varchar[] IS NOT NULL AND
+        commons._jsonb_to_array(rdata->'txtdata') IS NOT NULL AND
         -- minimum number of strings is 1
-        cardinality((rdata->>'txtdata')::varchar[]) >= 1 AND
+        cardinality(commons._jsonb_to_array(rdata->'txtdata')) >= 1 AND
         -- check if there are strings with more then 255 bytes
-        dns._rdata_txtdata_valid((rdata->>'txtdata')::varchar[])
+        dns._rdata_txtdata_valid(commons._jsonb_to_array(rdata->'txtdata'))
 
  -
   template: reference_service
