@@ -14,11 +14,8 @@ columns:
   description: User name, login name
  -
   template: commons.password
+  description: Unix shadow crypt format, NULL value disables login
   null: true
- -
-  name: login
-  type: bool
-  description: Login enabled
  -
   name: contact_email
   description: Optional contact email address, can be used as login name
