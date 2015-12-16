@@ -12,6 +12,7 @@ columns:
   default: '"user"._session_id()'
  -
   template: user.owner
+  on_ref_delete: CASCADE
  -
   name: act_as
   type: user.t_user

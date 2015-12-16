@@ -8,10 +8,7 @@ primary_key:
 
 columns:
  -
-  name: owner
-  description: Owner
-  type: user.t_user
-  references: user.user.owner
+  template: user.owner
   on_ref_delete: CASCADE
  -
   name: donor
