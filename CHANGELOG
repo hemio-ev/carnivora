@@ -3,3 +3,5 @@ v0.9.0-unreleased
   - More complete install instructions
   - Adds support for TXT, NS and SSHFP dns records
   - Changes storage format for domains from UNICODE to IDN (punycode)
+  - [user] Removes user.user.login boolean column, set password to NULL instead
+  - [user] contact_email can be used as login name

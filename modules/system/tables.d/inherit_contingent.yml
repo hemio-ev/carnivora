@@ -6,10 +6,13 @@ primary_key:
  - owner
  - priority
 
-templates:
- - user.ownable
-
 columns:
+ -
+  name: owner
+  description: Owner
+  type: user.t_user
+  references: user.user.owner
+  on_ref_delete: CASCADE
  -
   name: donor
   description: Donor
@@ -26,3 +29,4 @@ unique:
   columns:
    - owner
    - priority
+
