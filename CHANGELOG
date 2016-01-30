@@ -1,4 +1,5 @@
 v0.9.0-unreleased
+  - [web] Fixes bug that adds needless intermediate certs to x509 chain
   - [domain_reseller] Fixes several backend bugs with upd_ and srv_ functions.
   - More complete install instructions
   - Adds support for TXT, NS and SSHFP dns records

@@ -59,6 +59,7 @@ body: |
                     USING (subject_key_identifier)
                 WHERE
                     u.domain = t.domain AND
+                    u.port = t.port AND
                     u.identifier = t.identifier
                 ORDER by "order"
             ),
