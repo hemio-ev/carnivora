@@ -1,4 +1,4 @@
-v0.9.0-unreleased
+v0.9.0
   - [web] Fixes bug that adds needless intermediate certs to x509 chain
   - [domain_reseller] Fixes several backend bugs with upd_ and srv_ functions.
   - More complete install instructions

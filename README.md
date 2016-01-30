@@ -11,9 +11,14 @@ Installing Carnivora
 Installing Perequisites
 -----------------------
 
+### HamSql
+
 The setup is performed via [HamSql](https://github.com/qua-bla/hamsql).
-It should be callable as `hamsql` in you shell. We also need the
-database server:
+It should be callable as `hamsql` in your shell.
+
+### PostgreSQL
+
+**Debian 8 (Jessie)**
 
     apt-get install postgresql postgresql-contrib postgresql-plpython3-9.4
 
@@ -25,7 +30,7 @@ You can configure accounts that can connect to the database via
 via this config have the names `carnivora_edentata` and
 `carnivora_machine_example`.
 
-```yaml
+```.yaml
 name: _postgresql_user
 description: PostgreSQL users and their priviledges
 
@@ -59,8 +64,8 @@ Supplying the database name (here carnivora) via the `-c` option is
 mandatory. The database will be create if it is not present. Additional
 or deviating connection options can be provided.
 
-Additional options for the current user can also be configured
-in the `~/.pgpass` file which needs the restricted permissions
+Additional options for the current user can also be configured in the
+`~/.pgpass` file which needs the restricted permissions
 `chmod go= ~/.pgpass`. The files format is:
 
     hostname:port:database:username:password
