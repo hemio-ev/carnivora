@@ -5,7 +5,11 @@ description: |
 priv_execute: [userlogin]
 security_definer: true
 owner: system
-returns: void
+
+returns: TABLE
+returns_columns:
+ - name: user
+   type: user.t_user
 
 parameters:
  -
@@ -31,7 +35,9 @@ body: |
 
  IF v_login_owner IS NOT NULL THEN
     INSERT INTO "user"."session" (owner, act_as) VALUES (v_login_owner, v_login_owner);
+    RETURN QUERY SELECT v_login_owner;
  ELSE
     RAISE 'Carnivora: invalid user login'
      USING DETAIL = '$carnivora:user:login_invalid$';
  END IF;
+

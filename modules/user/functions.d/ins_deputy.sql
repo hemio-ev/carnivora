@@ -19,3 +19,8 @@ body: |
             s.deputy = t.owner AND
             s.represented = p_act_as AND
             t.id = "user"._session_id();
+    
+    IF NOT FOUND THEN
+        RAISE 'Acting as deputy failed.'
+            USING DETAIL := '$carnivora:user:deputy_failed$';
+    END IF;
