@@ -22,6 +22,9 @@ returns_columns:
   name: quota
   type: integer
  -
+  name: option
+  type: jsonb
+ -
   name: backend_status
   type: backend.t_status
 
@@ -53,6 +56,7 @@ body: |
             t.password,
             t.uid,
             t.quota,
+            t.option,
             t.backend_status
         FROM email.mailbox AS t
 
