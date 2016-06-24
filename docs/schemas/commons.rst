@@ -22,7 +22,7 @@ Functions
 SHA512 hash of the password with 16 charcters random salt.
 The returned format is the traditional 'crypt(3)' format.
 
-.. code-block:: plpgsql
+.. code-block:: guess
 
    import crypt
    
@@ -36,7 +36,7 @@ Converts a unicode domain name to IDN (ASCII)
 
 Currently using IDNA2003.
 
-.. code-block:: plpgsql
+.. code-block:: guess
 
    if p_domain is None:
       return None
@@ -64,7 +64,7 @@ Compares a plaintext password with an arbitrary 'crypt(3)' hashed password.
 
 Uses <https://docs.python.org/3/library/hmac.html>
 
-.. code-block:: plpgsql
+.. code-block:: guess
 
    import crypt
    from hmac import compare_digest as compare_hash
