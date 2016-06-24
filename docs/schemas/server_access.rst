@@ -15,20 +15,20 @@ This module sends the following signals:
    :depth: 2
 
 
+------
 Tables
-----------------------------------------------------------------------
+------
 
 
-.. _TBL-server_access.user:
+.. _TABLE-server_access.user:
 
 ``server_access.user``
 ``````````````````````````````````````````````````````````````````````
 
 unix user
 
-Primary key:
-
-- user
+Primary key
+ - user
 
 
 .. BEGIN FKs
@@ -153,14 +153,45 @@ Columns
 
 
 
+---------
 Functions
 ---------
 
+
+
+.. _FUNCTION-server_access.del_user:
 
 ``server_access.del_user``
 ``````````````````````````````````````````````````````````````````````
 
 delete
+
+Parameters
+ - ``p_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+   
+    
+ - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+Variables defined for body
+ - ``v_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -195,10 +226,46 @@ delete
    END;
 
 
+
+.. _FUNCTION-server_access.ins_user:
+
 ``server_access.ins_user``
 ``````````````````````````````````````````````````````````````````````
 
 ins user
+
+Parameters
+ - ``p_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+   
+    
+ - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
+   
+    
+
+
+Variables defined for body
+ - ``v_password`` :ref:`commons.t_password <DOMAIN-commons.t_password>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -221,10 +288,45 @@ ins user
    PERFORM backend._notify_service_entity_name(p_service_entity_name, 'server_access', p_subservice);
 
 
+
+.. _FUNCTION-server_access.sel_user:
+
 ``server_access.sel_user``
 ``````````````````````````````````````````````````````````````````````
 
 sel user
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+   
+ - ``password_login`` :ref:`boolean <DOMAIN-boolean>`
+   
+ - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -248,10 +350,46 @@ sel user
        ORDER BY backend_status, "user";
 
 
+
+.. _FUNCTION-server_access.srv_user:
+
 ``server_access.srv_user``
 ``````````````````````````````````````````````````````````````````````
 
 backend server_access.user
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+   
+ - ``password`` :ref:`commons.t_password <DOMAIN-commons.t_password>`
+   
+ - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+ - ``uid`` :ref:`int <DOMAIN-int>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -293,10 +431,46 @@ backend server_access.user
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-server_access.upd_user:
+
 ``server_access.upd_user``
 ``````````````````````````````````````````````````````````````````````
 
 passwd user
+
+Parameters
+ - ``p_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+   
+    
+ - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
+   
+    
+
+
+Variables defined for body
+ - ``v_password`` :ref:`commons.t_password <DOMAIN-commons.t_password>`
+   (default: ``NULL``)
+   
+ - ``v_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -321,6 +495,40 @@ passwd user
    PERFORM backend._conditional_notify_service_entity_name(
        FOUND, p_service_entity_name, 'server_access', v_subservice
    );
+
+
+
+
+-------
+Domains
+-------
+
+
+
+.. _DOMAIN-server_access.t_user:
+
+``server_access.t_user``
+```````````````````````````````````````````````````````````````````````
+
+Unix user. This type only allows a subset of those names allowed by POSIX.
+
+Checks
+ - | *valid_characters*
+   | ``VALUE ~ '^[a-z0-9_-]+$'``
+   | Only allow lower-case characters.
+
+ - | *no_repeated_hyphens*
+   | ``NOT (VALUE LIKE '%--%')``
+   | Reserve double hyphens as a seperator for system generated users.
+
+ - | *no_starting_hyphen*
+   | ``left(VALUE, 1) <> '-'``
+   | No hyphens at the beginning:
+http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_431
+
+
+
+
 
 
 

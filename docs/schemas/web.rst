@@ -13,21 +13,21 @@ This module sends the following signals:
    :depth: 2
 
 
+------
 Tables
-----------------------------------------------------------------------
+------
 
 
-.. _TBL-web.alias:
+.. _TABLE-web.alias:
 
 ``web.alias``
 ``````````````````````````````````````````````````````````````````````
 
 Aliases
 
-Primary key:
-
-- domain
-- site_port
+Primary key
+ - domain
+ - site_port
 
 
 .. BEGIN FKs
@@ -166,18 +166,17 @@ Columns
 
 
 
-.. _TBL-web.https:
+.. _TABLE-web.https:
 
 ``web.https``
 ``````````````````````````````````````````````````````````````````````
 
 stores https information
 
-Primary key:
-
-- identifier
-- domain
-- port
+Primary key
+ - identifier
+ - domain
+ - port
 
 
 .. BEGIN FKs
@@ -283,16 +282,15 @@ Columns
 
 
 
-.. _TBL-web.intermediate_cert:
+.. _TABLE-web.intermediate_cert:
 
 ``web.intermediate_cert``
 ``````````````````````````````````````````````````````````````````````
 
 Intermediate certificates
 
-Primary key:
-
-- subject_key_identifier
+Primary key
+ - subject_key_identifier
 
 
 .. BEGIN FKs
@@ -338,19 +336,18 @@ Columns
 
 
 
-.. _TBL-web.intermediate_chain:
+.. _TABLE-web.intermediate_chain:
 
 ``web.intermediate_chain``
 ``````````````````````````````````````````````````````````````````````
 
 xxx
 
-Primary key:
-
-- domain
-- port
-- identifier
-- subject_key_identifier
+Primary key
+ - domain
+ - port
+ - identifier
+ - subject_key_identifier
 
 
 .. BEGIN FKs
@@ -429,17 +426,16 @@ Columns
 
 
 
-.. _TBL-web.site:
+.. _TABLE-web.site:
 
 ``web.site``
 ``````````````````````````````````````````````````````````````````````
 
 Website
 
-Primary key:
-
-- domain
-- port
+Primary key
+ - domain
+ - port
 
 
 .. BEGIN FKs
@@ -598,14 +594,42 @@ Columns
 
 
 
+---------
 Functions
 ---------
 
+
+
+.. _FUNCTION-web.del_alias:
 
 ``web.del_alias``
 ``````````````````````````````````````````````````````````````````````
 
 del
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -633,10 +657,40 @@ del
    PERFORM backend._conditional_notify(FOUND, 'web', 'alias', p_domain);
 
 
+
+.. _FUNCTION-web.del_intermediate_chain:
+
 ``web.del_intermediate_chain``
 ``````````````````````````````````````````````````````````````````````
 
 sdf
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+    
+ - ``p_identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -652,10 +706,37 @@ sdf
        identifier = p_identifier;
 
 
+
+.. _FUNCTION-web.del_site:
+
 ``web.del_site``
 ``````````````````````````````````````````````````````````````````````
 
 del
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -679,10 +760,43 @@ del
    PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
 
 
+
+.. _FUNCTION-web.fwd_x509_request:
+
 ``web.fwd_x509_request``
 ``````````````````````````````````````````````````````````````````````
 
 x509 request
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+    
+ - ``p_identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_x509_request`` :ref:`web.t_cert <DOMAIN-web.t_cert>`
+   
+    
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -696,10 +810,40 @@ x509 request
        identifier = p_identifier;
 
 
+
+.. _FUNCTION-web.ins_alias:
+
 ``web.ins_alias``
 ``````````````````````````````````````````````````````````````````````
 
 Insert alias
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -736,10 +880,40 @@ Insert alias
    PERFORM backend._notify_domain('web', 'alias', p_domain);
 
 
+
+.. _FUNCTION-web.ins_https:
+
 ``web.ins_https``
 ``````````````````````````````````````````````````````````````````````
 
 Ins HTTPS
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+    
+ - ``p_identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -754,10 +928,40 @@ Ins HTTPS
    (p_domain, p_port, p_identifier);
 
 
+
+.. _FUNCTION-web.ins_intermediate_cert:
+
 ``web.ins_intermediate_cert``
 ``````````````````````````````````````````````````````````````````````
 
 Xxx
+
+Parameters
+ - ``p_subject_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_authority_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_x509_certificate`` :ref:`web.t_cert <DOMAIN-web.t_cert>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -772,10 +976,46 @@ Xxx
        (p_subject_key_identifier, p_authority_key_identifier, p_x509_certificate);
 
 
+
+.. _FUNCTION-web.ins_intermediate_chain:
+
 ``web.ins_intermediate_chain``
 ``````````````````````````````````````````````````````````````````````
 
 sdf
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+    
+ - ``p_identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_order`` :ref:`integer <DOMAIN-integer>`
+   
+    
+ - ``p_subject_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -790,11 +1030,44 @@ sdf
    (p_domain, p_port, p_identifier, p_order, p_subject_key_identifier);
 
 
+
+.. _FUNCTION-web.ins_site:
+
 ``web.ins_site``
 ``````````````````````````````````````````````````````````````````````
 
 Insert site
 TODO: check owner and contingent
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+    
+ - ``p_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+   
+    
+ - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -812,10 +1085,41 @@ TODO: check owner and contingent
    PERFORM backend._notify_domain('web', 'site', p_domain);
 
 
+
+.. _FUNCTION-web.sel_alias:
+
 ``web.sel_alias``
 ``````````````````````````````````````````````````````````````````````
 
 Select alias
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -846,10 +1150,47 @@ Select alias
        ORDER BY t.backend_status, t.domain;
 
 
+
+.. _FUNCTION-web.sel_https:
+
 ``web.sel_https``
 ``````````````````````````````````````````````````````````````````````
 
 sel https
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+ - ``x509_request`` :ref:`web.t_cert <DOMAIN-web.t_cert>`
+   
+ - ``x509_certificate`` :ref:`web.t_cert <DOMAIN-web.t_cert>`
+   
+ - ``authority_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -871,10 +1212,41 @@ sel https
        ORDER BY t.backend_status, t.identifier;
 
 
+
+.. _FUNCTION-web.sel_intermediate_cert:
+
 ``web.sel_intermediate_cert``
 ``````````````````````````````````````````````````````````````````````
 
 int
+
+Parameters
+ - ``p_subject_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``subject_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``authority_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``x509_certificate`` :ref:`web.t_cert <DOMAIN-web.t_cert>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -893,10 +1265,45 @@ int
            t.subject_key_identifier = p_subject_key_identifier;
 
 
+
+.. _FUNCTION-web.sel_intermediate_chain:
+
 ``web.sel_intermediate_chain``
 ``````````````````````````````````````````````````````````````````````
 
 sel
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+ - ``identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``subject_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``x509_certificate`` :ref:`web.t_cert <DOMAIN-web.t_cert>`
+   
+ - ``order`` :ref:`integer <DOMAIN-integer>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -919,10 +1326,51 @@ sel
        ORDER BY t.order;
 
 
+
+.. _FUNCTION-web.sel_site:
+
 ``web.sel_site``
 ``````````````````````````````````````````````````````````````````````
 
 Owner defined via server_access
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+ - ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+   
+ - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``https`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+ - ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -950,10 +1398,40 @@ Owner defined via server_access
        ORDER BY t.backend_status, t.domain, t.port;
 
 
+
+.. _FUNCTION-web.srv_alias:
+
 ``web.srv_alias``
 ``````````````````````````````````````````````````````````````````````
 
 backend web.alias
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -992,10 +1470,46 @@ backend web.alias
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-web.srv_https:
+
 ``web.srv_https``
 ``````````````````````````````````````````````````````````````````````
 
 Certs
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+ - ``x509_request`` :ref:`web.t_cert <DOMAIN-web.t_cert>`
+   
+ - ``x509_certificate`` :ref:`web.t_cert <DOMAIN-web.t_cert>`
+   
+ - ``x509_chain`` :ref:`varchar[] <DOMAIN-varchar[]>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -1042,10 +1556,48 @@ Certs
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-web.srv_site:
+
 ``web.srv_site``
 ``````````````````````````````````````````````````````````````````````
 
 backend web.site
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+ - ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+   
+ - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``https`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -1088,10 +1640,46 @@ backend web.site
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-web.upd_https:
+
 ``web.upd_https``
 ``````````````````````````````````````````````````````````````````````
 
 upd https
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+    
+ - ``p_identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_x509_certificate`` :ref:`web.t_cert <DOMAIN-web.t_cert>`
+   
+    
+ - ``p_authority_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1112,10 +1700,40 @@ upd https
    PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
 
 
+
+.. _FUNCTION-web.upd_site:
+
 ``web.upd_site``
 ``````````````````````````````````````````````````````````````````````
 
 set https identif.
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+   
+    
+ - ``p_identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1141,6 +1759,31 @@ set https identif.
        t.port = p_port;
    
    PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
+
+
+
+
+-------
+Domains
+-------
+
+
+
+.. _DOMAIN-web.t_cert:
+
+``web.t_cert``
+```````````````````````````````````````````````````````````````````````
+
+PEM cert
+
+Checks
+ - | *base64*
+   | ``VALUE ~ '^[a-zA-Z\d/+]+[=]{0,2}$'``
+   | no newlines in db
+
+
+
+
 
 
 

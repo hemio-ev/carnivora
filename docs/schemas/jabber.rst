@@ -12,21 +12,21 @@ This module sends the following signals:
    :depth: 2
 
 
+------
 Tables
-----------------------------------------------------------------------
+------
 
 
-.. _TBL-jabber.account:
+.. _TABLE-jabber.account:
 
 ``jabber.account``
 ``````````````````````````````````````````````````````````````````````
 
 Jabber accounts
 
-Primary key:
-
-- node
-- domain
+Primary key
+ - node
+ - domain
 
 
 .. BEGIN FKs
@@ -153,14 +153,42 @@ Columns
 
 
 
+---------
 Functions
 ---------
 
+
+
+.. _FUNCTION-jabber.del_account:
 
 ``jabber.del_account``
 ``````````````````````````````````````````````````````````````````````
 
 Delete jabber account
+
+Parameters
+ - ``p_node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -179,10 +207,46 @@ Delete jabber account
    PERFORM backend._conditional_notify(FOUND, 'jabber', 'account', p_domain);
 
 
+
+.. _FUNCTION-jabber.ins_account:
+
 ``jabber.ins_account``
 ``````````````````````````````````````````````````````````````````````
 
 Insert jabber account
+
+Parameters
+ - ``p_node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
+   
+    
+
+
+Variables defined for body
+ - ``v_num_total`` :ref:`integer <DOMAIN-integer>`
+   
+   
+ - ``v_num_domain`` :ref:`integer <DOMAIN-integer>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -210,10 +274,39 @@ Insert jabber account
    PERFORM backend._notify_domain('jabber', 'account', p_domain);
 
 
+
+.. _FUNCTION-jabber.sel_account:
+
 ``jabber.sel_account``
 ``````````````````````````````````````````````````````````````````````
 
 Select jabber accounts
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -233,10 +326,40 @@ Select jabber accounts
        ORDER BY t.backend_status, t.node, t.domain;
 
 
+
+.. _FUNCTION-jabber.srv_account:
+
 ``jabber.srv_account``
 ``````````````````````````````````````````````````````````````````````
 
 Lists all jabber accounts
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``password`` :ref:`commons.t_password <DOMAIN-commons.t_password>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -275,10 +398,40 @@ Lists all jabber accounts
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-jabber.upd_account:
+
 ``jabber.upd_account``
 ``````````````````````````````````````````````````````````````````````
 
 Change jabber account password
+
+Parameters
+ - ``p_node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -296,6 +449,12 @@ Change jabber account password
        owner = v_owner;
    
    PERFORM backend._conditional_notify(FOUND, 'jabber', 'account', p_domain);
+
+
+
+
+
+
 
 
 

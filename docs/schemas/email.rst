@@ -15,21 +15,21 @@ This module sends the following signals:
    :depth: 2
 
 
+------
 Tables
-----------------------------------------------------------------------
+------
 
 
-.. _TBL-email.address:
+.. _TABLE-email.address:
 
 ``email.address``
 ``````````````````````````````````````````````````````````````````````
 
 Collection of all known addresses
 
-Primary key:
-
-- localpart
-- domain
+Primary key
+ - localpart
+ - domain
 
 
 .. BEGIN FKs
@@ -119,17 +119,16 @@ Columns
 
 
 
-.. _TBL-email.alias:
+.. _TABLE-email.alias:
 
 ``email.alias``
 ``````````````````````````````````````````````````````````````````````
 
 Aliases for e-mail mailboxes, owner is determined by mailbox.owner
 
-Primary key:
-
-- localpart
-- domain
+Primary key
+ - localpart
+ - domain
 
 
 .. BEGIN FKs
@@ -263,17 +262,16 @@ Columns
 
 
 
-.. _TBL-email.list:
+.. _TABLE-email.list:
 
 ``email.list``
 ``````````````````````````````````````````````````````````````````````
 
 Mailing lists
 
-Primary key:
-
-- localpart
-- domain
+Primary key
+ - localpart
+ - domain
 
 
 .. BEGIN FKs
@@ -419,18 +417,17 @@ Columns
 
 
 
-.. _TBL-email.list_subscriber:
+.. _TABLE-email.list_subscriber:
 
 ``email.list_subscriber``
 ``````````````````````````````````````````````````````````````````````
 
 list subscribers
 
-Primary key:
-
-- address
-- list_localpart
-- list_domain
+Primary key
+ - address
+ - list_localpart
+ - list_domain
 
 
 .. BEGIN FKs
@@ -511,7 +508,7 @@ Columns
 
 
 
-.. _TBL-email.mailbox:
+.. _TABLE-email.mailbox:
 
 ``email.mailbox``
 ``````````````````````````````````````````````````````````````````````
@@ -520,10 +517,9 @@ E-mail mailboxs correspond to something a mail user can login into. Basically
 a mailbox represents a mailbox. A mailbox is bound to a specific address.
 Further addresses can be linked to mailboxs via aliases.
 
-Primary key:
-
-- localpart
-- domain
+Primary key
+ - localpart
+ - domain
 
 
 .. BEGIN FKs
@@ -679,17 +675,16 @@ Columns
 
 
 
-.. _TBL-email.redirection:
+.. _TABLE-email.redirection:
 
 ``email.redirection``
 ``````````````````````````````````````````````````````````````````````
 
 Redirections
 
-Primary key:
-
-- localpart
-- domain
+Primary key
+ - localpart
+ - domain
 
 
 .. BEGIN FKs
@@ -816,14 +811,37 @@ Columns
 
 
 
+---------
 Functions
 ---------
 
+
+
+.. _FUNCTION-email._address:
 
 ``email._address``
 ``````````````````````````````````````````````````````````````````````
 
 List all addresses
+
+Parameters
+ *None*
+
+
+
+Returns
+ TABLE
+
+Returned columns
+ - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+ - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+
 
 .. code-block:: plpgsql
 
@@ -842,10 +860,28 @@ List all addresses
    );
 
 
+
+.. _FUNCTION-email._address_valid:
+
 ``email._address_valid``
 ``````````````````````````````````````````````````````````````````````
 
 x
+
+Parameters
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+
+Returns
+ void
+
+
 
 .. code-block:: plpgsql
 
@@ -860,10 +896,43 @@ x
    END IF;
 
 
+
+.. _FUNCTION-email.del_alias:
+
 ``email.del_alias``
 ``````````````````````````````````````````````````````````````````````
 
 Delete Alias
+
+Parameters
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -891,10 +960,37 @@ Delete Alias
    PERFORM backend._conditional_notify(FOUND, 'email', 'alias', p_domain);
 
 
+
+.. _FUNCTION-email.del_list:
+
 ``email.del_list``
 ``````````````````````````````````````````````````````````````````````
 
 Delete mailing list
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -912,10 +1008,40 @@ Delete mailing list
    PERFORM backend._conditional_notify(FOUND, 'email', 'list', p_domain);
 
 
+
+.. _FUNCTION-email.del_list_subscriber:
+
 ``email.del_list_subscriber``
 ``````````````````````````````````````````````````````````````````````
 
 del
+
+Parameters
+ - ``p_list_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_address`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -940,10 +1066,37 @@ del
    PERFORM backend._conditional_notify(FOUND, 'email', 'list', p_list_domain);
 
 
+
+.. _FUNCTION-email.del_mailbox:
+
 ``email.del_mailbox``
 ``````````````````````````````````````````````````````````````````````
 
 Delete mailbox
+
+Parameters
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -962,10 +1115,37 @@ Delete mailbox
    PERFORM backend._conditional_notify(FOUND, 'email', 'mailbox', p_domain);
 
 
+
+.. _FUNCTION-email.del_redirection:
+
 ``email.del_redirection``
 ``````````````````````````````````````````````````````````````````````
 
 Delete redirection
+
+Parameters
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -985,10 +1165,52 @@ Delete redirection
    PERFORM backend._conditional_notify(FOUND, 'email', 'redirection', p_domain);
 
 
+
+.. _FUNCTION-email.ins_alias:
+
 ``email.ins_alias``
 ``````````````````````````````````````````````````````````````````````
 
 Create e-mail aliases
+
+Parameters
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+Variables defined for body
+ - ``v_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   (default: ``'alias'``)
+   
+ - ``v_num_total`` :ref:`int <DOMAIN-int>`
+   
+   
+ - ``v_num_domain`` :ref:`int <DOMAIN-int>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1033,10 +1255,49 @@ Create e-mail aliases
    PERFORM backend._notify_domain('email', 'alias', p_domain);
 
 
+
+.. _FUNCTION-email.ins_list:
+
 ``email.ins_list``
 ``````````````````````````````````````````````````````````````````````
 
 Creates a mailing list
+
+Parameters
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+    
+
+
+Variables defined for body
+ - ``v_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   (default: ``'list'``)
+   
+ - ``v_num_total`` :ref:`int <DOMAIN-int>`
+   
+   
+ - ``v_num_domain`` :ref:`int <DOMAIN-int>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1067,10 +1328,40 @@ Creates a mailing list
    PERFORM backend._notify_domain('email', 'list', p_domain);
 
 
+
+.. _FUNCTION-email.ins_list_subscriber:
+
 ``email.ins_list_subscriber``
 ``````````````````````````````````````````````````````````````````````
 
 Adds a subscriber to a mailing list
+
+Parameters
+ - ``p_address`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+    
+ - ``p_list_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1098,10 +1389,49 @@ Adds a subscriber to a mailing list
    PERFORM backend._notify_domain('email', 'list', p_list_domain);
 
 
+
+.. _FUNCTION-email.ins_mailbox:
+
 ``email.ins_mailbox``
 ``````````````````````````````````````````````````````````````````````
 
 Creates an email box
+
+Parameters
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
+   
+    
+
+
+Variables defined for body
+ - ``v_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   (default: ``'mailbox'``)
+   
+ - ``v_num_total`` :ref:`int <DOMAIN-int>`
+   
+   
+ - ``v_num_domain`` :ref:`int <DOMAIN-int>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1135,10 +1465,49 @@ Creates an email box
    PERFORM backend._notify_domain('email', 'mailbox', p_domain);
 
 
+
+.. _FUNCTION-email.ins_redirection:
+
 ``email.ins_redirection``
 ``````````````````````````````````````````````````````````````````````
 
 Creates a redirection
+
+Parameters
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_destination`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+    
+
+
+Variables defined for body
+ - ``v_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   (default: ``'redirection'``)
+   
+ - ``v_num_total`` :ref:`int <DOMAIN-int>`
+   
+   
+ - ``v_num_domain`` :ref:`int <DOMAIN-int>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1171,10 +1540,43 @@ Creates a redirection
    PERFORM backend._notify_domain('email', 'redirection', p_domain);
 
 
+
+.. _FUNCTION-email.sel_alias:
+
 ``email.sel_alias``
 ``````````````````````````````````````````````````````````````````````
 
 Select aliases
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1199,10 +1601,45 @@ Select aliases
    WHERE s.owner = v_owner;
 
 
+
+.. _FUNCTION-email.sel_list:
+
 ``email.sel_list``
 ``````````````````````````````````````````````````````````````````````
 
 List all lists
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+ - ``admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+ - ``num_subscribers`` :ref:`bigint <DOMAIN-bigint>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1226,10 +1663,41 @@ List all lists
            t.owner = v_owner;
 
 
+
+.. _FUNCTION-email.sel_list_subscriber:
+
 ``email.sel_list_subscriber``
 ``````````````````````````````````````````````````````````````````````
 
 a
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``address`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+ - ``list_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1253,10 +1721,43 @@ a
            s.owner = v_owner;
 
 
+
+.. _FUNCTION-email.sel_mailbox:
+
 ``email.sel_mailbox``
 ``````````````````````````````````````````````````````````````````````
 
 List all mailboxes
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+ - ``quota`` :ref:`int <DOMAIN-int>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1278,10 +1779,41 @@ List all mailboxes
      t.owner = v_owner;
 
 
+
+.. _FUNCTION-email.sel_redirection:
+
 ``email.sel_redirection``
 ``````````````````````````````````````````````````````````````````````
 
 Lists all redirections
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``destination`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1302,10 +1834,42 @@ Lists all redirections
      t.owner = v_owner;
 
 
+
+.. _FUNCTION-email.srv_alias:
+
 ``email.srv_alias``
 ``````````````````````````````````````````````````````````````````````
 
 Lists all email aliases
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -1345,10 +1909,40 @@ Lists all email aliases
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-email.srv_list:
+
 ``email.srv_list``
 ``````````````````````````````````````````````````````````````````````
 
 Lists all mailinglists
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -1387,10 +1981,40 @@ Lists all mailinglists
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-email.srv_list_subscriber:
+
 ``email.srv_list_subscriber``
 ``````````````````````````````````````````````````````````````````````
 
 Lists all mailinglist subscribers
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``address`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -1441,10 +2065,46 @@ Lists all mailinglist subscribers
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-email.srv_mailbox:
+
 ``email.srv_mailbox``
 ``````````````````````````````````````````````````````````````````````
 
 Lists all mailboxes
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``password`` :ref:`commons.t_password <DOMAIN-commons.t_password>`
+   
+ - ``uid`` :ref:`integer <DOMAIN-integer>`
+   
+ - ``quota`` :ref:`integer <DOMAIN-integer>`
+   
+ - ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -1486,10 +2146,40 @@ Lists all mailboxes
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-email.srv_redirection:
+
 ``email.srv_redirection``
 ``````````````````````````````````````````````````````````````````````
 
 Lists all mailinglists
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``destination`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -1528,10 +2218,40 @@ Lists all mailinglists
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-email.upd_list:
+
 ``email.upd_list``
 ``````````````````````````````````````````````````````````````````````
 
 Change list admin
+
+Parameters
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1553,10 +2273,40 @@ Change list admin
    PERFORM backend._conditional_notify(FOUND, 'email', 'list', p_domain);
 
 
+
+.. _FUNCTION-email.upd_mailbox:
+
 ``email.upd_mailbox``
 ``````````````````````````````````````````````````````````````````````
 
 Change mailbox password
+
+Parameters
+ - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1576,6 +2326,49 @@ Change mailbox password
        backend._active(backend_status);
    
    PERFORM backend._conditional_notify(FOUND, 'email', 'mailbox', p_domain);
+
+
+
+
+-------
+Domains
+-------
+
+
+
+.. _DOMAIN-email.t_localpart:
+
+``email.t_localpart``
+```````````````````````````````````````````````````````````````````````
+
+Local part of an email address, the thing in front of the @
+
+Checks
+ - | *valid_characters*
+   | ``VALUE ~ '^[a-z0-9.-]+$'``
+   | Only allow lower-case addresses
+
+ - | *no_starting_dot*
+   | ``left(VALUE, 1) <> '.'``
+   | b
+
+ - | *no_ending_dot*
+   | ``right(VALUE, 1) <> '.'``
+   | c
+
+
+
+
+.. _DOMAIN-email.t_address:
+
+``email.t_address``
+```````````````````````````````````````````````````````````````````````
+
+Email address, TODO validity checks
+
+
+
+
 
 
 

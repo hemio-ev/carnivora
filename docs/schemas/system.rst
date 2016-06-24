@@ -11,21 +11,21 @@ Manages services, service entities and contingents.
    :depth: 2
 
 
+------
 Tables
-----------------------------------------------------------------------
+------
 
 
-.. _TBL-system.inherit_contingent:
+.. _TABLE-system.inherit_contingent:
 
 ``system.inherit_contingent``
 ``````````````````````````````````````````````````````````````````````
 
 x
 
-Primary key:
-
-- owner
-- priority
+Primary key
+ - owner
+ - priority
 
 
 .. BEGIN FKs
@@ -72,7 +72,7 @@ Columns
 
 
 
-.. _TBL-system.service:
+.. _TABLE-system.service:
 
 ``system.service``
 ``````````````````````````````````````````````````````````````````````
@@ -83,9 +83,8 @@ Just a list of services that exist. Modules do register their services here.
 Use system._setup_register_service(<module>, <service>) to insert into this
 table.
 
-Primary key:
-
-- service
+Primary key
+ - service
 
 
 .. BEGIN FKs
@@ -119,7 +118,7 @@ Columns
 
 
 
-.. _TBL-system.service_entity:
+.. _TABLE-system.service_entity:
 
 ``system.service_entity``
 ``````````````````````````````````````````````````````````````````````
@@ -140,10 +139,9 @@ The service_entity_name might be exposed to users as the address of this service
 example as SMTP or SSH server etc. The exact interpretation of the service_entity_name
 depends on the module and the frontend.
 
-Primary key:
-
-- service_entity_name
-- service
+Primary key
+ - service_entity_name
+ - service
 
 
 .. BEGIN FKs
@@ -178,7 +176,7 @@ Columns
 
 
 
-.. _TBL-system.service_entity_dns:
+.. _TABLE-system.service_entity_dns:
 
 ``system.service_entity_dns``
 ``````````````````````````````````````````````````````````````````````
@@ -192,9 +190,8 @@ uses this service, all appropriate records are created for this domain
 based on this table. The assignment from domain to services can
 be found in dns.service.
 
-Primary key:
-
-- id
+Primary key
+ - id
 
 
 .. BEGIN FKs
@@ -292,7 +289,7 @@ Columns
 
 
 
-.. _TBL-system.service_entity_machine:
+.. _TABLE-system.service_entity_machine:
 
 ``system.service_entity_machine``
 ``````````````````````````````````````````````````````````````````````
@@ -303,11 +300,10 @@ List of machines that provice a certain service. This information is
 used to provide these machines access to the data they need to provide
 the service. See also the module 'backend'.
 
-Primary key:
-
-- machine_name
-- service_entity_name
-- service
+Primary key
+ - machine_name
+ - service_entity_name
+ - service
 
 
 .. BEGIN FKs
@@ -364,17 +360,16 @@ Columns
 
 
 
-.. _TBL-system.subservice:
+.. _TABLE-system.subservice:
 
 ``system.subservice``
 ``````````````````````````````````````````````````````````````````````
 
 Subservices
 
-Primary key:
-
-- service
-- subservice
+Primary key
+ - service
+ - subservice
 
 
 .. BEGIN FKs
@@ -409,7 +404,7 @@ Columns
 
 
 
-.. _TBL-system.subservice_entity:
+.. _TABLE-system.subservice_entity:
 
 ``system.subservice_entity``
 ``````````````````````````````````````````````````````````````````````
@@ -420,11 +415,10 @@ Names under which subservices are made available.
 
 See also: Table system.service_entity
 
-Primary key:
-
-- service_entity_name
-- service
-- subservice
+Primary key
+ - service_entity_name
+ - service
+ - subservice
 
 
 .. BEGIN FKs
@@ -490,19 +484,18 @@ Columns
 
 
 
-.. _TBL-system.subservice_entity_contingent:
+.. _TABLE-system.subservice_entity_contingent:
 
 ``system.subservice_entity_contingent``
 ``````````````````````````````````````````````````````````````````````
 
 Subservice entity contingent
 
-Primary key:
-
-- service
-- subservice
-- service_entity_name
-- owner
+Primary key
+ - service
+ - subservice
+ - service_entity_name
+ - owner
 
 
 .. BEGIN FKs
@@ -601,20 +594,19 @@ Columns
 
 
 
-.. _TBL-system.subservice_entity_domain_contingent:
+.. _TABLE-system.subservice_entity_domain_contingent:
 
 ``system.subservice_entity_domain_contingent``
 ``````````````````````````````````````````````````````````````````````
 
 Subservice entity per domain contingent
 
-Primary key:
-
-- service
-- subservice
-- service_entity_name
-- domain
-- owner
+Primary key
+ - service
+ - subservice
+ - service_entity_name
+ - domain
+ - owner
 
 
 .. BEGIN FKs
@@ -715,14 +707,67 @@ Columns
 
 
 
+---------
 Functions
 ---------
 
+
+
+.. _FUNCTION-system._contingent_ensure:
 
 ``system._contingent_ensure``
 ``````````````````````````````````````````````````````````````````````
 
 Throws exceptions if the contingent is exceeded
+
+Parameters
+ - ``p_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+    
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_current_quantity_total`` :ref:`integer <DOMAIN-integer>`
+   
+    
+ - ``p_current_quantity_domain`` :ref:`integer <DOMAIN-integer>`
+   
+    
+
+
+Variables defined for body
+ - ``v_remaining`` :ref:`integer <DOMAIN-integer>`
+   
+   
+ - ``v_total_contingent`` :ref:`integer <DOMAIN-integer>`
+   
+   
+ - ``v_domain_contingent`` :ref:`integer <DOMAIN-integer>`
+   
+   
+ - ``v_domain_contingent_default`` :ref:`integer <DOMAIN-integer>`
+   
+   
+ - ``v_domain_contingent_specific`` :ref:`integer <DOMAIN-integer>`
+   
+   
+ - ``v_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+ - ``v_domain_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
 
 .. code-block:: plpgsql
 
@@ -812,10 +857,38 @@ Throws exceptions if the contingent is exceeded
    END IF;
 
 
+
+.. _FUNCTION-system._contingent_total:
+
 ``system._contingent_total``
 ``````````````````````````````````````````````````````````````````````
 
 Contingent
+
+Parameters
+ - ``p_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+    
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+Variables defined for body
+ - ``v_user`` :ref:`integer <DOMAIN-integer>`
+   
+   
+ - ``v_default`` :ref:`integer <DOMAIN-integer>`
+   
+   
+
+Returns
+ integer
+
+
 
 .. code-block:: plpgsql
 
@@ -839,10 +912,36 @@ Contingent
    RETURN COALESCE(v_user, v_default);
 
 
+
+.. _FUNCTION-system._effective_contingent:
+
 ``system._effective_contingent``
 ``````````````````````````````````````````````````````````````````````
 
 contingent
+
+Parameters
+ *None*
+
+
+
+Returns
+ TABLE
+
+Returned columns
+ - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+ - ``domain_contingent`` :ref:`int <DOMAIN-int>`
+   
+ - ``total_contingent`` :ref:`int <DOMAIN-int>`
+   
+
 
 .. code-block:: plpgsql
 
@@ -871,10 +970,36 @@ contingent
      des.priority_list DESC;
 
 
+
+.. _FUNCTION-system._effective_contingent_domain:
+
 ``system._effective_contingent_domain``
 ``````````````````````````````````````````````````````````````````````
 
 contingent
+
+Parameters
+ *None*
+
+
+
+Returns
+ TABLE
+
+Returned columns
+ - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+ - ``domain_contingent`` :ref:`int <DOMAIN-int>`
+   
+
 
 .. code-block:: plpgsql
 
@@ -904,10 +1029,30 @@ contingent
      des.priority_list DESC;
 
 
+
+.. _FUNCTION-system._inherit_contingent_donor:
+
 ``system._inherit_contingent_donor``
 ``````````````````````````````````````````````````````````````````````
 
 Returns all contingent donors for a given user with their priority.
+
+Parameters
+ - ``p_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+    
+
+
+
+Returns
+ TABLE
+
+Returned columns
+ - ``donor`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   User from which contingents are inherited
+ - ``priority_list`` :ref:`integer[] <DOMAIN-integer[]>`
+   
+
 
 .. code-block:: plpgsql
 
@@ -937,12 +1082,30 @@ Returns all contingent donors for a given user with their priority.
    ORDER BY array_append(contingent_donor.priority_list, NULL) DESC;
 
 
+
+.. _FUNCTION-system._setup_register_service:
+
 ``system._setup_register_service``
 ``````````````````````````````````````````````````````````````````````
 
 Allows modules to register their services during setup.
 Returns the total number of service names registered
 for this module.
+
+Parameters
+ - ``p_module`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+
+
+
+Returns
+ integer
+
+
 
 .. code-block:: plpgsql
 
@@ -951,12 +1114,30 @@ for this module.
    RETURN (SELECT COUNT(*) FROM system.service AS s WHERE s.module=p_module);
 
 
+
+.. _FUNCTION-system._setup_register_subservice:
+
 ``system._setup_register_subservice``
 ``````````````````````````````````````````````````````````````````````
 
 Allows modules to register their services during setup.
 Returns the total number of service names registered
 for this module.
+
+Parameters
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+
+
+
+Returns
+ integer
+
+
 
 .. code-block:: plpgsql
 
@@ -965,10 +1146,39 @@ for this module.
    RETURN (SELECT COUNT(*) FROM system.subservice AS s WHERE s.service=p_service);
 
 
+
+.. _FUNCTION-system.sel_inherit_contingent:
+
 ``system.sel_inherit_contingent``
 ``````````````````````````````````````````````````````````````````````
 
 Select inherit contingent
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+ - ``donor`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+ - ``priority`` :ref:`int <DOMAIN-int>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -983,10 +1193,39 @@ Select inherit contingent
    ORDER BY t.owner, t.priority;
 
 
+
+.. _FUNCTION-system.sel_usable_host:
+
 ``system.sel_usable_host``
 ``````````````````````````````````````````````````````````````````````
 
 Usable hosts
+
+Parameters
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -1004,6 +1243,12 @@ Usable hosts
        ORDER BY
            t.service_entity_name
    ;
+
+
+
+
+
+
 
 
 

@@ -10,21 +10,21 @@ and they can login into frontends (edentata)
    :depth: 2
 
 
+------
 Tables
-----------------------------------------------------------------------
+------
 
 
-.. _TBL-user.deputy:
+.. _TABLE-user.deputy:
 
 ``user.deputy``
 ``````````````````````````````````````````````````````````````````````
 
 Deputies for users
 
-Primary key:
-
-- deputy
-- represented
+Primary key
+ - deputy
+ - represented
 
 
 .. BEGIN FKs
@@ -62,16 +62,15 @@ Columns
 
 
 
-.. _TBL-user.session:
+.. _TABLE-user.session:
 
 ``user.session``
 ``````````````````````````````````````````````````````````````````````
 
 User login sessions
 
-Primary key:
-
-- id
+Primary key
+ - id
 
 
 .. BEGIN FKs
@@ -129,16 +128,15 @@ Columns
 
 
 
-.. _TBL-user.user:
+.. _TABLE-user.user:
 
 ``user.user``
 ``````````````````````````````````````````````````````````````````````
 
 User
 
-Primary key:
-
-- owner
+Primary key
+ - owner
 
 
 .. BEGIN FKs
@@ -195,9 +193,13 @@ Columns
 
 
 
+---------
 Functions
 ---------
 
+
+
+.. _FUNCTION-user._get_login:
 
 ``user._get_login``
 ``````````````````````````````````````````````````````````````````````
@@ -205,6 +207,21 @@ Functions
 Shows informations for the current user login.
 Throws an exception if no login is associated to the
 current database connection.
+
+Parameters
+ *None*
+
+
+
+Returns
+ TABLE
+
+Returned columns
+ - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+ - ``act_as`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+
 
 .. code-block:: plpgsql
 
@@ -219,6 +236,9 @@ current database connection.
    END IF;
 
 
+
+.. _FUNCTION-user._session_id:
+
 ``user._session_id``
 ``````````````````````````````````````````````````````````````````````
 
@@ -226,6 +246,16 @@ Gives an id for the database connection that is unique over all database connect
 It is used to identify user logins.
 
 Not sure if this stays unique with distributed infrastructure!
+
+Parameters
+ *None*
+
+
+
+Returns
+ varchar
+
+
 
 .. code-block:: plpgsql
 
@@ -237,10 +267,34 @@ Not sure if this stays unique with distributed infrastructure!
     pg_conf_load_time();
 
 
+
+.. _FUNCTION-user.ins_deputy:
+
 ``user.ins_deputy``
 ``````````````````````````````````````````````````````````````````````
 
 Act as deputy
+
+Parameters
+ - ``p_act_as`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -263,10 +317,37 @@ Act as deputy
    END IF;
 
 
+
+.. _FUNCTION-user.ins_login:
+
 ``user.ins_login``
 ``````````````````````````````````````````````````````````````````````
 
 Try to bind database connection to new user session.
+
+Parameters
+ - ``p_login`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
+   
+    
+
+
+Variables defined for body
+ - ``v_login_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``user`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -287,10 +368,35 @@ Try to bind database connection to new user session.
    END IF;
 
 
+
+.. _FUNCTION-user.sel_deputy:
+
 ``user.sel_deputy``
 ``````````````````````````````````````````````````````````````````````
 
 sel deputy
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``represented`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -304,10 +410,34 @@ sel deputy
        WHERE t.deputy = v_login;
 
 
+
+.. _FUNCTION-user.upd_user:
+
 ``user.upd_user``
 ``````````````````````````````````````````````````````````````````````
 
 change user passwd
+
+Parameters
+ - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -321,6 +451,52 @@ change user passwd
    
    WHERE
        owner = v_login;
+
+
+
+
+-------
+Domains
+-------
+
+
+
+.. _DOMAIN-user.t_user:
+
+``user.t_user``
+```````````````````````````````````````````````````````````````````````
+
+Username
+
+
+
+
+-----
+Roles
+-----
+
+
+.. _ROLE-userlogin:
+
+``userlogin``
+```````````````````````````````````````````````````````````````````````
+
+Do user actions via this group
+
+Login
+ *Disabled*
+
+
+.. _ROLE-system:
+
+``system``
+```````````````````````````````````````````````````````````````````````
+
+Highly priviledged user
+
+Login
+ *Disabled*
+
 
 
 

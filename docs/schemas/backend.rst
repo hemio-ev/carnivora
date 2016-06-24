@@ -13,20 +13,20 @@ to clients, called machines.
    :depth: 2
 
 
+------
 Tables
-----------------------------------------------------------------------
+------
 
 
-.. _TBL-backend.auth:
+.. _TABLE-backend.auth:
 
 ``backend.auth``
 ``````````````````````````````````````````````````````````````````````
 
 Grants rights to backend API clients based on SQL roles.
 
-Primary key:
-
-- role
+Primary key
+ - role
 
 
 .. BEGIN FKs
@@ -63,16 +63,15 @@ Columns
 
 
 
-.. _TBL-backend.machine:
+.. _TABLE-backend.machine:
 
 ``backend.machine``
 ``````````````````````````````````````````````````````````````````````
 
 Physical or virtual machines that hosts services.
 
-Primary key:
-
-- name
+Primary key
+ - name
 
 
 .. BEGIN FKs
@@ -98,24 +97,64 @@ Columns
 
 
 
+---------
 Functions
 ---------
 
+
+
+.. _FUNCTION-backend._active:
 
 ``backend._active``
 ``````````````````````````````````````````````````````````````````````
 
 Is not 'del'
 
+Parameters
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+    
+
+
+
+Returns
+ boolean
+
+
+
 .. code-block:: plpgsql
 
    RETURN backend_status IS NULL OR (backend_status <> 'del' AND backend_status <> 'old');
 
 
+
+.. _FUNCTION-backend._conditional_notify:
+
 ``backend._conditional_notify``
 ``````````````````````````````````````````````````````````````````````
 
 Notifies if first argument is true. Throws inaccessible otherwise.
+
+Parameters
+ - ``p_condition`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+
+Returns
+ void
+
+
 
 .. code-block:: plpgsql
 
@@ -126,10 +165,34 @@ Notifies if first argument is true. Throws inaccessible otherwise.
    END IF;
 
 
+
+.. _FUNCTION-backend._conditional_notify_service_entity_name:
+
 ``backend._conditional_notify_service_entity_name``
 ``````````````````````````````````````````````````````````````````````
 
 Notifies if first argument is true. Throws inaccessible otherwise.
+
+Parameters
+ - ``p_condition`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+ - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+
+
+
+Returns
+ void
+
+
 
 .. code-block:: plpgsql
 
@@ -140,15 +203,33 @@ Notifies if first argument is true. Throws inaccessible otherwise.
    END IF;
 
 
+
+.. _FUNCTION-backend._deleted:
+
 ``backend._deleted``
 ``````````````````````````````````````````````````````````````````````
 
 Is 'del'
 
+Parameters
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+    
+
+
+
+Returns
+ boolean
+
+
+
 .. code-block:: plpgsql
 
    RETURN backend_status IS NOT NULL AND backend_status = 'del';
 
+
+
+.. _FUNCTION-backend._get_login:
 
 ``backend._get_login``
 ``````````````````````````````````````````````````````````````````````
@@ -156,6 +237,19 @@ Is 'del'
 Shows informations for the current backend login.
 Throws an error if the current user is not a grantee
 for a machine.
+
+Parameters
+ *None*
+
+
+
+Returns
+ TABLE
+
+Returned columns
+ - ``machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+
 
 .. code-block:: plpgsql
 
@@ -169,6 +263,9 @@ for a machine.
    END IF;
 
 
+
+.. _FUNCTION-backend._machine_priviledged:
+
 ``backend._machine_priviledged``
 ``````````````````````````````````````````````````````````````````````
 
@@ -177,6 +274,30 @@ a certain service for a certain domain name.
 
 WARNING: The parameter p_domain must be a domain, which means an entry in
 the column dns.service.domain. It must not be confused with a service_entity_name.
+
+Parameters
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ boolean
+
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -198,6 +319,9 @@ the column dns.service.domain. It must not be confused with a service_entity_nam
    , FALSE);
 
 
+
+.. _FUNCTION-backend._machine_priviledged_service:
+
 ``backend._machine_priviledged_service``
 ``````````````````````````````````````````````````````````````````````
 
@@ -206,6 +330,30 @@ a certain service for a certain servicee name.
 
 WARNING: The parameter p_server_name must be a service name. It must not be
 confused with a domain.
+
+Parameters
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ boolean
+
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -222,6 +370,9 @@ confused with a domain.
    , FALSE);
 
 
+
+.. _FUNCTION-backend._notify:
+
 ``backend._notify``
 ``````````````````````````````````````````````````````````````````````
 
@@ -229,6 +380,27 @@ Informs all machines about changes.
 
 To listen to signals use LISTEN "carnivora/machine.name.example".
 The payload has the form 'mail.domain.example/email/list'.
+
+Parameters
+ - ``p_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+
+
+
+Returns
+ void
+
+
 
 .. code-block:: plpgsql
 
@@ -239,6 +411,9 @@ The payload has the form 'mail.domain.example/email/list'.
            );
 
 
+
+.. _FUNCTION-backend._notify_domain:
+
 ``backend._notify_domain``
 ``````````````````````````````````````````````````````````````````````
 
@@ -246,6 +421,24 @@ Informs all machines about changes.
 
 WARNING: The parameter p_domain must be a domain, which means an entry in
 the column dns.service.domain. It must not be confused with a service_entity_name.
+
+Parameters
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+
+
+
+Returns
+ void
+
+
 
 .. code-block:: plpgsql
 
@@ -264,6 +457,9 @@ the column dns.service.domain. It must not be confused with a service_entity_nam
    ;
 
 
+
+.. _FUNCTION-backend._notify_service_entity_name:
+
 ``backend._notify_service_entity_name``
 ``````````````````````````````````````````````````````````````````````
 
@@ -271,6 +467,24 @@ Informs all machines about changes.
 
 WARNING: The parameter p_service_entity_name must be a servcie name. It must not be
 confused with a domain.
+
+Parameters
+ - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+
+
+
+Returns
+ void
+
+
 
 .. code-block:: plpgsql
 
@@ -282,6 +496,41 @@ confused with a domain.
            t.service = p_service AND
            t.service_entity_name = p_service_entity_name
    ;
+
+
+
+
+-------
+Domains
+-------
+
+
+
+.. _DOMAIN-backend.t_status:
+
+``backend.t_status``
+```````````````````````````````````````````````````````````````````````
+
+Backend status
+
+
+
+
+-----
+Roles
+-----
+
+
+.. _ROLE-backend:
+
+``backend``
+```````````````````````````````````````````````````````````````````````
+
+vms
+
+Login
+ *Disabled*
+
 
 
 

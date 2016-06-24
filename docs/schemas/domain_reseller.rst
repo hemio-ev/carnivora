@@ -17,11 +17,12 @@ This module sends the following signals:
    :depth: 2
 
 
+------
 Tables
-----------------------------------------------------------------------
+------
 
 
-.. _TBL-domain_reseller.handle:
+.. _TABLE-domain_reseller.handle:
 
 ``domain_reseller.handle``
 ``````````````````````````````````````````````````````````````````````
@@ -30,9 +31,8 @@ Handles (Domain Contacts)
 
 Domain contacts that can be used as owner, admin-c, tech-c or zone-c.
 
-Primary key:
-
-- alias
+Primary key
+ - alias
 
 
 .. BEGIN FKs
@@ -265,16 +265,15 @@ Columns
 
 
 
-.. _TBL-domain_reseller.registered:
+.. _TABLE-domain_reseller.registered:
 
 ``domain_reseller.registered``
 ``````````````````````````````````````````````````````````````````````
 
 Addtional informations to those stored in dns.registered
 
-Primary key:
-
-- domain
+Primary key
+ - domain
 
 
 .. BEGIN FKs
@@ -396,14 +395,42 @@ Columns
 
 
 
+---------
 Functions
 ---------
 
+
+
+.. _FUNCTION-domain_reseller.del_handle:
 
 ``domain_reseller.del_handle``
 ``````````````````````````````````````````````````````````````````````
 
 Deletes handle
+
+Parameters
+ - ``p_alias`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+
+
+Variables defined for body
+ - ``v_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -438,10 +465,37 @@ Deletes handle
    END;
 
 
+
+.. _FUNCTION-domain_reseller.fwd_handle_id:
+
 ``domain_reseller.fwd_handle_id``
 ``````````````````````````````````````````````````````````````````````
 
 Insert handle id
+
+Parameters
+ - ``p_alias`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_id`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -453,10 +507,49 @@ Insert handle id
    WHERE alias = p_alias;
 
 
+
+.. _FUNCTION-domain_reseller.fwd_registered_status:
+
 ``domain_reseller.fwd_registered_status``
 ``````````````````````````````````````````````````````````````````````
 
 Update status
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_payable`` :ref:`timestamp <DOMAIN-timestamp>`
+   
+    
+ - ``p_period`` :ref:`integer <DOMAIN-integer>`
+   
+    
+ - ``p_registrar_status`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_registry_status`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_last_status`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -473,10 +566,73 @@ Update status
    WHERE domain = p_domain;
 
 
+
+.. _FUNCTION-domain_reseller.ins_handle:
+
 ``domain_reseller.ins_handle``
 ``````````````````````````````````````````````````````````````````````
 
 Inserts handle
+
+Parameters
+ - ``p_alias`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_fname`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_lname`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_address`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_pcode`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_city`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_country`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_state`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_email`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+    
+ - ``p_phone`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_organization`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_fax`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_mobile_phone`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -530,10 +686,40 @@ Inserts handle
    PERFORM backend._notify_service_entity_name(p_service_entity_name, 'domain_reseller', 'handle');
 
 
+
+.. _FUNCTION-domain_reseller.ins_registered:
+
 ``domain_reseller.ins_registered``
 ``````````````````````````````````````````````````````````````````````
 
 Inserts details for registered domain
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_registrant`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_admin_c`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -549,10 +735,34 @@ Inserts details for registered domain
        (p_domain, p_registrant, p_admin_c);
 
 
+
+.. _FUNCTION-domain_reseller.sel_handle:
+
 ``domain_reseller.sel_handle``
 ``````````````````````````````````````````````````````````````````````
 
 Selects handles
+
+Parameters
+ - ``p_hide_foreign`` :ref:`bool <DOMAIN-bool>`
+   
+    
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ SETOF domain_reseller."handle"
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -569,10 +779,55 @@ Selects handles
    ORDER BY backend_status, fname, lname, alias;
 
 
+
+.. _FUNCTION-domain_reseller.sel_registered:
+
 ``domain_reseller.sel_registered``
 ``````````````````````````````````````````````````````````````````````
 
 Selects details for registered domains
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``registrant`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``admin_c`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``tech_c`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``zone_c`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``payable`` :ref:`timestamp <DOMAIN-timestamp>`
+   
+ - ``period`` :ref:`integer <DOMAIN-integer>`
+   
+ - ``registrar_status`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``registry_status`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``last_status`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -601,10 +856,37 @@ Selects details for registered domains
            s.owner = v_owner;
 
 
+
+.. _FUNCTION-domain_reseller.sel_reseller:
+
 ``domain_reseller.sel_reseller``
 ``````````````````````````````````````````````````````````````````````
 
 Selects available resellers
+
+Parameters
+ *None*
+
+
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+ - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -626,10 +908,31 @@ Selects available resellers
    ;
 
 
+
+.. _FUNCTION-domain_reseller.srv_handle:
+
 ``domain_reseller.srv_handle``
 ``````````````````````````````````````````````````````````````````````
 
 Serves handles
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ SETOF domain_reseller."handle"
+
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -661,10 +964,52 @@ Serves handles
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-domain_reseller.srv_registered:
+
 ``domain_reseller.srv_registered``
 ``````````````````````````````````````````````````````````````````````
 
 Serves details for registered domains
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+ - ``registrant`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``registrant_id`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``admin_c`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``admin_c_id`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``tech_c`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``tech_c_id`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``zone_c`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``zone_c_id`` :ref:`varchar <DOMAIN-varchar>`
+   
+ - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
+   
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
@@ -689,10 +1034,67 @@ Serves details for registered domains
    (backend._active(s.backend_status) OR p_include_inactive);
 
 
+
+.. _FUNCTION-domain_reseller.upd_handle:
+
 ``domain_reseller.upd_handle``
 ``````````````````````````````````````````````````````````````````````
 
 Updates handle
+
+Parameters
+ - ``p_alias`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_address`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_pcode`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_city`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_country`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_state`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_email`` :ref:`email.t_address <DOMAIN-email.t_address>`
+   
+    
+ - ``p_phone`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_organization`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_fax`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+ - ``p_mobile_phone`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+
+
+Variables defined for body
+ - ``v_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -726,10 +1128,43 @@ Updates handle
    );
 
 
+
+.. _FUNCTION-domain_reseller.upd_registered:
+
 ``domain_reseller.upd_registered``
 ``````````````````````````````````````````````````````````````````````
 
 Updates details for registered domain
+
+Parameters
+ - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_admin_c`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+
+
+Variables defined for body
+ - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+ - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+   
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
@@ -761,6 +1196,12 @@ Updates details for registered domain
    PERFORM backend._conditional_notify_service_entity_name(
        FOUND, v_nameserver, 'domain_registered', v_managed
    );
+
+
+
+
+
+
 
 
 
