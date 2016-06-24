@@ -3,25 +3,20 @@ Carnivora
 
 A powerfull backend for web-service management. Written in YamSql.
 
-The documentation can be found in `docs/ <docs/>`__ .
+The documentation can be found online at `carnivora.readthedocs.io <http://carnivora.readthedocs.io>`__
+or as sphinx source in ``docs/``.
 
 Installing Carnivora
 --------------------
 
-Installing Perequisites
-~~~~~~~~~~~~~~~~~~~~~~~
-
-HamSql
-^^^^^^
+Perequisites
+~~~~~~~~~~~~
 
 The setup is performed via
 `HamSql <https://github.com/qua-bla/hamsql>`__. It should be callable as
 ``hamsql`` in your shell.
 
-PostgreSQL
-^^^^^^^^^^
-
-**Debian 8 (Jessie)**
+Install PostgreSQL on Debian 8 (Jessie)
 
 ::
 
@@ -35,11 +30,11 @@ You can configure accounts that can connect to the database via
 via this config have the names ``carnivora_edentata`` and
 ``carnivora_machine_example``.
 
-.. code:: .yaml
+.. code-block:: yaml
 
     name: _postgresql_user
     description: PostgreSQL users and their priviledges
-
+    
     roles:
      -
       name: edentata
@@ -47,19 +42,17 @@ via this config have the names ``carnivora_edentata`` and
       description: Account for edentata web frontend
       member_in:
        - userlogin
-
+    
      -
       name: machine_example
       description: Account for machine example
       login: true
       member_in:
        - backend
+    
 
 Running the Setup
 ~~~~~~~~~~~~~~~~~
-
-Default Method
-^^^^^^^^^^^^^^
 
 Simplest way to execute the setup on a system with a default PostgreSQL
 configuration is to run
@@ -72,17 +65,10 @@ Supplying the database name (here carnivora) via the ``-c`` option is
 mandatory. The database will be create if it is not present. Additional
 or deviating connection options can be provided.
 
-Additional options for the current user can also be configured in the
-``~/.pgpass`` file which needs the restricted permissions
-``chmod go= ~/.pgpass``. The files format is:
-
-::
-
-    hostname:port:database:username:password
-
 .. toctree::
    :maxdepth: 1
    :caption: User Documentation
+   :hidden:
 
    self
 
@@ -90,6 +76,7 @@ Additional options for the current user can also be configured in the
    :maxdepth: 1
    :caption: Default Schemas 
    :glob:
+   :hidden:
 
    schemas/*
 

@@ -132,7 +132,7 @@ Columns
 
 .. _COLUMN-web.alias.backend_status:
 
-- ``backend_status`` *NULL | backend.t_status*
+- ``backend_status`` *NULL* | *backend.t_status*
     Status of database entry in backend. NULL: nothing pending,
     'ins': entry not present on backend client, 'upd': update
     pending on backend client, 'del': deletion peding on
@@ -204,7 +204,7 @@ Columns
 
 .. _COLUMN-web.https.backend_status:
 
-- ``backend_status`` *NULL | backend.t_status*
+- ``backend_status`` *NULL* | *backend.t_status*
     Status of database entry in backend. NULL: nothing pending,
     'ins': entry not present on backend client, 'upd': update
     pending on backend client, 'del': deletion peding on
@@ -248,7 +248,7 @@ Columns
 
 .. _COLUMN-web.https.x509_request:
 
-- ``x509_request`` *NULL | web.t_cert*
+- ``x509_request`` *NULL* | *web.t_cert*
     Certificate request
 
 
@@ -258,7 +258,7 @@ Columns
 
 .. _COLUMN-web.https.x509_certificate:
 
-- ``x509_certificate`` *NULL | web.t_cert*
+- ``x509_certificate`` *NULL* | *web.t_cert*
     Certificate
 
 
@@ -268,7 +268,7 @@ Columns
 
 .. _COLUMN-web.https.authority_key_identifier:
 
-- ``authority_key_identifier`` *NULL | varchar*
+- ``authority_key_identifier`` *NULL* | *varchar*
     Identifier of the certificate that has signed this cert.
     The Authority Key Identifier allows to build the chain of trust.
     See <http://www.ietf.org/rfc/rfc3280.txt>.
@@ -542,7 +542,7 @@ Columns
 
 .. _COLUMN-web.site.backend_status:
 
-- ``backend_status`` *NULL | backend.t_status*
+- ``backend_status`` *NULL* | *backend.t_status*
     Status of database entry in backend. NULL: nothing pending,
     'ins': entry not present on backend client, 'upd': update
     pending on backend client, 'del': deletion peding on
@@ -587,7 +587,7 @@ Columns
 
 .. _COLUMN-web.site.https:
 
-- ``https`` *NULL | commons.t_key*
+- ``https`` *NULL* | *commons.t_key*
     If null, HTTPS is deactivated
 
 
@@ -607,11 +607,49 @@ Functions
 
 del
 
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   
+   UPDATE web.alias AS t
+       SET backend_status = 'del'
+   FROM web.site AS s, server_access.user AS u
+   WHERE
+       -- JOIN web.site
+       s.domain = t.site AND
+   
+       -- JOIN server_access.user
+       u.service_entity_name = t.service_entity_name AND
+       u.user = s.user AND
+   
+       u.owner = v_owner AND
+       t.domain = p_domain AND
+       t.site_port = p_site_port;
+   
+   PERFORM backend._conditional_notify(FOUND, 'web', 'alias', p_domain);
+
 
 ``web.del_intermediate_chain``
 ``````````````````````````````````````````````````````````````````````
 
 sdf
+
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   DELETE FROM web.intermediate_chain
+   WHERE
+       domain = p_domain AND
+       port = p_port AND
+       identifier = p_identifier;
 
 
 ``web.del_site``
@@ -619,11 +657,43 @@ sdf
 
 del
 
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   UPDATE web.site AS t
+       SET backend_status = 'del'
+   FROM server_access.user AS s
+   WHERE
+       -- JOIN server_access.user
+       s.user = t.user AND
+       s.service_entity_name = t.service_entity_name AND
+   
+       t.domain = p_domain AND
+       t.port = p_port AND
+       s.owner = v_owner;
+   
+   PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
+
 
 ``web.fwd_x509_request``
 ``````````````````````````````````````````````````````````````````````
 
 x509 request
+
+.. code-block:: plpgsql
+
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   UPDATE web.https
+       SET x509_request = p_x509_request
+   WHERE
+       domain = p_domain AND
+       port = p_port AND
+       identifier = p_identifier;
 
 
 ``web.ins_alias``
@@ -631,11 +701,57 @@ x509 request
 
 Insert alias
 
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   
+   PERFORM commons._raise_inaccessible_or_missing(
+       EXISTS(
+           SELECT TRUE FROM web.site AS t
+           JOIN server_access.user AS s
+               USING ("user", service_entity_name)
+           WHERE
+               t.domain = p_site AND
+               t.port = p_site_port AND
+               s.owner = v_owner
+       )
+   );
+   
+   INSERT INTO web.alias
+       (domain, service, subservice, site, site_port, service_entity_name)
+   VALUES
+       (
+           p_domain,
+           'web',
+           'alias',
+           p_site,
+           p_site_port,
+           (SELECT service_entity_name FROM web.site WHERE domain = p_site AND port = p_site_port)
+       );
+   
+   PERFORM backend._notify_domain('web', 'alias', p_domain);
+
 
 ``web.ins_https``
 ``````````````````````````````````````````````````````````````````````
 
 Ins HTTPS
+
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   INSERT INTO web.https
+   (domain, port, identifier)
+   VALUES
+   (p_domain, p_port, p_identifier);
 
 
 ``web.ins_intermediate_cert``
@@ -643,11 +759,35 @@ Ins HTTPS
 
 Xxx
 
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   INSERT INTO web.intermediate_cert
+       (subject_key_identifier, authority_key_identifier, x509_certificate)
+       VALUES
+       (p_subject_key_identifier, p_authority_key_identifier, p_x509_certificate);
+
 
 ``web.ins_intermediate_chain``
 ``````````````````````````````````````````````````````````````````````
 
 sdf
+
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   INSERT INTO web.intermediate_chain
+   (domain, port, identifier, "order", subject_key_identifier)
+   VALUES
+   (p_domain, p_port, p_identifier, p_order, p_subject_key_identifier);
 
 
 ``web.ins_site``
@@ -656,11 +796,54 @@ sdf
 Insert site
 TODO: check owner and contingent
 
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   
+   INSERT INTO web.site
+   (domain, service, subservice, port, "user", service_entity_name)
+   VALUES
+   (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name);
+   
+   PERFORM backend._notify_domain('web', 'site', p_domain);
+
 
 ``web.sel_alias``
 ``````````````````````````````````````````````````````````````````````
 
 Select alias
+
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   RETURN QUERY
+       SELECT
+           t.domain,
+           t.site,
+           t.site_port,
+           t.backend_status
+       FROM web.alias AS t
+   
+       JOIN web.site AS u
+           ON
+               u.domain = t.site AND
+               u.port = t.site_port
+   
+       JOIN server_access.user AS s
+           ON
+               u.user = s.user AND
+               s.service_entity_name = t.service_entity_name
+   
+       WHERE s.owner = v_owner
+       ORDER BY t.backend_status, t.domain;
 
 
 ``web.sel_https``
@@ -668,11 +851,46 @@ Select alias
 
 sel https
 
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   RETURN QUERY
+       SELECT
+           t.identifier,
+           t.domain,
+           t.port,
+           t.x509_request,
+           t.x509_certificate,
+           t.authority_key_identifier,
+           t.backend_status
+       FROM web.https AS t
+       ORDER BY t.backend_status, t.identifier;
+
 
 ``web.sel_intermediate_cert``
 ``````````````````````````````````````````````````````````````````````
 
 int
+
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   RETURN QUERY
+       SELECT
+           t.subject_key_identifier,
+           t.authority_key_identifier,
+           t.x509_certificate
+       FROM web.intermediate_cert AS t
+       WHERE
+           t.subject_key_identifier = p_subject_key_identifier;
 
 
 ``web.sel_intermediate_chain``
@@ -680,11 +898,56 @@ int
 
 sel
 
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   RETURN QUERY
+       SELECT
+           t.domain,
+           t.port,
+           t.identifier,
+           t.subject_key_identifier,
+           s.x509_certificate,
+           t.order
+       FROM web.intermediate_chain AS t
+       JOIN web.intermediate_cert AS s
+           USING (subject_key_identifier)
+       ORDER BY t.order;
+
 
 ``web.sel_site``
 ``````````````````````````````````````````````````````````````````````
 
 Owner defined via server_access
+
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   RETURN QUERY
+       SELECT
+           t.service,
+           t.subservice,
+           t.domain,
+           t.port,
+           t.user,
+           t.service_entity_name,
+           t.https,
+           t.backend_status,
+           t.option
+       FROM web.site AS t
+       JOIN server_access.user AS s
+           USING ("user", service_entity_name)
+       WHERE
+           s.owner = v_owner
+       ORDER BY t.backend_status, t.domain, t.port;
 
 
 ``web.srv_alias``
@@ -692,11 +955,91 @@ Owner defined via server_access
 
 backend web.alias
 
+.. code-block:: plpgsql
+
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   RETURN QUERY
+       WITH
+   
+       -- DELETE
+       d AS (
+           DELETE FROM web.alias AS t
+           WHERE
+               backend._deleted(t.backend_status) AND
+               backend._machine_priviledged(t.service, t.domain)
+       ),
+   
+       -- UPDATE
+       s AS (
+           UPDATE web.alias AS t
+               SET backend_status = NULL
+           WHERE
+               backend._machine_priviledged(t.service, t.domain) AND
+               backend._active(t.backend_status)
+       )
+   
+       -- SELECT
+       SELECT
+           t.domain,
+           t.site,
+           t.site_port,
+           t.backend_status
+       FROM web.alias AS t
+   
+       WHERE
+           backend._machine_priviledged(t.service, t.domain) AND
+           (backend._active(t.backend_status) OR p_include_inactive);
+
 
 ``web.srv_https``
 ``````````````````````````````````````````````````````````````````````
 
 Certs
+
+.. code-block:: plpgsql
+
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   
+   RETURN QUERY
+       WITH
+   
+       -- NO DELETE OPTION
+   
+       -- UPDATE
+       s AS (
+           UPDATE web.https AS t
+               SET backend_status = NULL
+           WHERE
+               backend._machine_priviledged('web', t.domain) AND
+               backend._active(t.backend_status)
+       )
+   
+       -- SELECT
+       SELECT
+           t.identifier,
+           t.domain,
+           t.port,
+           t.x509_request,
+           t.x509_certificate,
+           ARRAY(
+               SELECT s.x509_certificate::varchar
+               FROM web.intermediate_chain AS u
+               JOIN web.intermediate_cert AS s
+                   USING (subject_key_identifier)
+               WHERE
+                   u.domain = t.domain AND
+                   u.port = t.port AND
+                   u.identifier = t.identifier
+               ORDER by "order"
+           ),
+           t.backend_status
+       FROM web.https AS t
+   
+       WHERE
+           backend._machine_priviledged('web', t.domain) AND
+           (backend._active(t.backend_status) OR p_include_inactive);
 
 
 ``web.srv_site``
@@ -704,17 +1047,100 @@ Certs
 
 backend web.site
 
+.. code-block:: plpgsql
+
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   RETURN QUERY
+       WITH
+   
+       -- DELETE
+       d AS (
+           DELETE FROM web.site AS t
+           WHERE
+               backend._deleted(t.backend_status) AND
+               backend._machine_priviledged(t.service, t.domain)
+       ),
+   
+       -- UPDATE
+       s AS (
+           UPDATE web.site AS t
+               SET backend_status = NULL
+           WHERE
+               backend._machine_priviledged(t.service, t.domain) AND
+               backend._active(t.backend_status)
+       )
+   
+       -- SELECT
+       SELECT
+           t.domain,
+           t.port,
+           t.user,
+           t.service_entity_name,
+           t.https,
+           t.subservice,
+           t.option,
+           t.backend_status
+       FROM web.site AS t
+   
+       WHERE
+           backend._machine_priviledged(t.service, t.domain) AND
+           (backend._active(t.backend_status) OR p_include_inactive);
+
 
 ``web.upd_https``
 ``````````````````````````````````````````````````````````````````````
 
 upd https
 
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   UPDATE web.https
+       SET
+           x509_certificate = p_x509_certificate,
+           authority_key_identifier = p_authority_key_identifier
+   WHERE
+       domain = p_domain AND
+       port = p_port AND
+       identifier = p_identifier;
+   
+   PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
+
 
 ``web.upd_site``
 ``````````````````````````````````````````````````````````````````````
 
 set https identif.
+
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   
+   UPDATE web.site AS t
+       SET https = p_identifier
+   FROM server_access.user AS s, dns.service AS u
+   WHERE
+       s.user = t.user AND
+       s.service_entity_name = u.service_entity_name AND
+   
+       -- dns.service JOIN
+       t.domain = u.domain AND
+       t.service = u.service AND
+   
+       s.owner = v_owner AND
+       t.domain = p_domain AND
+       t.port = p_port;
+   
+   PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
 
 
 

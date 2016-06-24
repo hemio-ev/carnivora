@@ -261,7 +261,7 @@ Columns
 
 .. _COLUMN-system.service_entity_dns.ttl:
 
-- ``ttl`` *NULL | dns.t_ttl*
+- ``ttl`` *NULL* | *dns.t_ttl*
     Time to live, NULL indicates default value
 
 
@@ -283,7 +283,7 @@ Columns
 
 .. _COLUMN-system.service_entity_dns.domain_prefix:
 
-- ``domain_prefix`` *NULL | varchar*
+- ``domain_prefix`` *NULL* | *varchar*
     Domain prefix
 
 
@@ -724,11 +724,119 @@ Functions
 
 Throws exceptions if the contingent is exceeded
 
+.. code-block:: plpgsql
+
+   IF p_owner IS NULL
+   THEN
+       RAISE 'Owner argument must not be NULL.';
+   END IF;
+   
+   SELECT
+       t.service_entity_name,
+       s.owner
+   INTO
+       v_service_entity_name,
+       v_domain_owner
+   FROM dns.service AS t
+   JOIN dns.registered AS s
+       ON s.domain = t.registered
+   
+   WHERE
+       t.domain = p_domain AND
+       t.service = p_service;
+   
+   -- check dns.service entry
+   IF v_domain_owner IS NULL
+   THEN
+       RAISE 'Contingent check impossible, since dns.service entry missing.'
+           USING
+               DETAIL = '$carnivora:system:no_contingent$',
+               HINT = (p_owner, p_service, p_domain);
+   END IF;
+   
+   SELECT domain_contingent, total_contingent
+       INTO v_domain_contingent_default, v_total_contingent
+   FROM system._effective_contingent()
+   WHERE
+       service = p_service AND
+       subservice = p_subservice AND
+       service_entity_name = v_service_entity_name AND
+       owner = p_owner
+   ;
+   
+   SELECT domain_contingent
+       INTO v_domain_contingent_specific
+   FROM system._effective_contingent_domain()
+   WHERE
+       service = p_service AND
+       subservice = p_subservice AND
+       service_entity_name = v_service_entity_name AND
+       owner = p_owner
+   ;
+   
+   v_domain_contingent :=
+       COALESCE(v_domain_contingent_default, v_domain_contingent_specific);
+   
+   IF
+       v_total_contingent IS NULL AND
+       v_domain_contingent IS NULL
+   THEN
+       RAISE 'You do no have a contingent'
+           USING
+               DETAIL = '$carnivora:system:no_contingent$',
+               HINT = (p_owner, p_service, v_service_entity_name);
+   END IF;
+   
+   IF v_domain_contingent IS NULL AND p_owner <> v_domain_owner
+   THEN
+       RAISE 'You are not the owner of the registered domain'
+           USING
+               DETAIL = '$carnivora:system:contingent_not_owner$',
+               HINT = (p_owner, p_service, v_service_entity_name);
+   END IF;
+   
+   IF v_total_contingent <= p_current_quantity_total
+   THEN
+       RAISE 'Total contingent exceeded'
+           USING
+               DETAIL = '$carnivora:system:contingent_total_exceeded$',
+               HINT = (p_owner, p_service, p_domain, v_total_contingent);
+   END IF;
+   
+   IF v_domain_contingent <= p_current_quantity_domain
+   THEN
+       RAISE 'Domain contingent exceeded'
+           USING
+               DETAIL = '$carnivora:system:contingent_domain_exceeded$',
+               HINT = (p_owner, p_service, p_domain, v_domain_contingent);
+   END IF;
+
 
 ``system._contingent_total``
 ``````````````````````````````````````````````````````````````````````
 
 Contingent
+
+.. code-block:: plpgsql
+
+   v_user := (
+       SELECT t.quantity
+       FROM system.contingent_total AS t
+       WHERE
+           t.owner = p_owner AND
+           t.service = p_service AND
+           t.service_entity_name = p_service_entity_name
+   );
+   
+   v_default := (
+       SELECT t.quantity
+       FROM system.contingent_default_total AS t
+       WHERE
+           t.service = p_service AND
+           t.service_entity_name = p_service_entity_name
+   );
+   
+   RETURN COALESCE(v_user, v_default);
 
 
 ``system._effective_contingent``
@@ -736,17 +844,97 @@ Contingent
 
 contingent
 
+.. code-block:: plpgsql
+
+   RETURN QUERY
+    SELECT
+     DISTINCT ON
+     (contingent.service, contingent.subservice, contingent.service_entity_name, usr.owner)
+     contingent.service,
+     contingent.subservice,
+     contingent.service_entity_name,
+     usr.owner,
+     contingent.domain_contingent,
+     contingent.total_contingent
+    FROM system.subservice_entity_contingent AS contingent
+   
+    CROSS JOIN "user"."user" AS usr
+   
+    JOIN system._inherit_contingent_donor(usr.owner) AS des
+      ON des.donor = contingent.owner
+   
+    ORDER BY
+     contingent.service,
+     contingent.subservice,
+     contingent.service_entity_name,
+     usr.owner,
+     des.priority_list DESC;
+
 
 ``system._effective_contingent_domain``
 ``````````````````````````````````````````````````````````````````````
 
 contingent
 
+.. code-block:: plpgsql
+
+   RETURN QUERY
+    SELECT
+     DISTINCT ON
+     (contingent.service, contingent.subservice, contingent.service_entity_name, contingent.domain, usr.owner)
+     contingent.service,
+     contingent.subservice,
+     contingent.service_entity_name,
+     contingent.domain,
+     usr.owner,
+     contingent.domain_contingent
+    FROM system.subservice_entity_domain_contingent AS contingent
+   
+    CROSS JOIN "user"."user" AS usr
+   
+    JOIN system._inherit_contingent_donor(usr.owner) AS des
+      ON des.donor = contingent.owner
+   
+    ORDER BY
+     contingent.service,
+     contingent.subservice,
+     contingent.service_entity_name,
+     contingent.domain,
+     usr.owner,
+     des.priority_list DESC;
+
 
 ``system._inherit_contingent_donor``
 ``````````````````````````````````````````````````````````````````````
 
 Returns all contingent donors for a given user with their priority.
+
+.. code-block:: plpgsql
+
+   RETURN QUERY
+   WITH RECURSIVE contingent_donor(donor, priority_list, cycle_detector) AS
+   (
+      -- cast to varchar, since arrays of t_user are not defined
+      SELECT p_owner, ARRAY[]::integer[], ARRAY[CAST(p_owner AS varchar)]
+   
+      UNION
+   
+      SELECT
+       curr.donor,
+       prev.priority_list || curr.priority,
+       cycle_detector || CAST(curr.donor AS varchar)
+      FROM system.inherit_contingent AS curr
+       JOIN contingent_donor AS prev
+       ON
+        prev.donor = curr.owner AND
+        curr.donor <> ALL (prev.cycle_detector)
+   )
+   SELECT
+    contingent_donor.donor,
+    array_append(contingent_donor.priority_list, NULL)
+   FROM contingent_donor
+   -- Appending the NULL changes the ordering between arrays with different size
+   ORDER BY array_append(contingent_donor.priority_list, NULL) DESC;
 
 
 ``system._setup_register_service``
@@ -756,6 +944,12 @@ Allows modules to register their services during setup.
 Returns the total number of service names registered
 for this module.
 
+.. code-block:: plpgsql
+
+   INSERT INTO system.service
+    (module, service) VALUES (p_module, p_service);
+   RETURN (SELECT COUNT(*) FROM system.service AS s WHERE s.module=p_module);
+
 
 ``system._setup_register_subservice``
 ``````````````````````````````````````````````````````````````````````
@@ -764,17 +958,52 @@ Allows modules to register their services during setup.
 Returns the total number of service names registered
 for this module.
 
+.. code-block:: plpgsql
+
+   INSERT INTO system.subservice
+    (service, subservice) VALUES (p_service, p_subservice);
+   RETURN (SELECT COUNT(*) FROM system.subservice AS s WHERE s.service=p_service);
+
 
 ``system.sel_inherit_contingent``
 ``````````````````````````````````````````````````````````````````````
 
 Select inherit contingent
 
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   RETURN QUERY
+   SELECT t.owner, t.donor, t.priority
+   FROM system.inherit_contingent AS t
+   ORDER BY t.owner, t.priority;
+
 
 ``system.sel_usable_host``
 ``````````````````````````````````````````````````````````````````````
 
 Usable hosts
+
+.. code-block:: plpgsql
+
+   -- begin userlogin prelude
+   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
+   RETURN QUERY
+   SELECT t.subservice, t.service_entity_name FROM system._effective_contingent() AS t
+       WHERE
+           owner = v_owner AND
+           t.service = p_service AND
+           t.total_contingent > 0
+       ORDER BY
+           t.service_entity_name
+   ;
 
 
 

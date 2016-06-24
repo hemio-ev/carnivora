@@ -107,11 +107,23 @@ Functions
 
 Is not 'del'
 
+.. code-block:: plpgsql
+
+   RETURN backend_status IS NULL OR (backend_status <> 'del' AND backend_status <> 'old');
+
 
 ``backend._conditional_notify``
 ``````````````````````````````````````````````````````````````````````
 
 Notifies if first argument is true. Throws inaccessible otherwise.
+
+.. code-block:: plpgsql
+
+   IF p_condition THEN
+       PERFORM backend._notify_domain(p_service, p_subservice, p_domain);
+   ELSE
+       PERFORM commons._raise_inaccessible_or_missing();
+   END IF;
 
 
 ``backend._conditional_notify_service_entity_name``
@@ -119,11 +131,23 @@ Notifies if first argument is true. Throws inaccessible otherwise.
 
 Notifies if first argument is true. Throws inaccessible otherwise.
 
+.. code-block:: plpgsql
+
+   IF p_condition THEN
+       PERFORM backend._notify_service_entity_name(p_service_entity_name, p_service, p_subservice);
+   ELSE
+       PERFORM commons._raise_inaccessible_or_missing();
+   END IF;
+
 
 ``backend._deleted``
 ``````````````````````````````````````````````````````````````````````
 
 Is 'del'
+
+.. code-block:: plpgsql
+
+   RETURN backend_status IS NOT NULL AND backend_status = 'del';
 
 
 ``backend._get_login``
@@ -132,6 +156,17 @@ Is 'del'
 Shows informations for the current backend login.
 Throws an error if the current user is not a grantee
 for a machine.
+
+.. code-block:: plpgsql
+
+   IF (SELECT TRUE FROM "backend"."auth"
+      WHERE "role"=session_user)
+   THEN
+      RETURN QUERY SELECT backend.auth.machine FROM backend.auth
+          WHERE "role"=session_user;
+   ELSE
+      RAISE 'Connected role `%` is not a grantee for a machine.', session_user;
+   END IF;
 
 
 ``backend._machine_priviledged``
@@ -143,6 +178,25 @@ a certain service for a certain domain name.
 WARNING: The parameter p_domain must be a domain, which means an entry in
 the column dns.service.domain. It must not be confused with a service_entity_name.
 
+.. code-block:: plpgsql
+
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   RETURN COALESCE(
+       (
+       SELECT TRUE FROM system.service_entity_machine AS t
+           JOIN dns.service AS s
+           ON
+               s.service = p_service AND
+               s.domain = p_domain
+   
+           WHERE
+               t.service = p_service AND
+               t.service_entity_name = s.service_entity_name AND
+               t.machine_name = v_machine
+       )
+   , FALSE);
+
 
 ``backend._machine_priviledged_service``
 ``````````````````````````````````````````````````````````````````````
@@ -153,6 +207,20 @@ a certain service for a certain servicee name.
 WARNING: The parameter p_server_name must be a service name. It must not be
 confused with a domain.
 
+.. code-block:: plpgsql
+
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   RETURN COALESCE(
+       (
+       SELECT TRUE FROM system.service_entity_machine AS t
+           WHERE
+               t.service = p_service AND
+               t.service_entity_name = p_service_entity_name AND
+               t.machine_name = v_machine
+       )
+   , FALSE);
+
 
 ``backend._notify``
 ``````````````````````````````````````````````````````````````````````
@@ -161,6 +229,14 @@ Informs all machines about changes.
 
 To listen to signals use LISTEN "carnivora/machine.name.example".
 The payload has the form 'mail.domain.example/email/list'.
+
+.. code-block:: plpgsql
+
+   PERFORM
+       pg_notify(
+           'carnivora/' || p_machine,
+            p_service_entity_name || '/' || p_service || '/' || p_subservice
+           );
 
 
 ``backend._notify_domain``
@@ -171,6 +247,22 @@ Informs all machines about changes.
 WARNING: The parameter p_domain must be a domain, which means an entry in
 the column dns.service.domain. It must not be confused with a service_entity_name.
 
+.. code-block:: plpgsql
+
+   PERFORM
+       backend._notify(machine_name, s.service_entity_name, p_service, p_subservice)
+   
+   FROM system.service_entity_machine AS t
+       JOIN dns.service AS s
+       ON
+           s.service = p_service AND
+           s.domain = p_domain
+   
+       WHERE
+           t.service = p_service AND
+           t.service_entity_name = s.service_entity_name
+   ;
+
 
 ``backend._notify_service_entity_name``
 ``````````````````````````````````````````````````````````````````````
@@ -179,6 +271,17 @@ Informs all machines about changes.
 
 WARNING: The parameter p_service_entity_name must be a servcie name. It must not be
 confused with a domain.
+
+.. code-block:: plpgsql
+
+   PERFORM
+       backend._notify(machine_name, p_service_entity_name, p_service, p_subservice)
+   
+   FROM system.service_entity_machine AS t
+       WHERE
+           t.service = p_service AND
+           t.service_entity_name = p_service_entity_name
+   ;
 
 
 
