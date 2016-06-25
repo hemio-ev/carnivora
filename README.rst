@@ -1,3 +1,4 @@
+=========
 Carnivora
 =========
 
@@ -5,6 +6,24 @@ A powerfull backend for web-service management. Written in YamSql.
 
 The documentation can be found online at `carnivora.readthedocs.io <http://carnivora.readthedocs.io>`__
 or as sphinx source in ``docs/``.
+
+Client Software
+---------------
+
+`Canini <https://git.hemio.de/hemio/canini>`__
+ Full privileged superadmin CLI. Supports adding additional modules via config. Written in Python 3.
+
+`Edentata <https://git.hemio.de/hemio/edentata>`__
+ An unprivileged webinterface without superadmin capabilities. Targeting end-users and focused on usability. Supports adding additional modules via config. Written in PHP 5.
+
+`Genconfig (to be released soon) <#>`__
+ A generic config producer which can use carnivora as backend. Written in Python 3.
+
+`PgListend <https://git.hemio.de/hemio/pglistend>`__
+ Daemon that executes tasks on PostgreSQL push signals. Designed to call genconfig on database updates. Written in Python 3.
+
+`LibInternetX <https://git.hemio.de/hemio/libinternetx>`__
+ PHP library for connecting to the InterNetX domain reseller XML API. Includes CLI coupling to Carnivora. 
 
 Installing Carnivora
 --------------------
@@ -18,7 +37,7 @@ The setup is performed via
 
 Install PostgreSQL on Debian 8 (Jessie)
 
-::
+.. code-block:: sh
 
     apt-get install postgresql postgresql-contrib postgresql-plpython3-9.4
 
@@ -49,7 +68,6 @@ via this config have the names ``carnivora_edentata`` and
       login: true
       member_in:
        - backend
-    
 
 Running the Setup
 ~~~~~~~~~~~~~~~~~

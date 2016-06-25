@@ -253,9 +253,13 @@ Domains
 Port
 
 Checks
- - | *invalid_port*
-   | ``VALUE >= 0 AND VALUE <= 65535``
-   | Only allow port values
+ - *invalid_port*
+
+   .. code-block:: sql
+   
+    VALUE >= 0 AND VALUE <= 65535
+
+   Only allow port values
 
 
 
@@ -268,9 +272,13 @@ Checks
 unix hash thingy - todo: propper checking of format
 
 Checks
- - | *crypt(3) password format*
-   | ``VALUE ~ '^\$6\$[.\/a-zA-Z0-9]{8,16}\$[.\/a-zA-Z0-9]{86}$'``
-   | Only allows SHA512 strings.
+ - *crypt(3) password format*
+
+   .. code-block:: sql
+   
+    VALUE ~ '^\$6\$[.\/a-zA-Z0-9]{8,16}\$[.\/a-zA-Z0-9]{86}$'
+
+   Only allows SHA512 strings.
 
 
 
@@ -283,9 +291,13 @@ Checks
 Password in plaintext
 
 Checks
- - | *minimum password length 8*
-   | ``character_length(VALUE) >= 8``
-   | Ensures that passwords at least have 8 chars
+ - *minimum password length 8*
+
+   .. code-block:: sql
+   
+    character_length(VALUE) >= 8
+
+   Ensures that passwords at least have 8 chars
 
 
 
@@ -308,9 +320,13 @@ Key
 Varchar only with HEX values
 
 Checks
- - | *invalid characters*
-   | ``VALUE ~ '^[0-9a-f]*$'``
-   | Only allows numbers and chars a-f for hex representation
+ - *invalid characters*
+
+   .. code-block:: sql
+   
+    VALUE ~ '^[0-9a-f]*$'
+
+   Only allows numbers and chars a-f for hex representation
 
 
 

@@ -1452,10 +1452,14 @@ Domains
 Fully qualified domain name (without trailing dot)
 
 Checks
- - | *domain valid regex*
-   | ``VALUE ~ '^[a-z\d][a-z\d-]{0,62}(\.[a-z\d][a-z\d-]{0,62})+$' AND
-octet_length(VALUE) <= 253``
-   | check domain validity
+ - *domain valid regex*
+
+   .. code-block:: sql
+   
+    VALUE ~ '^[a-z\d][a-z\d-]{0,62}(\.[a-z\d][a-z\d-]{0,62})+$' AND
+    octet_length(VALUE) <= 253
+
+   check domain validity
 
 
 
@@ -1468,11 +1472,15 @@ octet_length(VALUE) <= 253``
 Fully qualified or relative domain name. Trailing dot marks a FQDN.
 
 Checks
- - | *invalid rdata domain*
-   | ``(VALUE ~ '^([a-z\d][a-z\d-]{0,62}\.)+$' OR
- VALUE ~ '^([a-z\d][a-z\d-]{0,62}\.)*[a-z\d][a-z\d-]{1,63}$') AND
-octet_length(VALUE) <= 253``
-   | check
+ - *invalid rdata domain*
+
+   .. code-block:: sql
+   
+    (VALUE ~ '^([a-z\d][a-z\d-]{0,62}\.)+$' OR
+     VALUE ~ '^([a-z\d][a-z\d-]{0,62}\.)*[a-z\d][a-z\d-]{1,63}$') AND
+    octet_length(VALUE) <= 253
+
+   check
 
 
 
@@ -1485,18 +1493,22 @@ octet_length(VALUE) <= 253``
 Resource record type
 
 Checks
- - | *Invalid or unsupported resource type*
-   | ``VALUE IN (
- 'A',
- 'AAAA',
- 'CNAME',
- 'MX',
- 'NS',
- 'SRV',
- 'SSHFP',
- 'TXT'
-)``
-   | Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
+ - *Invalid or unsupported resource type*
+
+   .. code-block:: sql
+   
+    VALUE IN (
+     'A',
+     'AAAA',
+     'CNAME',
+     'MX',
+     'NS',
+     'SRV',
+     'SSHFP',
+     'TXT'
+    )
+
+   Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
 
 
 
@@ -1519,9 +1531,13 @@ Resource record data (Rdata)
 time to live
 
 Checks
- - | *ttl range*
-   | ``VALUE >= 60 AND VALUE <= 172800``
-   | Ensure that TTL is at least one minute and put maximum to 48h
+ - *ttl range*
+
+   .. code-block:: sql
+   
+    VALUE >= 60 AND VALUE <= 172800
+
+   Ensure that TTL is at least one minute and put maximum to 48h
 
 
 

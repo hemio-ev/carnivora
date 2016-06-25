@@ -513,18 +513,30 @@ Domains
 Unix user. This type only allows a subset of those names allowed by POSIX.
 
 Checks
- - | *valid_characters*
-   | ``VALUE ~ '^[a-z0-9_-]+$'``
-   | Only allow lower-case characters.
+ - *valid_characters*
 
- - | *no_repeated_hyphens*
-   | ``NOT (VALUE LIKE '%--%')``
-   | Reserve double hyphens as a seperator for system generated users.
+   .. code-block:: sql
+   
+    VALUE ~ '^[a-z0-9_-]+$'
 
- - | *no_starting_hyphen*
-   | ``left(VALUE, 1) <> '-'``
-   | No hyphens at the beginning:
-http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_431
+   Only allow lower-case characters.
+
+ - *no_repeated_hyphens*
+
+   .. code-block:: sql
+   
+    NOT (VALUE LIKE '%--%')
+
+   Reserve double hyphens as a seperator for system generated users.
+
+ - *no_starting_hyphen*
+
+   .. code-block:: sql
+   
+    left(VALUE, 1) <> '-'
+
+   No hyphens at the beginning:
+   http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_431
 
 
 

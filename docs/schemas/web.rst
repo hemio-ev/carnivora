@@ -1777,9 +1777,13 @@ Domains
 PEM cert
 
 Checks
- - | *base64*
-   | ``VALUE ~ '^[a-zA-Z\d/+]+[=]{0,2}$'``
-   | no newlines in db
+ - *base64*
+
+   .. code-block:: sql
+   
+    VALUE ~ '^[a-zA-Z\d/+]+[=]{0,2}$'
+
+   no newlines in db
 
 
 

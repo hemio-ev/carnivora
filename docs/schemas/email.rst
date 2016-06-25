@@ -2344,17 +2344,29 @@ Domains
 Local part of an email address, the thing in front of the @
 
 Checks
- - | *valid_characters*
-   | ``VALUE ~ '^[a-z0-9.-]+$'``
-   | Only allow lower-case addresses
+ - *valid_characters*
 
- - | *no_starting_dot*
-   | ``left(VALUE, 1) <> '.'``
-   | b
+   .. code-block:: sql
+   
+    VALUE ~ '^[a-z0-9.-]+$'
 
- - | *no_ending_dot*
-   | ``right(VALUE, 1) <> '.'``
-   | c
+   Only allow lower-case addresses
+
+ - *no_starting_dot*
+
+   .. code-block:: sql
+   
+    left(VALUE, 1) <> '.'
+
+   b
+
+ - *no_ending_dot*
+
+   .. code-block:: sql
+   
+    right(VALUE, 1) <> '.'
+
+   c
 
 
 
