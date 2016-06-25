@@ -77,9 +77,9 @@ configuration is to run
 
 ::
 
-    su postgres -c "hamsql install -d -s examples/setup.yaml -c postgres://postgres@/carnivora"
+    su postgres -c "hamsql install -s examples/setup.yml -c postgres://postgres@/carnivora"
 
-Supplying the database name (here carnivora) via the ``-c`` option is
+Supplying the database name (here *carnivora*) via the ``-c`` option is
 mandatory. The database will be create if it is not present. Additional
 or deviating connection options can be provided.
 
