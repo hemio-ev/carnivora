@@ -1,4 +1,4 @@
-modules: 
+schemas: 
 # - _postgresql_user
  - backend
  - commons
@@ -11,8 +11,8 @@ modules:
  - user
  - web
 
-module_dirs:
- - ../modules/
+schema_dirs:
+ - ../schemas/
  - /etc/carnivora/
 
 role_prefix: carnivora_
