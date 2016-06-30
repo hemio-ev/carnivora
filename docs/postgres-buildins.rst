@@ -1,6 +1,6 @@
-===================
-PostgreSQL Buildins
-===================
+==========
+PostgreSQL
+==========
 
 Types
 +++++
@@ -28,7 +28,7 @@ Types
 .. _DOMAIN-timestamp:
 
 ``timestamp``
----------
+-------------
 
 .. _DOMAIN-uuid:
 

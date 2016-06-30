@@ -85,12 +85,11 @@ or deviating connection options can be provided.
 
 .. toctree::
    :maxdepth: 1
-   :caption: User Documentation
+   :caption: Overview
    :hidden:
 
    self
-   buildins
-   hamsql
+   carnivora-conventions
 
 .. toctree::
    :maxdepth: 1
@@ -99,4 +98,12 @@ or deviating connection options can be provided.
    :hidden:
 
    schemas/*
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Buildins
+   :hidden:
+
+   postgres-buildins
+   yamsql-buildins
 
