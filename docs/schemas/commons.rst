@@ -77,13 +77,7 @@ Execute privilege
 
 .. code-block:: guess
 
-   if p_domain is None:
-      return None
    
-   if p_domain.lower() != p_domain:
-       raise plpy.Error('Only lower case IDNs are allowed and can be handled.')
-   
-   return p_domain.encode('idna').decode()
 
 
 
@@ -203,15 +197,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   RETURN
-   ARRAY(
-       SELECT p_array[i]
-       FROM generate_series(
-           array_lower(p_array,1),
-           array_upper(p_array,1)
-       ) AS s(i)
-       ORDER BY i DESC
-   );
+   
 
 
 
@@ -253,13 +239,12 @@ Domains
 Port
 
 Checks
- - *invalid_port*
+ - ``invalid_port``
+    Only allow port values
 
    .. code-block:: sql
-   
-    VALUE >= 0 AND VALUE <= 65535
 
-   Only allow port values
+    VALUE >= 0 AND VALUE <= 65535
 
 
 
@@ -272,13 +257,12 @@ Checks
 unix hash thingy - todo: propper checking of format
 
 Checks
- - *crypt(3) password format*
+ - ``crypt(3) password format``
+    Only allows SHA512 strings.
 
    .. code-block:: sql
-   
-    VALUE ~ '^\$6\$[.\/a-zA-Z0-9]{8,16}\$[.\/a-zA-Z0-9]{86}$'
 
-   Only allows SHA512 strings.
+    VALUE ~ '^\$6\$[.\/a-zA-Z0-9]{8,16}\$[.\/a-zA-Z0-9]{86}$'
 
 
 
@@ -291,13 +275,12 @@ Checks
 Password in plaintext
 
 Checks
- - *minimum password length 8*
+ - ``minimum password length 8``
+    Ensures that passwords at least have 8 chars
 
    .. code-block:: sql
-   
-    character_length(VALUE) >= 8
 
-   Ensures that passwords at least have 8 chars
+    character_length(VALUE) >= 8
 
 
 
@@ -320,13 +303,12 @@ Key
 Varchar only with HEX values
 
 Checks
- - *invalid characters*
+ - ``invalid characters``
+    Only allows numbers and chars a-f for hex representation
 
    .. code-block:: sql
-   
-    VALUE ~ '^[0-9a-f]*$'
 
-   Only allows numbers and chars a-f for hex representation
+    VALUE ~ '^[0-9a-f]*$'
 
 
 

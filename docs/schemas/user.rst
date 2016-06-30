@@ -34,30 +34,26 @@ Primary key
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ - .. _COLUMN-user.deputy.deputy:
+   
+   ``deputy`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     Deputy
 
 
-.. _COLUMN-user.deputy.deputy:
+   References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
-- ``deputy`` *user.t_user*
-    Deputy
-
-
-  - References: :ref:`user.user.owner <COLUMN-user.user.owner>`
-
-  - On Delete: CASCADE
+   On Delete: CASCADE
 
 
+ - .. _COLUMN-user.deputy.represented:
+   
+   ``represented`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     User for which the deputy can act
 
-.. _COLUMN-user.deputy.represented:
 
-- ``represented`` *user.t_user*
-    User for which the deputy can act
+   References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
-
-  - References: :ref:`user.user.owner <COLUMN-user.user.owner>`
-
-  - On Delete: CASCADE
+   On Delete: CASCADE
 
 
 
@@ -80,48 +76,48 @@ Primary key
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ - .. _COLUMN-user.session.id:
+   
+   ``id`` :ref:`varchar <DOMAIN-varchar>`
+     Session id
 
+   Default
+    .. code-block:: sql
 
-.. _COLUMN-user.session.id:
-
-- ``id`` *varchar*
-    Session id
-
-  - Default: :python:`"user"._session_id()`
-
-
-
-
-
-.. _COLUMN-user.session.owner:
-
-- ``owner`` *user.t_user*
-    for ownage
-
-
-  - References: :ref:`user.user.owner <COLUMN-user.user.owner>`
-
-  - On Delete: CASCADE
+     "user"._session_id()
 
 
 
-.. _COLUMN-user.session.act_as:
 
-- ``act_as`` *user.t_user*
-    Act as
+ - .. _COLUMN-user.session.owner:
+   
+   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     for ownage
 
+
+   References :ref:`user.user.owner <COLUMN-user.user.owner>`
+
+   On Delete: CASCADE
+
+
+ - .. _COLUMN-user.session.act_as:
+   
+   ``act_as`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     Act as
 
 
 
 
 
-.. _COLUMN-user.session.started:
+ - .. _COLUMN-user.session.started:
+   
+   ``started`` :ref:`timestamp <DOMAIN-timestamp>`
+     Session started at this time
 
-- ``started`` *timestamp*
-    Session started at this time
+   Default
+    .. code-block:: sql
 
-  - Default: :python:`CURRENT_TIMESTAMP`
+     CURRENT_TIMESTAMP
 
 
 
@@ -146,44 +142,41 @@ Primary key
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ - .. _COLUMN-user.user.option:
+   
+   ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+     Free options in JSON format
 
+   Default
+    .. code-block:: sql
 
-.. _COLUMN-user.user.option:
-
-- ``option`` *jsonb*
-    Free options in JSON format
-
-  - Default: :python:`'{}'`
-
-
-
-
-
-.. _COLUMN-user.user.owner:
-
-- ``owner`` *user.t_user*
-    User name, login name
+     '{}'
 
 
 
 
-
-
-.. _COLUMN-user.user.password:
-
-- ``password`` *NULL* | *commons.t_password*
-    Unix shadow crypt format, NULL value disables login
+ - .. _COLUMN-user.user.owner:
+   
+   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     User name, login name
 
 
 
 
 
+ - .. _COLUMN-user.user.password:
+   
+   ``password`` *NULL* | :ref:`commons.t_password <DOMAIN-commons.t_password>`
+     Unix shadow crypt format, NULL value disables login
 
-.. _COLUMN-user.user.contact_email:
 
-- ``contact_email`` *NULL* | *email.t_address*
-    Optional contact email address, can be used as login name
+
+
+
+ - .. _COLUMN-user.user.contact_email:
+   
+   ``contact_email`` *NULL* | :ref:`email.t_address <DOMAIN-email.t_address>`
+     Optional contact email address, can be used as login name
 
 
 
@@ -218,13 +211,14 @@ Returns
 
 Returned columns
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
+    
  - ``act_as`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
+    
 
 
 .. code-block:: plpgsql
 
+   
    IF (SELECT TRUE FROM "user"."session"
       WHERE "id"="user"._session_id())
    THEN
@@ -261,10 +255,10 @@ Returns
 
    
    RETURN
-    session_user || '.' ||
-    pg_backend_pid() || '.' ||
-    COALESCE((SELECT backend_start FROM pg_stat_get_activity(pg_backend_pid()))::varchar, 'xxx') || '.' ||
-    pg_conf_load_time();
+       session_user || '.' ||
+       pg_backend_pid() || '.' ||
+       COALESCE((SELECT backend_start FROM pg_stat_get_activity(pg_backend_pid()))::varchar, 'xxx') || '.' ||
+       pg_conf_load_time();
 
 
 
@@ -302,19 +296,6 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
-   
-   UPDATE "user".session AS t
-       SET act_as = p_act_as
-       FROM "user".deputy AS s
-       WHERE
-           s.deputy = t.owner AND
-           s.represented = p_act_as AND
-           t.id = "user"._session_id();
-   
-   IF NOT FOUND THEN
-       RAISE 'Acting as deputy failed.'
-           USING DETAIL := '$carnivora:user:deputy_failed$';
-   END IF;
 
 
 
@@ -344,7 +325,7 @@ Returns
 
 Returned columns
  - ``user`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
+    
 
 Execute privilege
  - :ref:`userlogin <ROLE-userlogin>`
@@ -393,7 +374,7 @@ Returns
 
 Returned columns
  - ``represented`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
+    
 
 Execute privilege
  - :ref:`userlogin <ROLE-userlogin>`
@@ -404,10 +385,6 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
-   
-   RETURN QUERY
-       SELECT t.represented FROM "user".deputy AS t
-       WHERE t.deputy = v_login;
 
 
 
@@ -445,12 +422,6 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
-   
-   UPDATE "user".user
-       SET password = commons._hash_password(p_password)
-   
-   WHERE
-       owner = v_login;
 
 
 

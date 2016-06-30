@@ -89,6 +89,8 @@ or deviating connection options can be provided.
    :hidden:
 
    self
+   buildins
+   hamsql
 
 .. toctree::
    :maxdepth: 1

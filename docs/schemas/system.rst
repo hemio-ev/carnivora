@@ -16,62 +16,6 @@ Tables
 ------
 
 
-.. _TABLE-system.inherit_contingent:
-
-``system.inherit_contingent``
-``````````````````````````````````````````````````````````````````````
-
-x
-
-Primary key
- - owner
- - priority
-
-
-.. BEGIN FKs
-
-
-.. END FKs
-
-
-Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-system.inherit_contingent.owner:
-
-- ``owner`` *user.t_user*
-    for ownage
-
-
-  - References: :ref:`user.user.owner <COLUMN-user.user.owner>`
-
-  - On Delete: CASCADE
-
-
-
-.. _COLUMN-system.inherit_contingent.donor:
-
-- ``donor`` *user.t_user*
-    Donor
-
-
-  - References: :ref:`user.user.owner <COLUMN-user.user.owner>`
-
-
-
-
-.. _COLUMN-system.inherit_contingent.priority:
-
-- ``priority`` *int*
-    Priority, higher values take precedence
-
-
-
-
-
-
-
 .. _TABLE-system.service:
 
 ``system.service``
@@ -94,23 +38,19 @@ Primary key
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-system.service.service:
-
-- ``service`` *commons.t_key*
-    Service name
+ - .. _COLUMN-system.service.service:
+   
+   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Service name
 
 
 
 
 
-
-.. _COLUMN-system.service.module:
-
-- ``module`` *commons.t_key*
-    Module name, just to keep track who uses this name
+ - .. _COLUMN-system.service.module:
+   
+   ``module`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Module name, just to keep track who uses this name
 
 
 
@@ -151,26 +91,22 @@ Primary key
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-system.service_entity.service_entity_name:
-
-- ``service_entity_name`` *dns.t_domain*
-    Host name
+ - .. _COLUMN-system.service_entity.service_entity_name:
+   
+   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Host name
 
 
 
 
 
+ - .. _COLUMN-system.service_entity.service:
+   
+   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     email, ssh, ...
 
-.. _COLUMN-system.service_entity.service:
 
-- ``service`` *commons.t_key*
-    email, ssh, ...
-
-
-  - References: :ref:`system.service.service <COLUMN-system.service.service>`
+   References :ref:`system.service.service <COLUMN-system.service.service>`
 
 
 
@@ -196,92 +132,85 @@ Primary key
 
 .. BEGIN FKs
 
-Foreign keys:
+Foreign keys
+ - Reference service entity
 
-- Reference service entity
+   Local Columns
+    - service_entity_name
+    - service
 
-  Local Columns
-   - service_entity_name
-   - service
-
-  Referenced Columns
-   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+   Referenced Columns
+    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
 
 
 .. END FKs
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-system.service_entity_dns.service_entity_name:
-
-- ``service_entity_name`` *dns.t_domain*
-    Service entity name
+ - .. _COLUMN-system.service_entity_dns.service_entity_name:
+   
+   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Service entity name
 
 
 
 
 
-
-.. _COLUMN-system.service_entity_dns.service:
-
-- ``service`` *commons.t_key*
-    Service (e.g. email, jabber)
-
+ - .. _COLUMN-system.service_entity_dns.service:
+   
+   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Service (e.g. email, jabber)
 
 
 
 
 
-.. _COLUMN-system.service_entity_dns.type:
-
-- ``type`` *dns.t_type*
-    Type (A, AAAA, CNAME, MX, SRV, TXT, ...)
-
-
-
-
-
-
-.. _COLUMN-system.service_entity_dns.rdata:
-
-- ``rdata`` *dns.t_rdata*
-    fancy rdata storage
+ - .. _COLUMN-system.service_entity_dns.type:
+   
+   ``type`` :ref:`dns.t_type <DOMAIN-dns.t_type>`
+     Type (A, AAAA, CNAME, MX, SRV, TXT, ...)
 
 
 
 
 
-
-.. _COLUMN-system.service_entity_dns.ttl:
-
-- ``ttl`` *NULL* | *dns.t_ttl*
-    Time to live, NULL indicates default value
-
+ - .. _COLUMN-system.service_entity_dns.rdata:
+   
+   ``rdata`` :ref:`dns.t_rdata <DOMAIN-dns.t_rdata>`
+     fancy rdata storage
 
 
 
 
 
-.. _COLUMN-system.service_entity_dns.id:
-
-- ``id`` *uuid*
-    uuid serial number to identify database elements uniquely
-    The default value is generated using uuid_generate_v4().
-
-  - Default: :python:`uuid_generate_v4()`
+ - .. _COLUMN-system.service_entity_dns.ttl:
+   
+   ``ttl`` *NULL* | :ref:`dns.t_ttl <DOMAIN-dns.t_ttl>`
+     Time to live, NULL indicates default value
 
 
 
 
 
-.. _COLUMN-system.service_entity_dns.domain_prefix:
+ - .. _COLUMN-system.service_entity_dns.id:
+   
+   ``id`` :ref:`uuid <DOMAIN-uuid>`
+     uuid serial number to identify database elements uniquely
+     The default value is generated using uuid_generate_v4().
 
-- ``domain_prefix`` *NULL* | *varchar*
-    Domain prefix
+   Default
+    .. code-block:: sql
+
+     uuid_generate_v4()
+
+
+
+
+ - .. _COLUMN-system.service_entity_dns.domain_prefix:
+   
+   ``domain_prefix`` *NULL* | :ref:`varchar <DOMAIN-varchar>`
+     Domain prefix
 
 
 
@@ -308,97 +237,47 @@ Primary key
 
 .. BEGIN FKs
 
-Foreign keys:
+Foreign keys
+ - Reference service entity
 
-- Reference service entity
+   Local Columns
+    - service_entity_name
+    - service
 
-  Local Columns
-   - service_entity_name
-   - service
-
-  Referenced Columns
-   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
-
-
-.. END FKs
-
-
-Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-system.service_entity_machine.service_entity_name:
-
-- ``service_entity_name`` *dns.t_domain*
-    Service entity name
-
-
-
-
-
-
-.. _COLUMN-system.service_entity_machine.service:
-
-- ``service`` *commons.t_key*
-    Service (e.g. email, jabber)
-
-
-
-
-
-
-.. _COLUMN-system.service_entity_machine.machine_name:
-
-- ``machine_name`` *dns.t_domain*
-    Assigns machine
-
-
-  - References: :ref:`backend.machine.name <COLUMN-backend.machine.name>`
-
-
-
-
-
-.. _TABLE-system.subservice:
-
-``system.subservice``
-``````````````````````````````````````````````````````````````````````
-
-Subservices
-
-Primary key
- - service
- - subservice
-
-
-.. BEGIN FKs
+   Referenced Columns
+    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
 
 
 .. END FKs
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-system.subservice.service:
-
-- ``service`` *commons.t_key*
-    Service
-
-
-  - References: :ref:`system.service.service <COLUMN-system.service.service>`
+ - .. _COLUMN-system.service_entity_machine.service_entity_name:
+   
+   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Service entity name
 
 
 
 
-.. _COLUMN-system.subservice.subservice:
 
-- ``subservice`` *commons.t_key*
-    Subservice (concretization the service)
+ - .. _COLUMN-system.service_entity_machine.service:
+   
+   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Service (e.g. email, jabber)
 
 
+
+
+
+ - .. _COLUMN-system.service_entity_machine.machine_name:
+   
+   ``machine_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Assigns machine
+
+
+   References :ref:`backend.machine.name <COLUMN-backend.machine.name>`
 
 
 
@@ -423,281 +302,54 @@ Primary key
 
 .. BEGIN FKs
 
-Foreign keys:
+Foreign keys
+ - service ent
 
-- service ent
+   Local Columns
+    - service_entity_name
+    - service
 
-  Local Columns
-   - service_entity_name
-   - service
+   Referenced Columns
+    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
 
-  Referenced Columns
-   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
-
-- subservice
-
-  Local Columns
-   - service
-   - subservice
-
-  Referenced Columns
-   - :ref:`system.subservice.service <COLUMN-system.subservice.service>`
-   - :ref:`system.subservice.subservice <COLUMN-system.subservice.subservice>`
-
-
-.. END FKs
-
-
-Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-system.subservice_entity.service_entity_name:
-
-- ``service_entity_name`` *dns.t_domain*
-    Service entity name
-
-
-
-
-
-
-.. _COLUMN-system.subservice_entity.service:
-
-- ``service`` *commons.t_key*
-    Service name
-
-
-
-
-
-
-.. _COLUMN-system.subservice_entity.subservice:
-
-- ``subservice`` *commons.t_key*
-    account, alias, ...
-
-
-
-
-
-
-
-.. _TABLE-system.subservice_entity_contingent:
-
-``system.subservice_entity_contingent``
-``````````````````````````````````````````````````````````````````````
-
-Subservice entity contingent
-
-Primary key
- - service
  - subservice
- - service_entity_name
- - owner
 
+   Local Columns
+    - service
+    - subservice
 
-.. BEGIN FKs
-
-Foreign keys:
-
-- Reference service entity
-
-  Local Columns
-   - service_entity_name
-   - service
-
-  Referenced Columns
-   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
-
-- Reference subservice entity
-
-  Local Columns
-   - service_entity_name
-   - service
-   - subservice
-
-  Referenced Columns
-   - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
-   - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
-   - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
+   Referenced Columns
+    - :ref:`system.subservice.service <COLUMN-system.subservice.service>`
+    - :ref:`system.subservice.subservice <COLUMN-system.subservice.subservice>`
 
 
 .. END FKs
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ - .. _COLUMN-system.subservice_entity.service_entity_name:
+   
+   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Service entity name
 
 
-.. _COLUMN-system.subservice_entity_contingent.service_entity_name:
 
-- ``service_entity_name`` *dns.t_domain*
-    Service entity name
 
 
+ - .. _COLUMN-system.subservice_entity.service:
+   
+   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Service name
 
 
 
 
-.. _COLUMN-system.subservice_entity_contingent.service:
 
-- ``service`` *commons.t_key*
-    Service (e.g. email, jabber)
-
-
-
-
-
-
-.. _COLUMN-system.subservice_entity_contingent.subservice:
-
-- ``subservice`` *commons.t_key*
-    Subservice (e.g. account, alias)
-
-
-
-
-
-
-.. _COLUMN-system.subservice_entity_contingent.owner:
-
-- ``owner`` *user.t_user*
-    for ownage
-
-
-  - References: :ref:`user.user.owner <COLUMN-user.user.owner>`
-
-
-
-
-.. _COLUMN-system.subservice_entity_contingent.domain_contingent:
-
-- ``domain_contingent`` *integer*
-    Limit per domain
-
-
-
-
-
-
-.. _COLUMN-system.subservice_entity_contingent.total_contingent:
-
-- ``total_contingent`` *integer*
-    Limit on the total
-
-
-
-
-
-
-
-.. _TABLE-system.subservice_entity_domain_contingent:
-
-``system.subservice_entity_domain_contingent``
-``````````````````````````````````````````````````````````````````````
-
-Subservice entity per domain contingent
-
-Primary key
- - service
- - subservice
- - service_entity_name
- - domain
- - owner
-
-
-.. BEGIN FKs
-
-Foreign keys:
-
-- Reference service entity
-
-  Local Columns
-   - service_entity_name
-   - service
-
-  Referenced Columns
-   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
-
-- Reference subservice entity
-
-  Local Columns
-   - service_entity_name
-   - service
-   - subservice
-
-  Referenced Columns
-   - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
-   - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
-   - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
-
-
-.. END FKs
-
-
-Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-system.subservice_entity_domain_contingent.service_entity_name:
-
-- ``service_entity_name`` *dns.t_domain*
-    Service entity name
-
-
-
-
-
-
-.. _COLUMN-system.subservice_entity_domain_contingent.service:
-
-- ``service`` *commons.t_key*
-    Service (e.g. email, jabber)
-
-
-
-
-
-
-.. _COLUMN-system.subservice_entity_domain_contingent.subservice:
-
-- ``subservice`` *commons.t_key*
-    Subservice (e.g. account, alias)
-
-
-
-
-
-
-.. _COLUMN-system.subservice_entity_domain_contingent.owner:
-
-- ``owner`` *user.t_user*
-    for ownage
-
-
-  - References: :ref:`user.user.owner <COLUMN-user.user.owner>`
-
-
-
-
-.. _COLUMN-system.subservice_entity_domain_contingent.domain:
-
-- ``domain`` *dns.t_domain*
-    Specific domain for which the access is granted
-
-
-
-
-
-
-.. _COLUMN-system.subservice_entity_domain_contingent.domain_contingent:
-
-- ``domain_contingent`` *integer*
-    Limit per domain
+ - .. _COLUMN-system.subservice_entity.subservice:
+   
+   ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     account, alias, ...
 
 
 
@@ -930,17 +582,17 @@ Returns
 
 Returned columns
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
+    
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
+    
  - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
+    
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
+    
  - ``domain_contingent`` :ref:`int <DOMAIN-int>`
-   
+    
  - ``total_contingent`` :ref:`int <DOMAIN-int>`
-   
+    
 
 
 .. code-block:: plpgsql
@@ -988,17 +640,17 @@ Returns
 
 Returned columns
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
+    
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
+    
  - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
+    
  - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
+    
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
+    
  - ``domain_contingent`` :ref:`int <DOMAIN-int>`
-   
+    
 
 
 .. code-block:: plpgsql
@@ -1049,9 +701,9 @@ Returns
 
 Returned columns
  - ``donor`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   User from which contingents are inherited
+    User from which contingents are inherited
  - ``priority_list`` :ref:`integer[] <DOMAIN-integer[]>`
-   
+    
 
 
 .. code-block:: plpgsql
@@ -1171,11 +823,11 @@ Returns
 
 Returned columns
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
+    
  - ``donor`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
+    
  - ``priority`` :ref:`int <DOMAIN-int>`
-   
+    
 
 Execute privilege
  - :ref:`userlogin <ROLE-userlogin>`
@@ -1186,11 +838,6 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
-   
-   RETURN QUERY
-   SELECT t.owner, t.donor, t.priority
-   FROM system.inherit_contingent AS t
-   ORDER BY t.owner, t.priority;
 
 
 
@@ -1220,9 +867,9 @@ Returns
 
 Returned columns
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
+    
  - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
+    
 
 Execute privilege
  - :ref:`userlogin <ROLE-userlogin>`
@@ -1233,16 +880,6 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
-   
-   RETURN QUERY
-   SELECT t.subservice, t.service_entity_name FROM system._effective_contingent() AS t
-       WHERE
-           owner = v_owner AND
-           t.service = p_service AND
-           t.total_contingent > 0
-       ORDER BY
-           t.service_entity_name
-   ;
 
 
 

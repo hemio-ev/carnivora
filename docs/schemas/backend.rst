@@ -36,29 +36,25 @@ Primary key
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-backend.auth.role:
-
-- ``role`` *commons.t_key*
-    Grantee for right to access the backend date for the defined machine.
-    A role is basically a user or a user group on the SQL server.
+ - .. _COLUMN-backend.auth.role:
+   
+   ``role`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Grantee for right to access the backend date for the defined machine.
+     A role is basically a user or a user group on the SQL server.
 
 
 
 
 
+ - .. _COLUMN-backend.auth.machine:
+   
+   ``machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Machine for which the rights are granted.
 
-.. _COLUMN-backend.auth.machine:
 
-- ``machine`` *dns.t_domain*
-    Machine for which the rights are granted.
+   References :ref:`backend.machine.name <COLUMN-backend.machine.name>`
 
-
-  - References: :ref:`backend.machine.name <COLUMN-backend.machine.name>`
-
-  - On Delete: CASCADE
+   On Delete: CASCADE
 
 
 
@@ -81,13 +77,10 @@ Primary key
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-backend.machine.name:
-
-- ``name`` *dns.t_domain*
-    Machine name
+ - .. _COLUMN-backend.machine.name:
+   
+   ``name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Machine name
 
 
 
@@ -124,6 +117,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    RETURN backend_status IS NULL OR (backend_status <> 'del' AND backend_status <> 'old');
 
 
@@ -158,6 +152,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    IF p_condition THEN
        PERFORM backend._notify_domain(p_service, p_subservice, p_domain);
    ELSE
@@ -196,6 +191,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    IF p_condition THEN
        PERFORM backend._notify_service_entity_name(p_service_entity_name, p_service, p_subservice);
    ELSE
@@ -225,6 +221,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    RETURN backend_status IS NOT NULL AND backend_status = 'del';
 
 
@@ -248,11 +245,12 @@ Returns
 
 Returned columns
  - ``machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
+    
 
 
 .. code-block:: plpgsql
 
+   
    IF (SELECT TRUE FROM "backend"."auth"
       WHERE "role"=session_user)
    THEN
@@ -272,7 +270,7 @@ Returned columns
 Checks if a currently connected machine is priviledged to obtain data for
 a certain service for a certain domain name.
 
-WARNING: The parameter p_domain must be a domain, which means an entry in
+**WARNING:** The parameter p_domain must be a domain, which means an entry in
 the column dns.service.domain. It must not be confused with a service_entity_name.
 
 Parameters
@@ -302,21 +300,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
-   
-   RETURN COALESCE(
-       (
-       SELECT TRUE FROM system.service_entity_machine AS t
-           JOIN dns.service AS s
-           ON
-               s.service = p_service AND
-               s.domain = p_domain
-   
-           WHERE
-               t.service = p_service AND
-               t.service_entity_name = s.service_entity_name AND
-               t.machine_name = v_machine
-       )
-   , FALSE);
 
 
 
@@ -358,16 +341,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
-   
-   RETURN COALESCE(
-       (
-       SELECT TRUE FROM system.service_entity_machine AS t
-           WHERE
-               t.service = p_service AND
-               t.service_entity_name = p_service_entity_name AND
-               t.machine_name = v_machine
-       )
-   , FALSE);
 
 
 
@@ -404,6 +377,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    PERFORM
        pg_notify(
            'carnivora/' || p_machine,
@@ -442,6 +416,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    PERFORM
        backend._notify(machine_name, s.service_entity_name, p_service, p_subservice)
    
@@ -488,6 +463,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    PERFORM
        backend._notify(machine_name, p_service_entity_name, p_service, p_subservice)
    

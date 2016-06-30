@@ -33,117 +33,109 @@ Primary key
 
 .. BEGIN FKs
 
-Foreign keys:
+Foreign keys
+ - Reference service entity
 
-- Reference service entity
+   Local Columns
+    - service_entity_name
+    - service
 
-  Local Columns
-   - service_entity_name
-   - service
+   Referenced Columns
+    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
 
-  Referenced Columns
-   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+ - Reference subservice entity
 
-- Reference subservice entity
+   Local Columns
+    - service_entity_name
+    - service
+    - subservice
 
-  Local Columns
-   - service_entity_name
-   - service
-   - subservice
-
-  Referenced Columns
-   - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
-   - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
-   - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
+   Referenced Columns
+    - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
+    - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
+    - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
 
 
 .. END FKs
 
 
 Columns
-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-.. _COLUMN-server_access.user.service_entity_name:
-
-- ``service_entity_name`` *dns.t_domain*
-    Service entity name
+ - .. _COLUMN-server_access.user.service_entity_name:
+   
+   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Service entity name
 
 
 
 
 
-
-.. _COLUMN-server_access.user.service:
-
-- ``service`` *commons.t_key*
-    Service (e.g. email, jabber)
-
+ - .. _COLUMN-server_access.user.service:
+   
+   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Service (e.g. email, jabber)
 
 
 
 
 
-.. _COLUMN-server_access.user.subservice:
-
-- ``subservice`` *commons.t_key*
-    Subservice (e.g. account, alias)
-
-
-
-
-
-
-.. _COLUMN-server_access.user.backend_status:
-
-- ``backend_status`` *NULL* | *backend.t_status*
-    Status of database entry in backend. NULL: nothing pending,
-    'ins': entry not present on backend client, 'upd': update
-    pending on backend client, 'del': deletion peding on
-    backend client.
-
-  - Default: :python:`'ins'`
+ - .. _COLUMN-server_access.user.subservice:
+   
+   ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Subservice (e.g. account, alias)
 
 
 
 
 
-.. _COLUMN-server_access.user.owner:
+ - .. _COLUMN-server_access.user.backend_status:
+   
+   ``backend_status`` *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+     Status of database entry in backend. NULL: nothing pending,
+     'ins': entry not present on backend client, 'upd': update
+     pending on backend client, 'del': deletion peding on
+     backend client.
 
-- ``owner`` *user.t_user*
-    for ownage
+   Default
+    .. code-block:: sql
 
-
-  - References: :ref:`user.user.owner <COLUMN-user.user.owner>`
-
-
-
-
-.. _COLUMN-server_access.user.uid:
-
-- ``uid`` *SERIAL*
-    Unix user identifier
+     'ins'
 
 
 
 
+ - .. _COLUMN-server_access.user.owner:
+   
+   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     for ownage
 
 
-.. _COLUMN-server_access.user.user:
-
-- ``user`` *server_access.t_user*
-    User
-
-
-
+   References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
 
 
-.. _COLUMN-server_access.user.password:
+ - .. _COLUMN-server_access.user.uid:
+   
+   ``uid`` :ref:`SERIAL <DOMAIN-SERIAL>`
+     Unix user identifier
 
-- ``password`` *NULL* | *commons.t_password*
-    Unix shadow crypt format
+
+
+
+
+ - .. _COLUMN-server_access.user.user:
+   
+   ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+     User
+
+
+
+
+
+ - .. _COLUMN-server_access.user.password:
+   
+   ``password`` *NULL* | :ref:`commons.t_password <DOMAIN-commons.t_password>`
+     Unix shadow crypt format
 
 
 
@@ -199,31 +191,6 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
-   
-   BEGIN
-       -- perform DELETE to trigger potential foreign key errors
-       DELETE FROM server_access.user
-       WHERE
-           "user" = p_user AND
-           service_entity_name = p_service_entity_name AND
-           owner = v_owner;
-   
-       -- if not failed yet, emulate rollback of DELETE
-       RAISE transaction_rollback;
-   EXCEPTION
-       WHEN transaction_rollback THEN
-           UPDATE server_access.user
-               SET backend_status = 'del'
-           WHERE
-               "user" = p_user AND
-               service_entity_name = p_service_entity_name AND
-               owner = v_owner
-           RETURNING subservice INTO v_subservice;
-   
-           PERFORM backend._conditional_notify_service_entity_name(
-                FOUND,  p_service_entity_name, 'server_access', v_subservice
-            );
-   END;
 
 
 
@@ -273,19 +240,6 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
-   
-   IF p_password IS NULL THEN
-       v_password := NULL;
-   ELSE
-       v_password := commons._hash_password(p_password);
-   END IF;
-   
-   INSERT INTO server_access.user
-       (service, subservice, service_entity_name, "user", password, owner)
-   VALUES
-       ('server_access', p_subservice, p_service_entity_name, p_user, v_password, v_owner);
-   
-   PERFORM backend._notify_service_entity_name(p_service_entity_name, 'server_access', p_subservice);
 
 
 
@@ -313,17 +267,17 @@ Returns
 
 Returned columns
  - ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
-   
+    
  - ``password_login`` :ref:`boolean <DOMAIN-boolean>`
-   
+    
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
+    
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
+    
  - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
+    
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
-   
+    
 
 Execute privilege
  - :ref:`userlogin <ROLE-userlogin>`
@@ -334,20 +288,6 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
-   
-   RETURN QUERY
-       SELECT
-           t.user,
-           t.password IS NOT NULL,
-           t.service,
-           t.subservice,
-           t.service_entity_name,
-           t.backend_status
-       FROM
-           server_access.user AS t
-       WHERE
-           owner = v_owner
-       ORDER BY backend_status, "user";
 
 
 
@@ -374,19 +314,19 @@ Returns
 
 Returned columns
  - ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
-   
+    
  - ``password`` :ref:`commons.t_password <DOMAIN-commons.t_password>`
-   
+    
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
+    
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
+    
  - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
+    
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
-   
+    
  - ``uid`` :ref:`int <DOMAIN-int>`
-   
+    
 
 Execute privilege
  - :ref:`backend <ROLE-backend>`
@@ -394,41 +334,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
-   
-   RETURN QUERY
-       WITH
-   
-       -- DELETE
-       d AS (
-           DELETE FROM server_access.user AS t
-           WHERE
-               backend._deleted(t.backend_status) AND
-               backend._machine_priviledged_service(t.service, t.service_entity_name)
-       ),
-   
-       -- UPDATE
-       s AS (
-           UPDATE server_access.user AS t
-               SET backend_status = NULL
-           WHERE
-               backend._machine_priviledged_service(t.service, t.service_entity_name) AND
-               backend._active(t.backend_status)
-       )
-   
-       -- SELECT
-       SELECT
-           t.user,
-           t.password,
-           t.service,
-           t.subservice,
-           t.service_entity_name,
-           t.backend_status,
-           t.uid
-       FROM server_access.user AS t
-   
-       WHERE
-           backend._machine_priviledged_service(t.service, t.service_entity_name) AND
-           (backend._active(t.backend_status) OR p_include_inactive);
 
 
 
@@ -478,23 +383,6 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
-   
-   IF p_password IS NOT NULL THEN
-       v_password := commons._hash_password(p_password);
-   END IF;
-   
-   UPDATE server_access.user
-   SET
-       password = v_password,
-       backend_status = 'upd'
-   WHERE
-       "user" = p_user AND
-       service_entity_name = p_service_entity_name
-   RETURNING subservice INTO v_subservice;
-   
-   PERFORM backend._conditional_notify_service_entity_name(
-       FOUND, p_service_entity_name, 'server_access', v_subservice
-   );
 
 
 
@@ -513,30 +401,27 @@ Domains
 Unix user. This type only allows a subset of those names allowed by POSIX.
 
 Checks
- - *valid_characters*
+ - ``valid_characters``
+    Only allow lower-case characters.
 
    .. code-block:: sql
-   
+
     VALUE ~ '^[a-z0-9_-]+$'
 
-   Only allow lower-case characters.
-
- - *no_repeated_hyphens*
+ - ``no_repeated_hyphens``
+    Reserve double hyphens as a seperator for system generated users.
 
    .. code-block:: sql
-   
+
     NOT (VALUE LIKE '%--%')
 
-   Reserve double hyphens as a seperator for system generated users.
-
- - *no_starting_hyphen*
+ - ``no_starting_hyphen``
+    No hyphens at the beginning:
+    http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_431
 
    .. code-block:: sql
-   
-    left(VALUE, 1) <> '-'
 
-   No hyphens at the beginning:
-   http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_431
+    left(VALUE, 1) <> '-'
 
 
 
