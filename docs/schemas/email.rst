@@ -1884,7 +1884,9 @@ Checks
 ``email.t_address``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Email address, TODO validity checks
+Email address
+
+.. todo:: validity checks
 
 
 

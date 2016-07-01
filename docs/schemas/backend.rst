@@ -269,8 +269,9 @@ Returned columns
 Checks if a currently connected machine is priviledged to obtain data for
 a certain service for a certain domain name.
 
-**WARNING:** The parameter p_domain must be a domain, which means an entry in
-the column dns.service.domain. It must not be confused with a service_entity_name.
+.. warning::
+   The parameter p_domain must be a domain, which means an entry in
+   the column dns.service.domain. It must not be confused with a service_entity_name.
 
 Parameters
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -310,8 +311,9 @@ Execute privilege
 Checks if a currently connected machine is priviledged to obtain data for
 a certain service for a certain servicee name.
 
-WARNING: The parameter p_server_name must be a service name. It must not be
-confused with a domain.
+.. warning:: 
+ The parameter p_server_name must be a service name. It must not be
+ confused with a domain.
 
 Parameters
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -392,8 +394,9 @@ Returns
 
 Informs all machines about changes.
 
-WARNING: The parameter p_domain must be a domain, which means an entry in
-the column dns.service.domain. It must not be confused with a service_entity_name.
+.. warning::
+ The parameter p_domain must be a domain, which means an entry in
+ the column dns.service.domain. It must not be confused with a service_entity_name.
 
 Parameters
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -439,8 +442,9 @@ Returns
 
 Informs all machines about changes.
 
-WARNING: The parameter p_service_entity_name must be a servcie name. It must not be
-confused with a domain.
+.. warning::
+ The parameter p_service_entity_name must be a servcie name. It must not be
+ confused with a domain.
 
 Parameters
  - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`

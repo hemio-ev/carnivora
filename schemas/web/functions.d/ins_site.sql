@@ -1,7 +1,8 @@
 name: ins_site
 description: |
  Insert site
- TODO: check owner and contingent
+
+ .. todo:: check owner and contingent
 
 templates:
  - user.userlogin

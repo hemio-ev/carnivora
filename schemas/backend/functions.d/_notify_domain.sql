@@ -3,8 +3,9 @@ name: _notify_domain
 description: |
  Informs all machines about changes.
 
- WARNING: The parameter p_domain must be a domain, which means an entry in
- the column dns.service.domain. It must not be confused with a service_entity_name.
+ .. warning::
+  The parameter p_domain must be a domain, which means an entry in
+  the column dns.service.domain. It must not be confused with a service_entity_name.
 
 parameters:
  -

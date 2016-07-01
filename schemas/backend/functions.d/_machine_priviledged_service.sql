@@ -4,8 +4,9 @@ description: |
  Checks if a currently connected machine is priviledged to obtain data for
  a certain service for a certain servicee name.
 
- WARNING: The parameter p_server_name must be a service name. It must not be
- confused with a domain.
+ .. warning:: 
+  The parameter p_server_name must be a service name. It must not be
+  confused with a domain.
 
 returns: boolean
 

@@ -919,7 +919,8 @@ Execute privilege
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Insert site
-TODO: check owner and contingent
+
+.. todo:: check owner and contingent
 
 Parameters
  - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`

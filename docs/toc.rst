@@ -7,6 +7,7 @@ Contents
 
    index
    carnivora-conventions
+   dev
 
 .. toctree::
    :maxdepth: 1

@@ -253,7 +253,9 @@ Checks
 ``commons.t_password``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-unix hash thingy - todo: propper checking of format
+unix hash thingy
+
+.. todo:: propper checking of format
 
 Checks
  - ``crypt(3) password format``

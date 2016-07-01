@@ -3,8 +3,9 @@ name: _notify_service_entity_name
 description: |
  Informs all machines about changes.
 
- WARNING: The parameter p_service_entity_name must be a servcie name. It must not be
- confused with a domain.
+ .. warning::
+  The parameter p_service_entity_name must be a servcie name. It must not be
+  confused with a domain.
 
 parameters:
  -

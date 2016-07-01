@@ -60,7 +60,10 @@ domains:
  -
   name: t_password
   type: varchar(250)
-  description: "unix hash thingy - todo: propper checking of format"
+  description: |
+      unix hash thingy
+
+      .. todo:: propper checking of format
   checks:
    -
     name: crypt(3) password format

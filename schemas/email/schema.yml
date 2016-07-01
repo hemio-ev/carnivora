@@ -90,5 +90,8 @@ domains:
 
  -
   name: t_address
-  description: Email address, TODO validity checks
+  description: |
+      Email address
+
+      .. todo:: validity checks
   type: varchar(253)
