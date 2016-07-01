@@ -1,4 +1,3 @@
-======================================================================
 system
 ======================================================================
 
@@ -11,7 +10,7 @@ Manages services, service entities and contingents.
    :depth: 2
 
 
-------
+
 Tables
 ------
 
@@ -19,7 +18,7 @@ Tables
 .. _TABLE-system.service:
 
 ``system.service``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Services
 
@@ -61,7 +60,7 @@ Columns
 .. _TABLE-system.service_entity:
 
 ``system.service_entity``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Service Entity
 
@@ -115,7 +114,7 @@ Columns
 .. _TABLE-system.service_entity_dns:
 
 ``system.service_entity_dns``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Service Entity DNS
 
@@ -221,7 +220,7 @@ Columns
 .. _TABLE-system.service_entity_machine:
 
 ``system.service_entity_machine``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Service Entity Machine
 
@@ -286,7 +285,7 @@ Columns
 .. _TABLE-system.subservice_entity:
 
 ``system.subservice_entity``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Subservice Entity
 
@@ -359,7 +358,7 @@ Columns
 
 
 
----------
+
 Functions
 ---------
 
@@ -368,7 +367,7 @@ Functions
 .. _FUNCTION-system._contingent_ensure:
 
 ``system._contingent_ensure``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Throws exceptions if the contingent is exceeded
 
@@ -513,7 +512,7 @@ Returns
 .. _FUNCTION-system._contingent_total:
 
 ``system._contingent_total``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Contingent
 
@@ -568,7 +567,7 @@ Returns
 .. _FUNCTION-system._effective_contingent:
 
 ``system._effective_contingent``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 contingent
 
@@ -626,7 +625,7 @@ Returned columns
 .. _FUNCTION-system._effective_contingent_domain:
 
 ``system._effective_contingent_domain``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 contingent
 
@@ -685,7 +684,7 @@ Returned columns
 .. _FUNCTION-system._inherit_contingent_donor:
 
 ``system._inherit_contingent_donor``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Returns all contingent donors for a given user with their priority.
 
@@ -738,7 +737,7 @@ Returned columns
 .. _FUNCTION-system._setup_register_service:
 
 ``system._setup_register_service``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Allows modules to register their services during setup.
 Returns the total number of service names registered
@@ -770,7 +769,7 @@ Returns
 .. _FUNCTION-system._setup_register_subservice:
 
 ``system._setup_register_subservice``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Allows modules to register their services during setup.
 Returns the total number of service names registered
@@ -802,7 +801,7 @@ Returns
 .. _FUNCTION-system.sel_inherit_contingent:
 
 ``system.sel_inherit_contingent``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Select inherit contingent
 
@@ -844,7 +843,7 @@ Execute privilege
 .. _FUNCTION-system.sel_usable_host:
 
 ``system.sel_usable_host``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Usable hosts
 

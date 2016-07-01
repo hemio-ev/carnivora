@@ -1,4 +1,3 @@
-=========
 Carnivora
 =========
 
@@ -82,28 +81,4 @@ configuration is to run
 Supplying the database name (here *carnivora*) via the ``-c`` option is
 mandatory. The database will be create if it is not present. Additional
 or deviating connection options can be provided.
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Overview
-   :hidden:
-
-   self
-   carnivora-conventions
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Default Schemas 
-   :glob:
-   :hidden:
-
-   schemas/*
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Buildins
-   :hidden:
-
-   postgres-buildins
-   yamsql-buildins
 

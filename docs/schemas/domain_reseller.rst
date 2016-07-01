@@ -1,4 +1,3 @@
-======================================================================
 domain_reseller
 ======================================================================
 
@@ -17,7 +16,7 @@ This module sends the following signals:
    :depth: 2
 
 
-------
+
 Tables
 ------
 
@@ -25,7 +24,7 @@ Tables
 .. _TABLE-domain_reseller.handle:
 
 ``domain_reseller.handle``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Handles (Domain Contacts)
 
@@ -249,7 +248,7 @@ Columns
 .. _TABLE-domain_reseller.registered:
 
 ``domain_reseller.registered``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Addtional informations to those stored in dns.registered
 
@@ -364,7 +363,7 @@ Columns
 
 
 
----------
+
 Functions
 ---------
 
@@ -373,7 +372,7 @@ Functions
 .. _FUNCTION-domain_reseller.del_handle:
 
 ``domain_reseller.del_handle``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Deletes handle
 
@@ -413,7 +412,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.fwd_handle_id:
 
 ``domain_reseller.fwd_handle_id``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Insert handle id
 
@@ -450,7 +449,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.fwd_registered_status:
 
 ``domain_reseller.fwd_registered_status``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Update status
 
@@ -499,7 +498,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.ins_handle:
 
 ``domain_reseller.ins_handle``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Inserts handle
 
@@ -575,7 +574,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.ins_registered:
 
 ``domain_reseller.ins_registered``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Inserts details for registered domain
 
@@ -618,7 +617,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.sel_handle:
 
 ``domain_reseller.sel_handle``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Selects handles
 
@@ -655,7 +654,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.sel_registered:
 
 ``domain_reseller.sel_registered``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Selects details for registered domains
 
@@ -713,7 +712,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.sel_reseller:
 
 ``domain_reseller.sel_reseller``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Selects available resellers
 
@@ -753,7 +752,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.srv_handle:
 
 ``domain_reseller.srv_handle``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Serves handles
 
@@ -784,7 +783,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.srv_registered:
 
 ``domain_reseller.srv_registered``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Serves details for registered domains
 
@@ -836,7 +835,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.upd_handle:
 
 ``domain_reseller.upd_handle``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Updates handle
 
@@ -906,7 +905,7 @@ Execute privilege
 .. _FUNCTION-domain_reseller.upd_registered:
 
 ``domain_reseller.upd_registered``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Updates details for registered domain
 

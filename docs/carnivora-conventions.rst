@@ -1,4 +1,3 @@
-===============
 API Conventions
 ===============
 
@@ -9,7 +8,7 @@ Prefix ``_``
     Internal functions which do not belong to API.
 
 Frontend API
-++++++++++++
+~~~~~~~~~~~~
 
 Prefix ``del_``
     Delete object from database. Returns ``void``.
@@ -25,7 +24,7 @@ Prefix ``upd_``
     Updates objects in database. Returns ``void``.
 
 Backend API
-+++++++++++
+~~~~~~~~~~~
 
 Prefix ``srv_``
     Gives all object designated to the connected machine. Returns a recordset.

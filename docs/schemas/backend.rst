@@ -1,4 +1,3 @@
-======================================================================
 backend
 ======================================================================
 
@@ -13,7 +12,7 @@ to clients, called machines.
    :depth: 2
 
 
-------
+
 Tables
 ------
 
@@ -21,7 +20,7 @@ Tables
 .. _TABLE-backend.auth:
 
 ``backend.auth``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Grants rights to backend API clients based on SQL roles.
 
@@ -62,7 +61,7 @@ Columns
 .. _TABLE-backend.machine:
 
 ``backend.machine``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Physical or virtual machines that hosts services.
 
@@ -90,7 +89,7 @@ Columns
 
 
 
----------
+
 Functions
 ---------
 
@@ -99,7 +98,7 @@ Functions
 .. _FUNCTION-backend._active:
 
 ``backend._active``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Is not 'del'
 
@@ -125,7 +124,7 @@ Returns
 .. _FUNCTION-backend._conditional_notify:
 
 ``backend._conditional_notify``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Notifies if first argument is true. Throws inaccessible otherwise.
 
@@ -164,7 +163,7 @@ Returns
 .. _FUNCTION-backend._conditional_notify_service_entity_name:
 
 ``backend._conditional_notify_service_entity_name``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Notifies if first argument is true. Throws inaccessible otherwise.
 
@@ -203,7 +202,7 @@ Returns
 .. _FUNCTION-backend._deleted:
 
 ``backend._deleted``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Is 'del'
 
@@ -229,7 +228,7 @@ Returns
 .. _FUNCTION-backend._get_login:
 
 ``backend._get_login``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Shows informations for the current backend login.
 Throws an error if the current user is not a grantee
@@ -265,7 +264,7 @@ Returned columns
 .. _FUNCTION-backend._machine_priviledged:
 
 ``backend._machine_priviledged``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Checks if a currently connected machine is priviledged to obtain data for
 a certain service for a certain domain name.
@@ -306,7 +305,7 @@ Execute privilege
 .. _FUNCTION-backend._machine_priviledged_service:
 
 ``backend._machine_priviledged_service``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Checks if a currently connected machine is priviledged to obtain data for
 a certain service for a certain servicee name.
@@ -347,7 +346,7 @@ Execute privilege
 .. _FUNCTION-backend._notify:
 
 ``backend._notify``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Informs all machines about changes.
 
@@ -389,7 +388,7 @@ Returns
 .. _FUNCTION-backend._notify_domain:
 
 ``backend._notify_domain``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Informs all machines about changes.
 
@@ -436,7 +435,7 @@ Returns
 .. _FUNCTION-backend._notify_service_entity_name:
 
 ``backend._notify_service_entity_name``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Informs all machines about changes.
 
@@ -476,7 +475,7 @@ Returns
 
 
 
--------
+
 Domains
 -------
 
@@ -485,14 +484,14 @@ Domains
 .. _DOMAIN-backend.t_status:
 
 ``backend.t_status``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Backend status
 
 
 
 
------
+
 Roles
 -----
 
@@ -500,7 +499,7 @@ Roles
 .. _ROLE-backend:
 
 ``backend``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 vms
 

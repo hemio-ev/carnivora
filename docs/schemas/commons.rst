@@ -1,4 +1,3 @@
-======================================================================
 commons
 ======================================================================
 
@@ -13,7 +12,7 @@ Usefull templates, functions and domains.
 
 
 
----------
+
 Functions
 ---------
 
@@ -22,7 +21,7 @@ Functions
 .. _FUNCTION-commons._hash_password:
 
 ``commons._hash_password``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 SHA512 hash of the password with 16 charcters random salt.
 The returned format is the traditional 'crypt(3)' format.
@@ -52,7 +51,7 @@ Returns
 .. _FUNCTION-commons._idn:
 
 ``commons._idn``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Converts a unicode domain name to IDN (ASCII)
 
@@ -84,7 +83,7 @@ Execute privilege
 .. _FUNCTION-commons._jsonb_to_array:
 
 ``commons._jsonb_to_array``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Converts a JSONB array to a PostgreSQL text[] array
 
@@ -109,7 +108,7 @@ Returns
 .. _FUNCTION-commons._passwords_equal:
 
 ``commons._passwords_equal``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Compares a plaintext password with an arbitrary 'crypt(3)' hashed password.
 
@@ -146,7 +145,7 @@ Returns
 .. _FUNCTION-commons._raise_inaccessible_or_missing:
 
 ``commons._raise_inaccessible_or_missing``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Raised whenever a operation on an object failes because it is not owned by
 the user or it is not found.
@@ -176,7 +175,7 @@ Returns
 .. _FUNCTION-commons._reverse_array:
 
 ``commons._reverse_array``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Copied from <https://wiki.postgresql.org/wiki/Array_reverse>
 
@@ -204,7 +203,7 @@ Execute privilege
 .. _FUNCTION-commons._uuid:
 
 ``commons._uuid``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Returns a random uuid
 
@@ -225,7 +224,7 @@ Returns
 
 
 
--------
+
 Domains
 -------
 
@@ -234,7 +233,7 @@ Domains
 .. _DOMAIN-commons.t_port:
 
 ``commons.t_port``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Port
 
@@ -252,7 +251,7 @@ Checks
 .. _DOMAIN-commons.t_password:
 
 ``commons.t_password``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 unix hash thingy - todo: propper checking of format
 
@@ -270,7 +269,7 @@ Checks
 .. _DOMAIN-commons.t_password_plaintext:
 
 ``commons.t_password_plaintext``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Password in plaintext
 
@@ -288,7 +287,7 @@ Checks
 .. _DOMAIN-commons.t_key:
 
 ``commons.t_key``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Key
 
@@ -298,7 +297,7 @@ Key
 .. _DOMAIN-commons.t_hexvarchar:
 
 ``commons.t_hexvarchar``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Varchar only with HEX values
 

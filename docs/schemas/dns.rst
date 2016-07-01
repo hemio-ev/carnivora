@@ -1,4 +1,3 @@
-======================================================================
 dns
 ======================================================================
 
@@ -9,7 +8,7 @@ DNS
    :depth: 2
 
 
-------
+
 Tables
 ------
 
@@ -17,7 +16,7 @@ Tables
 .. _TABLE-dns.custom:
 
 ``dns.custom``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Direct name server entries.
 
@@ -113,7 +112,7 @@ Columns
 .. _TABLE-dns.registered:
 
 ``dns.registered``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Domains registered under a public suffix.
 
@@ -227,7 +226,7 @@ Columns
 .. _TABLE-dns.service:
 
 ``dns.service``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Name server entries based on system.service (i.e. system.service_dns)
 
@@ -311,7 +310,7 @@ Columns
 
 
 
----------
+
 Functions
 ---------
 
@@ -320,7 +319,7 @@ Functions
 .. _FUNCTION-dns._domain_order:
 
 ``dns._domain_order``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ORDER
 
@@ -348,7 +347,7 @@ Execute privilege
 .. _FUNCTION-dns._rdata_txtdata_valid:
 
 ``dns._rdata_txtdata_valid``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Rdata txt-data valid
 
@@ -378,7 +377,7 @@ Returns
 .. _FUNCTION-dns.del_custom:
 
 ``dns.del_custom``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Delete Custom
 
@@ -421,7 +420,7 @@ Execute privilege
 .. _FUNCTION-dns.del_registered:
 
 ``dns.del_registered``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Delete registered domain
 
@@ -464,7 +463,7 @@ Execute privilege
 .. _FUNCTION-dns.del_service:
 
 ``dns.del_service``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 deletes all service entries of a specific domain
 
@@ -510,7 +509,7 @@ Execute privilege
 .. _FUNCTION-dns.fwd_registered_status:
 
 ``dns.fwd_registered_status``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Update status
 
@@ -547,7 +546,7 @@ Execute privilege
 .. _FUNCTION-dns.ins_custom:
 
 ``dns.ins_custom``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Ins Custom
 
@@ -602,7 +601,7 @@ Execute privilege
 .. _FUNCTION-dns.ins_registered:
 
 ``dns.ins_registered``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 registeres new domain
 
@@ -648,7 +647,7 @@ Execute privilege
 .. _FUNCTION-dns.ins_service:
 
 ``dns.ins_service``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Creates service dns entry
 
@@ -700,7 +699,7 @@ Execute privilege
 .. _FUNCTION-dns.sel_activatable_service:
 
 ``dns.sel_activatable_service``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Activatable services
 
@@ -740,7 +739,7 @@ Execute privilege
 .. _FUNCTION-dns.sel_available_service:
 
 ``dns.sel_available_service``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 List all domains that have a service entry in dns with their service.
 This is particularly usefull since these domains are ready for use with
@@ -783,7 +782,7 @@ Execute privilege
 .. _FUNCTION-dns.sel_custom:
 
 ``dns.sel_custom``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 sel custom
 
@@ -833,7 +832,7 @@ Execute privilege
 .. _FUNCTION-dns.sel_nameserver:
 
 ``dns.sel_nameserver``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Select available nameservers
 
@@ -873,7 +872,7 @@ Execute privilege
 .. _FUNCTION-dns.sel_registered:
 
 ``dns.sel_registered``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 List registered domains
 
@@ -919,7 +918,7 @@ Execute privilege
 .. _FUNCTION-dns.sel_service:
 
 ``dns.sel_service``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Select service based dns entries
 
@@ -965,7 +964,7 @@ Execute privilege
 .. _FUNCTION-dns.sel_usable_domain:
 
 ``dns.sel_usable_domain``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Usable domains
 
@@ -1010,7 +1009,7 @@ Execute privilege
 .. _FUNCTION-dns.srv_record:
 
 ``dns.srv_record``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Servers both record types combined: Raw entries and the ones assembled
 from records templates for services (system.service_entity_dns).
@@ -1055,7 +1054,7 @@ Execute privilege
 .. _FUNCTION-dns.upd_custom:
 
 ``dns.upd_custom``
-``````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Ins Custom
 
@@ -1102,7 +1101,7 @@ Execute privilege
 
 
 
--------
+
 Domains
 -------
 
@@ -1111,7 +1110,7 @@ Domains
 .. _DOMAIN-dns.t_domain:
 
 ``dns.t_domain``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Fully qualified domain name (without trailing dot)
 
@@ -1130,7 +1129,7 @@ Checks
 .. _DOMAIN-dns.t_domain_rdata:
 
 ``dns.t_domain_rdata``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Fully qualified or relative domain name. Trailing dot marks a FQDN.
 
@@ -1150,7 +1149,7 @@ Checks
 .. _DOMAIN-dns.t_type:
 
 ``dns.t_type``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Resource record type
 
@@ -1177,7 +1176,7 @@ Checks
 .. _DOMAIN-dns.t_rdata:
 
 ``dns.t_rdata``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Resource record data (Rdata)
 
@@ -1187,7 +1186,7 @@ Resource record data (Rdata)
 .. _DOMAIN-dns.t_ttl:
 
 ``dns.t_ttl``
-```````````````````````````````````````````````````````````````````````
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 time to live
 
