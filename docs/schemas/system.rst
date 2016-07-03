@@ -837,6 +837,11 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   RETURN QUERY
+   SELECT t.owner, t.donor, t.priority
+   FROM system.inherit_contingent AS t
+   ORDER BY t.owner, t.priority;
 
 
 
@@ -879,6 +884,16 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   RETURN QUERY
+   SELECT t.subservice, t.service_entity_name FROM system._effective_contingent() AS t
+       WHERE
+           owner = v_owner AND
+           t.service = p_service AND
+           t.total_contingent > 0
+       ORDER BY
+           t.service_entity_name
+   ;
 
 
 

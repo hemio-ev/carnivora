@@ -341,6 +341,7 @@ Execute privilege
 .. code-block:: plpgsql
 
    
+   RETURN commons._reverse_array(regexp_split_to_array(p_domain, E'\\.'));
 
 
 
@@ -414,6 +415,23 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   UPDATE dns.custom AS t
+          SET backend_status = 'del'
+   FROM dns.registered AS s
+   WHERE
+       s.domain = t.registered AND
+   
+       t.id = p_id AND
+       s.owner = v_owner
+   
+   RETURNING s.service_entity_name, s.subservice
+   INTO v_nameserver, v_managed;
+   
+   PERFORM backend._conditional_notify_service_entity_name(
+       FOUND, v_nameserver, 'dns', v_managed
+   );
 
 
 
@@ -457,6 +475,18 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   UPDATE dns.registered
+   SET backend_status = 'del'
+   WHERE domain = p_domain
+    AND owner = v_owner
+   RETURNING service_entity_name, subservice
+      INTO v_nameserver, v_managed;
+   
+   PERFORM backend._conditional_notify_service_entity_name(
+      FOUND, v_nameserver, 'domain_registered', v_managed
+   );
 
 
 
@@ -503,6 +533,40 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   BEGIN
+       -- perform DELETE to trigger potential foreign key errors
+       DELETE FROM dns.service AS t
+       USING dns.registered AS s
+       WHERE
+           s.domain = t.registered AND
+   
+           t.domain = p_domain AND
+           t.service = p_service AND
+           s.owner = v_owner;
+   
+       -- if not failed yet, emulate rollback of DELETE
+       RAISE transaction_rollback;
+   EXCEPTION
+       WHEN transaction_rollback THEN
+           UPDATE dns.service AS t
+                  SET backend_status = 'del'
+           FROM dns.registered AS s
+           WHERE
+               s.domain = t.registered AND
+   
+               t.domain = p_domain AND
+               t.service = p_service AND
+               s.owner = v_owner
+           RETURNING s.service_entity_name, s.subservice
+           INTO v_nameserver, v_managed;
+   
+           PERFORM backend._conditional_notify_service_entity_name(
+               FOUND, v_nameserver, 'dns', v_managed
+           );
+   
+   END;
 
 
 
@@ -540,6 +604,12 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   
+   UPDATE dns.registered
+   SET
+       backend_status = p_backend_status
+   WHERE domain = p_domain;
 
 
 
@@ -595,6 +665,27 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   SELECT service_entity_name, subservice INTO v_nameserver, v_managed FROM dns.registered
+   WHERE
+       domain = p_registered AND
+       owner = v_owner;
+   
+   IF v_nameserver IS NULL THEN
+       PERFORM commons._raise_inaccessible_or_missing();
+   END IF;
+   
+   IF v_nameserver IS NULL THEN
+       PERFORM commons._raise_inaccessible_or_missing();
+   END IF;
+   
+   INSERT INTO dns.custom
+   (registered, domain, type, rdata, ttl)
+   VALUES
+   (p_registered, p_domain, p_type, p_rdata, p_ttl);
+   
+   PERFORM backend._notify_service_entity_name(v_nameserver, 'dns', v_managed);
 
 
 
@@ -641,6 +732,14 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   INSERT INTO dns.registered
+   (domain, public_suffix, owner, service, subservice, service_entity_name)
+   VALUES
+   (p_domain, p_public_suffix, v_owner, 'domain_registered', p_subservice, p_service_entity_name);
+   
+   PERFORM backend._notify_service_entity_name(p_service_entity_name, 'domain_registered', p_subservice);
 
 
 
@@ -693,6 +792,30 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   SELECT service_entity_name, subservice INTO v_nameserver, v_managed FROM dns.registered
+       WHERE
+           domain = p_registered AND
+           owner = v_owner;
+   
+   IF v_nameserver IS NULL THEN
+       PERFORM commons._raise_inaccessible_or_missing();
+   END IF;
+   
+   UPDATE dns.service
+       SET service_entity_name = p_service_entity_name
+   WHERE
+       registered = p_registered AND
+       domain = p_domain AND
+       service = p_service;
+   
+   IF NOT FOUND THEN
+       INSERT INTO dns.service (registered, domain, service_entity_name, service)
+            VALUES (p_registered, p_domain, p_service_entity_name, p_service);
+   END IF;
+   
+   PERFORM backend._notify_service_entity_name(v_nameserver, 'dns', v_managed);
 
 
 
@@ -733,6 +856,19 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   RETURN QUERY
+   SELECT
+       COALESCE(t.service, s.service) AS service,
+       COALESCE(t.service_entity_name, s.service_entity_name) AS service_entity_name
+   FROM system._effective_contingent() AS t
+   FULL OUTER JOIN system._effective_contingent_domain() AS s
+   USING (service, subservice, service_entity_name, owner)
+   WHERE
+       COALESCE(t.subservice, s.subservice) = 'dns_activatable' AND
+       COALESCE(t.owner, s.owner) = v_owner
+   ;
 
 
 
@@ -776,6 +912,30 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   RETURN QUERY
+       SELECT t.domain, t.service FROM dns.service AS t
+       JOIN dns.registered AS s
+           ON s.domain = t.registered
+       WHERE
+           (
+               s.owner = v_owner AND
+   
+                   system._contingent_total(
+                       p_owner := s.owner,
+                       p_service := t.service,
+                       p_service_entity_name := t.service_entity_name
+               ) IS NOT NULL
+           ) OR
+           system._contingent_domain(
+                       p_owner := s.owner,
+                       p_service := t.service,
+                       p_service_entity_name := t.service_entity_name,
+                       p_domain := t.domain
+               ) IS NOT NULL
+       ORDER BY t.service
+   ;
 
 
 
@@ -826,6 +986,23 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   RETURN QUERY
+       SELECT
+           t.id,
+           t.registered,
+           t.domain,
+           t.type,
+           t.rdata,
+           t.ttl,
+           t.backend_status
+       FROM dns.custom AS t
+       JOIN dns.registered AS s
+           ON s.domain = t.registered
+       WHERE
+           s.owner = v_owner
+       ORDER BY backend_status, registered, dns._domain_order(t.domain);
 
 
 
@@ -866,6 +1043,19 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   RETURN QUERY
+   SELECT
+       COALESCE(t.subservice, s.subservice) AS subservice,
+       COALESCE(t.service_entity_name, s.service_entity_name) AS service_entity_name
+   FROM system._effective_contingent() AS t
+   FULL OUTER JOIN system._effective_contingent_domain() AS s
+   USING (service, subservice, service_entity_name, owner)
+   WHERE
+       COALESCE(t.service, s.service) = 'domain_registered' AND
+       COALESCE(t.owner, s.owner) = v_owner
+   ;
 
 
 
@@ -912,6 +1102,14 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   RETURN QUERY
+       SELECT t.domain, t.public_suffix, t.backend_status, t.subservice, t.service_entity_name
+       FROM dns.registered AS t
+       WHERE
+           t.owner = v_owner
+       ORDER BY backend_status, domain;
 
 
 
@@ -958,6 +1156,21 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   RETURN QUERY
+       SELECT
+           t.registered,
+           t.domain,
+           t.service,
+           t.service_entity_name,
+           t.backend_status
+       FROM dns.service AS t
+       JOIN dns.registered AS s
+           ON s.domain = t.registered
+       WHERE
+           s.owner = v_owner
+       ORDER BY backend_status, registered, dns._domain_order(t.domain), service, service_entity_name;
 
 
 
@@ -1003,6 +1216,33 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   RETURN QUERY
+   SELECT t.domain, t.service_entity_name FROM dns.service AS t
+       JOIN dns.registered AS d
+           ON d.domain = t.registered
+       LEFT JOIN system._effective_contingent_domain() AS contingent_d
+           ON
+               contingent_d.domain = t.domain AND
+               contingent_d.service = t.service AND
+               contingent_d.subservice = p_subservice AND
+               contingent_d.service_entity_name = t.service_entity_name AND
+               contingent_d.owner = v_owner
+   
+       LEFT JOIN system._effective_contingent() AS contingent
+           ON
+               contingent.service = t.service AND
+               contingent.subservice = p_subservice AND
+               contingent.owner = v_owner AND
+               d.owner = v_owner
+   
+       WHERE
+           t.service = p_service AND
+           COALESCE(contingent_d.domain_contingent, contingent.domain_contingent, 0) > 0
+       ORDER BY
+           t.domain
+   ;
 
 
 
@@ -1048,6 +1288,85 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   
+   RETURN QUERY
+       WITH
+   
+       -- DELETE
+       d_s AS (
+           DELETE FROM dns.service AS t
+           USING dns.registered AS s
+           WHERE
+               s.domain = t.registered AND
+               backend._deleted(t.backend_status) AND
+               backend._machine_priviledged_service('dns', s.service_entity_name)
+       ),
+   
+       d_c AS (
+           DELETE FROM dns.custom AS t
+           USING dns.registered AS s
+           WHERE
+               s.domain = t.registered AND
+               backend._deleted(t.backend_status) AND
+               backend._machine_priviledged_service('dns', s.service_entity_name)
+       ),
+   
+       -- UPDATE
+       u_s AS (
+           UPDATE dns.service AS t
+               SET backend_status = NULL
+           FROM dns.registered AS s
+           WHERE
+               s.domain = t.registered AND
+               backend._machine_priviledged_service('dns', s.service_entity_name) AND
+               backend._active(t.backend_status)
+       ),
+   
+       u_c AS (
+           UPDATE dns.custom AS t
+               SET backend_status = NULL
+           FROM dns.registered AS s
+           WHERE
+               s.domain = t.registered AND
+               backend._machine_priviledged_service('dns', s.service_entity_name) AND
+               backend._active(t.backend_status)
+       )
+   
+       SELECT
+           t.registered,
+           COALESCE(s.domain_prefix || t.domain, t.domain)::dns.t_domain,
+           s.type,
+           s.rdata,
+           s.ttl,
+           t.backend_status
+       FROM dns.service AS t
+       JOIN system.service_entity_dns AS s
+           USING (service, service_entity_name)
+       JOIN dns.registered AS u
+           ON t.registered = u.domain
+       WHERE
+           u.subservice = 'managed' AND
+           backend._machine_priviledged_service('dns', u.service_entity_name) AND
+           (backend._active(t.backend_status) OR p_include_inactive)
+   
+       UNION ALL
+   
+       SELECT
+           t.registered,
+           t.domain,
+           t.type,
+           t.rdata,
+           t.ttl,
+           t.backend_status
+       FROM dns.custom AS t
+       JOIN dns.registered AS u
+           ON t.registered = u.domain
+       WHERE
+           u.subservice = 'managed' AND
+           backend._machine_priviledged_service('dns', u.service_entity_name) AND
+           (backend._active(t.backend_status) OR p_include_inactive)
+       ;
 
 
 
@@ -1097,6 +1416,20 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   UPDATE dns.custom AS t
+       SET rdata = p_rdata, ttl = p_ttl
+   FROM dns.registered AS s
+   
+   WHERE
+       s.domain = t.registered AND
+   
+       t.id = p_id AND
+       s.owner = v_owner
+   RETURNING s.service_entity_name, s.subservice INTO v_nameserver, v_managed;
+   
+   PERFORM backend._notify_service_entity_name(v_nameserver, 'dns', v_managed);
 
 
 

@@ -76,7 +76,13 @@ Execute privilege
 
 .. code-block:: guess
 
+   if p_domain is None:
+      return None
    
+   if p_domain.lower() != p_domain:
+       raise plpy.Error('Only lower case IDNs are allowed and can be handled.')
+   
+   return p_domain.encode('idna').decode()
 
 
 
@@ -196,7 +202,15 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   
+   RETURN
+   ARRAY(
+       SELECT p_array[i]
+       FROM generate_series(
+           array_lower(p_array,1),
+           array_upper(p_array,1)
+       ) AS s(i)
+       ORDER BY i DESC
+   );
 
 
 

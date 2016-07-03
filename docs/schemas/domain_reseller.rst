@@ -406,6 +406,31 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   BEGIN
+       -- perform DELETE to trigger potential foreign key errors
+       DELETE FROM domain_reseller.handle
+       WHERE
+           alias = p_alias AND
+           owner = v_owner;
+   
+       -- if not failed yet, emulate rollback of DELETE
+       RAISE transaction_rollback;
+   EXCEPTION
+       WHEN transaction_rollback THEN
+           UPDATE domain_reseller.handle
+                  SET backend_status = 'del'
+           WHERE
+               alias = p_alias AND
+               owner = v_owner
+           RETURNING service_entity_name INTO v_service_entity_name;
+   
+           PERFORM backend._conditional_notify_service_entity_name(
+               FOUND, v_service_entity_name, 'domain_reseller', 'handle'
+           );
+   
+   END;
 
 
 
@@ -443,6 +468,11 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   
+   UPDATE domain_reseller.handle
+   SET id = p_id
+   WHERE alias = p_alias;
 
 
 
@@ -492,6 +522,16 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   
+   UPDATE domain_reseller.registered
+   SET
+       payable = p_payable,
+       period = p_period,
+       registrar_status = p_registrar_status,
+       registry_status = p_registry_status,
+       last_status = p_last_status
+   WHERE domain = p_domain;
 
 
 
@@ -568,6 +608,50 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   INSERT INTO domain_reseller.handle
+   (
+     service_entity_name,
+     service,
+     subservice,
+     owner,
+     alias,
+     fname,
+     lname,
+     address,
+     pcode,
+     city,
+     country,
+     state,
+     email,
+     phone,
+     organization,
+     fax,
+     mobile_phone
+   )
+   VALUES
+   (
+     p_service_entity_name,
+     'domain_reseller',
+     'handle',
+     v_owner,
+     p_alias,
+     p_fname,
+     p_lname,
+     p_address,
+     p_pcode,
+     p_city,
+     p_country,
+     p_state,
+     p_email,
+     p_phone,
+     p_organization,
+     p_fax,
+     p_mobile_phone
+   );
+   
+   PERFORM backend._notify_service_entity_name(p_service_entity_name, 'domain_reseller', 'handle');
 
 
 
@@ -611,6 +695,12 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   INSERT INTO domain_reseller.registered
+       (domain, registrant, admin_c)
+   VALUES
+       (p_domain, p_registrant, p_admin_c);
 
 
 
@@ -648,6 +738,13 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   RETURN QUERY
+       SELECT * FROM domain_reseller.handle
+   WHERE
+       owner=v_owner OR (owner=v_login AND NOT p_hide_foreign)
+   ORDER BY backend_status, fname, lname, alias;
 
 
 
@@ -706,6 +803,25 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   RETURN QUERY
+       SELECT
+           t.domain,
+           t.registrant,
+           t.admin_c,
+           t.tech_c,
+           t.zone_c,
+           t.payable,
+           t.period,
+           t.registrar_status,
+           t.registry_status,
+           t.last_status,
+           s.backend_status
+       FROM domain_reseller.registered AS t
+       JOIN dns.registered AS s
+           USING (domain)
+       WHERE
+           s.owner = v_owner;
 
 
 
@@ -746,6 +862,18 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   RETURN QUERY
+   SELECT
+       COALESCE(t.subservice, s.subservice) AS subservice,
+       COALESCE(t.service_entity_name, s.service_entity_name) AS service_entity_name
+   FROM system._effective_contingent() AS t
+   FULL OUTER JOIN system._effective_contingent_domain() AS s
+   USING (service, subservice, service_entity_name, owner)
+   WHERE
+       COALESCE(t.service, s.service) = 'domain_reseller' AND
+       COALESCE(t.owner, s.owner) = v_owner
+   ;
 
 
 
@@ -777,6 +905,31 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   RETURN QUERY
+       WITH
+   
+       -- DELETE
+       d AS (
+           DELETE FROM domain_reseller.handle AS t
+           WHERE
+               backend._machine_priviledged_service(t.service, t.service_entity_name) AND
+               backend._deleted(t.backend_status)
+       ),
+   
+       -- UPDATE
+       s AS (
+           UPDATE domain_reseller.handle AS t
+               SET backend_status = NULL
+           WHERE
+               backend._machine_priviledged_service(t.service, t.service_entity_name) AND
+               backend._active(t.backend_status)
+       )
+   
+       SELECT * FROM domain_reseller.handle AS t
+       WHERE
+           backend._machine_priviledged_service(t.service, t.service_entity_name) AND
+           (backend._active(t.backend_status) OR p_include_inactive);
 
 
 
@@ -829,6 +982,24 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   RETURN QUERY
+   SELECT
+       t.domain,
+       t.registrant,
+       (SELECT id FROM domain_reseller.handle WHERE alias = t.registrant),
+       t.admin_c,
+       (SELECT id FROM domain_reseller.handle WHERE alias = t.admin_c),
+       t.tech_c,
+       (SELECT id FROM domain_reseller.handle WHERE alias = t.tech_c),
+       t.zone_c,
+       (SELECT id FROM domain_reseller.handle WHERE alias = t.zone_c),
+       s.backend_status
+    FROM domain_reseller.registered AS t
+   JOIN dns.registered AS s USING (domain)
+   WHERE
+   backend._machine_priviledged_service(s.service, s.service_entity_name) AND
+   (backend._active(s.backend_status) OR p_include_inactive);
 
 
 
@@ -899,6 +1070,30 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   UPDATE domain_reseller.handle
+       SET
+           backend_status = 'upd',
+           address = p_address,
+           pcode = p_pcode,
+           city = p_city,
+           country = p_country,
+           state = p_state,
+           email = p_email,
+           phone = p_phone,
+           organization = p_organization,
+           fax = p_fax,
+           mobile_phone = p_mobile_phone
+   
+   WHERE
+       alias = p_alias AND
+       owner = v_owner
+   RETURNING service_entity_name INTO v_service_entity_name;
+   
+   PERFORM backend._conditional_notify_service_entity_name(
+       FOUND, v_service_entity_name, 'domain_reseller', 'handle'
+   );
 
 
 
@@ -945,6 +1140,30 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   UPDATE domain_reseller.registered AS t
+       SET
+           admin_c = p_admin_c
+   FROM dns.registered AS s
+   WHERE
+       s.domain = t.domain AND
+       s.owner = v_owner AND
+   
+       t.domain = p_domain;
+   
+   UPDATE dns.registered AS t
+       SET backend_status = 'upd'
+   WHERE
+       t.owner = v_owner AND
+       t.domain = p_domain AND
+       -- don't change domains that are in some transition status
+       (t.backend_status = 'upd' OR t.backend_status IS NULL)
+   RETURNING t.service_entity_name, t.subservice
+           INTO v_nameserver, v_managed;
+   
+   PERFORM backend._conditional_notify_service_entity_name(
+       FOUND, v_nameserver, 'domain_registered', v_managed
+   );
 
 
 

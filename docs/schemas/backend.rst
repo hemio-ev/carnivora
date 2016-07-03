@@ -300,6 +300,22 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   
+   RETURN COALESCE(
+       (
+       SELECT TRUE FROM system.service_entity_machine AS t
+           JOIN dns.service AS s
+           ON
+               s.service = p_service AND
+               s.domain = p_domain
+   
+           WHERE
+               t.service = p_service AND
+               t.service_entity_name = s.service_entity_name AND
+               t.machine_name = v_machine
+       )
+   , FALSE);
 
 
 
@@ -342,6 +358,17 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   
+   RETURN COALESCE(
+       (
+       SELECT TRUE FROM system.service_entity_machine AS t
+           WHERE
+               t.service = p_service AND
+               t.service_entity_name = p_service_entity_name AND
+               t.machine_name = v_machine
+       )
+   , FALSE);
 
 
 

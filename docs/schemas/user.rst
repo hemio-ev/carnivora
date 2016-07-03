@@ -295,6 +295,20 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   UPDATE "user".session AS t
+       SET act_as = p_act_as
+       FROM "user".deputy AS s
+       WHERE
+           s.deputy = t.owner AND
+           s.represented = p_act_as AND
+           t.id = "user"._session_id();
+   
+   IF NOT FOUND THEN
+       RAISE 'Acting as deputy failed.'
+           USING DETAIL := '$carnivora:user:deputy_failed$';
+   END IF;
 
 
 
@@ -384,6 +398,11 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   RETURN QUERY
+       SELECT t.represented FROM "user".deputy AS t
+       WHERE t.deputy = v_login;
 
 
 
@@ -421,6 +440,13 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
+   
+   UPDATE "user".user
+       SET password = commons._hash_password(p_password)
+   
+   WHERE
+       owner = v_login;
 
 
 
