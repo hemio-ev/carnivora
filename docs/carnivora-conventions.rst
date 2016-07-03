@@ -36,7 +36,7 @@ Prefix ``fwd_``
 Backend Notification Naming
 ---------------------------
 
-Carnivora sents push notifications (usign the PostgreSQL ``NOTFIY`` command)
+Carnivora sends push notifications (usign the PostgreSQL ``NOTFIY`` command)
 if objects are changed. Machines can connect to to channels that only give
 notifications relevant to them.
 
