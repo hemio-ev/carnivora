@@ -6,6 +6,9 @@ description: |
   - web/alias
   - web/site
 
+dependencies:
+ - server_access
+
 priv_all_all:
  - system
 priv_usage:

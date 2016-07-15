@@ -1,5 +1,10 @@
 name: dns
-description: DNS
+description: |
+ DNS
+
+dependencies:
+ - commons
+
 priv_all_all:
  - system
 priv_usage:

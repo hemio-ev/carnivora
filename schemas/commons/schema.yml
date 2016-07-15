@@ -4,6 +4,12 @@ description: |
 
  Usefull templates, functions and domains.
 
+dependencies:
+ - backend
+ - dns
+ - system
+ - user
+
 priv_all_all:
  - system
 

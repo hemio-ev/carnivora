@@ -10,6 +10,9 @@ description: |
   - domain_registered/managed
   - domain_registered/unmanaged
 
+dependencies:
+ - dns
+
 priv_all_all:
  - system
 priv_usage:

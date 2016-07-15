@@ -5,6 +5,9 @@ description: |
  This module sends the following signals:
   - jabber/account
 
+dependencies:
+ - dns
+
 priv_all_all:
  - system
 priv_usage:

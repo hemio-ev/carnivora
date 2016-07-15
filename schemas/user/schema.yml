@@ -2,6 +2,10 @@ name: user
 description: |
  Carnivora Users: Users own things objects in the DB,
  and they can login into frontends (edentata)
+
+dependencies:
+ - commons
+
 priv_all_all:
  - system
 priv_usage:

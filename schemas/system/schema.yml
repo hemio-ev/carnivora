@@ -3,6 +3,8 @@ description: |
  Carnivora System
 
  Manages services, service entities and contingents.
+dependencies:
+ - dns
 
 priv_all_all:
  - system

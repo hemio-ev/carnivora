@@ -8,7 +8,10 @@ description: |
   - server_access/sftp
   - server_access/ssh
 
-dependencies: [ dns ]
+dependencies: 
+ - system
+ - user
+
 priv_all_all:
  - system
 priv_usage:
