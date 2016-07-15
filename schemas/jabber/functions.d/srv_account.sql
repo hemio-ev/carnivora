@@ -1,3 +1,4 @@
+---
 name: srv_account
 description: Lists all jabber accounts
 
@@ -18,37 +19,37 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
-    RETURN QUERY
-        WITH
+RETURN QUERY
+    WITH
 
-        -- DELETE
-        d AS (
-            DELETE FROM jabber.account AS t
-            WHERE
-                backend._deleted(t.backend_status) AND
-                backend._machine_priviledged(t.service, t.domain)
-        ),
+    -- DELETE
+    d AS (
+        DELETE FROM jabber.account AS t
+        WHERE
+            backend._deleted(t.backend_status) AND
+            backend._machine_priviledged(t.service, t.domain)
+    ),
 
-        -- UPDATE
-        s AS (
-            UPDATE jabber.account AS t
-                SET backend_status = NULL
-            WHERE
-                backend._machine_priviledged(t.service, t.domain) AND
-                backend._active(t.backend_status)
-        )
-
-        -- SELECT
-        SELECT
-            t.node,
-            t.domain,
-            t.password,
-            t.backend_status
-        FROM jabber.account AS t
-
+    -- UPDATE
+    s AS (
+        UPDATE jabber.account AS t
+            SET backend_status = NULL
         WHERE
             backend._machine_priviledged(t.service, t.domain) AND
-            (backend._active(t.backend_status) OR p_include_inactive);
+            backend._active(t.backend_status)
+    )
+
+    -- SELECT
+    SELECT
+        t.node,
+        t.domain,
+        t.password,
+        t.backend_status
+    FROM jabber.account AS t
+
+    WHERE
+        backend._machine_priviledged(t.service, t.domain) AND
+        (backend._active(t.backend_status) OR p_include_inactive);
 

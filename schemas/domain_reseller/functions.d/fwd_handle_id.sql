@@ -1,3 +1,4 @@
+---
 name: fwd_handle_id
 description: Insert handle id
 
@@ -13,9 +14,8 @@ parameters:
  -
   name: p_id
   type: varchar
+---
 
-body: |
-
-    UPDATE domain_reseller.handle
+UPDATE domain_reseller.handle
     SET id = p_id
     WHERE alias = p_alias;

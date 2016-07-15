@@ -1,3 +1,4 @@
+---
 name: ins_https
 description: |
  Ins HTTPS
@@ -17,9 +18,9 @@ parameters:
  -
   name: p_identifier
   type: commons.t_key
+---
 
-body: |
-    INSERT INTO web.https
+INSERT INTO web.https
     (domain, port, identifier)
     VALUES
     (p_domain, p_port, p_identifier);

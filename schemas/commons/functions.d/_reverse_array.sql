@@ -1,3 +1,4 @@
+---
 name: _reverse_array
 description: Copied from <https://wiki.postgresql.org/wiki/Array_reverse>
 
@@ -10,9 +11,9 @@ parameters:
   type: anyarray
 
 returns: anyarray
+---
 
-body: |
-    RETURN
+RETURN
     ARRAY(
         SELECT p_array[i]
         FROM generate_series(

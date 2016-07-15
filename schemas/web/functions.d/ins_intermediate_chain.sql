@@ -1,3 +1,4 @@
+---
 name: ins_intermediate_chain
 description: sdf
 
@@ -22,9 +23,9 @@ parameters:
  -
   name: p_subject_key_identifier
   type: varchar
+---
 
-body: |
-    INSERT INTO web.intermediate_chain
+INSERT INTO web.intermediate_chain
     (domain, port, identifier, "order", subject_key_identifier)
     VALUES
     (p_domain, p_port, p_identifier, p_order, p_subject_key_identifier);

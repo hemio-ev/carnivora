@@ -1,4 +1,4 @@
-
+---
 name: _raise_inaccessible_or_missing
 description: |
  Raised whenever a operation on an object failes because it is not owned by
@@ -12,10 +12,9 @@ parameters:
   description: Controls if the exception is raised
   type: boolean
   default: "FALSE"
+---
 
-body: |
-
-    IF NOT COALESCE(p_raise, FALSE) THEN
-        RAISE 'Object inaccessible or missing'
-            USING DETAIL = '$carnivora:commons:inaccessible_or_missing$';
-    END IF;
+IF NOT COALESCE(p_raise, FALSE) THEN
+    RAISE 'Object inaccessible or missing'
+        USING DETAIL = '$carnivora:commons:inaccessible_or_missing$';
+END IF;

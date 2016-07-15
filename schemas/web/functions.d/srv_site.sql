@@ -1,3 +1,4 @@
+---
 name: srv_site
 description: backend web.site
 
@@ -30,40 +31,40 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
-    RETURN QUERY
-        WITH
+RETURN QUERY
+    WITH
 
-        -- DELETE
-        d AS (
-            DELETE FROM web.site AS t
-            WHERE
-                backend._deleted(t.backend_status) AND
-                backend._machine_priviledged(t.service, t.domain)
-        ),
+    -- DELETE
+    d AS (
+        DELETE FROM web.site AS t
+        WHERE
+            backend._deleted(t.backend_status) AND
+            backend._machine_priviledged(t.service, t.domain)
+    ),
 
-        -- UPDATE
-        s AS (
-            UPDATE web.site AS t
-                SET backend_status = NULL
-            WHERE
-                backend._machine_priviledged(t.service, t.domain) AND
-                backend._active(t.backend_status)
-        )
-
-        -- SELECT
-        SELECT
-            t.domain,
-            t.port,
-            t.user,
-            t.service_entity_name,
-            t.https,
-            t.subservice,
-            t.option,
-            t.backend_status
-        FROM web.site AS t
-
+    -- UPDATE
+    s AS (
+        UPDATE web.site AS t
+            SET backend_status = NULL
         WHERE
             backend._machine_priviledged(t.service, t.domain) AND
-            (backend._active(t.backend_status) OR p_include_inactive);
+            backend._active(t.backend_status)
+    )
+
+    -- SELECT
+    SELECT
+        t.domain,
+        t.port,
+        t.user,
+        t.service_entity_name,
+        t.https,
+        t.subservice,
+        t.option,
+        t.backend_status
+    FROM web.site AS t
+
+    WHERE
+        backend._machine_priviledged(t.service, t.domain) AND
+        (backend._active(t.backend_status) OR p_include_inactive);

@@ -1,3 +1,4 @@
+---
 name: _effective_contingent_domain
 description: contingent
 
@@ -21,9 +22,9 @@ returns_columns:
  -
   name: domain_contingent
   type: int
+---
 
-body: |
- RETURN QUERY
+RETURN QUERY
   SELECT
    DISTINCT ON
    (contingent.service, contingent.subservice, contingent.service_entity_name, contingent.domain, usr.owner)

@@ -1,3 +1,4 @@
+---
 name: ins_handle
 description: Inserts handle
 
@@ -57,48 +58,47 @@ parameters:
   name: p_mobile_phone
   type: varchar
   default: 'NULL'
+---
 
-body: |
+INSERT INTO domain_reseller.handle
+(
+  service_entity_name,
+  service,
+  subservice,
+  owner,
+  alias,
+  fname,
+  lname,
+  address,
+  pcode,
+  city,
+  country,
+  state,
+  email,
+  phone,
+  organization,
+  fax,
+  mobile_phone
+)
+VALUES
+(
+  p_service_entity_name,
+  'domain_reseller',
+  'handle',
+  v_owner,
+  p_alias,
+  p_fname,
+  p_lname,
+  p_address,
+  p_pcode,
+  p_city,
+  p_country,
+  p_state,
+  p_email,
+  p_phone,
+  p_organization,
+  p_fax,
+  p_mobile_phone
+);
 
-    INSERT INTO domain_reseller.handle
-    (
-      service_entity_name,
-      service,
-      subservice,
-      owner,
-      alias,
-      fname,
-      lname,
-      address,
-      pcode,
-      city,
-      country,
-      state,
-      email,
-      phone,
-      organization,
-      fax,
-      mobile_phone
-    )
-    VALUES
-    (
-      p_service_entity_name,
-      'domain_reseller',
-      'handle',
-      v_owner,
-      p_alias,
-      p_fname,
-      p_lname,
-      p_address,
-      p_pcode,
-      p_city,
-      p_country,
-      p_state,
-      p_email,
-      p_phone,
-      p_organization,
-      p_fax,
-      p_mobile_phone
-    );
-
-    PERFORM backend._notify_service_entity_name(p_service_entity_name, 'domain_reseller', 'handle');
+PERFORM backend._notify_service_entity_name(p_service_entity_name, 'domain_reseller', 'handle');

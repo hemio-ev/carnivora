@@ -1,3 +1,4 @@
+---
 name: sel_registered
 description: Selects details for registered domains
 
@@ -39,23 +40,23 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
-    RETURN QUERY
-        SELECT
-            t.domain,
-            t.registrant,
-            t.admin_c,
-            t.tech_c,
-            t.zone_c,
-            t.payable,
-            t.period,
-            t.registrar_status,
-            t.registry_status,
-            t.last_status,
-            s.backend_status
-        FROM domain_reseller.registered AS t
-        JOIN dns.registered AS s
-            USING (domain)
-        WHERE
-            s.owner = v_owner;
+RETURN QUERY
+    SELECT
+        t.domain,
+        t.registrant,
+        t.admin_c,
+        t.tech_c,
+        t.zone_c,
+        t.payable,
+        t.period,
+        t.registrar_status,
+        t.registry_status,
+        t.last_status,
+        s.backend_status
+    FROM domain_reseller.registered AS t
+    JOIN dns.registered AS s
+        USING (domain)
+    WHERE
+        s.owner = v_owner;

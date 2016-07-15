@@ -1,3 +1,4 @@
+---
 name: del_intermediate_chain
 description: sdf
 
@@ -16,9 +17,9 @@ parameters:
  -
   name: p_identifier
   type: commons.t_key
+---
 
-body: |
-    DELETE FROM web.intermediate_chain
+DELETE FROM web.intermediate_chain
     WHERE
         domain = p_domain AND
         port = p_port AND

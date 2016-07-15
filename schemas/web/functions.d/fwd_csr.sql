@@ -1,3 +1,4 @@
+---
 name: fwd_x509_request
 description: x509 request
 
@@ -19,11 +20,11 @@ parameters:
  -
   name: p_x509_request
   type: web.t_cert
+---
 
-body: |
-    UPDATE web.https
-        SET x509_request = p_x509_request
-    WHERE
-        domain = p_domain AND
-        port = p_port AND
-        identifier = p_identifier;
+UPDATE web.https
+    SET x509_request = p_x509_request
+WHERE
+    domain = p_domain AND
+    port = p_port AND
+    identifier = p_identifier;

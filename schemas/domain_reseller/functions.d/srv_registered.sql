@@ -1,3 +1,4 @@
+---
 name: srv_registered
 description: Serves details for registered domains
 
@@ -36,9 +37,9 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
-    RETURN QUERY
+RETURN QUERY
     SELECT
         t.domain,
         t.registrant,

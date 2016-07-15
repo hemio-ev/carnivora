@@ -1,3 +1,4 @@
+---
 name: sel_alias
 description: Select aliases
 
@@ -21,19 +22,19 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
-    RETURN QUERY
-    SELECT
-        t.localpart,
-        t.domain,
-        t.mailbox_localpart,
-        t.mailbox_domain,
-        t.backend_status
-    FROM email.alias AS t
-        
-    INNER JOIN email.mailbox AS s
-        ON
-            t.mailbox_localpart = s.localpart AND
-            t.mailbox_domain = s.domain
-    WHERE s.owner = v_owner;
+RETURN QUERY
+SELECT
+    t.localpart,
+    t.domain,
+    t.mailbox_localpart,
+    t.mailbox_domain,
+    t.backend_status
+FROM email.alias AS t
+    
+INNER JOIN email.mailbox AS s
+    ON
+        t.mailbox_localpart = s.localpart AND
+        t.mailbox_domain = s.domain
+WHERE s.owner = v_owner;

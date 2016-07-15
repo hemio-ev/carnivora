@@ -1,3 +1,4 @@
+---
 name: _setup_register_subservice
 description: |
  Allows modules to register their services during setup.
@@ -13,8 +14,8 @@ parameters:
  -
   name: p_subservice
   type: commons.t_key
+---
 
-body: |
- INSERT INTO system.subservice
-  (service, subservice) VALUES (p_service, p_subservice);
- RETURN (SELECT COUNT(*) FROM system.subservice AS s WHERE s.service=p_service);
+INSERT INTO system.subservice
+ (service, subservice) VALUES (p_service, p_subservice);
+RETURN (SELECT COUNT(*) FROM system.subservice AS s WHERE s.service=p_service);

@@ -1,3 +1,4 @@
+---
 name: fwd_registered_status
 description: Update status
 
@@ -25,14 +26,13 @@ parameters:
  -
   name: p_last_status
   type: varchar
+---
 
-body: |
-
-    UPDATE domain_reseller.registered
-    SET
-        payable = p_payable,
-        period = p_period,
-        registrar_status = p_registrar_status,
-        registry_status = p_registry_status,
-        last_status = p_last_status
-    WHERE domain = p_domain;
+UPDATE domain_reseller.registered
+SET
+    payable = p_payable,
+    period = p_period,
+    registrar_status = p_registrar_status,
+    registry_status = p_registry_status,
+    last_status = p_last_status
+WHERE domain = p_domain;

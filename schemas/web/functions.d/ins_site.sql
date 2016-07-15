@@ -1,3 +1,4 @@
+---
 name: ins_site
 description: |
  Insert site
@@ -22,10 +23,9 @@ parameters:
  -
   name: p_service_entity_name
   type: dns.t_domain
+---
 
-body: |
-
-    INSERT INTO web.site
+INSERT INTO web.site
     (domain, service, subservice, port, "user", service_entity_name)
     VALUES
     (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name);

@@ -1,3 +1,4 @@
+---
 name: srv_user
 description: backend server_access.user
 
@@ -27,39 +28,39 @@ returns_columns:
  -
   name: uid
   type: int
+---
 
-body: |
-    RETURN QUERY
-        WITH
+RETURN QUERY
+    WITH
 
-        -- DELETE
-        d AS (
-            DELETE FROM server_access.user AS t
-            WHERE
-                backend._deleted(t.backend_status) AND
-                backend._machine_priviledged_service(t.service, t.service_entity_name)
-        ),
+    -- DELETE
+    d AS (
+        DELETE FROM server_access.user AS t
+        WHERE
+            backend._deleted(t.backend_status) AND
+            backend._machine_priviledged_service(t.service, t.service_entity_name)
+    ),
 
-        -- UPDATE
-        s AS (
-            UPDATE server_access.user AS t
-                SET backend_status = NULL
-            WHERE
-                backend._machine_priviledged_service(t.service, t.service_entity_name) AND
-                backend._active(t.backend_status)
-        )
-
-        -- SELECT
-        SELECT
-            t.user,
-            t.password,
-            t.service,
-            t.subservice,
-            t.service_entity_name,
-            t.backend_status,
-            t.uid
-        FROM server_access.user AS t
-
+    -- UPDATE
+    s AS (
+        UPDATE server_access.user AS t
+            SET backend_status = NULL
         WHERE
             backend._machine_priviledged_service(t.service, t.service_entity_name) AND
-            (backend._active(t.backend_status) OR p_include_inactive);
+            backend._active(t.backend_status)
+    )
+
+    -- SELECT
+    SELECT
+        t.user,
+        t.password,
+        t.service,
+        t.subservice,
+        t.service_entity_name,
+        t.backend_status,
+        t.uid
+    FROM server_access.user AS t
+
+    WHERE
+        backend._machine_priviledged_service(t.service, t.service_entity_name) AND
+        (backend._active(t.backend_status) OR p_include_inactive);

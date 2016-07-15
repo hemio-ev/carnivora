@@ -1,3 +1,4 @@
+---
 name: upd_mailbox
 description: Change mailbox password
 
@@ -16,16 +17,16 @@ parameters:
  -
   name: p_password
   type: commons.t_password_plaintext
+---
 
-body: |
-    UPDATE email.mailbox
-        SET
-            password = commons._hash_password(p_password),
-            backend_status = 'upd'
-    WHERE
-        localpart = p_localpart AND
-        domain = p_domain AND
-        owner = v_owner AND
-        backend._active(backend_status);
+UPDATE email.mailbox
+    SET
+        password = commons._hash_password(p_password),
+        backend_status = 'upd'
+WHERE
+    localpart = p_localpart AND
+    domain = p_domain AND
+    owner = v_owner AND
+    backend._active(backend_status);
 
-    PERFORM backend._conditional_notify(FOUND, 'email', 'mailbox', p_domain);
+PERFORM backend._conditional_notify(FOUND, 'email', 'mailbox', p_domain);

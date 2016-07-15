@@ -1,3 +1,4 @@
+---
 name: upd_list
 description: Change list admin
 
@@ -16,16 +17,16 @@ parameters:
  -
   name: p_admin
   type: email.t_address
+---
 
-body: |
-    UPDATE email.list
-        SET
-            admin = p_admin,
-            backend_status = 'upd'
-    WHERE
-        localpart = p_localpart AND
-        domain = p_domain AND
-        owner = v_owner AND
-        backend._active(backend_status);
+UPDATE email.list
+    SET
+        admin = p_admin,
+        backend_status = 'upd'
+WHERE
+    localpart = p_localpart AND
+    domain = p_domain AND
+    owner = v_owner AND
+    backend._active(backend_status);
 
-    PERFORM backend._conditional_notify(FOUND, 'email', 'list', p_domain);
+PERFORM backend._conditional_notify(FOUND, 'email', 'list', p_domain);

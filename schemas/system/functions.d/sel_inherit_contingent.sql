@@ -1,3 +1,4 @@
+---
 name: sel_inherit_contingent
 description: |
  Select inherit contingent
@@ -16,9 +17,9 @@ returns_columns:
  -
   name: priority
   type: int
+---
 
-body: |
-    RETURN QUERY
+RETURN QUERY
     SELECT t.owner, t.donor, t.priority
     FROM system.inherit_contingent AS t
     ORDER BY t.owner, t.priority;

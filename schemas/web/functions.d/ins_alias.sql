@@ -1,3 +1,4 @@
+---
 name: ins_alias
 description: Insert alias
 
@@ -16,31 +17,30 @@ parameters:
  -
   name: p_site_port
   type: commons.t_port
+---
 
-body: |
+PERFORM commons._raise_inaccessible_or_missing(
+    EXISTS(
+        SELECT TRUE FROM web.site AS t
+        JOIN server_access.user AS s
+            USING ("user", service_entity_name)
+        WHERE
+            t.domain = p_site AND
+            t.port = p_site_port AND
+            s.owner = v_owner
+    )
+);
 
-    PERFORM commons._raise_inaccessible_or_missing(
-        EXISTS(
-            SELECT TRUE FROM web.site AS t
-            JOIN server_access.user AS s
-                USING ("user", service_entity_name)
-            WHERE
-                t.domain = p_site AND
-                t.port = p_site_port AND
-                s.owner = v_owner
-        )
+INSERT INTO web.alias
+    (domain, service, subservice, site, site_port, service_entity_name)
+VALUES
+    (
+        p_domain,
+        'web',
+        'alias',
+        p_site,
+        p_site_port,
+        (SELECT service_entity_name FROM web.site WHERE domain = p_site AND port = p_site_port)
     );
 
-    INSERT INTO web.alias
-        (domain, service, subservice, site, site_port, service_entity_name)
-    VALUES
-        (
-            p_domain,
-            'web',
-            'alias',
-            p_site,
-            p_site_port,
-            (SELECT service_entity_name FROM web.site WHERE domain = p_site AND port = p_site_port)
-        );
-
-    PERFORM backend._notify_domain('web', 'alias', p_domain);
+PERFORM backend._notify_domain('web', 'alias', p_domain);

@@ -1,3 +1,4 @@
+---
 name: del_handle
 description: Deletes handle
 
@@ -15,29 +16,27 @@ variables:
  -
   name: v_service_entity_name
   type: dns.t_domain
+---
 
-body: |
+BEGIN
+    -- perform DELETE to trigger potential foreign key errors
+    DELETE FROM domain_reseller.handle
+    WHERE
+        alias = p_alias AND
+        owner = v_owner;
 
-    BEGIN
-        -- perform DELETE to trigger potential foreign key errors
-        DELETE FROM domain_reseller.handle
+    -- if not failed yet, emulate rollback of DELETE
+    RAISE transaction_rollback;
+EXCEPTION
+    WHEN transaction_rollback THEN
+        UPDATE domain_reseller.handle
+               SET backend_status = 'del'
         WHERE
             alias = p_alias AND
-            owner = v_owner;
+            owner = v_owner
+        RETURNING service_entity_name INTO v_service_entity_name;
 
-        -- if not failed yet, emulate rollback of DELETE
-        RAISE transaction_rollback;
-    EXCEPTION
-        WHEN transaction_rollback THEN
-            UPDATE domain_reseller.handle
-                   SET backend_status = 'del'
-            WHERE
-                alias = p_alias AND
-                owner = v_owner
-            RETURNING service_entity_name INTO v_service_entity_name;
-
-            PERFORM backend._conditional_notify_service_entity_name(
-                FOUND, v_service_entity_name, 'domain_reseller', 'handle'
-            );
-
-    END;
+        PERFORM backend._conditional_notify_service_entity_name(
+            FOUND, v_service_entity_name, 'domain_reseller', 'handle'
+        );
+END;

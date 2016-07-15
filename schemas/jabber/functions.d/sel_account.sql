@@ -1,3 +1,4 @@
+---
 name: sel_account
 description: Select jabber accounts
 
@@ -15,14 +16,14 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
-    RETURN QUERY
-        SELECT
-            t.node,
-            t.domain,
-            t.backend_status
-        FROM jabber.account AS t
-        WHERE
-            t.owner = v_owner
-        ORDER BY t.backend_status, t.node, t.domain;
+RETURN QUERY
+    SELECT
+        t.node,
+        t.domain,
+        t.backend_status
+    FROM jabber.account AS t
+    WHERE
+        t.owner = v_owner
+    ORDER BY t.backend_status, t.node, t.domain;

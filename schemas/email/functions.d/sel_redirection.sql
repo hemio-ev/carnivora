@@ -1,3 +1,4 @@
+---
 templates:
  - user.userlogin
 
@@ -19,15 +20,15 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
- RETURN QUERY
-  SELECT
-   t.domain, 
-   t.localpart, 
-   t.destination,
-   t.backend_status
-  FROM
-   email.redirection AS t
-  WHERE
-   t.owner = v_owner;
+RETURN QUERY
+ SELECT
+  t.domain, 
+  t.localpart, 
+  t.destination,
+  t.backend_status
+ FROM
+  email.redirection AS t
+ WHERE
+  t.owner = v_owner;

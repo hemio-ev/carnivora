@@ -1,3 +1,4 @@
+---
 name: upd_https
 description: upd https
 
@@ -22,15 +23,15 @@ parameters:
  -
   name: p_authority_key_identifier
   type: varchar
+---
 
-body: |
-    UPDATE web.https
-        SET
-            x509_certificate = p_x509_certificate,
-            authority_key_identifier = p_authority_key_identifier
-    WHERE
-        domain = p_domain AND
-        port = p_port AND
-        identifier = p_identifier;
+UPDATE web.https
+    SET
+        x509_certificate = p_x509_certificate,
+        authority_key_identifier = p_authority_key_identifier
+WHERE
+    domain = p_domain AND
+    port = p_port AND
+    identifier = p_identifier;
 
-    PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
+PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);

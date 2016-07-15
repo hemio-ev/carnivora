@@ -1,3 +1,4 @@
+---
 name: sel_usable_host
 description: Usable hosts
 
@@ -17,9 +18,9 @@ parameters:
  -
   name: p_service
   type: commons.t_key
+---
 
-body: |
-    RETURN QUERY
+RETURN QUERY
     SELECT t.subservice, t.service_entity_name FROM system._effective_contingent() AS t
         WHERE
             owner = v_owner AND

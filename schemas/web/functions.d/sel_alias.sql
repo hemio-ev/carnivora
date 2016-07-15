@@ -1,3 +1,4 @@
+---
 name: sel_alias
 description: Select alias
 
@@ -18,25 +19,25 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
-    RETURN QUERY
-        SELECT
-            t.domain,
-            t.site,
-            t.site_port,
-            t.backend_status
-        FROM web.alias AS t
+RETURN QUERY
+    SELECT
+        t.domain,
+        t.site,
+        t.site_port,
+        t.backend_status
+    FROM web.alias AS t
 
-        JOIN web.site AS u
-            ON
-                u.domain = t.site AND
-                u.port = t.site_port
+    JOIN web.site AS u
+        ON
+            u.domain = t.site AND
+            u.port = t.site_port
 
-        JOIN server_access.user AS s
-            ON
-                u.user = s.user AND
-                s.service_entity_name = t.service_entity_name
+    JOIN server_access.user AS s
+        ON
+            u.user = s.user AND
+            s.service_entity_name = t.service_entity_name
 
-        WHERE s.owner = v_owner
-        ORDER BY t.backend_status, t.domain;
+    WHERE s.owner = v_owner
+    ORDER BY t.backend_status, t.domain;

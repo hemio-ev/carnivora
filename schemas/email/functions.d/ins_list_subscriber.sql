@@ -1,3 +1,4 @@
+---
 name: ins_list_subscriber
 description: |
  Adds a subscriber to a mailing list
@@ -17,22 +18,21 @@ parameters:
  -
   name: p_list_domain
   type: dns.t_domain
+---
 
-body: |
+PERFORM commons._raise_inaccessible_or_missing(
+    EXISTS(
+        SELECT TRUE FROM email.list
+        WHERE
+            localpart = p_list_localpart AND
+            domain =  p_list_domain AND
+            owner = v_owner
+    )
+);
 
-    PERFORM commons._raise_inaccessible_or_missing(
-        EXISTS(
-            SELECT TRUE FROM email.list
-            WHERE
-                localpart = p_list_localpart AND
-                domain =  p_list_domain AND
-                owner = v_owner
-        )
-    );
+INSERT INTO email.list_subscriber
+    (address, list_localpart, list_domain)
+VALUES
+    (p_address, p_list_localpart, p_list_domain);
 
-    INSERT INTO email.list_subscriber
-        (address, list_localpart, list_domain)
-    VALUES
-        (p_address, p_list_localpart, p_list_domain);
-
-    PERFORM backend._notify_domain('email', 'list', p_list_domain);
+PERFORM backend._notify_domain('email', 'list', p_list_domain);

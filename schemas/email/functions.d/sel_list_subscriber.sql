@@ -1,3 +1,4 @@
+---
 name: sel_list_subscriber
 description: a
 
@@ -18,20 +19,20 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
-    RETURN QUERY
-        SELECT
-            t.address,
-            t.list_localpart,
-            t.list_domain,
-            t.backend_status
-        FROM email.list_subscriber AS t
-        JOIN email.list AS s
-        ON
-            t.list_localpart = s.localpart AND
-            t.list_domain = s.domain
-        WHERE
-            s.owner = v_owner;
+RETURN QUERY
+    SELECT
+        t.address,
+        t.list_localpart,
+        t.list_domain,
+        t.backend_status
+    FROM email.list_subscriber AS t
+    JOIN email.list AS s
+    ON
+        t.list_localpart = s.localpart AND
+        t.list_domain = s.domain
+    WHERE
+        s.owner = v_owner;
 
 

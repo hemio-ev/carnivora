@@ -1,3 +1,4 @@
+---
 name: sel_user
 description: sel user
 
@@ -24,18 +25,18 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
-    RETURN QUERY
-        SELECT
-            t.user,
-            t.password IS NOT NULL,
-            t.service,
-            t.subservice,
-            t.service_entity_name,
-            t.backend_status
-        FROM
-            server_access.user AS t
-        WHERE
-            owner = v_owner
-        ORDER BY backend_status, "user";
+RETURN QUERY
+    SELECT
+        t.user,
+        t.password IS NOT NULL,
+        t.service,
+        t.subservice,
+        t.service_entity_name,
+        t.backend_status
+    FROM
+        server_access.user AS t
+    WHERE
+        owner = v_owner
+    ORDER BY backend_status, "user";

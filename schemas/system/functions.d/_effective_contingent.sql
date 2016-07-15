@@ -1,3 +1,4 @@
+---
 name: _effective_contingent
 description: contingent
 
@@ -21,28 +22,28 @@ returns_columns:
  -
   name: total_contingent
   type: int
+---
 
-body: |
- RETURN QUERY
-  SELECT
-   DISTINCT ON
-   (contingent.service, contingent.subservice, contingent.service_entity_name, usr.owner)
-   contingent.service,
-   contingent.subservice,
-   contingent.service_entity_name,
-   usr.owner,
-   contingent.domain_contingent,
-   contingent.total_contingent
-  FROM system.subservice_entity_contingent AS contingent
+RETURN QUERY
+ SELECT
+  DISTINCT ON
+  (contingent.service, contingent.subservice, contingent.service_entity_name, usr.owner)
+  contingent.service,
+  contingent.subservice,
+  contingent.service_entity_name,
+  usr.owner,
+  contingent.domain_contingent,
+  contingent.total_contingent
+ FROM system.subservice_entity_contingent AS contingent
 
-  CROSS JOIN "user"."user" AS usr
+ CROSS JOIN "user"."user" AS usr
 
-  JOIN system._inherit_contingent_donor(usr.owner) AS des
-    ON des.donor = contingent.owner
+ JOIN system._inherit_contingent_donor(usr.owner) AS des
+   ON des.donor = contingent.owner
 
-  ORDER BY
-   contingent.service,
-   contingent.subservice,
-   contingent.service_entity_name,
-   usr.owner,
-   des.priority_list DESC;
+ ORDER BY
+  contingent.service,
+  contingent.subservice,
+  contingent.service_entity_name,
+  usr.owner,
+  des.priority_list DESC;

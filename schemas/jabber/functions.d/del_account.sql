@@ -1,3 +1,4 @@
+---
 name: del_account
 description: Delete jabber account
 
@@ -13,13 +14,13 @@ parameters:
  -
   name: p_domain
   type: dns.t_domain
+---
 
-body: |
-    UPDATE jabber.account
-    SET backend_status = 'del'
-    WHERE
-        node = p_node AND
-        domain = p_domain AND
-        owner = v_owner;
+UPDATE jabber.account
+SET backend_status = 'del'
+WHERE
+    node = p_node AND
+    domain = p_domain AND
+    owner = v_owner;
 
-    PERFORM backend._conditional_notify(FOUND, 'jabber', 'account', p_domain);
+PERFORM backend._conditional_notify(FOUND, 'jabber', 'account', p_domain);

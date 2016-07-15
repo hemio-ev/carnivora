@@ -1,3 +1,4 @@
+---
 name: sel_list
 description: List all lists
 
@@ -24,18 +25,18 @@ returns_columns:
  -
   name: num_subscribers
   type: bigint
+---
 
-body: |
-    RETURN QUERY
-        SELECT
-            t.domain,
-            t.localpart,
-            t.owner,
-            t.admin,
-            t.backend_status,
-            (SELECT COUNT(*) FROM email.list_subscriber AS s
-            WHERE s.list_localpart=t.localpart AND s.list_domain=t.domain)
-        FROM
-            email.list AS t
-        WHERE
-            t.owner = v_owner;
+RETURN QUERY
+    SELECT
+        t.domain,
+        t.localpart,
+        t.owner,
+        t.admin,
+        t.backend_status,
+        (SELECT COUNT(*) FROM email.list_subscriber AS s
+        WHERE s.list_localpart=t.localpart AND s.list_domain=t.domain)
+    FROM
+        email.list AS t
+    WHERE
+        t.owner = v_owner;

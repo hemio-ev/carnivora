@@ -1,3 +1,4 @@
+---
 name: ins_list
 description: |
  Creates a mailing list
@@ -24,12 +25,11 @@ variables:
   name: v_subservice
   type: commons.t_key
   default: "'list'"
+---
 
-body: |
+INSERT INTO email.list
+    (service, subservice, localpart, domain, owner, admin, service_entity_name) VALUES
+    ('email', 'list', p_localpart, p_domain, v_owner, p_admin,
+    (SELECT service_entity_name FROM dns.service WHERE service='email' AND domain = p_domain));
 
-    INSERT INTO email.list
-        (service, subservice, localpart, domain, owner, admin, service_entity_name) VALUES
-        ('email', 'list', p_localpart, p_domain, v_owner, p_admin,
-        (SELECT service_entity_name FROM dns.service WHERE service='email' AND domain = p_domain));
-
-    PERFORM backend._notify_domain('email', 'list', p_domain);
+PERFORM backend._notify_domain('email', 'list', p_domain);

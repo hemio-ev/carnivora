@@ -1,3 +1,4 @@
+---
 name: sel_https
 description: sel https
 
@@ -27,16 +28,16 @@ returns_columns:
  -
   name: backend_status
   type: backend.t_status
+---
 
-body: |
-    RETURN QUERY
-        SELECT
-            t.identifier,
-            t.domain,
-            t.port,
-            t.x509_request,
-            t.x509_certificate,
-            t.authority_key_identifier,
-            t.backend_status
-        FROM web.https AS t
-        ORDER BY t.backend_status, t.identifier;
+RETURN QUERY
+    SELECT
+        t.identifier,
+        t.domain,
+        t.port,
+        t.x509_request,
+        t.x509_certificate,
+        t.authority_key_identifier,
+        t.backend_status
+    FROM web.https AS t
+    ORDER BY t.backend_status, t.identifier;

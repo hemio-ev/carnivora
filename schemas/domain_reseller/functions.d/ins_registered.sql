@@ -1,3 +1,4 @@
+---
 name: ins_registered
 description: Inserts details for registered domain
 
@@ -16,10 +17,9 @@ parameters:
  -
   name: p_admin_c
   type: varchar
+---
 
-body: |
-
-    INSERT INTO domain_reseller.registered
-        (domain, registrant, admin_c)
-    VALUES
-        (p_domain, p_registrant, p_admin_c);
+INSERT INTO domain_reseller.registered
+    (domain, registrant, admin_c)
+VALUES
+    (p_domain, p_registrant, p_admin_c);

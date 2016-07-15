@@ -1,3 +1,4 @@
+---
 name: ins_redirection
 description: |
  Creates a redirection
@@ -24,14 +25,13 @@ variables:
   name: v_subservice
   type: commons.t_key
   default: "'redirection'"
+---
 
-body: |
+PERFORM email._address_valid(p_localpart, p_domain);
 
-    PERFORM email._address_valid(p_localpart, p_domain);
+INSERT INTO email.redirection
+    (service, subservice, localpart, domain, destination, owner, service_entity_name) VALUES
+    ('email', 'redirection', p_localpart, p_domain, p_destination, v_owner,
+    (SELECT service_entity_name FROM dns.service WHERE service='email' AND domain = p_domain));
 
-    INSERT INTO email.redirection
-        (service, subservice, localpart, domain, destination, owner, service_entity_name) VALUES
-        ('email', 'redirection', p_localpart, p_domain, p_destination, v_owner,
-        (SELECT service_entity_name FROM dns.service WHERE service='email' AND domain = p_domain));
-
-    PERFORM backend._notify_domain('email', 'redirection', p_domain);
+PERFORM backend._notify_domain('email', 'redirection', p_domain);

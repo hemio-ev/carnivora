@@ -1,3 +1,4 @@
+---
 name: _hash_password
 description: |
  SHA512 hash of the password with 16 charcters random salt.
@@ -11,8 +12,8 @@ parameters:
  -
   name: p_password
   type: commons.t_password_plaintext
+---
 
-body: |
- import crypt
+import crypt
 
- return crypt.crypt(p_password, crypt.METHOD_SHA512)
+return crypt.crypt(p_password, crypt.METHOD_SHA512)

@@ -1,3 +1,4 @@
+---
 name: sel_site
 description: |
  Owner defined via server_access
@@ -34,22 +35,22 @@ returns_columns:
  -
   name: option
   type: jsonb
+---
 
-body: |
-    RETURN QUERY
-        SELECT
-            t.service,
-            t.subservice,
-            t.domain,
-            t.port,
-            t.user,
-            t.service_entity_name,
-            t.https,
-            t.backend_status,
-            t.option
-        FROM web.site AS t
-        JOIN server_access.user AS s
-            USING ("user", service_entity_name)
-        WHERE
-            s.owner = v_owner
-        ORDER BY t.backend_status, t.domain, t.port;
+RETURN QUERY
+    SELECT
+        t.service,
+        t.subservice,
+        t.domain,
+        t.port,
+        t.user,
+        t.service_entity_name,
+        t.https,
+        t.backend_status,
+        t.option
+    FROM web.site AS t
+    JOIN server_access.user AS s
+        USING ("user", service_entity_name)
+    WHERE
+        s.owner = v_owner
+    ORDER BY t.backend_status, t.domain, t.port;

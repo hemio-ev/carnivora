@@ -1,3 +1,4 @@
+---
 name: _contingent_total
 description: |
  Contingent
@@ -22,23 +23,23 @@ variables:
  -
   name: v_default
   type: integer
+---
 
-body: |
-    v_user := (
-        SELECT t.quantity
-        FROM system.contingent_total AS t
-        WHERE
-            t.owner = p_owner AND
-            t.service = p_service AND
-            t.service_entity_name = p_service_entity_name
-    );
+v_user := (
+    SELECT t.quantity
+    FROM system.contingent_total AS t
+    WHERE
+        t.owner = p_owner AND
+        t.service = p_service AND
+        t.service_entity_name = p_service_entity_name
+);
 
-    v_default := (
-        SELECT t.quantity
-        FROM system.contingent_default_total AS t
-        WHERE
-            t.service = p_service AND
-            t.service_entity_name = p_service_entity_name
-    );
+v_default := (
+    SELECT t.quantity
+    FROM system.contingent_default_total AS t
+    WHERE
+        t.service = p_service AND
+        t.service_entity_name = p_service_entity_name
+);
 
-    RETURN COALESCE(v_user, v_default);
+RETURN COALESCE(v_user, v_default);

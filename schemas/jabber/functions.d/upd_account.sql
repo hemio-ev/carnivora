@@ -1,3 +1,4 @@
+---
 name: upd_account
 description: Change jabber account password
 
@@ -16,14 +17,14 @@ parameters:
  -
   name: p_password
   type: commons.t_password_plaintext
+---
 
-body: |
-    UPDATE jabber.account
-        SET
-            password = commons._hash_password(p_password)
-    WHERE
-        node = p_node AND
-        domain = p_domain AND
-        owner = v_owner;
+UPDATE jabber.account
+    SET
+        password = commons._hash_password(p_password)
+WHERE
+    node = p_node AND
+    domain = p_domain AND
+    owner = v_owner;
 
-    PERFORM backend._conditional_notify(FOUND, 'jabber', 'account', p_domain);
+PERFORM backend._conditional_notify(FOUND, 'jabber', 'account', p_domain);

@@ -1,3 +1,4 @@
+---
 name: sel_intermediate_chain
 description: sel
 
@@ -24,17 +25,17 @@ returns_columns:
  -
   name: order
   type: integer
+---
 
-body: |
-    RETURN QUERY
-        SELECT
-            t.domain,
-            t.port,
-            t.identifier,
-            t.subject_key_identifier,
-            s.x509_certificate,
-            t.order
-        FROM web.intermediate_chain AS t
-        JOIN web.intermediate_cert AS s
-            USING (subject_key_identifier)
-        ORDER BY t.order;
+RETURN QUERY
+    SELECT
+        t.domain,
+        t.port,
+        t.identifier,
+        t.subject_key_identifier,
+        s.x509_certificate,
+        t.order
+    FROM web.intermediate_chain AS t
+    JOIN web.intermediate_cert AS s
+        USING (subject_key_identifier)
+    ORDER BY t.order;
