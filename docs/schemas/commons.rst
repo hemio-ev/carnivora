@@ -42,6 +42,7 @@ Returns
 
 .. code-block:: guess
 
+   
    import crypt
    
    return crypt.crypt(p_password, crypt.METHOD_SHA512)
@@ -76,6 +77,7 @@ Execute privilege
 
 .. code-block:: guess
 
+   
    if p_domain is None:
       return None
    
@@ -107,6 +109,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    RETURN ARRAY(SELECT jsonb_array_elements_text(p_jsonb));
 
 
@@ -139,6 +142,7 @@ Returns
 
 .. code-block:: guess
 
+   
    import crypt
    from hmac import compare_digest as compare_hash
    
@@ -202,15 +206,16 @@ Execute privilege
 
 .. code-block:: plpgsql
 
+   
    RETURN
-   ARRAY(
-       SELECT p_array[i]
-       FROM generate_series(
-           array_lower(p_array,1),
-           array_upper(p_array,1)
-       ) AS s(i)
-       ORDER BY i DESC
-   );
+       ARRAY(
+           SELECT p_array[i]
+           FROM generate_series(
+               array_lower(p_array,1),
+               array_upper(p_array,1)
+           ) AS s(i)
+           ORDER BY i DESC
+       );
 
 
 
@@ -233,6 +238,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    RETURN uuid_generate_v4();
 
 

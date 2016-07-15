@@ -188,6 +188,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    UPDATE jabber.account
    SET backend_status = 'del'
    WHERE
@@ -245,6 +246,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    v_num_total := (SELECT COUNT(*) FROM jabber.account AS t WHERE t.owner=v_owner);
    v_num_domain := (SELECT COUNT(*) FROM jabber.account AS t WHERE t.owner=v_owner AND t.domain = p_domain);
@@ -306,6 +308,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
        SELECT
            t.node,
@@ -355,6 +358,7 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
    
    RETURN QUERY
        WITH
@@ -430,6 +434,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    UPDATE jabber.account
        SET

@@ -429,7 +429,6 @@ Execute privilege
            PERFORM backend._conditional_notify_service_entity_name(
                FOUND, v_service_entity_name, 'domain_reseller', 'handle'
            );
-   
    END;
 
 
@@ -471,8 +470,8 @@ Execute privilege
    
    
    UPDATE domain_reseller.handle
-   SET id = p_id
-   WHERE alias = p_alias;
+       SET id = p_id
+       WHERE alias = p_alias;
 
 
 
@@ -804,6 +803,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
        SELECT
            t.domain,
@@ -863,6 +863,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
    SELECT
        COALESCE(t.subservice, s.subservice) AS subservice,
@@ -905,6 +906,7 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
    
    RETURN QUERY
        WITH
@@ -983,23 +985,24 @@ Execute privilege
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
    
+   
    RETURN QUERY
-   SELECT
-       t.domain,
-       t.registrant,
-       (SELECT id FROM domain_reseller.handle WHERE alias = t.registrant),
-       t.admin_c,
-       (SELECT id FROM domain_reseller.handle WHERE alias = t.admin_c),
-       t.tech_c,
-       (SELECT id FROM domain_reseller.handle WHERE alias = t.tech_c),
-       t.zone_c,
-       (SELECT id FROM domain_reseller.handle WHERE alias = t.zone_c),
-       s.backend_status
-    FROM domain_reseller.registered AS t
-   JOIN dns.registered AS s USING (domain)
-   WHERE
-   backend._machine_priviledged_service(s.service, s.service_entity_name) AND
-   (backend._active(s.backend_status) OR p_include_inactive);
+       SELECT
+           t.domain,
+           t.registrant,
+           (SELECT id FROM domain_reseller.handle WHERE alias = t.registrant),
+           t.admin_c,
+           (SELECT id FROM domain_reseller.handle WHERE alias = t.admin_c),
+           t.tech_c,
+           (SELECT id FROM domain_reseller.handle WHERE alias = t.tech_c),
+           t.zone_c,
+           (SELECT id FROM domain_reseller.handle WHERE alias = t.zone_c),
+           s.backend_status
+        FROM domain_reseller.registered AS t
+       JOIN dns.registered AS s USING (domain)
+       WHERE
+       backend._machine_priviledged_service(s.service, s.service_entity_name) AND
+       (backend._active(s.backend_status) OR p_include_inactive);
 
 
 
@@ -1140,6 +1143,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    UPDATE domain_reseller.registered AS t
        SET

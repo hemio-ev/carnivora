@@ -191,6 +191,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    BEGIN
        -- perform DELETE to trigger potential foreign key errors
        DELETE FROM server_access.user
@@ -265,6 +266,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    IF p_password IS NULL THEN
        v_password := NULL;
    ELSE
@@ -326,6 +328,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
        SELECT
            t.user,
@@ -385,6 +388,7 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
    
    RETURN QUERY
        WITH
@@ -469,6 +473,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    IF p_password IS NOT NULL THEN
        v_password := commons._hash_password(p_password);

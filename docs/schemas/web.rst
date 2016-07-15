@@ -668,11 +668,12 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    DELETE FROM web.intermediate_chain
-   WHERE
-       domain = p_domain AND
-       port = p_port AND
-       identifier = p_identifier;
+       WHERE
+           domain = p_domain AND
+           port = p_port AND
+           identifier = p_identifier;
 
 
 
@@ -713,6 +714,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    UPDATE web.site AS t
        SET backend_status = 'del'
@@ -770,6 +772,7 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
    
    UPDATE web.https
        SET x509_request = p_x509_request
@@ -891,10 +894,11 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    INSERT INTO web.https
-   (domain, port, identifier)
-   VALUES
-   (p_domain, p_port, p_identifier);
+       (domain, port, identifier)
+       VALUES
+       (p_domain, p_port, p_identifier);
 
 
 
@@ -938,6 +942,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    INSERT INTO web.intermediate_cert
        (subject_key_identifier, authority_key_identifier, x509_certificate)
@@ -993,10 +998,11 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    INSERT INTO web.intermediate_chain
-   (domain, port, identifier, "order", subject_key_identifier)
-   VALUES
-   (p_domain, p_port, p_identifier, p_order, p_subject_key_identifier);
+       (domain, port, identifier, "order", subject_key_identifier)
+       VALUES
+       (p_domain, p_port, p_identifier, p_order, p_subject_key_identifier);
 
 
 
@@ -1048,11 +1054,11 @@ Execute privilege
    
    
    INSERT INTO web.site
-   (domain, service, subservice, port, "user", service_entity_name)
-   VALUES
-   (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name);
+       (domain, service, subservice, port, "user", service_entity_name)
+       VALUES
+       (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name);
    
-   PERFORM backend._notify_domain('web', 'site', p_domain);
+       PERFORM backend._notify_domain('web', 'site', p_domain);
 
 
 
@@ -1097,6 +1103,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    RETURN QUERY
        SELECT
@@ -1169,6 +1176,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
        SELECT
            t.identifier,
@@ -1224,6 +1232,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    RETURN QUERY
        SELECT
@@ -1281,6 +1290,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    RETURN QUERY
        SELECT
@@ -1349,6 +1359,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
        SELECT
            t.service,
@@ -1406,6 +1417,7 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
    
    RETURN QUERY
        WITH
@@ -1573,6 +1585,7 @@ Execute privilege
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
    
+   
    RETURN QUERY
        WITH
    
@@ -1657,6 +1670,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    UPDATE web.https
        SET

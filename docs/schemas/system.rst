@@ -15,6 +15,57 @@ Tables
 ------
 
 
+.. _TABLE-system.inherit_contingent:
+
+``system.inherit_contingent``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+x
+
+Primary key
+ - owner
+ - priority
+
+
+.. BEGIN FKs
+
+
+.. END FKs
+
+
+Columns
+ - .. _COLUMN-system.inherit_contingent.owner:
+   
+   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     for ownage
+
+
+   References :ref:`user.user.owner <COLUMN-user.user.owner>`
+
+   On Delete: CASCADE
+
+
+ - .. _COLUMN-system.inherit_contingent.donor:
+   
+   ``donor`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     Donor
+
+
+   References :ref:`user.user.owner <COLUMN-user.user.owner>`
+
+
+
+ - .. _COLUMN-system.inherit_contingent.priority:
+   
+   ``priority`` :ref:`int <DOMAIN-int>`
+     Priority, higher values take precedence
+
+
+
+
+
+
+
 .. _TABLE-system.service:
 
 ``system.service``
@@ -282,6 +333,46 @@ Columns
 
 
 
+.. _TABLE-system.subservice:
+
+``system.subservice``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Subservices
+
+Primary key
+ - service
+ - subservice
+
+
+.. BEGIN FKs
+
+
+.. END FKs
+
+
+Columns
+ - .. _COLUMN-system.subservice.service:
+   
+   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Service
+
+
+   References :ref:`system.service.service <COLUMN-system.service.service>`
+
+
+
+ - .. _COLUMN-system.subservice.subservice:
+   
+   ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Subservice (concretization the service)
+
+
+
+
+
+
+
 .. _TABLE-system.subservice_entity:
 
 ``system.subservice_entity``
@@ -356,6 +447,209 @@ Columns
 
 
 
+.. _TABLE-system.subservice_entity_contingent:
+
+``system.subservice_entity_contingent``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Subservice entity contingent
+
+Primary key
+ - service
+ - subservice
+ - service_entity_name
+ - owner
+
+
+.. BEGIN FKs
+
+Foreign keys
+ - Reference service entity
+
+   Local Columns
+    - service_entity_name
+    - service
+
+   Referenced Columns
+    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+
+ - Reference subservice entity
+
+   Local Columns
+    - service_entity_name
+    - service
+    - subservice
+
+   Referenced Columns
+    - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
+    - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
+    - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
+
+
+.. END FKs
+
+
+Columns
+ - .. _COLUMN-system.subservice_entity_contingent.service_entity_name:
+   
+   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Service entity name
+
+
+
+
+
+ - .. _COLUMN-system.subservice_entity_contingent.service:
+   
+   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Service (e.g. email, jabber)
+
+
+
+
+
+ - .. _COLUMN-system.subservice_entity_contingent.subservice:
+   
+   ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Subservice (e.g. account, alias)
+
+
+
+
+
+ - .. _COLUMN-system.subservice_entity_contingent.owner:
+   
+   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     for ownage
+
+
+   References :ref:`user.user.owner <COLUMN-user.user.owner>`
+
+
+
+ - .. _COLUMN-system.subservice_entity_contingent.domain_contingent:
+   
+   ``domain_contingent`` :ref:`integer <DOMAIN-integer>`
+     Limit per domain
+
+
+
+
+
+ - .. _COLUMN-system.subservice_entity_contingent.total_contingent:
+   
+   ``total_contingent`` :ref:`integer <DOMAIN-integer>`
+     Limit on the total
+
+
+
+
+
+
+
+.. _TABLE-system.subservice_entity_domain_contingent:
+
+``system.subservice_entity_domain_contingent``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Subservice entity per domain contingent
+
+Primary key
+ - service
+ - subservice
+ - service_entity_name
+ - domain
+ - owner
+
+
+.. BEGIN FKs
+
+Foreign keys
+ - Reference service entity
+
+   Local Columns
+    - service_entity_name
+    - service
+
+   Referenced Columns
+    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+
+ - Reference subservice entity
+
+   Local Columns
+    - service_entity_name
+    - service
+    - subservice
+
+   Referenced Columns
+    - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
+    - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
+    - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
+
+
+.. END FKs
+
+
+Columns
+ - .. _COLUMN-system.subservice_entity_domain_contingent.service_entity_name:
+   
+   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Service entity name
+
+
+
+
+
+ - .. _COLUMN-system.subservice_entity_domain_contingent.service:
+   
+   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Service (e.g. email, jabber)
+
+
+
+
+
+ - .. _COLUMN-system.subservice_entity_domain_contingent.subservice:
+   
+   ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Subservice (e.g. account, alias)
+
+
+
+
+
+ - .. _COLUMN-system.subservice_entity_domain_contingent.owner:
+   
+   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     for ownage
+
+
+   References :ref:`user.user.owner <COLUMN-user.user.owner>`
+
+
+
+ - .. _COLUMN-system.subservice_entity_domain_contingent.domain:
+   
+   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Specific domain for which the access is granted
+
+
+
+
+
+ - .. _COLUMN-system.subservice_entity_domain_contingent.domain_contingent:
+   
+   ``domain_contingent`` :ref:`integer <DOMAIN-integer>`
+     Limit per domain
+
+
+
+
+
+
+
 
 
 
@@ -422,6 +716,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    IF p_owner IS NULL
    THEN
        RAISE 'Owner argument must not be NULL.';
@@ -543,6 +838,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    v_user := (
        SELECT t.quantity
        FROM system.contingent_total AS t
@@ -596,6 +892,7 @@ Returned columns
 
 .. code-block:: plpgsql
 
+   
    RETURN QUERY
     SELECT
      DISTINCT ON
@@ -654,30 +951,31 @@ Returned columns
 
 .. code-block:: plpgsql
 
+   
    RETURN QUERY
-    SELECT
-     DISTINCT ON
-     (contingent.service, contingent.subservice, contingent.service_entity_name, contingent.domain, usr.owner)
-     contingent.service,
-     contingent.subservice,
-     contingent.service_entity_name,
-     contingent.domain,
-     usr.owner,
-     contingent.domain_contingent
-    FROM system.subservice_entity_domain_contingent AS contingent
+     SELECT
+      DISTINCT ON
+      (contingent.service, contingent.subservice, contingent.service_entity_name, contingent.domain, usr.owner)
+      contingent.service,
+      contingent.subservice,
+      contingent.service_entity_name,
+      contingent.domain,
+      usr.owner,
+      contingent.domain_contingent
+     FROM system.subservice_entity_domain_contingent AS contingent
    
-    CROSS JOIN "user"."user" AS usr
+     CROSS JOIN "user"."user" AS usr
    
-    JOIN system._inherit_contingent_donor(usr.owner) AS des
-      ON des.donor = contingent.owner
+     JOIN system._inherit_contingent_donor(usr.owner) AS des
+       ON des.donor = contingent.owner
    
-    ORDER BY
-     contingent.service,
-     contingent.subservice,
-     contingent.service_entity_name,
-     contingent.domain,
-     usr.owner,
-     des.priority_list DESC;
+     ORDER BY
+      contingent.service,
+      contingent.subservice,
+      contingent.service_entity_name,
+      contingent.domain,
+      usr.owner,
+      des.priority_list DESC;
 
 
 
@@ -707,6 +1005,7 @@ Returned columns
 
 .. code-block:: plpgsql
 
+   
    RETURN QUERY
    WITH RECURSIVE contingent_donor(donor, priority_list, cycle_detector) AS
    (
@@ -760,6 +1059,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    INSERT INTO system.service
     (module, service) VALUES (p_module, p_service);
    RETURN (SELECT COUNT(*) FROM system.service AS s WHERE s.module=p_module);
@@ -792,6 +1092,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    INSERT INTO system.subservice
     (service, subservice) VALUES (p_service, p_subservice);
    RETURN (SELECT COUNT(*) FROM system.subservice AS s WHERE s.service=p_service);
@@ -838,10 +1139,11 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
-   SELECT t.owner, t.donor, t.priority
-   FROM system.inherit_contingent AS t
-   ORDER BY t.owner, t.priority;
+       SELECT t.owner, t.donor, t.priority
+       FROM system.inherit_contingent AS t
+       ORDER BY t.owner, t.priority;
 
 
 
@@ -885,15 +1187,16 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
-   SELECT t.subservice, t.service_entity_name FROM system._effective_contingent() AS t
-       WHERE
-           owner = v_owner AND
-           t.service = p_service AND
-           t.total_contingent > 0
-       ORDER BY
-           t.service_entity_name
-   ;
+       SELECT t.subservice, t.service_entity_name FROM system._effective_contingent() AS t
+           WHERE
+               owner = v_owner AND
+               t.service = p_service AND
+               t.total_contingent > 0
+           ORDER BY
+               t.service_entity_name
+       ;
 
 
 

@@ -803,6 +803,7 @@ Returned columns
 
 .. code-block:: plpgsql
 
+   
    RETURN QUERY (
     SELECT t.localpart, t.domain, t.owner, t.subservice FROM email.mailbox AS t
     UNION ALL
@@ -843,6 +844,7 @@ Returns
 
 .. code-block:: plpgsql
 
+   
    IF (
        SELECT TRUE FROM email._address()
        WHERE
@@ -957,6 +959,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    DELETE FROM email.list
    WHERE
        domain = p_domain AND
@@ -1007,6 +1010,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    UPDATE email.list_subscriber AS t
        SET backend_status = 'del'
@@ -1062,6 +1066,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    UPDATE email.mailbox
            SET backend_status = 'del'
@@ -1543,6 +1548,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
    SELECT
        t.localpart,
@@ -1606,6 +1612,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
        SELECT
            t.domain,
@@ -1663,6 +1670,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    RETURN QUERY
        SELECT
@@ -1724,6 +1732,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
     SELECT
      t.domain,
@@ -1780,6 +1789,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    RETURN QUERY
     SELECT
      t.domain, 
@@ -1832,6 +1842,7 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
    
    RETURN QUERY
        WITH
@@ -1905,6 +1916,7 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
    
    RETURN QUERY
        WITH
@@ -2069,6 +2081,7 @@ Execute privilege
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
    
+   
    RETURN QUERY
        WITH
    
@@ -2143,6 +2156,7 @@ Execute privilege
 .. code-block:: plpgsql
 
    v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
    
    RETURN QUERY
        WITH
@@ -2219,6 +2233,7 @@ Execute privilege
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
+   
    UPDATE email.list
        SET
            admin = p_admin,
@@ -2273,6 +2288,7 @@ Execute privilege
    v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
+   
    
    UPDATE email.mailbox
        SET
