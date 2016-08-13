@@ -39,16 +39,11 @@ IF v_nameserver IS NULL THEN
     PERFORM commons._raise_inaccessible_or_missing();
 END IF;
 
-UPDATE dns.service
-    SET service_entity_name = p_service_entity_name
-WHERE
-    registered = p_registered AND
-    domain = p_domain AND
-    service = p_service;
-
-IF NOT FOUND THEN
-    INSERT INTO dns.service (registered, domain, service_entity_name, service)
-         VALUES (p_registered, p_domain, p_service_entity_name, p_service);
+IF right(p_domain, char_length(p_registered)) <> p_registered THEN
+    RAISE 'Domain does not match registered domain';
 END IF;
+
+INSERT INTO dns.service (registered, domain, service_entity_name, service)
+    VALUES (p_registered, p_domain, p_service_entity_name, p_service);
 
 PERFORM backend._notify_service_entity_name(v_nameserver, 'dns', v_managed);
