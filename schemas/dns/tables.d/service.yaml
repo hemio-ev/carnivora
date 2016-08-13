@@ -32,5 +32,4 @@ checks:
  -
   name: proper_subdomain
   description: Ensures that domain is a subdomain of registered
-  check: registered = right(domain, char_length(p_registered))
-
+  check: registered = domain OR '.' || registered = right(domain, char_length(registered)+1)
