@@ -39,10 +39,6 @@ IF v_nameserver IS NULL THEN
     PERFORM commons._raise_inaccessible_or_missing();
 END IF;
 
-IF right(p_domain, char_length(p_registered)) <> p_registered THEN
-    RAISE 'Domain does not match registered domain';
-END IF;
-
 INSERT INTO dns.service (registered, domain, service_entity_name, service)
     VALUES (p_registered, p_domain, p_service_entity_name, p_service);
 
