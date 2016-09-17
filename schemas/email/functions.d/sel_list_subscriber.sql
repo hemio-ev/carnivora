@@ -33,6 +33,7 @@ RETURN QUERY
         t.list_localpart = s.localpart AND
         t.list_domain = s.domain
     WHERE
-        s.owner = v_owner;
+        s.owner = v_owner
+    ORDER BY t.list_localpart, t.list_domain, t.address;
 
 
