@@ -21,9 +21,18 @@ columns:
   type: email.t_localpart
   description: Local part
  -
-  template: commons.uid
+  name: uid
+  type: SERIAL
+  description: Unix user identifier
+  checks:
+   -
+    name: range
+    description: Range
+    check: uid > 100000 AND uid < 200000
  -
-  template: commons.password
+  name: password
+  type: commons.t_password
+  description: Unix shadow crypt format
  -
   name: quota
   type: int

@@ -13,7 +13,8 @@ columns:
   type: user.t_user
   description: User name, login name
  -
-  template: commons.password
+  name: password
+  type: commons.t_password
   description: Unix shadow crypt format, NULL value disables login
   null: true
  -

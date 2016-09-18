@@ -18,7 +18,11 @@ templates:
 
 columns:
  -
-  template: commons.uuid_serial
+  name: id
+  description: |
+      uuid serial number to identify database elements uniquely
+  type: uuid
+  default: commons._uuid()
  -
   name: domain_prefix
   type: varchar

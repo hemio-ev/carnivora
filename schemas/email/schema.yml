@@ -51,23 +51,6 @@ function_templates:
         p_current_quantity_total:=v_num_total,
         p_current_quantity_domain:=v_num_domain);
 
-column_templates:
- -
-  template: name
-  name: name
-  type: dns.t_domain
-  description: Name like sub.example.org. This defines to which name the resource record pertains.
- -
-  template: type
-  name: type
-  type: dns.t_type
-  description: Type (?) like MX, A, AAAA, ...
-
-#   -
-#    name: localpart
-#    type: email.t_localpart
-#    description: Local part of the address
-
 domains:
  -
   name: t_localpart

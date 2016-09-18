@@ -17,4 +17,6 @@ columns:
   type: email.t_localpart
   description: part in front of the @ in account name
  -
-  template: commons.password
+  name: password
+  type: commons.t_password
+  description: Unix shadow crypt format

@@ -27,19 +27,6 @@ domains:
   description: Backend status
   type: VARCHAR(20)
 
-column_templates:
- -
-  template: job
-  name: backend_status
-  description: |
-      Status of database entry in backend. NULL: nothing pending,
-      'ins': entry not present on backend client, 'upd': update
-      pending on backend client, 'del': deletion peding on
-      backend client.
-  type: backend.t_status
-  default: "'ins'"
-  null: true
-
 function_templates:
  -
   template: backend
@@ -70,4 +57,12 @@ table_templates:
   description: Backend
   columns:
    -
-    template: backend.job
+      name: backend_status
+      description: |
+          Status of database entry in backend. NULL: nothing pending,
+          'ins': entry not present on backend client, 'upd': update
+          pending on backend client, 'del': deletion peding on
+          backend client.
+      type: backend.t_status
+      default: "'ins'"
+      null: true

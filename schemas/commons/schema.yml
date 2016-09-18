@@ -24,34 +24,6 @@ table_templates:
     type: jsonb
     default: "'{}'"
 
-column_templates:
-# password
- -
-  template: password
-  name: password
-  type: commons.t_password
-  description: Unix shadow crypt format
-# uuid
- -
-  template: uuid_serial
-  name: id
-  description: |
-      uuid serial number to identify database elements uniquely
-      The default value is generated using uuid_generate_v4().
-  type: uuid
-  default: uuid_generate_v4()
-  unique: true
-# uid
- -
-  template: uid
-  name: uid
-  type: SERIAL
-  description: Unix user identifier
-  checks:
-   -
-    name: range
-    description: Range
-    check: uid > 100000 AND uid < 200000
 
 domains:
  -

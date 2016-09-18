@@ -11,7 +11,10 @@ columns:
   description: Session id
   default: '"user"._session_id()'
  -
-  template: user.owner
+  name: owner
+  type: user.t_user
+  description: Owner
+  references: user.user.owner
   on_ref_delete: CASCADE
  -
   name: act_as

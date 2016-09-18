@@ -19,4 +19,8 @@ columns:
   type: dns.t_domain
   description: domain of entry
  -
-  template: commons.uuid_serial
+  name: id
+  description: |
+      uuid serial number to identify database elements uniquely
+  type: uuid
+  default: commons._uuid()

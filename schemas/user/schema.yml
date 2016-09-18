@@ -11,14 +11,6 @@ priv_all_all:
 priv_usage:
  - userlogin
 
-column_templates:
- -
-  template: owner
-  name: owner
-  type: user.t_user
-  description: for ownage
-  references: user.user.owner
-
 roles:
  -
   name: userlogin
@@ -59,7 +51,10 @@ table_templates:
 
   columns:
    -
-    template: user.owner
+    name: owner
+    type: user.t_user
+    description: Owner
+    references: user.user.owner
 
 domains:
  -
