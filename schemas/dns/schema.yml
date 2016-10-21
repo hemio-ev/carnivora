@@ -12,7 +12,7 @@ priv_usage:
  - backend
 
 
-exec_post_install: |
+exec_post_install_and_upgrade: |
  SELECT system._setup_register_service('dns', 'domain_registered');
  SELECT system._setup_register_service('dns', 'dns');
  SELECT system._setup_register_subservice('domain_registered', 'managed');

@@ -18,7 +18,7 @@ priv_usage:
  - userlogin
  - backend
 
-exec_post_install: |
+exec_post_install_and_upgrade: |
  SELECT system._setup_register_service('server_access', 'server_access');
  SELECT system._setup_register_subservice('server_access', 'ssh');
  SELECT system._setup_register_subservice('server_access', 'sftp');

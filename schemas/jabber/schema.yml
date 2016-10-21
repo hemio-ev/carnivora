@@ -14,7 +14,7 @@ priv_usage:
  - userlogin
  - backend
 
-exec_post_install: |
+exec_post_install_and_upgrade: |
  SELECT system._setup_register_service('jabber', 'jabber');
  SELECT system._setup_register_subservice('jabber', 'account');
  SELECT system._setup_register_subservice('jabber', 'dns_activatable');

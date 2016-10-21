@@ -19,7 +19,7 @@ priv_usage:
  - userlogin
  - backend
 
-exec_post_install: |
+exec_post_install_and_upgrade: |
  SELECT system._setup_register_service('domain_reseller', 'domain_reseller');
  SELECT system._setup_register_subservice('domain_reseller', 'handle');
  SELECT system._setup_register_subservice('domain_reseller', 'domain');

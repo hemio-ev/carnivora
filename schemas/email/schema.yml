@@ -17,7 +17,7 @@ priv_usage:
  - userlogin
  - backend
 
-exec_post_install: |
+exec_post_install_and_upgrade: |
  SELECT system._setup_register_service('email', 'email');
  SELECT system._setup_register_subservice('email', 'mailbox');
  SELECT system._setup_register_subservice('email', 'alias');

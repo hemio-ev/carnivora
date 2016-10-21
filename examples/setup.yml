@@ -1,5 +1,6 @@
 schemas: 
-# - _postgresql_user
+ - _roles_backend
+ - _roles_userlogin
  - backend
  - commons
  - dns
