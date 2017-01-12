@@ -55,6 +55,7 @@ table_templates:
     type: user.t_user
     description: Owner
     references: user.user.owner
+    on_ref_update: CASCADE
 
 domains:
  -
