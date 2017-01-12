@@ -28,4 +28,4 @@ INSERT INTO web.https
     VALUES
     (p_domain, p_port, p_identifier);
 
-PERFORM backend._notify('web', 'site', p_domain);
+PERFORM backend._notify_domain('web', 'site', p_domain);
