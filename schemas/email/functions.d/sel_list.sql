@@ -23,6 +23,9 @@ returns_columns:
   name: backend_status
   type: backend.t_status
  -
+  name: option
+  type: jsonb
+ -
   name: num_subscribers
   type: bigint
 ---
@@ -34,6 +37,7 @@ RETURN QUERY
         t.owner,
         t.admin,
         t.backend_status,
+        t.option,
         (SELECT COUNT(*) FROM email.list_subscriber AS s
         WHERE s.list_localpart=t.localpart AND s.list_domain=t.domain)
     FROM

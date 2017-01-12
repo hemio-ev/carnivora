@@ -17,6 +17,9 @@ returns_columns:
   name: admin
   type: email.t_address
  -
+  name: option
+  type: jsonb
+ -
   name: backend_status
   type: backend.t_status
 ---
@@ -46,6 +49,7 @@ RETURN QUERY
         t.localpart,
         t.domain,
         t.admin,
+        t.option,
         t.backend_status
     FROM email.list AS t
 
