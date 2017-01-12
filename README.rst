@@ -31,7 +31,7 @@ Perequisites
 ~~~~~~~~~~~~
 
 The setup is performed via
-`HamSql <https://github.com/qua-bla/hamsql>`__. It should be callable as
+`HamSql <https://git.hemio.de/hemio/hamsql>`__. It should be callable as
 ``hamsql`` in your shell.
 
 Install PostgreSQL on Debian 8 (Jessie)

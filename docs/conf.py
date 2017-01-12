@@ -52,8 +52,8 @@ master_doc = 'toc'
 
 # General information about the project.
 project = 'Carnivora'
-copyright = '2016, Michael Herold'
-author = 'Michael Herold'
+copyright = '2016–2017, Sophie Herold'
+author = 'Sophie Herold'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -230,7 +230,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'Carnivora.tex', 'Carnivora Documentation',
-     'Michael Herold', 'manual'),
+     'Sophie Herold', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
