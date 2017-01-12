@@ -1,5 +1,6 @@
-v0.11.0 (WIP)
+v0.11.0
   - Adds RTD documentation
+  - Adds simpler deletion of owners
   - Adds support for renaming owners (#18)
   - Changes code to use new YamSql formats and features
   - [email] Adds missing "option" fields
