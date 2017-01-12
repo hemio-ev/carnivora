@@ -1,9 +1,10 @@
 Carnivora
 =========
 
-
-[![Stable Documentation](https://readthedocs.org/projects/carnivora/badge/?version=stable)](http://carnivora.readthedocs.io/en/stable/)
-[![Latest Documentation](https://readthedocs.org/projects/carnivora/badge/?version=latest)](http://carnivora.readthedocs.io/en/latest/)
+.. image:: https://readthedocs.org/projects/carnivora/badge/?version=stable
+  :target: https://carnivora.readthedocs.io/en/stable/
+.. image:: https://readthedocs.org/projects/carnivora/badge/?version=latest
+  :target: https://carnivora.readthedocs.io/en/latest/
 
 A powerfull backend for web-service management. Written in YamSql.
 
