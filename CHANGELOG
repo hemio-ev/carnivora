@@ -1,11 +1,17 @@
+v0.11.0 (WIP)
+  - Adds RTD documentation
+  - Adds support for renaming owners (#18)
+  - Changes code to use new YamSql formats and features
+  - [email] Adds missing "option" fields
+  - [web] Fixes missing  signal for new csr/key (#17)
 v0.10.0
   - [user] Adds exception if acting as deputy fails
   - [user] ins_login returns user information (experimental)
 v0.9.0
-  - [web] Fixes bug that adds needless intermediate certs to x509 chain
-  - [domain_reseller] Fixes several backend bugs with upd_ and srv_ functions.
-  - More complete install instructions
   - Adds support for TXT, NS and SSHFP dns records
   - Changes storage format for domains from UNICODE to IDN (punycode)
+  - More complete install instructions
+  - [domain_reseller] Fixes several backend bugs with upd_ and srv_ functions.
   - [user] Removes user.user.login boolean column, set password to NULL instead
   - [user] contact_email can be used as login name
+  - [web] Fixes bug that adds needless intermediate certs to x509 chain
