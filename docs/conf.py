@@ -52,7 +52,7 @@ master_doc = 'toc'
 
 # General information about the project.
 project = 'Carnivora'
-copyright = '2016–2017, Sophie Herold'
+copyright = u'2016–2017, Sophie Herold'
 author = 'Sophie Herold'
 
 # The version info for the project you're documenting, acts as replacement for
