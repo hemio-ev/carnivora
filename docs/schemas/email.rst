@@ -9,7 +9,7 @@ This module sends the following signals:
  - email/mailbox
  - email/redirection
 
-.. contents:: Module Contents
+.. contents:: Schema Contents
    :local:
    :depth: 2
 
@@ -2367,4 +2367,6 @@ Email address
 
 
 
+
+.. This file was generated via HamSql
 

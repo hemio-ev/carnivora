@@ -9,7 +9,7 @@ This module sends the following signals:
  - server_access/sftp
  - server_access/ssh
 
-.. contents:: Module Contents
+.. contents:: Schema Contents
    :local:
    :depth: 2
 
@@ -537,4 +537,6 @@ Checks
 
 
 
+
+.. This file was generated via HamSql
 

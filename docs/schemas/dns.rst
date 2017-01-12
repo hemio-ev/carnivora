@@ -3,7 +3,7 @@ dns
 
 DNS
 
-.. contents:: Module Contents
+.. contents:: Schema Contents
    :local:
    :depth: 2
 
@@ -1527,4 +1527,6 @@ Checks
 
 
 
+
+.. This file was generated via HamSql
 

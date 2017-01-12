@@ -6,7 +6,7 @@ Jabber (XMPP)
 This module sends the following signals:
  - jabber/account
 
-.. contents:: Module Contents
+.. contents:: Schema Contents
    :local:
    :depth: 2
 
@@ -454,4 +454,6 @@ Execute privilege
 
 
 
+
+.. This file was generated via HamSql
 

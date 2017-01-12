@@ -11,7 +11,7 @@ This module sends the following signals:
  - domain_registered/managed
  - domain_registered/unmanaged
 
-.. contents:: Module Contents
+.. contents:: Schema Contents
    :local:
    :depth: 2
 
@@ -1177,4 +1177,6 @@ Execute privilege
 
 
 
+
+.. This file was generated via HamSql
 

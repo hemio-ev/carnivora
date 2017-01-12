@@ -7,7 +7,7 @@ The backend module provides everything required for the backend API.
 The backend API delivers content required for building configs etc.
 to clients, called machines.
 
-.. contents:: Module Contents
+.. contents:: Schema Contents
    :local:
    :depth: 2
 
@@ -539,4 +539,6 @@ Login
 
 
 
+
+.. This file was generated via HamSql
 

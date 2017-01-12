@@ -4,7 +4,7 @@ user
 Carnivora Users: Users own things objects in the DB,
 and they can login into frontends (edentata)
 
-.. contents:: Module Contents
+.. contents:: Schema Contents
    :local:
    :depth: 2
 
@@ -495,4 +495,6 @@ Login
 
 
 
+
+.. This file was generated via HamSql
 
