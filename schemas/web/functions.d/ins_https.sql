@@ -1,7 +1,10 @@
 ---
 name: ins_https
 description: |
- Ins HTTPS
+ Create new HTTPS certificate
+ 
+ .. todo::
+  Fix missing owner verification (not critical)
 
 templates:
  - user.userlogin
@@ -24,3 +27,5 @@ INSERT INTO web.https
     (domain, port, identifier)
     VALUES
     (p_domain, p_port, p_identifier);
+
+PERFORM backend._notify('web', 'site', p_domain);
