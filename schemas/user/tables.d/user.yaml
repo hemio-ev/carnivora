@@ -1,5 +1,8 @@
 name: user
-description: User
+description: |
+ Users
+ 
+ Users with password set to ``NULL`` can be used as groups.
 
 templates:
  - commons.options

@@ -12,9 +12,11 @@ columns:
   type: user.t_user
   references: user.user.owner
   on_ref_delete: CASCADE
+  on_ref_update: CASCADE
  -
   name: represented
   description: User for which the deputy can act
   type: user.t_user
   references: user.user.owner
   on_ref_delete: CASCADE
+  on_ref_update: CASCADE

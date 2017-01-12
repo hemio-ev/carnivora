@@ -20,7 +20,9 @@ Tables
 ``system.inherit_contingent``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-x
+Contingents inherited from other users.
+
+Precedence is unambiguous via primary key.
 
 Primary key
  - owner
@@ -37,23 +39,26 @@ Columns
  - .. _COLUMN-system.inherit_contingent.owner:
    
    ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     for ownage
+     Owner
 
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
    On Delete: CASCADE
 
+   On Update: CASCADE
 
  - .. _COLUMN-system.inherit_contingent.donor:
    
    ``donor`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     Donor
+     Donor of contingent
 
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
+   On Delete: CASCADE
 
+   On Update: CASCADE
 
  - .. _COLUMN-system.inherit_contingent.priority:
    
@@ -525,6 +530,7 @@ Columns
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
+   On Delete: CASCADE
 
    On Update: CASCADE
 
@@ -628,6 +634,7 @@ Columns
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
+   On Delete: CASCADE
 
    On Update: CASCADE
 

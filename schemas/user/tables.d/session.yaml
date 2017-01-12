@@ -1,6 +1,9 @@
 name: session
 description: User login sessions
 
+templates:
+ - user.ownable_volatile
+
 primary_key:
  - id
 
@@ -10,12 +13,6 @@ columns:
   type: varchar
   description: Session id
   default: '"user"._session_id()'
- -
-  name: owner
-  type: user.t_user
-  description: Owner
-  references: user.user.owner
-  on_ref_delete: CASCADE
  -
   name: act_as
   type: user.t_user

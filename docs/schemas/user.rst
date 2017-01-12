@@ -43,6 +43,7 @@ Columns
 
    On Delete: CASCADE
 
+   On Update: CASCADE
 
  - .. _COLUMN-user.deputy.represented:
    
@@ -54,6 +55,7 @@ Columns
 
    On Delete: CASCADE
 
+   On Update: CASCADE
 
 
 
@@ -75,6 +77,18 @@ Primary key
 
 
 Columns
+ - .. _COLUMN-user.session.owner:
+   
+   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     Owner
+
+
+   References :ref:`user.user.owner <COLUMN-user.user.owner>`
+
+   On Delete: CASCADE
+
+   On Update: CASCADE
+
  - .. _COLUMN-user.session.id:
    
    ``id`` :ref:`varchar <DOMAIN-varchar>`
@@ -86,17 +100,6 @@ Columns
      "user"._session_id()
 
 
-
-
- - .. _COLUMN-user.session.owner:
-   
-   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     Owner
-
-
-   References :ref:`user.user.owner <COLUMN-user.user.owner>`
-
-   On Delete: CASCADE
 
 
  - .. _COLUMN-user.session.act_as:
@@ -128,7 +131,9 @@ Columns
 ``user.user``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-User
+Users
+
+Users with password set to ``NULL`` can be used as groups.
 
 Primary key
  - owner

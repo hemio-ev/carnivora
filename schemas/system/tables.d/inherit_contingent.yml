@@ -1,6 +1,11 @@
 name: inherit_contingent
 description: |
- x
+ Contingents inherited from other users.
+ 
+ Precedence is unambiguous via primary key.
+
+templates:
+ - user.ownable_volatile
 
 primary_key:
  - owner
@@ -8,25 +13,14 @@ primary_key:
 
 columns:
  -
-  name: owner
+  name: donor
+  description: Donor of contingent
   type: user.t_user
-  description: for ownage
   references: user.user.owner
   on_ref_delete: CASCADE
- -
-  name: donor
-  description: Donor
-  type: user.t_user
-  references: user.user.owner
+  on_ref_update: CASCADE
  -
   name: priority
   description: Priority, higher values take precedence
   type: int
-
-unique:
- -
-  name: abc
-  columns:
-   - owner
-   - priority
 

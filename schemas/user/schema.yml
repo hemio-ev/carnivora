@@ -56,6 +56,22 @@ table_templates:
     description: Owner
     references: user.user.owner
     on_ref_update: CASCADE
+    
+ -
+  template: ownable_volatile
+  description: |
+   For tables in which rows can be owned by users.
+  
+   Deletion of owner cascades.
+
+  columns:
+   -
+    name: owner
+    type: user.t_user
+    description: Owner
+    references: user.user.owner
+    on_ref_update: CASCADE
+    on_ref_delete: CASCADE
 
 domains:
  -

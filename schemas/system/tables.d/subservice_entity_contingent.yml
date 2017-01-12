@@ -5,7 +5,7 @@ description: |
 templates:
  - system.reference_service_entity
  - system.reference_subservice_entity
- - user.ownable
+ - user.ownable_volatile
 
 primary_key:
  - service
