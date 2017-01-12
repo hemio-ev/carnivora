@@ -858,7 +858,10 @@ Execute privilege
 ``web.ins_https``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Ins HTTPS
+Create new HTTPS certificate
+
+.. todo::
+ Fix missing owner verification (not critical)
 
 Parameters
  - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
@@ -899,6 +902,8 @@ Execute privilege
        (domain, port, identifier)
        VALUES
        (p_domain, p_port, p_identifier);
+   
+   PERFORM backend._notify('web', 'site', p_domain);
 
 
 

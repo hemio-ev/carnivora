@@ -328,12 +328,13 @@ Columns
  - .. _COLUMN-email.list.owner:
    
    ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     for ownage
+     Owner
 
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
 
+   On Update: CASCADE
 
  - .. _COLUMN-email.list.backend_status:
    
@@ -567,12 +568,13 @@ Columns
  - .. _COLUMN-email.mailbox.owner:
    
    ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     for ownage
+     Owner
 
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
 
+   On Update: CASCADE
 
  - .. _COLUMN-email.mailbox.backend_status:
    
@@ -724,12 +726,13 @@ Columns
  - .. _COLUMN-email.redirection.owner:
    
    ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     for ownage
+     Owner
 
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
 
+   On Update: CASCADE
 
  - .. _COLUMN-email.redirection.backend_status:
    
@@ -1599,6 +1602,8 @@ Returned columns
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
+ - ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+    
  - ``num_subscribers`` :ref:`bigint <DOMAIN-bigint>`
     
 
@@ -1620,6 +1625,7 @@ Execute privilege
            t.owner,
            t.admin,
            t.backend_status,
+           t.option,
            (SELECT COUNT(*) FROM email.list_subscriber AS s
            WHERE s.list_localpart=t.localpart AND s.list_domain=t.domain)
        FROM
@@ -1684,7 +1690,8 @@ Execute privilege
            t.list_localpart = s.localpart AND
            t.list_domain = s.domain
        WHERE
-           s.owner = v_owner;
+           s.owner = v_owner
+       ORDER BY t.list_localpart, t.list_domain, t.address;
 
 
 
@@ -1907,6 +1914,8 @@ Returned columns
     
  - ``admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
     
+ - ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+    
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
 
@@ -1943,6 +1952,7 @@ Execute privilege
            t.localpart,
            t.domain,
            t.admin,
+           t.option,
            t.backend_status
        FROM email.list AS t
    

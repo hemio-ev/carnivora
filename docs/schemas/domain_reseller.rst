@@ -94,12 +94,13 @@ Columns
  - .. _COLUMN-domain_reseller.handle.owner:
    
    ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     for ownage
+     Owner
 
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
 
+   On Update: CASCADE
 
  - .. _COLUMN-domain_reseller.handle.backend_status:
    

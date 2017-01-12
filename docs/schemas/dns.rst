@@ -97,12 +97,11 @@ Columns
    
    ``id`` :ref:`uuid <DOMAIN-uuid>`
      uuid serial number to identify database elements uniquely
-     The default value is generated using uuid_generate_v4().
 
    Default
     .. code-block:: sql
 
-     uuid_generate_v4()
+     commons._uuid()
 
 
 
@@ -153,12 +152,13 @@ Columns
  - .. _COLUMN-dns.registered.owner:
    
    ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     for ownage
+     Owner
 
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
 
+   On Update: CASCADE
 
  - .. _COLUMN-dns.registered.backend_status:
    
@@ -803,17 +803,8 @@ Execute privilege
        PERFORM commons._raise_inaccessible_or_missing();
    END IF;
    
-   UPDATE dns.service
-       SET service_entity_name = p_service_entity_name
-   WHERE
-       registered = p_registered AND
-       domain = p_domain AND
-       service = p_service;
-   
-   IF NOT FOUND THEN
-       INSERT INTO dns.service (registered, domain, service_entity_name, service)
-            VALUES (p_registered, p_domain, p_service_entity_name, p_service);
-   END IF;
+   INSERT INTO dns.service (registered, domain, service_entity_name, service)
+       VALUES (p_registered, p_domain, p_service_entity_name, p_service);
    
    PERFORM backend._notify_service_entity_name(v_nameserver, 'dns', v_managed);
 

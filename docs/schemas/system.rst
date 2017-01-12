@@ -247,12 +247,11 @@ Columns
    
    ``id`` :ref:`uuid <DOMAIN-uuid>`
      uuid serial number to identify database elements uniquely
-     The default value is generated using uuid_generate_v4().
 
    Default
     .. code-block:: sql
 
-     uuid_generate_v4()
+     commons._uuid()
 
 
 
@@ -521,12 +520,13 @@ Columns
  - .. _COLUMN-system.subservice_entity_contingent.owner:
    
    ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     for ownage
+     Owner
 
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
 
+   On Update: CASCADE
 
  - .. _COLUMN-system.subservice_entity_contingent.domain_contingent:
    
@@ -623,12 +623,13 @@ Columns
  - .. _COLUMN-system.subservice_entity_domain_contingent.owner:
    
    ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     for ownage
+     Owner
 
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
 
+   On Update: CASCADE
 
  - .. _COLUMN-system.subservice_entity_domain_contingent.domain:
    
@@ -1053,7 +1054,7 @@ Parameters
 
 
 Returns
- integer
+ void
 
 
 
@@ -1086,7 +1087,7 @@ Parameters
 
 
 Returns
- integer
+ void
 
 
 

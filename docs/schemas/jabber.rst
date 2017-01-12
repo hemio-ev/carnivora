@@ -99,12 +99,13 @@ Columns
  - .. _COLUMN-jabber.account.owner:
    
    ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-     for ownage
+     Owner
 
 
    References :ref:`user.user.owner <COLUMN-user.user.owner>`
 
 
+   On Update: CASCADE
 
  - .. _COLUMN-jabber.account.backend_status:
    
