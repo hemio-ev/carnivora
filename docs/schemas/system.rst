@@ -1062,8 +1062,12 @@ Returns
 
    
    INSERT INTO system.service
-    (module, service) VALUES (p_module, p_service);
-   RETURN (SELECT COUNT(*) FROM system.service AS s WHERE s.module=p_module);
+    (module, service)
+    SELECT p_module, p_service
+     WHERE NOT EXISTS (
+      SELECT service FROM system.service
+       WHERE module=p_module AND service=p_service
+      );
 
 
 
@@ -1095,8 +1099,12 @@ Returns
 
    
    INSERT INTO system.subservice
-    (service, subservice) VALUES (p_service, p_subservice);
-   RETURN (SELECT COUNT(*) FROM system.subservice AS s WHERE s.service=p_service);
+    (service, subservice)
+    SELECT p_service, p_subservice
+     WHERE NOT EXISTS (
+      SELECT service FROM system.subservice
+       WHERE service=p_service AND subservice=p_subservice
+      );
 
 
 

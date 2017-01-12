@@ -5,7 +5,7 @@ description: |
  Returns the total number of service names registered
  for this module.
 
-returns: integer
+returns: void
 
 parameters:
  -
@@ -17,5 +17,9 @@ parameters:
 ---
 
 INSERT INTO system.subservice
- (service, subservice) VALUES (p_service, p_subservice);
-RETURN (SELECT COUNT(*) FROM system.subservice AS s WHERE s.service=p_service);
+ (service, subservice)
+ SELECT p_service, p_subservice
+  WHERE NOT EXISTS (
+   SELECT service FROM system.subservice
+    WHERE service=p_service AND subservice=p_subservice
+   );
