@@ -1,7 +1,18 @@
 dns
 ======================================================================
 
-DNS
+DNS and Registered Domains
+
+The entity name for **domain_registered** services are considered the
+*nameservers* used for this domain. In case of the *unmanaged* subservice, a
+a fake name or the responsible nameserver that is not managed by the system
+can be given.
+
+To allow service activation, the service needs a ``dns_activatable``
+subservice entity.
+
+.. todo::
+ Document *managed_custom*. Unclear if this is even properly supported or checked.
 
 .. contents:: Schema Contents
    :local:
