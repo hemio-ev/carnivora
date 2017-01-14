@@ -25,5 +25,6 @@ USING (service, subservice, service_entity_name, owner)
 WHERE
     COALESCE(t.service, s.service) = 'domain_reseller' AND
     COALESCE(t.owner, s.owner) = v_owner
-;
 
+    ORDER BY subservice, service_entity_name
+;

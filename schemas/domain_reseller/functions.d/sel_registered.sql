@@ -59,4 +59,6 @@ RETURN QUERY
     JOIN dns.registered AS s
         USING (domain)
     WHERE
-        s.owner = v_owner;
+        s.owner = v_owner
+    ORDER BY backend_status, domain
+;

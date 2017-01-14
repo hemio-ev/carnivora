@@ -39,4 +39,5 @@ RETURN QUERY
         server_access.user AS t
     WHERE
         owner = v_owner
-    ORDER BY backend_status, "user";
+    ORDER BY backend_status, "user"
+;

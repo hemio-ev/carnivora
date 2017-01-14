@@ -26,4 +26,6 @@ USING (service, subservice, service_entity_name, owner)
 WHERE
     COALESCE(t.subservice, s.subservice) = 'dns_activatable' AND
     COALESCE(t.owner, s.owner) = v_owner
+
+  ORDER BY service, service_entity_name
 ;

@@ -34,6 +34,5 @@ RETURN QUERY
         t.list_domain = s.domain
     WHERE
         s.owner = v_owner
-    ORDER BY t.list_localpart, t.list_domain, t.address;
-
-
+    ORDER BY list_localpart, list_domain, backend_status, address
+;

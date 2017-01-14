@@ -37,4 +37,6 @@ INNER JOIN email.mailbox AS s
     ON
         t.mailbox_localpart = s.localpart AND
         t.mailbox_domain = s.domain
-WHERE s.owner = v_owner;
+WHERE s.owner = v_owner
+
+ORDER BY t.backend_status, t.localpart, t.domain;

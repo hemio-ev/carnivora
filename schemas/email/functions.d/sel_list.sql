@@ -43,4 +43,6 @@ RETURN QUERY
     FROM
         email.list AS t
     WHERE
-        t.owner = v_owner;
+        t.owner = v_owner
+    ORDER BY t.backend_status, t.localpart, t.domain
+;

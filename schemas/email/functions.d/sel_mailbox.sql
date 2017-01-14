@@ -35,4 +35,6 @@ RETURN QUERY
  FROM
   email.mailbox AS t
  WHERE
-  t.owner = v_owner;
+  t.owner = v_owner
+ ORDER BY backend_status, localpart, domain
+;
