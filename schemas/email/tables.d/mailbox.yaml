@@ -10,6 +10,7 @@ templates:
  - user.ownable
  - backend.status
  - commons.options
+ - commons.uid
 
 primary_key:
  - localpart
@@ -20,15 +21,6 @@ columns:
   name: localpart
   type: email.t_localpart
   description: Local part
- -
-  name: uid
-  type: SERIAL
-  description: Unix user identifier
-  checks:
-   -
-    name: range
-    description: Range
-    check: uid > 100000 AND uid < 200000
  -
   name: password
   type: commons.t_password

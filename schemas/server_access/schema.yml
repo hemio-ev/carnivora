@@ -22,7 +22,6 @@ exec_post_install_and_upgrade: |
  SELECT system._setup_register_service('server_access', 'server_access');
  SELECT system._setup_register_subservice('server_access', 'ssh');
  SELECT system._setup_register_subservice('server_access', 'sftp');
- SELECT setval('server_access.user_uid_seq', 100000);
 
 domains:
  -

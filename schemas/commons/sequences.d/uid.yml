@@ -1,0 +1,4 @@
+name: uid
+description: Unix user id
+min_value: 100001
+max_value: 199999

@@ -24,7 +24,6 @@ exec_post_install_and_upgrade: |
  SELECT system._setup_register_subservice('email', 'redirection');
  SELECT system._setup_register_subservice('email', 'list');
  SELECT system._setup_register_subservice('email', 'dns_activatable');
- SELECT setval('email.mailbox_uid_seq', 100000);
 
 function_templates:
  -

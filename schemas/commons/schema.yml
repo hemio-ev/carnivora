@@ -23,7 +23,20 @@ table_templates:
     description: Free options in JSON format
     type: jsonb
     default: "'{}'"
-
+ -
+  template: uid
+  description: Adds uid column
+  columns:
+   -
+    name: uid
+    type: integer
+    description: Unix user identifier
+    default: nextval('commons.uid')
+    checks:
+     -
+      name: range
+      description: Range
+      check: uid > 100000 AND uid < 200000
 
 domains:
  -

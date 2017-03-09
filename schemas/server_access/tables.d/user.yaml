@@ -9,17 +9,9 @@ templates:
  - system.reference_subservice_entity
  - backend.status
  - user.ownable
+ - commons.uid
 
 columns:
-  -
-   name: uid
-   type: SERIAL
-   description: Unix user identifier
-   checks:
-    -
-     name: range
-     description: Range
-     check: uid > 100000 AND uid < 200000
   -
    name: user
    type: server_access.t_user
