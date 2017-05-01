@@ -1,0 +1,39 @@
+name: certificate
+description: |
+ SSL (X.509) certificates
+ 
+primary_keys:
+ - id
+
+columns:
+ - name: id
+   type: uuid
+   description: 
+   default: commons._uuid()
+ -
+  name: domains
+  type: dns.t_domain[]
+  description: Domains
+ -
+  name: x509_request
+  type: web.t_cert
+  description: Certificate request
+  null: true
+ -
+  name: x509_certificate
+  type: web.t_cert
+  null: true
+  description: Certificate
+ -
+  name: authority_key_identifier
+  type: varchar
+  null: true
+  description: |
+   Identifier of the certificate that has signed this cert.
+   The Authority Key Identifier allows to build the chain of trust.
+   See <http://www.ietf.org/rfc/rfc3280.txt>.
+   Hopefully there exists an entry in web.intermediate_cert
+   or a root certificate with an equal subjectKeyIdentifier.
+
+   Is NULL whenever x509_certificate is NULL.
+
