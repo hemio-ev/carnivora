@@ -605,19 +605,23 @@ Columns
 
 
 
+ - .. _COLUMN-email.mailbox.uid:
+   
+   ``uid`` :ref:`integer <DOMAIN-integer>`
+     Unix user identifier
+
+   Default
+    .. code-block:: sql
+
+     nextval('commons.uid')
+
+
+
+
  - .. _COLUMN-email.mailbox.localpart:
    
    ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
      Local part
-
-
-
-
-
- - .. _COLUMN-email.mailbox.uid:
-   
-   ``uid`` :ref:`SERIAL <DOMAIN-SERIAL>`
-     Unix user identifier
 
 
 
@@ -1565,7 +1569,9 @@ Execute privilege
        ON
            t.mailbox_localpart = s.localpart AND
            t.mailbox_domain = s.domain
-   WHERE s.owner = v_owner;
+   WHERE s.owner = v_owner
+   
+   ORDER BY t.backend_status, t.localpart, t.domain;
 
 
 
@@ -1631,7 +1637,9 @@ Execute privilege
        FROM
            email.list AS t
        WHERE
-           t.owner = v_owner;
+           t.owner = v_owner
+       ORDER BY t.backend_status, t.localpart, t.domain
+   ;
 
 
 
@@ -1691,7 +1699,8 @@ Execute privilege
            t.list_domain = s.domain
        WHERE
            s.owner = v_owner
-       ORDER BY t.list_localpart, t.list_domain, t.address;
+       ORDER BY list_localpart, list_domain, backend_status, address
+   ;
 
 
 
@@ -1750,7 +1759,9 @@ Execute privilege
     FROM
      email.mailbox AS t
     WHERE
-     t.owner = v_owner;
+     t.owner = v_owner
+    ORDER BY backend_status, localpart, domain
+   ;
 
 
 
@@ -1806,7 +1817,8 @@ Execute privilege
     FROM
      email.redirection AS t
     WHERE
-     t.owner = v_owner;
+     t.owner = v_owner
+    ORDER BY t.backend_status, t.localpart, t.domain;
 
 
 

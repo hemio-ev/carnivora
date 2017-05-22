@@ -116,9 +116,13 @@ Columns
 
  - .. _COLUMN-server_access.user.uid:
    
-   ``uid`` :ref:`SERIAL <DOMAIN-SERIAL>`
+   ``uid`` :ref:`integer <DOMAIN-integer>`
      Unix user identifier
 
+   Default
+    .. code-block:: sql
+
+     nextval('commons.uid')
 
 
 
@@ -342,7 +346,8 @@ Execute privilege
            server_access.user AS t
        WHERE
            owner = v_owner
-       ORDER BY backend_status, "user";
+       ORDER BY backend_status, "user"
+   ;
 
 
 

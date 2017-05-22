@@ -822,7 +822,9 @@ Execute privilege
        JOIN dns.registered AS s
            USING (domain)
        WHERE
-           s.owner = v_owner;
+           s.owner = v_owner
+       ORDER BY backend_status, domain
+   ;
 
 
 
@@ -875,6 +877,8 @@ Execute privilege
    WHERE
        COALESCE(t.service, s.service) = 'domain_reseller' AND
        COALESCE(t.owner, s.owner) = v_owner
+   
+       ORDER BY subservice, service_entity_name
    ;
 
 
