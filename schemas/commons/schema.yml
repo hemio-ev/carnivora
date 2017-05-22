@@ -32,6 +32,7 @@ table_templates:
     type: integer
     description: Unix user identifier
     default: nextval('commons.uid')
+    unique: true
     checks:
      -
       name: range

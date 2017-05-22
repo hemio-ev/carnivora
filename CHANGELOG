@@ -1,3 +1,7 @@
+v0.12.0
+  - Changes uids to centralized sequence
+  - Fixes uids reseted with every upgrade (#20)
+  - Fixes uids not unique per service (#23)
 v0.11.0
   - Adds RTD documentation
   - Adds simpler deletion of owners
