@@ -1,0 +1,16 @@
+name: cert_demand
+description: |
+ Service needs certificates
+
+templates:
+ - system.reference_service_entity
+
+primary_key:
+ - id
+
+columns:
+ - name: id
+   type: uuid
+   description: Uuid
+   default: commons._uuid()
+

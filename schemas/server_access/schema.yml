@@ -10,7 +10,6 @@ description: |
 
 dependencies: 
  - system
- - user
 
 priv_all_all:
  - system

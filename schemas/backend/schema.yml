@@ -7,11 +7,8 @@ description: |
  to clients, called machines.
 
 dependencies:
- - commons
- - dns
  - email
  - system
- - user
 
 priv_all_all:
  - system

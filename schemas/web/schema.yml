@@ -8,6 +8,7 @@ description: |
 
 dependencies:
  - server_access
+ - ssl
 
 priv_all_all:
  - system

@@ -1,0 +1,35 @@
+name: cert_active
+description: |
+ Active cert_active
+
+primary_key:
+ - demand_id
+ - machine_name
+
+templates:
+ - system.reference_service_entity
+
+columns:
+ - name: demand_id
+   type: uuid
+   description: X
+   default: commons._uuid()
+ - name: machine_name
+   type: dns.t_domain
+   description: Machine
+   references: backend.machine.name
+
+unique:
+ - name: machine
+   columns:
+    - service
+    - service_entity_name
+    - machine_name
+
+foreign_keys:
+ - name: machine_with_service
+   ref_table: system.service_entity_machine
+   columns:
+    - service
+    - service_entity_name
+    - machine_name

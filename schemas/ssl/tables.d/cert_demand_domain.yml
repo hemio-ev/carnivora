@@ -1,0 +1,20 @@
+name: cert_demand_domain
+description: Domains for which the cert should be issued
+
+primary_key:
+ - demand_id
+ - domain
+
+columns:
+ - name: demand_id
+   type: uuid
+   description: Certificate demand id
+   references: ssl.cert_demand.id
+ - name: domain
+   type: dns.t_domain
+   description: Domain
+ - name: registered
+   type: dns.t_domain
+   description: registered domain
+   references: dns.registered.domain
+

@@ -11,7 +11,7 @@ description: |
   - domain_registered/unmanaged
 
 dependencies:
- - dns
+ - system
 
 priv_all_all:
  - system

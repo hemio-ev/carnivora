@@ -6,7 +6,7 @@ description: |
   - jabber/account
 
 dependencies:
- - dns
+ - system
 
 priv_all_all:
  - system

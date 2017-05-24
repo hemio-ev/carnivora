@@ -1,19 +1,23 @@
-name: certificate
+name: cert
 description: |
  SSL (X.509) certificates
- 
-primary_keys:
+
+primary_key:
  - id
+
+templates:
+ - system.reference_service_entity
 
 columns:
  - name: id
    type: uuid
-   description: 
+   description: X
    default: commons._uuid()
  -
-  name: domains
-  type: dns.t_domain[]
-  description: Domains
+  name: machine_name
+  type: dns.t_domain
+  description: Machine
+  references: backend.machine.name
  -
   name: x509_request
   type: web.t_cert
@@ -36,4 +40,12 @@ columns:
    or a root certificate with an equal subjectKeyIdentifier.
 
    Is NULL whenever x509_certificate is NULL.
+
+foreign_keys:
+ - name: active_fk
+   ref_table: ssl.cert_active
+   columns:
+    - service
+    - service_entity_name
+    - machine_name
 

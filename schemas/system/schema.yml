@@ -4,7 +4,9 @@ description: |
 
  Manages services, service entities and contingents.
 dependencies:
+ - commons
  - dns
+ - user
 
 priv_all_all:
  - system

@@ -14,7 +14,7 @@ description: |
   Document *managed_custom*. Unclear if this is even properly supported or checked.
 
 dependencies:
- - commons
+ - system
 
 priv_all_all:
  - system

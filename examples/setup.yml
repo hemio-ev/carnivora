@@ -1,15 +1,9 @@
 schemas: 
  - _roles_backend
  - _roles_userlogin
- - backend
- - commons
- - dns
  - domain_reseller
  - email 
  - jabber 
- - server_access
- - system
- - user
  - web
 
 schema_dirs:
