@@ -21,6 +21,8 @@ v_crt = crypto.load_certificate(crypto.FILETYPE_ASN1, p_cert)
 
 return {
  'subjectAltName' : list(getCrtAltDnsNames(v_crt)),
- 'public_key_bytes': getPublicBytes(v_crt)
+ 'public_key_bytes': getPublicBytes(v_crt),
+ 'subjectKeyIdentifier':
+   selExtension(b'subjectKeyIdentifier', getExtensions(v_crt))
  }
 

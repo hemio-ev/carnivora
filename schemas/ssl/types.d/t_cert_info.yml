@@ -6,3 +6,5 @@ elements:
    type: varchar[]
  - name: public_key_bytes
    type: bytea
+ - name: subjectKeyIdentifier
+   type: varchar

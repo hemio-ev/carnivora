@@ -22,7 +22,6 @@ function_templates:
                 
     def getAltDnsNames(extensions):
         altExtension = selExtension(b'subjectAltName', extensions)
-        print(altExtension)
         if altExtension:
             for x in map(str.strip, str(altExtension).split(',')):
                 split = x.split(':')

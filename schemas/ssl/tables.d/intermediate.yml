@@ -1,0 +1,26 @@
+name: intermediate
+description: |
+ Intermediate certificates
+ 
+primary_key:
+ - subject_key_identifier
+ 
+columns:
+ - name: subject_key_identifier
+   description: Identifier
+   type: varchar
+ - name: cert
+   type: ssl.t_cert
+   description: Certificate
+ - name: intermediate
+   type: varchar
+   description: Intermediate
+   null: true
+   references: ssl.intermediate.subject_key_identifier
+
+checks:
+ - name: subjectKeyIdentifier_matches_cert
+   description: Check if primary_key is correctly derived from cert
+   check: |
+    subject_key_identifier = (ssl.cert_info(cert))."subjectKeyIdentifier"
+

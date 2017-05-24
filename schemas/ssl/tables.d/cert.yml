@@ -48,6 +48,11 @@ columns:
    or a root certificate with an equal subjectKeyIdentifier.
 
    Is NULL whenever x509_certificate is NULL.
+ - name: intermediate
+   type: varchar
+   null: true
+   description: Intermediate
+   references: ssl.intermediate.subject_key_identifier
 
 checks:
  - name: request_domains
