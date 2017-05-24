@@ -7,4 +7,4 @@ checks:
   description: really a cert?
   check: |
     VALUE IS NULL OR
-    array_length((ssl.cert_request_info(VALUE))."subjectAltName", 1) > 0
+    array_length((ssl.cert_info(VALUE))."subjectAltName", 1) > 0

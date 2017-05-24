@@ -59,7 +59,8 @@ INSERT INTO server_access."user" (backend_status, "user", owner, password, servi
 SELECT 'user login', 'user-1', 'FOMgwkMXmS';
 
 
-\set v_cert '''' `xxd -p 1.der` ''''
+\set v_csr '''' `xxd -p 1.der` ''''
+\set v_crt '''' `xxd -p 1.crt` ''''
 \set v_uuid1 '''8b2f1893-6e54-42b5-903f-0e258612c30a'''
 \set v_uuid2 '''8b2f1893-6e54-42b5-903f-0e258612c30b'''
 
@@ -68,5 +69,5 @@ INSERT INTO system.service_entity_machine (machine_name, service_entity_name, se
 
 INSERT INTO ssl.demand (service, service_entity_name, id) VALUES ('email', 'mail.my-org.example', :v_uuid1);
 INSERT INTO ssl.active (service, service_entity_name, machine_name, demand_id) VALUES ('email', 'mail.my-org.example', 'server.example', :v_uuid1);
-INSERT INTO ssl.cert (service, service_entity_name, machine_name, x509_request, id) VALUES ('email', 'mail.my-org.example', 'server.example', decode(:v_cert, 'hex'), :v_uuid2);
+INSERT INTO ssl.cert (service, service_entity_name, machine_name, cert_request, cert, id, domains) VALUES ('email', 'mail.my-org.example', 'server.example', decode(:v_csr, 'hex'), decode(:v_crt, 'hex'), :v_uuid2, '{"fun.example"}');
 UPDATE ssl.active SET currently = :v_uuid2 WHERE demand_id = :v_uuid1;

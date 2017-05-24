@@ -19,12 +19,20 @@ columns:
   description: Machine
   references: backend.machine.name
  -
-  name: x509_request
+  name: domains
+  type: varchar[]
+  description: Domains
+  checks:
+   - name: min_one_domain
+     description: Check
+     check: array_length(domains, 1) > 0
+ -
+  name: cert_request
   type: ssl.t_cert_request
   description: Certificate request
   null: true
  -
-  name: x509_certificate
+  name: cert
   type: ssl.t_cert
   null: true
   description: Certificate
@@ -40,6 +48,12 @@ columns:
    or a root certificate with an equal subjectKeyIdentifier.
 
    Is NULL whenever x509_certificate is NULL.
+
+checks:
+ - name: cert_request_domains
+   description: Eq?
+   check: |
+    (ssl.cert_request_info(cert_request))."subjectAltName" = domains
 
 foreign_keys:
  - name: active_fk
