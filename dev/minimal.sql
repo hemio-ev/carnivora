@@ -1,6 +1,7 @@
 SET search_path = NOTHING;
 
 INSERT INTO system.service_entity (service, service_entity_name) VALUES ('email', 'mail.my-org.example');
+INSERT INTO system.service_entity (service, service_entity_name) VALUES ('server_access', 'ssh.my-org.example');
 INSERT INTO system.service_entity (service, service_entity_name) VALUES ('jabber', 'jabber.my-org.example');
 INSERT INTO system.service_entity (service, service_entity_name) VALUES ('domain_reseller', 'reseller.invalid');
 INSERT INTO system.service_entity (service, service_entity_name) VALUES ('domain_registered', 'nameserver.invalid');
@@ -10,6 +11,7 @@ INSERT INTO system.subservice_entity (service, service_entity_name, subservice) 
 INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('email', 'mail.my-org.example', 'mailbox');
 INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('email', 'mail.my-org.example', 'alias');
 INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('email', 'mail.my-org.example', 'redirection');
+INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('server_access', 'ssh.my-org.example', 'ssh');
 INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('jabber', 'jabber.my-org.example', 'account');
 INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('domain_reseller', 'reseller.invalid', 'domain');
 INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('domain_registered', 'nameserver.invalid', 'managed');
@@ -48,8 +50,10 @@ INSERT INTO domain_reseller.registered (admin_c, domain, last_status, payable, p
 INSERT INTO domain_reseller.registered (admin_c, domain, last_status, payable, period, registrant, registrar_status, registry_status, tech_c, zone_c) VALUES ('Vorname-Nachname', 'fun.example', NULL, NULL, NULL, 'Vorname-Nachname', NULL, NULL, NULL, NULL);
 
 
-INSERT INTO email.mailbox (backend_status, domain, localpart, option, owner, password, quota, service, service_entity_name, subservice, uid) VALUES ('ins', 'fun.example', 'have', '{}', 'user-1', '$6$MTAdqajZww0GX3ay$qj.BaDMfcNhB3vs.u.KNkOk/e/Crg.TnVBxIyqE9DvEQJAJbPUjC6cZ5FIwvoGBoCPZ5GynX.kqDoTuxcLegQ0', NULL, 'email', 'mail.my-org.example', 'mailbox', 100001);
+INSERT INTO email.mailbox (backend_status, domain, localpart, option, owner, password, quota, service, service_entity_name, subservice) VALUES ('ins', 'fun.example', 'have', '{}', 'user-1', '$6$MTAdqajZww0GX3ay$qj.BaDMfcNhB3vs.u.KNkOk/e/Crg.TnVBxIyqE9DvEQJAJbPUjC6cZ5FIwvoGBoCPZ5GynX.kqDoTuxcLegQ0', NULL, 'email', 'mail.my-org.example', 'mailbox');
+INSERT INTO email.mailbox (backend_status, domain, localpart, option, owner, password, quota, service, service_entity_name, subservice) VALUES ('ins', 'fun.example', 'have2', '{}', 'user-1', '$6$MTAdqajZww0GX3ay$qj.BaDMfcNhB3vs.u.KNkOk/e/Crg.TnVBxIyqE9DvEQJAJbPUjC6cZ5FIwvoGBoCPZ5GynX.kqDoTuxcLegQ0', NULL, 'email', 'mail.my-org.example', 'mailbox');
 
+INSERT INTO server_access."user" (backend_status, "user", owner, password, service, service_entity_name, subservice) VALUES ('ins', 'have', 'user-1', NULL, 'server_access', 'ssh.my-org.example', 'ssh');
 
 
 SELECT 'user login', 'user-1', 'FOMgwkMXmS';

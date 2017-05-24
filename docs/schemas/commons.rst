@@ -337,5 +337,17 @@ Checks
 
 
 
+Sequences
+---------
+
+
+.. _SEQUENCE-commons.uid:
+
+``commons.uid``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Unix user id
+
+
 .. This file was generated via HamSql
 
