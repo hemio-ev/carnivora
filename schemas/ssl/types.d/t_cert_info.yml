@@ -4,4 +4,5 @@ description: Certificate information
 elements:
  - name: subjectAltName
    type: varchar[]
-
+ - name: public_key_bytes
+   type: bytea

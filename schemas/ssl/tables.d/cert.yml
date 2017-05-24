@@ -27,8 +27,8 @@ columns:
      description: Check
      check: array_length(domains, 1) > 0
  -
-  name: cert_request
-  type: ssl.t_cert_request
+  name: request
+  type: ssl.t_request
   description: Certificate request
   null: true
  -
@@ -50,10 +50,27 @@ columns:
    Is NULL whenever x509_certificate is NULL.
 
 checks:
- - name: cert_request_domains
-   description: Eq?
+ - name: request_domains
+   description: Requests domains correct
    check: |
-    (ssl.cert_request_info(cert_request))."subjectAltName" = domains
+    request IS NULL OR
+    (ssl.request_info(request))."subjectAltName" = domains
+ - name: cert_domains
+   description: Certificate domains correct
+   check: |
+    cert IS NULL OR
+    (ssl.cert_info(cert))."subjectAltName" = domains
+ - name: cert_only_with_request
+   description: Cert only if request exists
+   check: |
+    cert IS NULL OR
+    request IS NOT NULL
+ - name: request_cert_match_pubkey
+   description: Cert belongs to the request
+   check: |
+    (cert IS NULL OR request is NULL) OR
+    (ssl.cert_info(cert)).public_key_bytes = 
+    (ssl.request_info(request)).public_key_bytes
 
 foreign_keys:
  - name: active_fk

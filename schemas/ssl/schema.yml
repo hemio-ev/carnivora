@@ -4,3 +4,32 @@ description: |
 
 dependencies:
  - system
+ 
+function_templates:
+ - template: openssl
+   description: OpenSSL
+   body_prelude: |
+    from OpenSSL import crypto
+    from cryptography.hazmat.primitives.serialization import Encoding
+    from cryptography.hazmat.primitives.serialization import PublicFormat
+
+    def selExtension(shortName, extensions):
+        for x in extensions:
+            if x.get_short_name() == shortName:
+                return x
+        else:
+            None
+                
+    def getAltDnsNames(extensions):
+        altExtension = selExtension(b'subjectAltName', extensions)
+        print(altExtension)
+        if altExtension:
+            for x in map(str.strip, str(altExtension).split(',')):
+                split = x.split(':')
+                if len(split) == 2 and split[0] == 'DNS':
+                    yield split[1]
+
+    def getPublicBytes(crt):
+        return crt.get_pubkey().to_cryptography_key() \
+                .public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
+

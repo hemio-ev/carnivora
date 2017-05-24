@@ -55,9 +55,7 @@ INSERT INTO email.mailbox (backend_status, domain, localpart, option, owner, pas
 
 INSERT INTO server_access."user" (backend_status, "user", owner, password, service, service_entity_name, subservice) VALUES ('ins', 'have', 'user-1', NULL, 'server_access', 'ssh.my-org.example', 'ssh');
 
-
 SELECT 'user login', 'user-1', 'FOMgwkMXmS';
-
 
 \set v_csr '''' `xxd -p 1.der` ''''
 \set v_crt '''' `xxd -p 1.crt` ''''
@@ -69,5 +67,9 @@ INSERT INTO system.service_entity_machine (machine_name, service_entity_name, se
 
 INSERT INTO ssl.demand (service, service_entity_name, id) VALUES ('email', 'mail.my-org.example', :v_uuid1);
 INSERT INTO ssl.active (service, service_entity_name, machine_name, demand_id) VALUES ('email', 'mail.my-org.example', 'server.example', :v_uuid1);
-INSERT INTO ssl.cert (service, service_entity_name, machine_name, cert_request, cert, id, domains) VALUES ('email', 'mail.my-org.example', 'server.example', decode(:v_csr, 'hex'), decode(:v_crt, 'hex'), :v_uuid2, '{"fun.example"}');
+INSERT INTO ssl.cert (service, service_entity_name, machine_name, request, cert, id, domains) VALUES ('email', 'mail.my-org.example', 'server.example', decode(:v_csr, 'hex'), decode(:v_crt, 'hex'), :v_uuid2, '{"fun.example"}');
 UPDATE ssl.active SET currently = :v_uuid2 WHERE demand_id = :v_uuid1;
+
+INSERT INTO ssl.cert (service, service_entity_name, machine_name, request, cert, domains) VALUES ('email', 'mail.my-org.example', 'server.example', NULL, NULL, '{"fun.example"}');
+INSERT INTO ssl.cert (service, service_entity_name, machine_name, request, cert, domains) VALUES ('email', 'mail.my-org.example', 'server.example', decode(:v_csr, 'hex'), NULL, '{"fun.example"}');
+

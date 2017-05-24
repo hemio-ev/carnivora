@@ -1,12 +1,20 @@
 #!/usr/bin/env python3
 
 from OpenSSL import crypto
+from cryptography.hazmat.primitives.serialization import Encoding
+from cryptography.hazmat.primitives.serialization import PublicFormat
 
 def f(x, y):
     crt = crypto.load_certificate(crypto.FILETYPE_PEM, x)
     csr = crypto.load_certificate_request(crypto.FILETYPE_PEM, y)
     print(list(getCrtAltDnsNames(crt)))
     print(list(getCsrAltDnsNames(csr)))
+    print(getPublicBytes(crt))
+    print(getPublicBytes(csr))
+
+def getPublicBytes(crt):
+    return crt.get_pubkey().to_cryptography_key() \
+            .public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
 
 def getCrtAltDnsNames(crt):
     return getAltDnsNames(getExtensions(crt))
@@ -27,7 +35,6 @@ def selExtension(shortName, extensions):
             
 def getAltDnsNames(extensions):
     altExtension = selExtension(b'subjectAltName', extensions)
-    print(altExtension)
     if altExtension:
         for x in map(str.strip, str(altExtension).split(',')):
             split = x.split(':')
@@ -68,7 +75,7 @@ NXDgJNr+xJ4lehEw
 -----END CERTIFICATE-----
 """
 
-y = """
+y3 = """
 -----BEGIN CERTIFICATE REQUEST-----
 MIIEVTCCAj0CAQAwEDEOMAwGA1UEAwwFdGVzdHgwggIiMA0GCSqGSIb3DQEBAQUA
 A4ICDwAwggIKAoICAQDIzb7zEofduOc2Qq3ueMD09O20LVAHuociOx7BLG/UAChV
@@ -97,7 +104,7 @@ V6TG0FEwC0Gm
 -----END CERTIFICATE REQUEST-----
 """
 
-y="""
+y2="""
 -----BEGIN CERTIFICATE REQUEST-----
 MIIEWDCCAkACAQAwEzERMA8GA1UEAwwIaGVtaW8uZGUwggIiMA0GCSqGSIb3DQEB
 AQUAA4ICDwAwggIKAoICAQDIADidEyXbpX8zFrcQWYnQxzIoS83ngZNdWudlwmNm
@@ -148,4 +155,6 @@ Z+fNqgXyRbeBBZ3Z3eNOYA==
 """
 
 f(x,y)
+f(x,y2)
+f(x,y3)
 

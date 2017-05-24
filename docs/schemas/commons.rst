@@ -239,7 +239,7 @@ Returns
 .. code-block:: plpgsql
 
    
-   RETURN uuid_generate_v4();
+   RETURN public.uuid_generate_v4();
 
 
 
