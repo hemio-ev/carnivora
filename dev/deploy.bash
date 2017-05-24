@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 log=/tmp/carnivora-dev-deploy.log
 setup=../examples/setup.yml

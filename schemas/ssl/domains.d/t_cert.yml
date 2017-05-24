@@ -1,0 +1,8 @@
+name: t_cert
+type: bytea
+description: PEM cert
+checks:
+ -
+  name: cert
+  description: really a cert?
+  check: "TRUE"

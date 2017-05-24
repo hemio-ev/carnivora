@@ -20,12 +20,12 @@ columns:
   references: backend.machine.name
  -
   name: x509_request
-  type: web.t_cert
+  type: ssl.t_cert
   description: Certificate request
   null: true
  -
   name: x509_certificate
-  type: web.t_cert
+  type: ssl.t_cert
   null: true
   description: Certificate
  -
