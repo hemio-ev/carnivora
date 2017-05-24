@@ -1,33 +1,16 @@
 ---
-name: cert_info
-description: Certificate information
-returns: varchar[]
+name: cert_request_info
+description: Certificate signing request information
+returns: ssl.t_cert_request_info
 language: plpython3u
 parameters:
- - name: p_cert
+ - name: p_cert_request
    type: bytea
- - name: p_signing_request
-   type: bool
-   default: "FALSE"
 ---
 
+# global
+
 from OpenSSL import crypto
-
-def f(x, y):
-    crt = crypto.load_certificate(crypto.FILETYPE_PEM, x)
-    csr = crypto.load_certificate_request(crypto.FILETYPE_PEM, y)
-    print(list(getCrtAltDnsNames(crt)))
-    print(list(getCsrAltDnsNames(csr)))
-
-def getCrtAltDnsNames(crt):
-    return getAltDnsNames(getExtensions(crt))
-
-def getCsrAltDnsNames(csr):
-    return getAltDnsNames(csr.get_extensions())
-
-def getExtensions(crt):
-    for i in range(crt.get_extension_count()):
-        yield crt.get_extension(i)
 
 def selExtension(shortName, extensions):
     for x in extensions:
@@ -45,13 +28,27 @@ def getAltDnsNames(extensions):
             if len(split) == 2 and split[0] == 'DNS':
                 yield split[1]
 
-if p_signing_request:
-  v_csr = crypto.load_certificate_request(crypto.FILETYPE_ASN1, p_cert)
-  v_alt = list(getCsrAltDnsNames(v_csr))
-else:
-  v_crt = crypto.load_certificate(crypto.FILETYPE_ASN1, p_cert)
-  v_alt = list(getCrtAltDnsNames(v_crt))
-  
+# CRT
 
-return [v_alt[0]]
+"""
+def getCrtAltDnsNames(crt):
+    return getAltDnsNames(getExtensions(crt))
+
+def getExtensions(crt):
+    for i in range(crt.get_extension_count()):
+        yield crt.get_extension(i)
+
+v_crt = crypto.load_certificate(crypto.FILETYPE_ASN1, p_cert)
+v_alt = list(getCrtAltDnsNames(v_crt))
+"""
+
+# CSR
+
+def getCsrAltDnsNames(csr):
+    return getAltDnsNames(csr.get_extensions())
+
+v_csr = crypto.load_certificate_request(crypto.FILETYPE_ASN1, p_cert_request)
+v_alt = list(getCsrAltDnsNames(v_csr))
+
+return { 'subjectAltName' : v_alt}
 

@@ -1,5 +1,8 @@
-name: cert_demand_domain
-description: Domains for which the cert should be issued
+name: demand_domain
+description: |
+  Domains for which the cert should be issued
+
+  .. todo:: check domain is subdomain of registered
 
 primary_key:
  - demand_id
@@ -9,7 +12,7 @@ columns:
  - name: demand_id
    type: uuid
    description: Certificate demand id
-   references: ssl.cert_demand.id
+   references: ssl.demand.id
  - name: domain
    type: dns.t_domain
    description: Domain

@@ -1,4 +1,4 @@
-name: t_cert
+name: t_cert_request
 type: bytea
 description: DER cert
 checks:

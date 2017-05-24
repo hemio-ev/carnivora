@@ -1,6 +1,6 @@
 name: cert
 description: |
- SSL (X.509) certificates
+ SSL (X.509) certificate
 
 primary_key:
  - id
@@ -11,7 +11,7 @@ templates:
 columns:
  - name: id
    type: uuid
-   description: X
+   description: UUID
    default: commons._uuid()
  -
   name: machine_name
@@ -20,7 +20,7 @@ columns:
   references: backend.machine.name
  -
   name: x509_request
-  type: ssl.t_cert
+  type: ssl.t_cert_request
   description: Certificate request
   null: true
  -
@@ -43,9 +43,14 @@ columns:
 
 foreign_keys:
  - name: active_fk
-   ref_table: ssl.cert_active
+   ref_table: ssl.active
    columns:
     - service
     - service_entity_name
     - machine_name
 
+unique:
+ - name: id_machine_name
+   columns:
+    - id
+    - machine_name

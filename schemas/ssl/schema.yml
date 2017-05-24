@@ -1,5 +1,6 @@
 name: ssl
-description: SSL Certificates
+description: |
+ SSL Certificates
 
 dependencies:
  - system

@@ -1,4 +1,4 @@
-name: cert_active
+name: active
 description: |
  Active cert_active
 
@@ -13,11 +13,17 @@ columns:
  - name: demand_id
    type: uuid
    description: X
-   default: commons._uuid()
  - name: machine_name
    type: dns.t_domain
    description: Machine
-   references: backend.machine.name
+ - name: currently
+   type: uuid
+   description: Currently active certificate
+   null: true
+ - name: subsequently
+   type: uuid
+   description: Next certificate that will be active
+   null: true
 
 unique:
  - name: machine
@@ -33,3 +39,12 @@ foreign_keys:
     - service
     - service_entity_name
     - machine_name
+ - name: currently_active
+   ref_table: ssl.cert
+   columns: 
+    - currently
+    - machine_name
+   ref_columns:
+    - id
+    - machine_name
+

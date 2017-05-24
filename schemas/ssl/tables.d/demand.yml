@@ -1,4 +1,4 @@
-name: cert_demand
+name: demand
 description: |
  Service needs certificates
 
@@ -11,6 +11,6 @@ primary_key:
 columns:
  - name: id
    type: uuid
-   description: Uuid
+   description: UUID
    default: commons._uuid()
 
