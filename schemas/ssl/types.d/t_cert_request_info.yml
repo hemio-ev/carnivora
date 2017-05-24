@@ -1,0 +1,7 @@
+name: t_cert_request_info
+description: Certificate information
+
+elements:
+ - name: subjectAltName
+   type: varchar[]
+
