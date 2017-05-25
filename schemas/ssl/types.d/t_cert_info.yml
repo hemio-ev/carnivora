@@ -8,3 +8,5 @@ elements:
    type: bytea
  - name: subjectKeyIdentifier
    type: varchar
+ - name: notAfter
+   type: timestamp with time zone

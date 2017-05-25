@@ -23,6 +23,7 @@ return {
  'subjectAltName' : list(getCrtAltDnsNames(v_crt)),
  'public_key_bytes': getPublicBytes(v_crt),
  'subjectKeyIdentifier':
-   selExtension(b'subjectKeyIdentifier', getExtensions(v_crt))
+   selExtension(b'subjectKeyIdentifier', getExtensions(v_crt)),
+ 'notAfter': asn1Time(v_crt.get_notAfter())
  }
 

@@ -9,7 +9,7 @@ function makecrt() {
     echo "self sign"
     openssl x509 \
      -extensions SAN -extfile <(cat /etc/ssl/openssl.cnf <(printf "\n[SAN]\nsubjectKeyIdentifier=hash\nsubjectAltName=DNS:fun.example")) \
-     -req -days 5 -in $1.csr -signkey $1.key -outform der -out $1.crt
+     -req -days 1 -in $1.csr -signkey $1.key -outform der -out $1.crt
 }
 
 makecrt 1

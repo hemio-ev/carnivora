@@ -13,4 +13,9 @@ columns:
    type: uuid
    description: UUID
    default: commons._uuid()
+ - name: acme_ca
+   type: dns.t_domain
+   description: ACME Server
+   null: true
+   references: ssl.acme_ca.name
 

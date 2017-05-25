@@ -6,4 +6,5 @@ SELECT ssl.cert_is_signed(decode(:v_crt1, 'hex'), decode(:v_crt1, 'hex'));
 --SELECT ssl.cert_is_signed(decode(:v_crt1, 'hex'), decode(:v_crt2, 'hex'));
 
 SELECT * FROM (SELECT "subjectAltName" FROM ssl.request_info(decode(:v_csr, 'hex'))) AS x;
-SELECT * FROM (SELECT "subjectAltName", "subjectKeyIdentifier" FROM ssl.cert_info(decode(:v_crt1, 'hex'))) AS x;
+SELECT * FROM (SELECT "subjectAltName", "subjectKeyIdentifier", "notAfter"
+    FROM ssl.cert_info(decode(:v_crt1, 'hex'))) AS x;

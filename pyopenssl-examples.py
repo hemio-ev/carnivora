@@ -11,6 +11,8 @@ def f(x, y):
     print(list(getCsrAltDnsNames(csr)))
     print(getPublicBytes(crt))
     print(getPublicBytes(csr))
+    print(crt.get_pubkey())
+    print(csr.verify(crt.get_pubkey()))
 
 def getPublicBytes(crt):
     return crt.get_pubkey().to_cryptography_key() \
