@@ -25,6 +25,14 @@ columns:
    description: Next certificate that will be active
    null: true
 
+checks:
+ - name: subsequent_neq_current
+   description: Subsequent must not be the same as current
+   check: |
+    currently IS NULL
+    OR subsequently IS NULL
+    OR currently <> subsequently
+
 unique:
  - name: machine
    columns:

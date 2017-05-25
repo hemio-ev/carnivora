@@ -34,3 +34,10 @@ foreign_keys:
     - service
     - subservice
     - service_entity_name
+
+unique:
+ - name: unique
+   columns:
+    - id
+    - service
+    - service_entity_name

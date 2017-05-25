@@ -23,7 +23,7 @@ columns:
   description: Server account under which the htdocs reside
  -
   name: https
-  type: commons.t_key
+  type: uuid
   null: true
   description: If null, HTTPS is deactivated
 
@@ -37,14 +37,14 @@ foreign_keys:
  -
   name: https
   columns:
-   - domain
-   - port
    - https
-  ref_table: web.https
+   - service
+   - service_entity_name
+  ref_table: ssl.demand
   ref_columns:
-   - domain
-   - port
-   - identifier
+   - id
+   - service
+   - service_entity_name
 
  -
   name: server_access

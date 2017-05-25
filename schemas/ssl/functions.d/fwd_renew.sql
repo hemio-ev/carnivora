@@ -1,5 +1,5 @@
 ---
-name: fwd_renew_requests
+name: fwd_renew
 description: |
  Creates new certificate request entries if current certificate is expiring.
  Switches over to new subsequent certificate if available.

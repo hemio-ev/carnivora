@@ -5,6 +5,12 @@ description: |
 dependencies:
  - system
 
+priv_all_all:
+ - system
+priv_usage:
+ - userlogin
+ - backend
+
 exec_post_install_and_upgrade: |
  SELECT system._setup_register_service('ssl', 'ssl');
  SELECT system._setup_register_subservice('ssl', 'acme');
