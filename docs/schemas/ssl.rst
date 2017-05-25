@@ -13,6 +13,53 @@ Tables
 ------
 
 
+.. _TABLE-ssl.acme_ca:
+
+``ssl.acme_ca``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ACME Server
+
+Primary key
+ - name
+
+
+.. BEGIN FKs
+
+
+.. END FKs
+
+
+Columns
+ - .. _COLUMN-ssl.acme_ca.name:
+   
+   ``name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Service URL
+
+
+
+
+
+ - .. _COLUMN-ssl.acme_ca.directory_url:
+   
+   ``directory_url`` :ref:`varchar <DOMAIN-varchar>`
+     Directory
+
+
+
+
+
+ - .. _COLUMN-ssl.acme_ca.renew_prior_expiry:
+   
+   ``renew_prior_expiry`` :ref:`interval <DOMAIN-interval>`
+     Request new certificate "interval" prior to expiry
+
+
+
+
+
+
+
 .. _TABLE-ssl.active:
 
 ``ssl.active``
@@ -239,6 +286,16 @@ Columns
 
 
 
+ - .. _COLUMN-ssl.cert.intermediate:
+   
+   ``intermediate`` *NULL* | :ref:`varchar <DOMAIN-varchar>`
+     Intermediate
+
+
+   References :ref:`ssl.intermediate.subject_key_identifier <COLUMN-ssl.intermediate.subject_key_identifier>`
+
+
+
 
 
 .. _TABLE-ssl.demand:
@@ -301,6 +358,16 @@ Columns
 
 
 
+ - .. _COLUMN-ssl.demand.acme_ca:
+   
+   ``acme_ca`` *NULL* | :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     ACME Server
+
+
+   References :ref:`ssl.acme_ca.name <COLUMN-ssl.acme_ca.name>`
+
+
+
 
 
 .. _TABLE-ssl.demand_domain:
@@ -355,6 +422,54 @@ Columns
 
 
 
+.. _TABLE-ssl.intermediate:
+
+``ssl.intermediate``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Intermediate certificates
+
+Primary key
+ - subject_key_identifier
+
+
+.. BEGIN FKs
+
+
+.. END FKs
+
+
+Columns
+ - .. _COLUMN-ssl.intermediate.subject_key_identifier:
+   
+   ``subject_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+     Identifier
+
+
+
+
+
+ - .. _COLUMN-ssl.intermediate.cert:
+   
+   ``cert`` :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
+     Certificate
+
+
+
+
+
+ - .. _COLUMN-ssl.intermediate.intermediate:
+   
+   ``intermediate`` *NULL* | :ref:`varchar <DOMAIN-varchar>`
+     Intermediate
+
+
+   References :ref:`ssl.intermediate.subject_key_identifier <COLUMN-ssl.intermediate.subject_key_identifier>`
+
+
+
+
+
 
 
 
@@ -387,6 +502,7 @@ Returns
 .. code-block:: guess
 
    from OpenSSL import crypto
+   import datetime
    from cryptography.hazmat.primitives.serialization import Encoding
    from cryptography.hazmat.primitives.serialization import PublicFormat
    
@@ -399,7 +515,6 @@ Returns
                
    def getAltDnsNames(extensions):
        altExtension = selExtension(b'subjectAltName', extensions)
-       print(altExtension)
        if altExtension:
            for x in map(str.strip, str(altExtension).split(',')):
                split = x.split(':')
@@ -409,6 +524,9 @@ Returns
    def getPublicBytes(crt):
        return crt.get_pubkey().to_cryptography_key() \
                .public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
+   
+   def asn1Time(asn1time):
+       return datetime.datetime.strptime(asn1time.decode('ascii'), '%Y%m%d%H%M%SZ')
    
    
    def getCrtAltDnsNames(crt):
@@ -422,8 +540,240 @@ Returns
    
    return {
     'subjectAltName' : list(getCrtAltDnsNames(v_crt)),
-    'public_key_bytes': getPublicBytes(v_crt)
+    'public_key_bytes': getPublicBytes(v_crt),
+    'subjectKeyIdentifier':
+      selExtension(b'subjectKeyIdentifier', getExtensions(v_crt)),
+    'notAfter': asn1Time(v_crt.get_notAfter())
     }
+
+
+
+.. _FUNCTION-ssl.cert_is_signed:
+
+``ssl.cert_is_signed``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Check signed
+
+.. todo :: use ``set_time()`` with pyopenssl >= v17.0
+
+Parameters
+ - ``p_cert`` :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
+   
+    
+ - ``p_intermediate`` :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
+   
+    
+
+Language
+ plpython3u
+
+
+Returns
+ bool
+
+
+
+.. code-block:: guess
+
+   from OpenSSL import crypto
+   import datetime
+   from cryptography.hazmat.primitives.serialization import Encoding
+   from cryptography.hazmat.primitives.serialization import PublicFormat
+   
+   def selExtension(shortName, extensions):
+       for x in extensions:
+           if x.get_short_name() == shortName:
+               return x
+       else:
+           None
+               
+   def getAltDnsNames(extensions):
+       altExtension = selExtension(b'subjectAltName', extensions)
+       if altExtension:
+           for x in map(str.strip, str(altExtension).split(',')):
+               split = x.split(':')
+               if len(split) == 2 and split[0] == 'DNS':
+                   yield split[1]
+   
+   def getPublicBytes(crt):
+       return crt.get_pubkey().to_cryptography_key() \
+               .public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
+   
+   def asn1Time(asn1time):
+       return datetime.datetime.strptime(asn1time.decode('ascii'), '%Y%m%d%H%M%SZ')
+   
+   
+   v_cert = crypto.load_certificate(crypto.FILETYPE_ASN1, p_cert)
+   v_intermediate = crypto.load_certificate(crypto.FILETYPE_ASN1, p_intermediate)
+   
+   v_store = crypto.X509Store()
+   v_store.add_cert(v_intermediate)
+   #v_store.set_time(asn1Time(v_cert.get_notAfter()))
+   
+   v_store_context = crypto.X509StoreContext(v_store, v_cert)
+   v_store_context.verify_certificate()
+   
+   return True
+
+
+
+.. _FUNCTION-ssl.cert_is_trusted:
+
+``ssl.cert_is_trusted``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+trusted?
+
+Parameters
+ - ``p_cert`` :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
+   
+    
+
+Language
+ plpython3u
+
+
+Returns
+ bool
+
+
+
+.. code-block:: guess
+
+   from OpenSSL import crypto
+   import datetime
+   from cryptography.hazmat.primitives.serialization import Encoding
+   from cryptography.hazmat.primitives.serialization import PublicFormat
+   
+   def selExtension(shortName, extensions):
+       for x in extensions:
+           if x.get_short_name() == shortName:
+               return x
+       else:
+           None
+               
+   def getAltDnsNames(extensions):
+       altExtension = selExtension(b'subjectAltName', extensions)
+       if altExtension:
+           for x in map(str.strip, str(altExtension).split(',')):
+               split = x.split(':')
+               if len(split) == 2 and split[0] == 'DNS':
+                   yield split[1]
+   
+   def getPublicBytes(crt):
+       return crt.get_pubkey().to_cryptography_key() \
+               .public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
+   
+   def asn1Time(asn1time):
+       return datetime.datetime.strptime(asn1time.decode('ascii'), '%Y%m%d%H%M%SZ')
+   
+   
+   v_cert = crypto.load_certificate(crypto.FILETYPE_ASN1, p_cert)
+   
+   v_store = crypto.X509Store()
+   
+   v_store_context = crypto.X509StoreContext(v_store, v_cert)
+   v_store_context.verify_certificate()
+   
+   return True
+
+
+
+.. _FUNCTION-ssl.fwd_renew_requests:
+
+``ssl.fwd_renew_requests``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Creates new certificate request entries if current certificate is expiring.
+Switches over to new subsequent certificate if available.
+
+Additional buffers can be specified to execute those tasks earlier.
+Typically, both parameters should be set to the interval at which this function
+is called as a cron job.
+
+Parameters
+ - ``p_additional_buffer_request`` :ref:`interval <DOMAIN-interval>`
+   
+    
+ - ``p_additional_buffer_switch`` :ref:`interval <DOMAIN-interval>`
+   
+    
+
+
+
+Returns
+ void
+
+
+
+.. code-block:: plpgsql
+
+   
+   WITH
+    new_cert AS
+    (
+     INSERT INTO ssl.cert
+     (service, service_entity_name, machine_name, domains)
+     -- ssl.active where subsequent cert exists and the current cert is expiring 
+     (SELECT
+       a.service, 
+       a.service_entity_name, 
+       a.machine_name,
+       ARRAY(SELECT domain::varchar FROM ssl.demand_domain AS dd WHERE dd.demand_id = d.id)
+       FROM ssl.active AS a
+        LEFT JOIN ssl.cert AS c ON currently = c.id
+        JOIN ssl.demand AS d ON demand_id = d.id
+        JOIN ssl.acme_ca AS ca ON acme_ca = ca.name
+        WHERE
+            subsequently IS NULL AND
+            (
+             currently IS NULL OR -- if there is not even a current cert
+             (c.cert IS NOT NULL -- only check expiry if current has a cert
+              AND
+              now() - (ssl.cert_info(cert))."notAfter" - p_additional_buffer_request
+               < ca.renew_prior_expiry
+             )
+            )
+     )
+     RETURNING *
+    )
+   
+    -- add new certs as subsequent certs
+    UPDATE ssl.active AS a SET subsequently = c.id
+    FROM new_cert AS c
+    WHERE a.service = c.service AND
+       a.service_entity_name = c.service_entity_name AND
+       a.machine_name = c.machine_name
+   ;
+   
+   -- switch to new cert
+   WITH
+     cert_needs_switch AS (
+      SELECT a.demand_id, a.machine_name
+       FROM ssl.active AS a
+        LEFT JOIN ssl.cert AS c ON currently = c.id
+        JOIN ssl.cert AS s ON subsequently = s.id
+        -- joins for renew interval
+        JOIN ssl.demand AS d ON demand_id = d.id
+        JOIN ssl.acme_ca AS ca ON acme_ca = ca.name
+        WHERE
+            currently IS NULL -- switch in any case if there is no cert
+            OR
+            (
+             (c.cert IS NOT NULL -- current is issued
+              AND
+              s.cert IS NOT NULL -- subsequent is issued
+              AND
+              now() - (ssl.cert_info(c.cert))."notAfter" - p_additional_buffer_switch
+               < ca.renew_prior_expiry
+             )
+            )
+     )
+     
+     UPDATE ssl.active AS a SET currently=subsequently, subsequently=NULL
+     FROM cert_needs_switch AS n
+     WHERE n.demand_id = a.demand_id AND n.machine_name = a.machine_name;
 
 
 
@@ -451,6 +801,7 @@ Returns
 .. code-block:: guess
 
    from OpenSSL import crypto
+   import datetime
    from cryptography.hazmat.primitives.serialization import Encoding
    from cryptography.hazmat.primitives.serialization import PublicFormat
    
@@ -463,7 +814,6 @@ Returns
                
    def getAltDnsNames(extensions):
        altExtension = selExtension(b'subjectAltName', extensions)
-       print(altExtension)
        if altExtension:
            for x in map(str.strip, str(altExtension).split(',')):
                split = x.split(':')
@@ -473,6 +823,9 @@ Returns
    def getPublicBytes(crt):
        return crt.get_pubkey().to_cryptography_key() \
                .public_bytes(Encoding.DER, PublicFormat.SubjectPublicKeyInfo)
+   
+   def asn1Time(asn1time):
+       return datetime.datetime.strptime(asn1time.decode('ascii'), '%Y%m%d%H%M%SZ')
    
    
    def getCsrAltDnsNames(csr):
@@ -484,6 +837,38 @@ Returns
     'subjectAltName' : list(getCsrAltDnsNames(v_csr)),
     'public_key_bytes': getPublicBytes(v_csr)
     }
+
+
+
+.. _FUNCTION-ssl.srv_request:
+
+``ssl.srv_request``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Open certificate requests
+
+Parameters
+ *None*
+
+
+
+Returns
+ TABLE
+
+Returned columns
+ - ``id`` :ref:`uuid <DOMAIN-uuid>`
+    
+ - ``request`` :ref:`ssl.t_request <DOMAIN-ssl.t_request>`
+    
+
+
+.. code-block:: plpgsql
+
+   
+   RETURN QUERY
+     SELECT c.id, c.request
+     FROM ssl.cert AS c
+     WHERE c.cert IS NULL AND c.request IS NOT NULL;
 
 
 

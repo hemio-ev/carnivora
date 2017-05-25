@@ -1,0 +1,18 @@
+name: acme_ca
+description: |
+ ACME Server
+ 
+primary_key:
+ - name
+ 
+columns:
+ - name: name
+   type: dns.t_domain
+   description: Service URL
+ - name: directory_url
+   type: varchar
+   description: Directory
+ - name: renew_prior_expiry
+   description: Request new certificate "interval" prior to expiry
+   type: interval
+
