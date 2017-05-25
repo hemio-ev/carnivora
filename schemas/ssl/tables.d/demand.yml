@@ -13,9 +13,24 @@ columns:
    type: uuid
    description: UUID
    default: commons._uuid()
- - name: acme_ca
+ - name: ca_type
+   type: commons.t_key
+   description: Usually 'ssl'
+ - name: ca_system
+   type: commons.t_key
+   description: Usually 'acme' or 'manual'
+ - name: ca_name
    type: dns.t_domain
-   description: ACME Server
-   null: true
-   references: ssl.acme_ca.name
+   description: Name of certificate authority
 
+foreign_keys:
+ - name: ssl_service
+   columns:
+    - ca_type
+    - ca_system
+    - ca_name
+   ref_table: system.subservice_entity
+   ref_columns:
+    - service
+    - subservice
+    - service_entity_name

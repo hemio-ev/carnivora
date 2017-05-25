@@ -5,49 +5,38 @@ description: |
 primary_key:
  - id
 
-templates:
- - system.reference_service_entity
-
 columns:
  - name: id
    type: uuid
    description: UUID
    default: commons._uuid()
- -
-  name: machine_name
-  type: dns.t_domain
-  description: Machine
-  references: backend.machine.name
- -
-  name: domains
-  type: varchar[]
-  description: Domains
-  checks:
-   - name: min_one_domain
-     description: Check
-     check: array_length(domains, 1) > 0
- -
-  name: request
-  type: ssl.t_request
-  description: Certificate request
-  null: true
- -
-  name: cert
-  type: ssl.t_cert
-  null: true
-  description: Certificate
- -
-  name: authority_key_identifier
-  type: varchar
-  null: true
-  description: |
-   Identifier of the certificate that has signed this cert.
-   The Authority Key Identifier allows to build the chain of trust.
-   See <http://www.ietf.org/rfc/rfc3280.txt>.
-   Hopefully there exists an entry in web.intermediate_cert
-   or a root certificate with an equal subjectKeyIdentifier.
+   
+ - name: demand_id
+   type: uuid
+   description: UUID
+   
+ - name: machine_name
+   type: dns.t_domain
+   description: Machine
+   
+ - name: domains
+   type: varchar[]
+   description: Domains
+   checks:
+     - name: min_one_domain
+       description: Check
+       check: array_length(domains, 1) > 0
 
-   Is NULL whenever x509_certificate is NULL.
+ - name: request
+   type: ssl.t_request
+   description: Certificate request
+   null: true
+
+ - name: cert
+   type: ssl.t_cert
+   null: true
+   description: Certificate
+
  - name: intermediate
    type: varchar
    null: true
@@ -81,8 +70,7 @@ foreign_keys:
  - name: active_fk
    ref_table: ssl.active
    columns:
-    - service
-    - service_entity_name
+    - demand_id
     - machine_name
 
 unique:

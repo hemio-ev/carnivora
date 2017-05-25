@@ -13,53 +13,6 @@ Tables
 ------
 
 
-.. _TABLE-ssl.acme_ca:
-
-``ssl.acme_ca``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-ACME Server
-
-Primary key
- - name
-
-
-.. BEGIN FKs
-
-
-.. END FKs
-
-
-Columns
- - .. _COLUMN-ssl.acme_ca.name:
-   
-   ``name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-     Service URL
-
-
-
-
-
- - .. _COLUMN-ssl.acme_ca.directory_url:
-   
-   ``directory_url`` :ref:`varchar <DOMAIN-varchar>`
-     Directory
-
-
-
-
-
- - .. _COLUMN-ssl.acme_ca.renew_prior_expiry:
-   
-   ``renew_prior_expiry`` :ref:`interval <DOMAIN-interval>`
-     Request new certificate "interval" prior to expiry
-
-
-
-
-
-
-
 .. _TABLE-ssl.active:
 
 ``ssl.active``
@@ -179,21 +132,10 @@ Primary key
 .. BEGIN FKs
 
 Foreign keys
- - Reference service entity
-
-   Local Columns
-    - service_entity_name
-    - service
-
-   Referenced Columns
-    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
-
  - active_fk
 
    Local Columns
-    - service
-    - service_entity_name
+    - demand_id
     - machine_name
 
    Referenced Columns
@@ -203,24 +145,6 @@ Foreign keys
 
 
 Columns
- - .. _COLUMN-ssl.cert.service_entity_name:
-   
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-     Service entity name
-
-
-
-
-
- - .. _COLUMN-ssl.cert.service:
-   
-   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-     Service (e.g. email, jabber)
-
-
-
-
-
  - .. _COLUMN-ssl.cert.id:
    
    ``id`` :ref:`uuid <DOMAIN-uuid>`
@@ -234,13 +158,21 @@ Columns
 
 
 
+ - .. _COLUMN-ssl.cert.demand_id:
+   
+   ``demand_id`` :ref:`uuid <DOMAIN-uuid>`
+     UUID
+
+
+
+
+
  - .. _COLUMN-ssl.cert.machine_name:
    
    ``machine_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
      Machine
 
 
-   References :ref:`backend.machine.name <COLUMN-backend.machine.name>`
 
 
 
@@ -266,21 +198,6 @@ Columns
    
    ``cert`` *NULL* | :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
      Certificate
-
-
-
-
-
- - .. _COLUMN-ssl.cert.authority_key_identifier:
-   
-   ``authority_key_identifier`` *NULL* | :ref:`varchar <DOMAIN-varchar>`
-     Identifier of the certificate that has signed this cert.
-     The Authority Key Identifier allows to build the chain of trust.
-     See <http://www.ietf.org/rfc/rfc3280.txt>.
-     Hopefully there exists an entry in web.intermediate_cert
-     or a root certificate with an equal subjectKeyIdentifier.
-     
-     Is NULL whenever x509_certificate is NULL.
 
 
 
@@ -322,6 +239,18 @@ Foreign keys
     - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
     - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
 
+ - ssl_service
+
+   Local Columns
+    - ca_type
+    - ca_system
+    - ca_name
+
+   Referenced Columns
+    - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
+    - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
+    - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
+
 
 .. END FKs
 
@@ -358,13 +287,30 @@ Columns
 
 
 
- - .. _COLUMN-ssl.demand.acme_ca:
+ - .. _COLUMN-ssl.demand.ca_type:
    
-   ``acme_ca`` *NULL* | :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-     ACME Server
+   ``ca_type`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Usually 'ssl'
 
 
-   References :ref:`ssl.acme_ca.name <COLUMN-ssl.acme_ca.name>`
+
+
+
+ - .. _COLUMN-ssl.demand.ca_system:
+   
+   ``ca_system`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Usually 'acme' or 'manual'
+
+
+
+
+
+ - .. _COLUMN-ssl.demand.ca_name:
+   
+   ``ca_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Name of certificate authority
+
+
 
 
 
@@ -693,10 +639,10 @@ Typically, both parameters should be set to the interval at which this function
 is called as a cron job.
 
 Parameters
- - ``p_additional_buffer_request`` :ref:`interval <DOMAIN-interval>`
+ - ``p_buffer_request`` :ref:`interval <DOMAIN-interval>`
    
     
- - ``p_additional_buffer_switch`` :ref:`interval <DOMAIN-interval>`
+ - ``p_buffer_switch`` :ref:`interval <DOMAIN-interval>`
    
     
 
@@ -714,25 +660,22 @@ Returns
     new_cert AS
     (
      INSERT INTO ssl.cert
-     (service, service_entity_name, machine_name, domains)
+     (demand_id, machine_name, domains)
      -- ssl.active where subsequent cert exists and the current cert is expiring 
      (SELECT
-       a.service, 
-       a.service_entity_name, 
+       a.demand_id, 
        a.machine_name,
-       ARRAY(SELECT domain::varchar FROM ssl.demand_domain AS dd WHERE dd.demand_id = d.id)
+       ARRAY(SELECT domain::varchar FROM ssl.demand_domain AS dd WHERE dd.demand_id = a.demand_id)
        FROM ssl.active AS a
         LEFT JOIN ssl.cert AS c ON currently = c.id
-        JOIN ssl.demand AS d ON demand_id = d.id
-        JOIN ssl.acme_ca AS ca ON acme_ca = ca.name
         WHERE
             subsequently IS NULL AND
             (
              currently IS NULL OR -- if there is not even a current cert
              (c.cert IS NOT NULL -- only check expiry if current has a cert
               AND
-              now() - (ssl.cert_info(cert))."notAfter" - p_additional_buffer_request
-               < ca.renew_prior_expiry
+              now() - (ssl.cert_info(cert))."notAfter"
+               < p_buffer_request
              )
             )
      )
@@ -742,8 +685,8 @@ Returns
     -- add new certs as subsequent certs
     UPDATE ssl.active AS a SET subsequently = c.id
     FROM new_cert AS c
-    WHERE a.service = c.service AND
-       a.service_entity_name = c.service_entity_name AND
+    WHERE
+       a.demand_id = c.demand_id AND
        a.machine_name = c.machine_name
    ;
    
@@ -754,9 +697,6 @@ Returns
        FROM ssl.active AS a
         LEFT JOIN ssl.cert AS c ON currently = c.id
         JOIN ssl.cert AS s ON subsequently = s.id
-        -- joins for renew interval
-        JOIN ssl.demand AS d ON demand_id = d.id
-        JOIN ssl.acme_ca AS ca ON acme_ca = ca.name
         WHERE
             currently IS NULL -- switch in any case if there is no cert
             OR
@@ -765,8 +705,8 @@ Returns
               AND
               s.cert IS NOT NULL -- subsequent is issued
               AND
-              now() - (ssl.cert_info(c.cert))."notAfter" - p_additional_buffer_switch
-               < ca.renew_prior_expiry
+              now() - (ssl.cert_info(c.cert))."notAfter"
+               < p_buffer_switch
              )
             )
      )
@@ -840,12 +780,14 @@ Returns
 
 
 
-.. _FUNCTION-ssl.srv_request:
+.. _FUNCTION-ssl.srv_acme_request:
 
-``ssl.srv_request``
+``ssl.srv_acme_request``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Open certificate requests
+
+.. todo :: use backend template for backend auth
 
 Parameters
  *None*
@@ -860,15 +802,20 @@ Returned columns
     
  - ``request`` :ref:`ssl.t_request <DOMAIN-ssl.t_request>`
     
+ - ``ca_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+    
 
 
 .. code-block:: plpgsql
 
    
    RETURN QUERY
-     SELECT c.id, c.request
+     SELECT c.id, c.request, d.ca_name
      FROM ssl.cert AS c
-     WHERE c.cert IS NULL AND c.request IS NOT NULL;
+     JOIN ssl.demand AS d ON d.id = c.demand_id
+     WHERE
+       c.cert IS NULL AND c.request IS NOT NULL AND
+       d.ca_type = 'ssl' AND d.ca_system = 'acme';
 
 
 

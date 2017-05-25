@@ -6,7 +6,9 @@ dependencies:
  - system
 
 exec_post_install_and_upgrade: |
- SELECT system._setup_register_service('ssl', 'acme');
+ SELECT system._setup_register_service('ssl', 'ssl');
+ SELECT system._setup_register_subservice('ssl', 'acme');
+ SELECT system._setup_register_service('ssl', 'manual');
 
 function_templates:
  - template: openssl

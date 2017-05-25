@@ -64,17 +64,22 @@ SELECT 'user login', 'user-1', 'FOMgwkMXmS';
 
 INSERT INTO backend.machine (name) VALUES ('server.example');
 INSERT INTO system.service_entity_machine (machine_name, service_entity_name, service) VALUES ('server.example', 'mail.my-org.example', 'email');
-INSERT INTO ssl.acme_ca (name, directory_url, renew_prior_expiry) VALUES ('le.example', 'https://', '30d');
+INSERT INTO system.service_entity (service, service_entity_name)
+ VALUES ('ssl', 'le.example');
+INSERT INTO system.subservice_entity (service, subservice, service_entity_name)
+ VALUES ('ssl', 'acme', 'le.example');
 
-INSERT INTO ssl.demand (service, service_entity_name, id, acme_ca) VALUES ('email', 'mail.my-org.example', :v_uuid1, 'le.example');
+INSERT INTO ssl.demand (service, service_entity_name, id, ca_type, ca_system, ca_name) VALUES ('email', 'mail.my-org.example', :v_uuid1, 'ssl', 'acme', 'le.example');
 INSERT INTO ssl.active (service, service_entity_name, machine_name, demand_id) VALUES ('email', 'mail.my-org.example', 'server.example', :v_uuid1);
-INSERT INTO ssl.cert (service, service_entity_name, machine_name, request, cert, id, domains) VALUES ('email', 'mail.my-org.example', 'server.example', decode(:v_csr, 'hex'), decode(:v_crt, 'hex'), :v_uuid2, '{"fun.example"}');
+INSERT INTO ssl.cert (demand_id, machine_name, request, cert, id, domains) VALUES (:v_uuid1, 'server.example', decode(:v_csr, 'hex'), decode(:v_crt, 'hex'), :v_uuid2, '{"fun.example"}');
 UPDATE ssl.active SET currently = :v_uuid2 WHERE demand_id = :v_uuid1;
 
-INSERT INTO ssl.cert (service, service_entity_name, machine_name, request, cert, domains) VALUES ('email', 'mail.my-org.example', 'server.example', NULL, NULL, '{"fun.example"}');
+INSERT INTO ssl.cert (demand_id , machine_name, request, cert, domains) VALUES (:v_uuid1, 'server.example', NULL, NULL, '{"fun.example"}');
 INSERT INTO ssl.demand_domain (domain, registered, demand_id)
  VALUES ('fun.example', 'fun.example', :v_uuid1);
 
-INSERT INTO ssl.cert (service, service_entity_name, machine_name, request, cert, domains) VALUES ('email', 'mail.my-org.example', 'server.example', decode(:v_csr, 'hex'), NULL, '{"fun.example"}');
-SELECT ssl.fwd_renew_requests();
+INSERT INTO ssl.cert (demand_id, machine_name, request, cert, domains) VALUES (:v_uuid1, 'server.example', decode(:v_csr, 'hex'), NULL, '{"fun.example"}');
+SELECT ssl.fwd_renew_requests('28d', '29d');
+
+SELECT * FROM ssl.srv_acme_request();
 
