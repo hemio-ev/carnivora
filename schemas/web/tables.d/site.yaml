@@ -18,11 +18,19 @@ columns:
   type: commons.t_port
   description: Port
  -
-  name: user
+  name: storage_user
   type: server_access.t_user
   description: Server account under which the htdocs reside
  -
-  name: https
+  name: storage_service
+  type: commons.t_key
+  description: TODO
+ -
+  name: storage_service_entity_name
+  type: dns.t_domain
+  description: TODO
+ -
+  name: ssl
   type: uuid
   null: true
   description: If null, HTTPS is deactivated
@@ -37,7 +45,7 @@ foreign_keys:
  -
   name: https
   columns:
-   - https
+   - ssl
    - service
    - service_entity_name
   ref_table: ssl.demand
@@ -49,11 +57,13 @@ foreign_keys:
  -
   name: server_access
   columns:
-   - user
-   - service_entity_name
+   - storage_user
+   - storage_service
+   - storage_service_entity_name
   ref_table: server_access.user
   ref_columns:
    - user
+   - service
    - service_entity_name
 
 unique:

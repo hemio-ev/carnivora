@@ -1,6 +1,7 @@
 ---
 name: srv_site
-description: backend web.site
+description: |
+ backend web.site
 
 templates:
  - backend.backend
@@ -20,8 +21,8 @@ returns_columns:
   name: service_entity_name
   type: dns.t_domain
  -
-  name: https
-  type: commons.t_key
+  name: ssl_cert_id
+  type: uuid
  -
   name: subservice
   type: commons.t_key
@@ -49,8 +50,8 @@ RETURN QUERY
         UPDATE web.site AS t
             SET backend_status = NULL
         WHERE
-            backend._machine_priviledged_domain(t.service, t.domain) AND
-            backend._active(t.backend_status)
+            backend._active(t.backend_status) AND
+            backend._machine_priviledged_domain(t.service, t.domain)
     )
 
     -- SELECT
@@ -59,11 +60,13 @@ RETURN QUERY
         t.port,
         t.user,
         t.service_entity_name,
-        t.https,
+        cert.used,
         t.subservice,
         t.option,
         t.backend_status
     FROM web.site AS t
+      LEFT JOIN ssl.active AS cert
+        ON cert.machine_name = v_machine AND cert.demand_id = t.ssl
 
     WHERE
         backend._machine_priviledged_domain(t.service, t.domain) AND

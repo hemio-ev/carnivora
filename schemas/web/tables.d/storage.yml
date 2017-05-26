@@ -1,0 +1,31 @@
+name: storage
+description: Where to place stuff
+
+templates:
+ - system.reference_service_entity
+
+primary_key:
+ - service
+ - service_entity_name
+ - port
+
+columns:
+ - name: port
+   type: commons.t_port
+   description: X
+ - name: storage_service
+   type: commons.t_key
+   description: TODO
+ - name: storage_service_entity_name
+   type: dns.t_domain
+   description: TODO
+
+foreign_keys:
+ - name: r
+   columns:
+    - storage_service
+    - storage_service_entity_name
+   ref_table: system.service_entity
+   ref_columns:
+    - service
+    - service_entity_name

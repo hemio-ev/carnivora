@@ -26,8 +26,12 @@ parameters:
 ---
 
 INSERT INTO web.site
-    (domain, service, subservice, port, "user", service_entity_name)
-    VALUES
-    (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name);
+    (domain, service, subservice, port, service_entity_name, storage_user, storage_service, storage_service_entity_name)
+    SELECT p_domain, 'web', 'site', p_port, p_service_entity_name, p_user, s.storage_service, s.storage_service_entity_name
+     FROM web.storage AS s
+      WHERE s.service = 'web'
+      AND s.service_entity_name = p_service_entity_name
+      AND s.port = p_port
+;
 
-    PERFORM backend._notify_domain('web', 'site', p_domain);
+PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
