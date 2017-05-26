@@ -203,7 +203,7 @@ Foreign keys
  - https
 
    Local Columns
-    - https
+    - ssl
     - service
     - service_entity_name
 
@@ -215,11 +215,13 @@ Foreign keys
  - server_access
 
    Local Columns
-    - user
-    - service_entity_name
+    - storage_user
+    - storage_service
+    - storage_service_entity_name
 
    Referenced Columns
     - :ref:`server_access.user.user <COLUMN-server_access.user.user>`
+    - :ref:`server_access.user.service <COLUMN-server_access.user.service>`
     - :ref:`server_access.user.service_entity_name <COLUMN-server_access.user.service_entity_name>`
 
 
@@ -301,19 +303,125 @@ Columns
 
 
 
- - .. _COLUMN-web.site.user:
+ - .. _COLUMN-web.site.storage_user:
    
-   ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+   ``storage_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
      Server account under which the htdocs reside
 
 
 
 
 
- - .. _COLUMN-web.site.https:
+ - .. _COLUMN-web.site.storage_service:
    
-   ``https`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
+   ``storage_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     TODO
+
+
+
+
+
+ - .. _COLUMN-web.site.storage_service_entity_name:
+   
+   ``storage_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     TODO
+
+
+
+
+
+ - .. _COLUMN-web.site.ssl:
+   
+   ``ssl`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
      If null, HTTPS is deactivated
+
+
+
+
+
+
+
+.. _TABLE-web.storage:
+
+``web.storage``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Where to place stuff
+
+Primary key
+ - service
+ - service_entity_name
+ - port
+
+
+.. BEGIN FKs
+
+Foreign keys
+ - Reference service entity
+
+   Local Columns
+    - service_entity_name
+    - service
+
+   Referenced Columns
+    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+
+ - r
+
+   Local Columns
+    - storage_service
+    - storage_service_entity_name
+
+   Referenced Columns
+    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+
+
+.. END FKs
+
+
+Columns
+ - .. _COLUMN-web.storage.service_entity_name:
+   
+   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     Service entity name
+
+
+
+
+
+ - .. _COLUMN-web.storage.service:
+   
+   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     Service (e.g. email, jabber)
+
+
+
+
+
+ - .. _COLUMN-web.storage.port:
+   
+   ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+     X
+
+
+
+
+
+ - .. _COLUMN-web.storage.storage_service:
+   
+   ``storage_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+     TODO
+
+
+
+
+
+ - .. _COLUMN-web.storage.storage_service_entity_name:
+   
+   ``storage_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+     TODO
 
 
 
@@ -560,11 +668,15 @@ Execute privilege
    
    
    INSERT INTO web.site
-       (domain, service, subservice, port, "user", service_entity_name)
-       VALUES
-       (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name);
+       (domain, service, subservice, port, service_entity_name, storage_user, storage_service, storage_service_entity_name)
+       SELECT p_domain, 'web', 'site', p_port, p_service_entity_name, p_user, s.storage_service, s.storage_service_entity_name
+        FROM web.storage AS s
+         WHERE s.service = 'web'
+         AND s.service_entity_name = p_service_entity_name
+         AND s.port = p_port
+   ;
    
-       PERFORM backend._notify_domain('web', 'site', p_domain);
+   PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
 
 
 
@@ -810,7 +922,7 @@ Returned columns
     
  - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
     
- - ``https`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+ - ``ssl_cert_id`` :ref:`uuid <DOMAIN-uuid>`
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
@@ -843,8 +955,8 @@ Execute privilege
            UPDATE web.site AS t
                SET backend_status = NULL
            WHERE
-               backend._machine_priviledged_domain(t.service, t.domain) AND
-               backend._active(t.backend_status)
+               backend._active(t.backend_status) AND
+               backend._machine_priviledged_domain(t.service, t.domain)
        )
    
        -- SELECT
@@ -853,76 +965,17 @@ Execute privilege
            t.port,
            t.user,
            t.service_entity_name,
-           t.https,
+           cert.used,
            t.subservice,
            t.option,
            t.backend_status
        FROM web.site AS t
+         LEFT JOIN ssl.active AS cert
+           ON cert.machine_name = v_machine AND cert.demand_id = t.ssl
    
        WHERE
            backend._machine_priviledged_domain(t.service, t.domain) AND
            (backend._active(t.backend_status) OR p_include_inactive);
-
-
-
-.. _FUNCTION-web.upd_site:
-
-``web.upd_site``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-set https identif.
-
-Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-    
- - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
-   
-    
- - ``p_identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
-    
-
-
-Variables defined for body
- - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
-
-Returns
- void
-
-
-Execute privilege
- - :ref:`userlogin <ROLE-userlogin>`
-
-.. code-block:: plpgsql
-
-   -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
-   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
-   -- end userlogin prelude
-   
-   
-   UPDATE web.site AS t
-       SET https = p_identifier
-   FROM server_access.user AS s, dns.service AS u
-   WHERE
-       s.user = t.user AND
-       s.service_entity_name = u.service_entity_name AND
-   
-       -- dns.service JOIN
-       t.domain = u.domain AND
-       t.service = u.service AND
-   
-       s.owner = v_owner AND
-       t.domain = p_domain AND
-       t.port = p_port;
-   
-   PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
 
 
 
