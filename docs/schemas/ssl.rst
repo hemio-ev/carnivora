@@ -3,6 +3,11 @@ ssl
 
 SSL Certificates
 
+
+.. code-block :: sql
+
+ SELECT ssl.fwd_renew('28d', '29d');
+
 .. contents:: Schema Contents
    :local:
    :depth: 2
@@ -626,9 +631,67 @@ Returns
 
 
 
-.. _FUNCTION-ssl.fwd_renew_requests:
+.. _FUNCTION-ssl.fwd_request:
 
-``ssl.fwd_renew_requests``
+``ssl.fwd_request``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Insert cert
+
+.. todo :: Sending signals to the service clients <service>-ssl
+
+.. todo :: Auth
+
+.. todo :: Fail if no update
+
+Parameters
+ - ``p_id`` :ref:`uuid <DOMAIN-uuid>`
+   
+    
+ - ``p_cert`` :ref:`ssl.t_request <DOMAIN-ssl.t_request>`
+   
+    
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
+
+.. code-block:: plpgsql
+
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   
+   UPDATE ssl.cert AS c
+    SET cert = p_cert
+    FROM 
+     ssl.demand AS d,
+     system.service_entity_machine AS m 
+    WHERE
+     c.id = p_id
+     AND cert IS NULL
+     AND m.machine = v_machine
+     -- JOIN ONs
+     AND d.id = c.demand_id
+     AND m.service = d.ca_type AND m.service_entity_name = d.ca_name
+     ;
+
+
+
+.. _FUNCTION-ssl.fwd_renew:
+
+``ssl.fwd_renew``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Creates new certificate request entries if current certificate is expiring.
@@ -717,6 +780,51 @@ Returns
 
 
 
+.. _FUNCTION-ssl.fwd_request:
+
+``ssl.fwd_request``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+X.509 certifiacte signing request
+
+.. todo :: Sending signals to the carnivora-acme clients
+
+.. todo :: Error on not updating anything
+
+Parameters
+ - ``p_id`` :ref:`uuid <DOMAIN-uuid>`
+   
+    
+ - ``p_request`` :ref:`ssl.t_request <DOMAIN-ssl.t_request>`
+   
+    
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
+
+.. code-block:: plpgsql
+
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   
+   UPDATE ssl.cert SET request = p_request
+    WHERE machine_name = v_machine AND id = p_id AND request IS NULL;
+
+
+
 .. _FUNCTION-ssl.request_info:
 
 ``ssl.request_info``
@@ -787,12 +895,16 @@ Returns
 
 Open certificate requests
 
-.. todo :: use backend template for backend auth
-
 Parameters
- *None*
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
 
 
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
 
 Returns
  TABLE
@@ -805,17 +917,72 @@ Returned columns
  - ``ca_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
     
 
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
    
    RETURN QUERY
      SELECT c.id, c.request, d.ca_name
      FROM ssl.cert AS c
      JOIN ssl.demand AS d ON d.id = c.demand_id
+     JOIN system.service_entity_machine AS m
+      ON m.service = d.ca_type AND m.service_entity_name = d.ca_name
      WHERE
-       c.cert IS NULL AND c.request IS NOT NULL AND
-       d.ca_type = 'ssl' AND d.ca_system = 'acme';
+       c.cert IS NULL AND c.request IS NOT NULL
+       AND d.ca_type = 'ssl' AND d.ca_system = 'acme'
+       AND m.machine_name = v_machine
+   ;
+
+
+
+.. _FUNCTION-ssl.srv_cert:
+
+``ssl.srv_cert``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Certs
+
+Parameters
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+
+Variables defined for body
+ - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+   
+
+Returns
+ TABLE
+
+Returned columns
+ - ``id`` :ref:`uuid <DOMAIN-uuid>`
+    
+ - ``cert`` :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
+    
+ - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+    
+ - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+    
+
+Execute privilege
+ - :ref:`backend <ROLE-backend>`
+
+.. code-block:: plpgsql
+
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   
+   
+   RETURN QUERY
+    SELECT c.id, c.cert, a.service, a.service_entity_name FROM ssl.cert AS c
+    JOIN ssl.active AS a
+    ON a.currently = c.id OR a.subsequently = c.id
+    WHERE c.machine_name = v_machine;
 
 
 

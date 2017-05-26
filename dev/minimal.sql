@@ -63,6 +63,8 @@ SELECT 'user login', 'user-1', 'FOMgwkMXmS';
 \set v_uuid2 '''8b2f1893-6e54-42b5-903f-0e258612c30b'''
 
 INSERT INTO backend.machine (name) VALUES ('server.example');
+INSERT INTO backend.auth (machine, role) VALUES ('server.example', 'postgres');
+
 INSERT INTO system.service_entity_machine (machine_name, service_entity_name, service) VALUES ('server.example', 'mail.my-org.example', 'email');
 INSERT INTO system.service_entity (service, service_entity_name)
  VALUES ('ssl', 'le.example');
@@ -79,7 +81,9 @@ INSERT INTO ssl.demand_domain (domain, registered, demand_id)
  VALUES ('fun.example', 'fun.example', :v_uuid1);
 
 INSERT INTO ssl.cert (demand_id, machine_name, request, cert, domains) VALUES (:v_uuid1, 'server.example', decode(:v_csr, 'hex'), NULL, '{"fun.example"}');
-SELECT ssl.fwd_renew_requests('28d', '29d');
+SELECT ssl.fwd_renew('28d', '29d');
 
-SELECT * FROM ssl.srv_acme_request();
+SELECT ca_name FROM ssl.srv_acme_request();
+SELECT service, service_entity_name FROM ssl.srv_cert();
+
 
