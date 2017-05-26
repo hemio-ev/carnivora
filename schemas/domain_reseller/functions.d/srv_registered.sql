@@ -54,5 +54,5 @@ RETURN QUERY
      FROM domain_reseller.registered AS t
     JOIN dns.registered AS s USING (domain)
     WHERE
-    backend._machine_priviledged_service(s.service, s.service_entity_name) AND
+    backend._machine_priviledged_entity(s.service, s.service_entity_name) AND
     (backend._active(s.backend_status) OR p_include_inactive);

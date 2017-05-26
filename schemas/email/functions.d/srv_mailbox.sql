@@ -38,7 +38,7 @@ RETURN QUERY
         DELETE FROM email.mailbox AS t
         WHERE
             backend._deleted(t.backend_status) AND
-            backend._machine_priviledged(t.service, t.domain)
+            backend._machine_priviledged_domain(t.service, t.domain)
     ),
 
     -- UPDATE
@@ -47,7 +47,7 @@ RETURN QUERY
             SET backend_status = NULL
         WHERE
             backend._active(t.backend_status) AND
-            backend._machine_priviledged(t.service, t.domain)
+            backend._machine_priviledged_domain(t.service, t.domain)
     )
 
     -- SELECT
@@ -62,5 +62,5 @@ RETURN QUERY
     FROM email.mailbox AS t
 
     WHERE
-        backend._machine_priviledged(t.service, t.domain) AND
+        backend._machine_priviledged_domain(t.service, t.domain) AND
         (backend._active(t.backend_status) OR p_include_inactive);

@@ -404,7 +404,7 @@ Execute privilege
            DELETE FROM server_access.user AS t
            WHERE
                backend._deleted(t.backend_status) AND
-               backend._machine_priviledged_service(t.service, t.service_entity_name)
+               backend._machine_priviledged_entity(t.service, t.service_entity_name)
        ),
    
        -- UPDATE
@@ -412,7 +412,7 @@ Execute privilege
            UPDATE server_access.user AS t
                SET backend_status = NULL
            WHERE
-               backend._machine_priviledged_service(t.service, t.service_entity_name) AND
+               backend._machine_priviledged_entity(t.service, t.service_entity_name) AND
                backend._active(t.backend_status)
        )
    
@@ -428,7 +428,7 @@ Execute privilege
        FROM server_access.user AS t
    
        WHERE
-           backend._machine_priviledged_service(t.service, t.service_entity_name) AND
+           backend._machine_priviledged_entity(t.service, t.service_entity_name) AND
            (backend._active(t.backend_status) OR p_include_inactive);
 
 

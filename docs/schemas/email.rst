@@ -1871,7 +1871,7 @@ Execute privilege
            DELETE FROM email.alias AS t
            WHERE
                backend._deleted(t.backend_status) AND
-               backend._machine_priviledged(t.service, t.domain)
+               backend._machine_priviledged_domain(t.service, t.domain)
        ),
    
        -- UPDATE
@@ -1879,7 +1879,7 @@ Execute privilege
            UPDATE email.alias AS t
                SET backend_status = NULL
            WHERE
-               backend._machine_priviledged(t.service, t.domain) AND
+               backend._machine_priviledged_domain(t.service, t.domain) AND
                backend._active(t.backend_status)
        )
    
@@ -1893,7 +1893,7 @@ Execute privilege
        FROM email.alias AS t
    
        WHERE
-           backend._machine_priviledged(t.service, t.domain) AND
+           backend._machine_priviledged_domain(t.service, t.domain) AND
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
@@ -1947,7 +1947,7 @@ Execute privilege
            DELETE FROM email.list AS t
            WHERE
                backend._deleted(t.backend_status) AND
-               backend._machine_priviledged(t.service, t.domain)
+               backend._machine_priviledged_domain(t.service, t.domain)
        ),
    
        -- UPDATE
@@ -1955,7 +1955,7 @@ Execute privilege
            UPDATE email.list AS t
                SET backend_status = NULL
            WHERE
-               backend._machine_priviledged(t.service, t.domain) AND
+               backend._machine_priviledged_domain(t.service, t.domain) AND
                backend._active(t.backend_status)
        )
    
@@ -1969,7 +1969,7 @@ Execute privilege
        FROM email.list AS t
    
        WHERE
-           backend._machine_priviledged(t.service, t.domain) AND
+           backend._machine_priviledged_domain(t.service, t.domain) AND
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
@@ -2025,7 +2025,7 @@ Execute privilege
                t.list_localpart = l.localpart AND
    
                backend._deleted(t.backend_status) AND
-               backend._machine_priviledged(l.service, l.domain)
+               backend._machine_priviledged_domain(l.service, l.domain)
        ),
    
        -- UPDATE
@@ -2037,7 +2037,7 @@ Execute privilege
                t.list_domain = l.domain AND
                t.list_localpart = l.localpart AND
    
-               backend._machine_priviledged(l.service, l.domain) AND
+               backend._machine_priviledged_domain(l.service, l.domain) AND
                backend._active(t.backend_status)
        )
    
@@ -2054,7 +2054,7 @@ Execute privilege
            t.list_localpart = l.localpart
    
        WHERE
-           backend._machine_priviledged(l.service, l.domain) AND
+           backend._machine_priviledged_domain(l.service, l.domain) AND
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
@@ -2112,7 +2112,7 @@ Execute privilege
            DELETE FROM email.mailbox AS t
            WHERE
                backend._deleted(t.backend_status) AND
-               backend._machine_priviledged(t.service, t.domain)
+               backend._machine_priviledged_domain(t.service, t.domain)
        ),
    
        -- UPDATE
@@ -2121,7 +2121,7 @@ Execute privilege
                SET backend_status = NULL
            WHERE
                backend._active(t.backend_status) AND
-               backend._machine_priviledged(t.service, t.domain)
+               backend._machine_priviledged_domain(t.service, t.domain)
        )
    
        -- SELECT
@@ -2136,7 +2136,7 @@ Execute privilege
        FROM email.mailbox AS t
    
        WHERE
-           backend._machine_priviledged(t.service, t.domain) AND
+           backend._machine_priviledged_domain(t.service, t.domain) AND
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
@@ -2188,7 +2188,7 @@ Execute privilege
            DELETE FROM email.redirection AS t
            WHERE
                backend._deleted(t.backend_status) AND
-               backend._machine_priviledged(t.service, t.domain)
+               backend._machine_priviledged_domain(t.service, t.domain)
        ),
    
        -- UPDATE
@@ -2196,7 +2196,7 @@ Execute privilege
            UPDATE email.redirection AS t
                SET backend_status = NULL
            WHERE
-               backend._machine_priviledged(t.service, t.domain) AND
+               backend._machine_priviledged_domain(t.service, t.domain) AND
                backend._active(t.backend_status)
        )
    
@@ -2209,7 +2209,7 @@ Execute privilege
        FROM email.redirection AS t
    
        WHERE
-           backend._machine_priviledged(t.service, t.domain) AND
+           backend._machine_priviledged_domain(t.service, t.domain) AND
            (backend._active(t.backend_status) OR p_include_inactive);
 
 

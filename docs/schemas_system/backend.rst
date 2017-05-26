@@ -261,26 +261,24 @@ Returned columns
 
 
 
-.. _FUNCTION-backend._machine_priviledged:
+.. _FUNCTION-backend._machine_priviledged_domain:
 
-``backend._machine_priviledged``
+``backend._machine_priviledged_domain``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Checks if a currently connected machine is priviledged to obtain data for
 a certain service for a certain domain name.
 
 .. warning::
-   The parameter p_domain must be a domain, which means an entry in
-   the column dns.service.domain. It must not be confused with a service_entity_name.
+   The parameter ``p_domain`` must be a domain, which means an entry in
+   the column dns.service.domain. It must not be confused with a
+   ``service_entity_name``.
 
 Parameters
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
  - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-    
- - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
    
     
 
@@ -319,9 +317,9 @@ Execute privilege
 
 
 
-.. _FUNCTION-backend._machine_priviledged_service:
+.. _FUNCTION-backend._machine_priviledged_entity:
 
-``backend._machine_priviledged_service``
+``backend._machine_priviledged_entity``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Checks if a currently connected machine is priviledged to obtain data for
@@ -336,9 +334,6 @@ Parameters
    
     
  - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-    
- - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
    
     
 
@@ -377,10 +372,15 @@ Execute privilege
 ``backend._notify``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Informs all machines about changes.
+Informs a machine about changes. To listen to signals use
 
-To listen to signals use LISTEN "carnivora/machine.name.example".
-The payload has the form 'mail.domain.example/email/list'.
+.. code-block :: sql
+ 
+ LISTEN "carnivora/machine.name.example"
+
+on the machine. The payload has the form
+``<service_entity_name>/<service>/<subservice>``. For example
+``mail.domain.example/email/mailbox`` for a mailbox related update.
 
 Parameters
  - ``p_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`

@@ -33,7 +33,7 @@ RETURN QUERY
             t.list_localpart = l.localpart AND
 
             backend._deleted(t.backend_status) AND
-            backend._machine_priviledged(l.service, l.domain)
+            backend._machine_priviledged_domain(l.service, l.domain)
     ),
 
     -- UPDATE
@@ -45,7 +45,7 @@ RETURN QUERY
             t.list_domain = l.domain AND
             t.list_localpart = l.localpart AND
 
-            backend._machine_priviledged(l.service, l.domain) AND
+            backend._machine_priviledged_domain(l.service, l.domain) AND
             backend._active(t.backend_status)
     )
 
@@ -62,5 +62,5 @@ RETURN QUERY
         t.list_localpart = l.localpart
 
     WHERE
-        backend._machine_priviledged(l.service, l.domain) AND
+        backend._machine_priviledged_domain(l.service, l.domain) AND
         (backend._active(t.backend_status) OR p_include_inactive);

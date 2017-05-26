@@ -754,7 +754,7 @@ Execute privilege
            DELETE FROM web.alias AS t
            WHERE
                backend._deleted(t.backend_status) AND
-               backend._machine_priviledged(t.service, t.domain)
+               backend._machine_priviledged_domain(t.service, t.domain)
        ),
    
        -- UPDATE
@@ -762,7 +762,7 @@ Execute privilege
            UPDATE web.alias AS t
                SET backend_status = NULL
            WHERE
-               backend._machine_priviledged(t.service, t.domain) AND
+               backend._machine_priviledged_domain(t.service, t.domain) AND
                backend._active(t.backend_status)
        )
    
@@ -775,7 +775,7 @@ Execute privilege
        FROM web.alias AS t
    
        WHERE
-           backend._machine_priviledged(t.service, t.domain) AND
+           backend._machine_priviledged_domain(t.service, t.domain) AND
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
@@ -835,7 +835,7 @@ Execute privilege
            DELETE FROM web.site AS t
            WHERE
                backend._deleted(t.backend_status) AND
-               backend._machine_priviledged(t.service, t.domain)
+               backend._machine_priviledged_domain(t.service, t.domain)
        ),
    
        -- UPDATE
@@ -843,7 +843,7 @@ Execute privilege
            UPDATE web.site AS t
                SET backend_status = NULL
            WHERE
-               backend._machine_priviledged(t.service, t.domain) AND
+               backend._machine_priviledged_domain(t.service, t.domain) AND
                backend._active(t.backend_status)
        )
    
@@ -860,7 +860,7 @@ Execute privilege
        FROM web.site AS t
    
        WHERE
-           backend._machine_priviledged(t.service, t.domain) AND
+           backend._machine_priviledged_domain(t.service, t.domain) AND
            (backend._active(t.backend_status) OR p_include_inactive);
 
 

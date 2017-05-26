@@ -39,7 +39,7 @@ RETURN QUERY
         WHERE
             s.domain = t.registered AND
             backend._deleted(t.backend_status) AND
-            backend._machine_priviledged_service('dns', s.service_entity_name)
+            backend._machine_priviledged_entity('dns', s.service_entity_name)
     ),
 
     d_c AS (
@@ -48,7 +48,7 @@ RETURN QUERY
         WHERE
             s.domain = t.registered AND
             backend._deleted(t.backend_status) AND
-            backend._machine_priviledged_service('dns', s.service_entity_name)
+            backend._machine_priviledged_entity('dns', s.service_entity_name)
     ),
 
     -- UPDATE
@@ -58,7 +58,7 @@ RETURN QUERY
         FROM dns.registered AS s
         WHERE
             s.domain = t.registered AND
-            backend._machine_priviledged_service('dns', s.service_entity_name) AND
+            backend._machine_priviledged_entity('dns', s.service_entity_name) AND
             backend._active(t.backend_status)
     ),
 
@@ -68,7 +68,7 @@ RETURN QUERY
         FROM dns.registered AS s
         WHERE
             s.domain = t.registered AND
-            backend._machine_priviledged_service('dns', s.service_entity_name) AND
+            backend._machine_priviledged_entity('dns', s.service_entity_name) AND
             backend._active(t.backend_status)
     )
 
@@ -86,7 +86,7 @@ RETURN QUERY
         ON t.registered = u.domain
     WHERE
         u.subservice = 'managed' AND
-        backend._machine_priviledged_service('dns', u.service_entity_name) AND
+        backend._machine_priviledged_entity('dns', u.service_entity_name) AND
         (backend._active(t.backend_status) OR p_include_inactive)
 
     UNION ALL
@@ -103,6 +103,6 @@ RETURN QUERY
         ON t.registered = u.domain
     WHERE
         u.subservice = 'managed' AND
-        backend._machine_priviledged_service('dns', u.service_entity_name) AND
+        backend._machine_priviledged_entity('dns', u.service_entity_name) AND
         (backend._active(t.backend_status) OR p_include_inactive)
     ;

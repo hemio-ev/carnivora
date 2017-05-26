@@ -48,6 +48,19 @@ function_templates:
   body_prelude: |
    v_machine := (SELECT "machine" FROM "backend"._get_login());
 
+ -
+  template: backend_login
+  description: |
+   Same as ``backend``, just without parameters etc.
+  variables:
+   -
+    name: v_machine
+    type: dns.t_domain
+  priv_execute:
+   - backend
+  body_prelude: |
+   v_machine := (SELECT "machine" FROM "backend"._get_login());
+
 table_templates:
  -
   template: status

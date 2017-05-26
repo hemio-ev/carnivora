@@ -1,5 +1,5 @@
 ---
-name: _machine_priviledged_service
+name: _machine_priviledged_entity
 description: |
  Checks if a currently connected machine is priviledged to obtain data for
  a certain service for a certain servicee name.
@@ -11,7 +11,7 @@ description: |
 returns: boolean
 
 templates:
- - backend.backend
+ - backend.backend_login
 
 parameters:
  -

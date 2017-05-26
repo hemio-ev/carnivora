@@ -920,7 +920,7 @@ Execute privilege
        d AS (
            DELETE FROM domain_reseller.handle AS t
            WHERE
-               backend._machine_priviledged_service(t.service, t.service_entity_name) AND
+               backend._machine_priviledged_entity(t.service, t.service_entity_name) AND
                backend._deleted(t.backend_status)
        ),
    
@@ -929,13 +929,13 @@ Execute privilege
            UPDATE domain_reseller.handle AS t
                SET backend_status = NULL
            WHERE
-               backend._machine_priviledged_service(t.service, t.service_entity_name) AND
+               backend._machine_priviledged_entity(t.service, t.service_entity_name) AND
                backend._active(t.backend_status)
        )
    
        SELECT * FROM domain_reseller.handle AS t
        WHERE
-           backend._machine_priviledged_service(t.service, t.service_entity_name) AND
+           backend._machine_priviledged_entity(t.service, t.service_entity_name) AND
            (backend._active(t.backend_status) OR p_include_inactive);
 
 
@@ -1006,7 +1006,7 @@ Execute privilege
         FROM domain_reseller.registered AS t
        JOIN dns.registered AS s USING (domain)
        WHERE
-       backend._machine_priviledged_service(s.service, s.service_entity_name) AND
+       backend._machine_priviledged_entity(s.service, s.service_entity_name) AND
        (backend._active(s.backend_status) OR p_include_inactive);
 
 

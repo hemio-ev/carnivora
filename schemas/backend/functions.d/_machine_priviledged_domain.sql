@@ -1,17 +1,18 @@
 ---
-name: _machine_priviledged
+name: _machine_priviledged_domain
 description: |
  Checks if a currently connected machine is priviledged to obtain data for
  a certain service for a certain domain name.
 
  .. warning::
-    The parameter p_domain must be a domain, which means an entry in
-    the column dns.service.domain. It must not be confused with a service_entity_name.
+    The parameter ``p_domain`` must be a domain, which means an entry in
+    the column dns.service.domain. It must not be confused with a
+    ``service_entity_name``.
 
 returns: boolean
 
 templates:
- - backend.backend
+ - backend.backend_login
 
 parameters:
  -

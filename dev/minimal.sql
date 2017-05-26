@@ -74,7 +74,7 @@ INSERT INTO system.subservice_entity (service, subservice, service_entity_name)
 INSERT INTO ssl.demand (service, service_entity_name, id, ca_type, ca_system, ca_name) VALUES ('email', 'mail.my-org.example', :v_uuid1, 'ssl', 'acme', 'le.example');
 INSERT INTO ssl.active (service, service_entity_name, machine_name, demand_id) VALUES ('email', 'mail.my-org.example', 'server.example', :v_uuid1);
 INSERT INTO ssl.cert (demand_id, machine_name, request, cert, id, domains) VALUES (:v_uuid1, 'server.example', decode(:v_csr, 'hex'), decode(:v_crt, 'hex'), :v_uuid2, '{"fun.example"}');
-UPDATE ssl.active SET scheduled = :v_uuid2, used = :v_uuid2 WHERE demand_id = :v_uuid1;
+UPDATE ssl.active SET scheduled = :v_uuid2 WHERE demand_id = :v_uuid1;
 
 INSERT INTO ssl.cert (demand_id , machine_name, request, cert, domains) VALUES (:v_uuid1, 'server.example', NULL, NULL, '{"fun.example"}');
 INSERT INTO ssl.demand_domain (domain, registered, demand_id)

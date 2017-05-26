@@ -1,10 +1,15 @@
 ---
 name: _notify
 description: |
- Informs all machines about changes.
+ Informs a machine about changes. To listen to signals use
 
- To listen to signals use LISTEN "carnivora/machine.name.example".
- The payload has the form 'mail.domain.example/email/list'.
+ .. code-block :: sql
+  
+  LISTEN "carnivora/machine.name.example"
+
+ on the machine. The payload has the form
+ ``<service_entity_name>/<service>/<subservice>``. For example
+ ``mail.domain.example/email/mailbox`` for a mailbox related update.
 
 parameters:
  -

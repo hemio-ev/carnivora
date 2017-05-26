@@ -978,6 +978,8 @@ Execute privilege
 
 Certs
 
+.. todo :: This could be the point where old certificates are deleted.
+
 Parameters
  - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
    
@@ -1011,10 +1013,22 @@ Execute privilege
    
    
    RETURN QUERY
-    SELECT c.id, c.cert, a.service, a.service_entity_name FROM ssl.cert AS c
-    JOIN ssl.active AS a
-    ON a.scheduled = c.id OR a.renew = c.id
-    WHERE c.machine_name = v_machine;
+       WITH
+   
+       -- UPDATE
+       s AS (
+           UPDATE ssl.active AS t
+               SET used = t.scheduled
+           WHERE
+               t.machine_name = v_machine
+       )
+   
+       SELECT c.id, c.cert, a.service, a.service_entity_name FROM ssl.cert AS c
+       JOIN ssl.active AS a
+       ON a.used = c.id OR a.scheduled = c.id OR a.renew = c.id
+       WHERE
+        c.cert IS NOT NULL
+        AND c.machine_name = v_machine;
 
 
 

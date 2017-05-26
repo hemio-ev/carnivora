@@ -29,7 +29,7 @@ RETURN QUERY
         DELETE FROM jabber.account AS t
         WHERE
             backend._deleted(t.backend_status) AND
-            backend._machine_priviledged(t.service, t.domain)
+            backend._machine_priviledged_domain(t.service, t.domain)
     ),
 
     -- UPDATE
@@ -37,7 +37,7 @@ RETURN QUERY
         UPDATE jabber.account AS t
             SET backend_status = NULL
         WHERE
-            backend._machine_priviledged(t.service, t.domain) AND
+            backend._machine_priviledged_domain(t.service, t.domain) AND
             backend._active(t.backend_status)
     )
 
@@ -50,6 +50,6 @@ RETURN QUERY
     FROM jabber.account AS t
 
     WHERE
-        backend._machine_priviledged(t.service, t.domain) AND
+        backend._machine_priviledged_domain(t.service, t.domain) AND
         (backend._active(t.backend_status) OR p_include_inactive);
 
