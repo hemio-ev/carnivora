@@ -11,10 +11,17 @@ Contents
 
 .. toctree::
    :maxdepth: 1
-   :caption: Default Schemas 
+   :caption: Default Service Schemas 
    :glob:
 
    schemas/*
+
+.. toctree::
+   :maxdepth: 1
+   :caption: System Schemas 
+   :glob:
+
+   schemas_system/*
 
 .. toctree::
    :maxdepth: 2

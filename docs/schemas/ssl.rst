@@ -52,10 +52,30 @@ Foreign keys
 
    Referenced Columns
 
- - currently_active
+ - used_cert
 
    Local Columns
-    - currently
+    - used
+    - machine_name
+
+   Referenced Columns
+    - :ref:`ssl.cert.id <COLUMN-ssl.cert.id>`
+    - :ref:`ssl.cert.machine_name <COLUMN-ssl.cert.machine_name>`
+
+ - scheduled_cert
+
+   Local Columns
+    - scheduled
+    - machine_name
+
+   Referenced Columns
+    - :ref:`ssl.cert.id <COLUMN-ssl.cert.id>`
+    - :ref:`ssl.cert.machine_name <COLUMN-ssl.cert.machine_name>`
+
+ - renew_cert
+
+   Local Columns
+    - renew
     - machine_name
 
    Referenced Columns
@@ -103,19 +123,31 @@ Columns
 
 
 
- - .. _COLUMN-ssl.active.currently:
+ - .. _COLUMN-ssl.active.used:
    
-   ``currently`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
-     Currently active certificate
+   ``used`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
+     Currently active certificate. Taken from scheduled
+     if the scheduled certificate has been deployed.
 
 
 
 
 
- - .. _COLUMN-ssl.active.subsequently:
+ - .. _COLUMN-ssl.active.scheduled:
    
-   ``subsequently`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
-     Next certificate that will be active
+   ``scheduled`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
+     Certificate to be deployed on machine. Renew is always based
+     in relation to the scheduled to simplify the logic.
+
+
+
+
+
+ - .. _COLUMN-ssl.active.renew:
+   
+   ``renew`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
+     Available if renew is in preparation. Moved to ``scheduled``
+     if certificate available and time for replacement has come.
 
 
 
@@ -730,11 +762,11 @@ Returns
        a.machine_name,
        ARRAY(SELECT domain::varchar FROM ssl.demand_domain AS dd WHERE dd.demand_id = a.demand_id)
        FROM ssl.active AS a
-        LEFT JOIN ssl.cert AS c ON currently = c.id
+        LEFT JOIN ssl.cert AS c ON scheduled = c.id
         WHERE
-            subsequently IS NULL AND
+            renew IS NULL AND
             (
-             currently IS NULL OR -- if there is not even a current cert
+             scheduled IS NULL OR -- if there is not even a current cert
              (c.cert IS NOT NULL -- only check expiry if current has a cert
               AND
               now() - (ssl.cert_info(cert))."notAfter"
@@ -746,7 +778,7 @@ Returns
     )
    
     -- add new certs as subsequent certs
-    UPDATE ssl.active AS a SET subsequently = c.id
+    UPDATE ssl.active AS a SET renew = c.id
     FROM new_cert AS c
     WHERE
        a.demand_id = c.demand_id AND
@@ -758,10 +790,10 @@ Returns
      cert_needs_switch AS (
       SELECT a.demand_id, a.machine_name
        FROM ssl.active AS a
-        LEFT JOIN ssl.cert AS c ON currently = c.id
-        JOIN ssl.cert AS s ON subsequently = s.id
+        LEFT JOIN ssl.cert AS c ON scheduled = c.id
+        JOIN ssl.cert AS s ON renew = s.id
         WHERE
-            currently IS NULL -- switch in any case if there is no cert
+            scheduled IS NULL -- switch in any case if there is no cert
             OR
             (
              (c.cert IS NOT NULL -- current is issued
@@ -774,7 +806,7 @@ Returns
             )
      )
      
-     UPDATE ssl.active AS a SET currently=subsequently, subsequently=NULL
+     UPDATE ssl.active AS a SET scheduled=renew, renew=NULL
      FROM cert_needs_switch AS n
      WHERE n.demand_id = a.demand_id AND n.machine_name = a.machine_name;
 
@@ -981,7 +1013,7 @@ Execute privilege
    RETURN QUERY
     SELECT c.id, c.cert, a.service, a.service_entity_name FROM ssl.cert AS c
     JOIN ssl.active AS a
-    ON a.currently = c.id OR a.subsequently = c.id
+    ON a.scheduled = c.id OR a.renew = c.id
     WHERE c.machine_name = v_machine;
 
 

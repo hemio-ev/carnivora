@@ -27,11 +27,11 @@ WITH
     a.machine_name,
     ARRAY(SELECT domain::varchar FROM ssl.demand_domain AS dd WHERE dd.demand_id = a.demand_id)
     FROM ssl.active AS a
-     LEFT JOIN ssl.cert AS c ON currently = c.id
+     LEFT JOIN ssl.cert AS c ON scheduled = c.id
      WHERE
-         subsequently IS NULL AND
+         renew IS NULL AND
          (
-          currently IS NULL OR -- if there is not even a current cert
+          scheduled IS NULL OR -- if there is not even a current cert
           (c.cert IS NOT NULL -- only check expiry if current has a cert
            AND
            now() - (ssl.cert_info(cert))."notAfter"
@@ -43,7 +43,7 @@ WITH
  )
 
  -- add new certs as subsequent certs
- UPDATE ssl.active AS a SET subsequently = c.id
+ UPDATE ssl.active AS a SET renew = c.id
  FROM new_cert AS c
  WHERE
     a.demand_id = c.demand_id AND
@@ -55,10 +55,10 @@ WITH
   cert_needs_switch AS (
    SELECT a.demand_id, a.machine_name
     FROM ssl.active AS a
-     LEFT JOIN ssl.cert AS c ON currently = c.id
-     JOIN ssl.cert AS s ON subsequently = s.id
+     LEFT JOIN ssl.cert AS c ON scheduled = c.id
+     JOIN ssl.cert AS s ON renew = s.id
      WHERE
-         currently IS NULL -- switch in any case if there is no cert
+         scheduled IS NULL -- switch in any case if there is no cert
          OR
          (
           (c.cert IS NOT NULL -- current is issued
@@ -71,7 +71,7 @@ WITH
          )
   )
   
-  UPDATE ssl.active AS a SET currently=subsequently, subsequently=NULL
+  UPDATE ssl.active AS a SET scheduled=renew, renew=NULL
   FROM cert_needs_switch AS n
   WHERE n.demand_id = a.demand_id AND n.machine_name = a.machine_name;
 

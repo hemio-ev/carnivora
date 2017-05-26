@@ -46,8 +46,8 @@ RETURN QUERY
         UPDATE email.mailbox AS t
             SET backend_status = NULL
         WHERE
-            backend._machine_priviledged(t.service, t.domain) AND
-            backend._active(t.backend_status)
+            backend._active(t.backend_status) AND
+            backend._machine_priviledged(t.service, t.domain)
     )
 
     -- SELECT

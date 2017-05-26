@@ -5,8 +5,8 @@ description: |
  a certain service for a certain servicee name.
 
  .. warning:: 
-  The parameter p_server_name must be a service name. It must not be
-  confused with a domain.
+  The parameter ``p_service_entity_name`` must be the name of a service entity. 
+  It must not be confused with a domain.
 
 returns: boolean
 

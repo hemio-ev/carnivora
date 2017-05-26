@@ -13,25 +13,46 @@ columns:
  - name: demand_id
    type: uuid
    description: X
+
  - name: machine_name
    type: dns.t_domain
    description: Machine
- - name: currently
+
+ - name: used
    type: uuid
-   description: Currently active certificate
    null: true
- - name: subsequently
+   description: |
+    Currently active certificate. Taken from scheduled
+    if the scheduled certificate has been deployed.
+
+ - name: scheduled
    type: uuid
-   description: Next certificate that will be active
    null: true
+   description: |
+    Certificate to be deployed on machine. Renew is always based
+    in relation to the scheduled to simplify the logic.
+
+ - name: renew
+   type: uuid
+   null: true
+   description: |
+    Available if renew is in preparation. Moved to ``scheduled``
+    if certificate available and time for replacement has come.
 
 checks:
+ - name: used_only_with_scheduled
+   description: |
+    The scheduled is not removed to simply some logic.
+   check: |
+    scheduled IS NOT NULL
+    OR used IS NULL
+
  - name: subsequent_neq_current
    description: Subsequent must not be the same as current
    check: |
-    currently IS NULL
-    OR subsequently IS NULL
-    OR currently <> subsequently
+    scheduled IS NULL
+    OR renew IS NULL
+    OR scheduled <> renew
 
 unique:
  - name: machine
@@ -47,10 +68,29 @@ foreign_keys:
     - service
     - service_entity_name
     - machine_name
- - name: currently_active
+
+ - name: used_cert
    ref_table: ssl.cert
    columns: 
-    - currently
+    - used
+    - machine_name
+   ref_columns:
+    - id
+    - machine_name
+    
+ - name: scheduled_cert
+   ref_table: ssl.cert
+   columns: 
+    - scheduled
+    - machine_name
+   ref_columns:
+    - id
+    - machine_name
+
+ - name: renew_cert
+   ref_table: ssl.cert
+   columns: 
+    - renew
     - machine_name
    ref_columns:
     - id
