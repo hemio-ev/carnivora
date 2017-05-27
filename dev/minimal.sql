@@ -87,6 +87,45 @@ INSERT INTO email.mailbox (backend_status, domain, localpart, option, owner, pas
 SELECT "user".ins_login('user-1', 'FOMgwkMXmS');
 SELECT 'user login', 'user-1', 'FOMgwkMXmS';
 
+-- SERVER_ACCESS
+
+SELECT server_access.ins_user(p_user:='sshusr', p_service_entity_name:='ssh.my-org.example', p_subservice:='ssh');
+
+-- WEB
+
+INSERT INTO system.service_entity (service, service_entity_name) VALUES ('web', 'web.my-org.example');
+INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('web', 'web.my-org.example', 'site');
+INSERT INTO system.service_entity_machine
+  (machine_name, service_entity_name, service) VALUES
+  ('server.example', 'web.my-org.example', 'web');
+
+INSERT INTO web.storage
+ (service, port, service_entity_name, storage_service, storage_service_entity_name)
+ VALUES
+ ('web', 80, 'web.my-org.example', 'server_access', 'ssh.my-org.example'),
+ ('web', 443, 'web.my-org.example', 'server_access', 'ssh.my-org.example');
+
+INSERT INTO dns.service (backend_status, domain, registered, service, service_entity_name)
+ VALUES ('ins', 'www.fun.example', 'fun.example', 'web', 'web.my-org.example');
+
+SELECT web.ins_site(
+  p_domain:='www.fun.example',
+  p_port:=80,
+  p_user:='sshusr',
+  p_service_entity_name:='web.my-org.example',
+  p_ca_system:=NULL,
+  p_ca_name:=NULL
+);
+
+SELECT web.ins_site(
+  p_domain:='www.fun.example',
+  p_port:=443,
+  p_user:='sshusr',
+  p_service_entity_name:='web.my-org.example',
+  p_ca_system:='acme',
+  p_ca_name:='le.example'
+);
+
 -- SSL
 
 \set v_csr '''' `xxd -p 1.der` ''''
@@ -108,22 +147,4 @@ SELECT ssl.fwd_renew('28d', '29d');
 
 SELECT ca_name FROM ssl.srv_acme_request();
 SELECT service, service_entity_name FROM ssl.srv_cert();
-
--- SERVER_ACCESS
-
-SELECT server_access.ins_user(p_user:='sshusr', p_service_entity_name:='ssh.my-org.example', p_subservice:='ssh');
-
--- WEB
-
-INSERT INTO system.service_entity (service, service_entity_name) VALUES ('web', 'web.my-org.example');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('web', 'web.my-org.example', 'site');
-
-INSERT INTO web.storage
- (service, port, service_entity_name, storage_service, storage_service_entity_name)
- VALUES ('web', 80, 'web.my-org.example', 'server_access', 'ssh.my-org.example');
-
-INSERT INTO dns.service (backend_status, domain, registered, service, service_entity_name)
- VALUES ('ins', 'www.fun.example', 'fun.example', 'web', 'web.my-org.example');
-
-SELECT web.ins_site(p_domain:='www.fun.example', p_port:=80, p_user:='sshusr', p_service_entity_name:='web.my-org.example');
 

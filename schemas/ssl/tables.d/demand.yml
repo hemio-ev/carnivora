@@ -16,6 +16,7 @@ columns:
  - name: ca_type
    type: commons.t_key
    description: Usually 'ssl'
+   default: "'ssl'"
  - name: ca_system
    type: commons.t_key
    description: Usually 'acme' or 'manual'

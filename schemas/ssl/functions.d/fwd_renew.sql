@@ -17,8 +17,29 @@ parameters:
 ---
 
 WITH
- new_cert AS
- (
+  active_missing AS (
+    SELECT d.id, d.service, d.service_entity_name, m.machine_name
+    FROM ssl.demand AS d
+    
+    JOIN system.service_entity_machine AS m
+      ON d.service = m.service
+      AND d.service_entity_name = m.service_entity_name
+    
+    LEFT JOIN ssl.active AS a
+      ON a.demand_id = d.id
+      AND a.machine_name = m.machine_name
+    
+    WHERE
+      a.demand_id IS NULL
+  )
+  
+  INSERT INTO ssl.active
+  (demand_id, service, service_entity_name, machine_name)
+  SELECT * FROM active_missing;
+
+-- insert new certs
+WITH
+ new_cert AS (
   INSERT INTO ssl.cert
   (demand_id, machine_name, domains)
   -- ssl.active where subsequent cert exists and the current cert is expiring 
