@@ -11,10 +11,10 @@ returns: TABLE
 returns_columns:
  -
   name: registered
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: domain
-  type: varchar
+  type: dns.t_domain
  -
   name: type
   type: dns.t_type
@@ -74,7 +74,7 @@ RETURN QUERY
 
     SELECT
         t.registered,
-        COALESCE(s.domain_prefix || t.domain, t.domain)::varchar,
+        COALESCE(s.domain_prefix || t.domain, t.domain)::dns.t_domain,
         s.type,
         s.rdata,
         s.ttl,

@@ -16,7 +16,7 @@ returns_columns:
   type: ssl.t_request
  -
   name: ca_name
-  type: dns.t_domain
+  type: dns.t_hostname
 ---
 
 RETURN QUERY

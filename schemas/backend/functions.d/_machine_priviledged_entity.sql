@@ -19,7 +19,7 @@ parameters:
   type: commons.t_key
  -
   name: p_service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
 ---
 
 RETURN COALESCE(

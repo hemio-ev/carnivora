@@ -14,8 +14,8 @@ returns_columns:
   name: list_localpart
   type: email.t_localpart
  -
-  name: list_domain
-  type: dns.t_domain
+  name: list_hostname
+  type: dns.t_hostname
  -
   name: backend_status
   type: backend.t_status
@@ -25,14 +25,14 @@ RETURN QUERY
     SELECT
         t.address,
         t.list_localpart,
-        t.list_domain,
+        t.list_hostname,
         t.backend_status
     FROM email.list_subscriber AS t
     JOIN email.list AS s
     ON
         t.list_localpart = s.localpart AND
-        t.list_domain = s.domain
+        t.list_hostname = s.domain
     WHERE
         s.owner = v_owner
-    ORDER BY list_localpart, list_domain, backend_status, address
+    ORDER BY list_localpart, list_hostname, backend_status, address
 ;

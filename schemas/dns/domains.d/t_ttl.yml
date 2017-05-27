@@ -1,0 +1,8 @@
+name: t_ttl
+description: time to live
+type: integer
+checks:
+ -
+  name: ttl range
+  description: Ensure that TTL is at least one minute and put maximum to 48h
+  check: VALUE >= 60 AND VALUE <= 172800

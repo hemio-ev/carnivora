@@ -9,10 +9,10 @@ returns: TABLE
 returns_columns:
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
 
 parameters:
  -
@@ -27,7 +27,7 @@ RETURN QUERY
 SELECT t.domain, t.service_entity_name FROM dns.service AS t
     JOIN dns.registered AS d
         ON d.domain = t.registered
-    LEFT JOIN system._effective_contingent_domain() AS contingent_d
+    LEFT JOIN system._effective_contingent_hostname() AS contingent_d
         ON
             contingent_d.domain = t.domain AND
             contingent_d.service = t.service AND

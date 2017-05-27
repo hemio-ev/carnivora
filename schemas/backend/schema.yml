@@ -39,7 +39,7 @@ function_templates:
   variables:
    -
     name: v_machine
-    type: dns.t_domain
+    type: dns.t_hostname
   security_definer: true
   owner: system
   priv_execute:
@@ -55,7 +55,7 @@ function_templates:
   variables:
    -
     name: v_machine
-    type: dns.t_domain
+    type: dns.t_hostname
   priv_execute:
    - backend
   body_prelude: |

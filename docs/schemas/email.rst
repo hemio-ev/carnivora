@@ -65,7 +65,7 @@ Foreign keys
 Columns
  - .. _COLUMN-email.address.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -83,7 +83,7 @@ Columns
 
  - .. _COLUMN-email.address.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -166,7 +166,7 @@ Foreign keys
 Columns
  - .. _COLUMN-email.alias.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -184,7 +184,7 @@ Columns
 
  - .. _COLUMN-email.alias.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -236,7 +236,7 @@ Columns
 
  - .. _COLUMN-email.alias.mailbox_domain:
    
-   ``mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``mailbox_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Mailbox to which the mails will be delivered
 
 
@@ -291,7 +291,7 @@ Foreign keys
 Columns
  - .. _COLUMN-email.list.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -309,7 +309,7 @@ Columns
 
  - .. _COLUMN-email.list.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -404,7 +404,7 @@ list subscribers
 Primary key
  - address
  - list_localpart
- - list_domain
+ - list_hostname
 
 
 .. BEGIN FKs
@@ -414,7 +414,7 @@ Foreign keys
 
    Local Columns
     - list_localpart
-    - list_domain
+    - list_hostname
 
    Referenced Columns
     - :ref:`email.list.localpart <COLUMN-email.list.localpart>`
@@ -472,9 +472,9 @@ Columns
 
 
 
- - .. _COLUMN-email.list_subscriber.list_domain:
+ - .. _COLUMN-email.list_subscriber.list_hostname:
    
-   ``list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``list_hostname`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      List
 
 
@@ -531,7 +531,7 @@ Foreign keys
 Columns
  - .. _COLUMN-email.mailbox.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -549,7 +549,7 @@ Columns
 
  - .. _COLUMN-email.mailbox.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -693,7 +693,7 @@ Foreign keys
 Columns
  - .. _COLUMN-email.redirection.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -711,7 +711,7 @@ Columns
 
  - .. _COLUMN-email.redirection.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -800,7 +800,7 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
     
@@ -838,7 +838,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -875,13 +875,13 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_mailbox_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -936,7 +936,7 @@ Execute privilege
 Delete mailing list
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
@@ -988,7 +988,7 @@ Parameters
  - ``p_list_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_list_hostname`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_address`` :ref:`email.t_address <DOMAIN-email.t_address>`
@@ -1025,14 +1025,14 @@ Execute privilege
        FROM email.list AS s
        WHERE
            s.localpart = t.list_localpart AND
-           s.domain = t.list_domain AND
+           s.domain = t.list_hostname AND
            s.owner = v_owner AND
    
            t.list_localpart = p_list_localpart AND
-           t.list_domain = p_list_domain AND
+           t.list_hostname = p_list_hostname AND
            t.address = p_address;
    
-   PERFORM backend._conditional_notify(FOUND, 'email', 'list', p_list_domain);
+   PERFORM backend._conditional_notify(FOUND, 'email', 'list', p_list_hostname);
 
 
 
@@ -1047,7 +1047,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -1097,7 +1097,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -1147,13 +1147,13 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_mailbox_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -1237,7 +1237,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
@@ -1313,7 +1313,7 @@ Parameters
  - ``p_list_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_list_hostname`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -1346,17 +1346,17 @@ Execute privilege
            SELECT TRUE FROM email.list
            WHERE
                localpart = p_list_localpart AND
-               domain =  p_list_domain AND
+               domain =  p_list_hostname AND
                owner = v_owner
        )
    );
    
    INSERT INTO email.list_subscriber
-       (address, list_localpart, list_domain)
+       (address, list_localpart, list_hostname)
    VALUES
-       (p_address, p_list_localpart, p_list_domain);
+       (p_address, p_list_localpart, p_list_hostname);
    
-   PERFORM backend._notify_domain('email', 'list', p_list_domain);
+   PERFORM backend._notify_domain('email', 'list', p_list_hostname);
 
 
 
@@ -1371,7 +1371,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
@@ -1447,7 +1447,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_destination`` :ref:`email.t_address <DOMAIN-email.t_address>`
@@ -1536,11 +1536,11 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``mailbox_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -1598,7 +1598,7 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
@@ -1633,7 +1633,7 @@ Execute privilege
            t.backend_status,
            t.option,
            (SELECT COUNT(*) FROM email.list_subscriber AS s
-           WHERE s.list_localpart=t.localpart AND s.list_domain=t.domain)
+           WHERE s.list_localpart=t.localpart AND s.list_hostname=t.domain)
        FROM
            email.list AS t
        WHERE
@@ -1670,7 +1670,7 @@ Returned columns
     
  - ``list_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``list_hostname`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -1690,16 +1690,16 @@ Execute privilege
        SELECT
            t.address,
            t.list_localpart,
-           t.list_domain,
+           t.list_hostname,
            t.backend_status
        FROM email.list_subscriber AS t
        JOIN email.list AS s
        ON
            t.list_localpart = s.localpart AND
-           t.list_domain = s.domain
+           t.list_hostname = s.domain
        WHERE
            s.owner = v_owner
-       ORDER BY list_localpart, list_domain, backend_status, address
+       ORDER BY list_localpart, list_hostname, backend_status, address
    ;
 
 
@@ -1727,7 +1727,7 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
@@ -1788,7 +1788,7 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
@@ -1836,7 +1836,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -1846,11 +1846,11 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``mailbox_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -1912,7 +1912,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -1922,7 +1922,7 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
     
@@ -1988,7 +1988,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -1998,7 +1998,7 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``address`` :ref:`email.t_address <DOMAIN-email.t_address>`
     
@@ -2021,7 +2021,7 @@ Execute privilege
            DELETE FROM email.list_subscriber AS t
            USING email.list AS l
            WHERE
-               t.list_domain = l.domain AND
+               t.list_hostname = l.domain AND
                t.list_localpart = l.localpart AND
    
                backend._deleted(t.backend_status) AND
@@ -2034,7 +2034,7 @@ Execute privilege
                SET backend_status = NULL
            FROM email.list AS l
            WHERE
-               t.list_domain = l.domain AND
+               t.list_hostname = l.domain AND
                t.list_localpart = l.localpart AND
    
                backend._machine_priviledged_domain(l.service, l.domain) AND
@@ -2044,13 +2044,13 @@ Execute privilege
        -- SELECT
        SELECT
            t.list_localpart,
-           t.list_domain,
+           t.list_hostname,
            t.address,
            t.backend_status
        FROM email.list_subscriber AS t
    
        JOIN email.list AS l ON
-           t.list_domain = l.domain AND
+           t.list_hostname = l.domain AND
            t.list_localpart = l.localpart
    
        WHERE
@@ -2073,7 +2073,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -2083,7 +2083,7 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``password`` :ref:`commons.t_password <DOMAIN-commons.t_password>`
     
@@ -2155,7 +2155,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -2165,7 +2165,7 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``destination`` :ref:`email.t_address <DOMAIN-email.t_address>`
     
@@ -2225,7 +2225,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
@@ -2281,7 +2281,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`

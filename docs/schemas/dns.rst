@@ -87,7 +87,7 @@ Columns
 
  - .. _COLUMN-dns.custom.registered:
    
-   ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Registered domain of which domain is a sub domain
 
 
@@ -189,7 +189,7 @@ Columns
 
  - .. _COLUMN-dns.registered.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -216,7 +216,7 @@ Columns
 
  - .. _COLUMN-dns.registered.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain
 
 
@@ -266,7 +266,7 @@ Foreign keys
 Columns
  - .. _COLUMN-dns.service.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -300,7 +300,7 @@ Columns
 
  - .. _COLUMN-dns.service.registered:
    
-   ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Registered domain of which domain is a sub domain
 
 
@@ -310,7 +310,7 @@ Columns
 
  - .. _COLUMN-dns.service.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      domain for which the entries should be created
 
 
@@ -335,7 +335,7 @@ Functions
 ORDER
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -400,7 +400,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -454,13 +454,13 @@ Execute privilege
 Delete registered domain
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -509,7 +509,7 @@ Execute privilege
 deletes all service entries of a specific domain
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -518,7 +518,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -589,7 +589,7 @@ Execute privilege
 Update status
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
@@ -601,7 +601,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -632,10 +632,10 @@ Execute privilege
 Ins Custom
 
 Parameters
- - ``p_registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_type`` :ref:`dns.t_type <DOMAIN-dns.t_type>`
@@ -650,7 +650,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -708,13 +708,13 @@ Execute privilege
 registeres new domain
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_public_suffix`` :ref:`varchar <DOMAIN-varchar>`
@@ -762,13 +762,13 @@ Execute privilege
 Creates service dns entry
 
 Parameters
- - ``p_registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -777,7 +777,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -846,7 +846,7 @@ Returns
 Returned columns
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -865,7 +865,7 @@ Execute privilege
        COALESCE(t.service, s.service) AS service,
        COALESCE(t.service_entity_name, s.service_entity_name) AS service_entity_name
    FROM system._effective_contingent() AS t
-   FULL OUTER JOIN system._effective_contingent_domain() AS s
+   FULL OUTER JOIN system._effective_contingent_hostname() AS s
    USING (service, subservice, service_entity_name, owner)
    WHERE
        COALESCE(t.subservice, s.subservice) = 'dns_activatable' AND
@@ -902,7 +902,7 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
@@ -932,7 +932,7 @@ Execute privilege
                        p_service_entity_name := t.service_entity_name
                ) IS NOT NULL
            ) OR
-           system._contingent_domain(
+           system._contingent_hostname(
                        p_owner := s.owner,
                        p_service := t.service,
                        p_service_entity_name := t.service_entity_name,
@@ -968,9 +968,9 @@ Returns
 Returned columns
  - ``id`` :ref:`uuid <DOMAIN-uuid>`
     
- - ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``type`` :ref:`dns.t_type <DOMAIN-dns.t_type>`
     
@@ -1035,7 +1035,7 @@ Returns
 Returned columns
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -1055,7 +1055,7 @@ Execute privilege
        COALESCE(t.service_entity_name, s.service_entity_name) AS service_entity_name
      FROM system._effective_contingent() AS t
      
-     FULL OUTER JOIN system._effective_contingent_domain() AS s
+     FULL OUTER JOIN system._effective_contingent_hostname() AS s
        USING (service, subservice, service_entity_name, owner)
    
      WHERE
@@ -1090,7 +1090,7 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``public_suffix`` :ref:`varchar <DOMAIN-varchar>`
     
@@ -1098,7 +1098,7 @@ Returned columns
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -1144,13 +1144,13 @@ Returns
  TABLE
 
 Returned columns
- - ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -1210,9 +1210,9 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -1230,7 +1230,7 @@ Execute privilege
    SELECT t.domain, t.service_entity_name FROM dns.service AS t
        JOIN dns.registered AS d
            ON d.domain = t.registered
-       LEFT JOIN system._effective_contingent_domain() AS contingent_d
+       LEFT JOIN system._effective_contingent_hostname() AS contingent_d
            ON
                contingent_d.domain = t.domain AND
                contingent_d.service = t.service AND
@@ -1269,7 +1269,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -1277,9 +1277,9 @@ Returns
  TABLE
 
 Returned columns
- - ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``domain`` :ref:`varchar <DOMAIN-varchar>`
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
     
  - ``type`` :ref:`dns.t_type <DOMAIN-dns.t_type>`
     
@@ -1343,7 +1343,7 @@ Execute privilege
    
        SELECT
            t.registered,
-           COALESCE(s.domain_prefix || t.domain, t.domain)::varchar,
+           COALESCE(s.domain_prefix || t.domain, t.domain)::dns.t_domain,
            s.type,
            s.rdata,
            s.ttl,
@@ -1398,7 +1398,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -1453,15 +1453,15 @@ Domains
 ``dns.t_domain``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Fully qualified domain name (without trailing dot)
+Fully qualified hostname (without trailing dot)
 
 Checks
- - ``domain valid regex``
-    check domain validity
+ - ``hostname valid regex``
+    Hostname
 
    .. code-block:: sql
 
-    VALUE ~ '^[a-z\d][a-z\d-]{0,62}(\.[a-z\d][a-z\d-]{0,62})+$' AND
+    VALUE ~ '^[a-z\d_-]{1,63}(\.[a-z\d_-]{1,63})+$' AND
     octet_length(VALUE) <= 253
 
 
@@ -1473,6 +1473,8 @@ Checks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Fully qualified or relative domain name. Trailing dot marks a FQDN.
+
+.. todo :: checks might be off
 
 Checks
  - ``invalid rdata domain``
@@ -1487,29 +1489,21 @@ Checks
 
 
 
-.. _DOMAIN-dns.t_type:
+.. _DOMAIN-dns.t_hostname:
 
-``dns.t_type``
+``dns.t_hostname``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Resource record type
+Fully qualified hostname (without trailing dot)
 
 Checks
- - ``Invalid or unsupported resource type``
-    Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
+ - ``hostname valid regex``
+    Hostname
 
    .. code-block:: sql
 
-    VALUE IN (
-     'A',
-     'AAAA',
-     'CNAME',
-     'MX',
-     'NS',
-     'SRV',
-     'SSHFP',
-     'TXT'
-    )
+    VALUE ~ '^([a-z\d]|[a-z\d][a-z\d-]{0,61}[a-z\d])(\.([a-z\d]|[a-z\d][a-z\d-]{0,61}[a-z\d]))+$' AND
+    octet_length(VALUE) <= 253
 
 
 
@@ -1538,6 +1532,33 @@ Checks
    .. code-block:: sql
 
     VALUE >= 60 AND VALUE <= 172800
+
+
+
+
+.. _DOMAIN-dns.t_type:
+
+``dns.t_type``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Resource record type
+
+Checks
+ - ``Invalid or unsupported resource type``
+    Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
+
+   .. code-block:: sql
+
+    VALUE IN (
+     'A',
+     'AAAA',
+     'CNAME',
+     'MX',
+     'NS',
+     'SRV',
+     'SSHFP',
+     'TXT'
+    )
 
 
 

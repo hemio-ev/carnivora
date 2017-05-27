@@ -12,7 +12,7 @@ returns_columns:
   type: email.t_localpart
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: destination
   type: email.t_address

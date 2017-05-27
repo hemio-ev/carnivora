@@ -9,7 +9,7 @@ returns: TABLE
 returns_columns:
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: public_suffix
   type: varchar
@@ -21,7 +21,7 @@ returns_columns:
   type: commons.t_key
  -
   name: service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
 ---
 
 RETURN QUERY

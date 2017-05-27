@@ -8,13 +8,13 @@ templates:
 parameters:
  -
   name: p_registered
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_service
   type: commons.t_key
@@ -24,7 +24,7 @@ returns: void
 variables:
  -
   name: v_nameserver
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: v_managed
   type: commons.t_key

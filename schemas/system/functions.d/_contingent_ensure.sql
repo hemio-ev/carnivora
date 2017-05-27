@@ -17,7 +17,7 @@ parameters:
   type: commons.t_key
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_current_quantity_total
   type: integer
@@ -43,7 +43,7 @@ variables:
   type: integer
  -
   name: v_service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: v_domain_owner
   type: user.t_user
@@ -89,7 +89,7 @@ WHERE
 
 SELECT domain_contingent
     INTO v_domain_contingent_specific
-FROM system._effective_contingent_domain()
+FROM system._effective_contingent_hostname()
 WHERE
     service = p_service AND
     subservice = p_subservice AND
@@ -130,6 +130,6 @@ IF v_domain_contingent <= p_current_quantity_domain
 THEN
     RAISE 'Domain contingent exceeded'
         USING
-            DETAIL = '$carnivora:system:contingent_domain_exceeded$',
+            DETAIL = '$carnivora:system:contingent_hostname_exceeded$',
             HINT = (p_owner, p_service, p_domain, v_domain_contingent);
 END IF;

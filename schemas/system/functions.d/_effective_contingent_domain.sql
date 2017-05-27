@@ -1,5 +1,5 @@
 ---
-name: _effective_contingent_domain
+name: _effective_contingent_hostname
 description: contingent
 
 returns: TABLE
@@ -12,10 +12,10 @@ returns_columns:
   type: commons.t_key
  -
   name: service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: owner
   type: user.t_user

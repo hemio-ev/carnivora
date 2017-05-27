@@ -13,7 +13,7 @@ returns: void
 parameters:
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_port
   type: commons.t_port
@@ -22,7 +22,7 @@ parameters:
   type: server_access.t_user
  -
   name: p_service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
 ---
 
 INSERT INTO web.site

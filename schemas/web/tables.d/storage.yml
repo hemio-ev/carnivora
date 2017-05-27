@@ -17,7 +17,7 @@ columns:
    type: commons.t_key
    description: TODO
  - name: storage_service_entity_name
-   type: dns.t_domain
+   type: dns.t_hostname
    description: TODO
 
 foreign_keys:

@@ -148,7 +148,7 @@ Primary key
 Columns
  - .. _COLUMN-system.service_entity.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Host name
 
 
@@ -205,7 +205,7 @@ Foreign keys
 Columns
  - .. _COLUMN-system.service_entity_dns.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -309,7 +309,7 @@ Foreign keys
 Columns
  - .. _COLUMN-system.service_entity_machine.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -327,7 +327,7 @@ Columns
 
  - .. _COLUMN-system.service_entity_machine.machine_name:
    
-   ``machine_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``machine_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Assigns machine
 
 
@@ -424,7 +424,7 @@ Foreign keys
 Columns
  - .. _COLUMN-system.subservice_entity.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -497,7 +497,7 @@ Foreign keys
 Columns
  - .. _COLUMN-system.subservice_entity_contingent.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -601,7 +601,7 @@ Foreign keys
 Columns
  - .. _COLUMN-system.subservice_entity_domain_contingent.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -640,7 +640,7 @@ Columns
 
  - .. _COLUMN-system.subservice_entity_domain_contingent.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Specific domain for which the access is granted
 
 
@@ -683,7 +683,7 @@ Parameters
  - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_current_quantity_total`` :ref:`integer <DOMAIN-integer>`
@@ -710,7 +710,7 @@ Variables defined for body
  - ``v_domain_contingent_specific`` :ref:`integer <DOMAIN-integer>`
    
    
- - ``v_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_domain_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
@@ -765,7 +765,7 @@ Returns
    
    SELECT domain_contingent
        INTO v_domain_contingent_specific
-   FROM system._effective_contingent_domain()
+   FROM system._effective_contingent_hostname()
    WHERE
        service = p_service AND
        subservice = p_subservice AND
@@ -806,7 +806,7 @@ Returns
    THEN
        RAISE 'Domain contingent exceeded'
            USING
-               DETAIL = '$carnivora:system:contingent_domain_exceeded$',
+               DETAIL = '$carnivora:system:contingent_hostname_exceeded$',
                HINT = (p_owner, p_service, p_domain, v_domain_contingent);
    END IF;
 
@@ -826,7 +826,7 @@ Parameters
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -888,7 +888,7 @@ Returned columns
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
     
@@ -927,9 +927,9 @@ Returned columns
 
 
 
-.. _FUNCTION-system._effective_contingent_domain:
+.. _FUNCTION-system._effective_contingent_hostname:
 
-``system._effective_contingent_domain``
+``system._effective_contingent_hostname``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 contingent
@@ -947,9 +947,9 @@ Returned columns
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
     
@@ -1190,7 +1190,7 @@ Returns
 Returned columns
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege

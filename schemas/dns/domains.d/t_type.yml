@@ -1,0 +1,19 @@
+name: t_type
+description: Resource record type
+type: varchar(253)
+checks:
+ -
+  name: Invalid or unsupported resource type
+  description: Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
+  check: |
+   VALUE IN (
+    'A',
+    'AAAA',
+    'CNAME',
+    'MX',
+    'NS',
+    'SRV',
+    'SSHFP',
+    'TXT'
+   )
+

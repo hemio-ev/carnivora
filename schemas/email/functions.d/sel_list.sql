@@ -9,7 +9,7 @@ returns: TABLE
 returns_columns:
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: localpart
   type: email.t_localpart
@@ -39,7 +39,7 @@ RETURN QUERY
         t.backend_status,
         t.option,
         (SELECT COUNT(*) FROM email.list_subscriber AS s
-        WHERE s.list_localpart=t.localpart AND s.list_domain=t.domain)
+        WHERE s.list_localpart=t.localpart AND s.list_hostname=t.domain)
     FROM
         email.list AS t
     WHERE

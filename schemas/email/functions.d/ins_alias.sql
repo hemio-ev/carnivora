@@ -14,13 +14,13 @@ parameters:
   type: email.t_localpart
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_mailbox_localpart
   type: email.t_localpart
  -
   name: p_mailbox_domain
-  type: dns.t_domain
+  type: dns.t_hostname
 
 variables:
  -

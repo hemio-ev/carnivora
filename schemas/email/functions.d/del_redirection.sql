@@ -13,7 +13,7 @@ parameters:
   type: email.t_localpart
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
 ---
 
 UPDATE email.redirection

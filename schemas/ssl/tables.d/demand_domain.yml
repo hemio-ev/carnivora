@@ -14,10 +14,10 @@ columns:
    description: Certificate demand id
    references: ssl.demand.id
  - name: domain
-   type: dns.t_domain
+   type: dns.t_hostname
    description: Domain
  - name: registered
-   type: dns.t_domain
+   type: dns.t_hostname
    description: registered domain
    references: dns.registered.domain
 

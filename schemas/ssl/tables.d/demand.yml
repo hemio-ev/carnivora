@@ -20,7 +20,7 @@ columns:
    type: commons.t_key
    description: Usually 'acme' or 'manual'
  - name: ca_name
-   type: dns.t_domain
+   type: dns.t_hostname
    description: Name of certificate authority
 
 foreign_keys:

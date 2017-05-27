@@ -16,7 +16,7 @@ columns:
    description: UUID
    
  - name: machine_name
-   type: dns.t_domain
+   type: dns.t_hostname
    description: Machine
    
  - name: domains
@@ -44,12 +44,12 @@ columns:
    references: ssl.intermediate.subject_key_identifier
 
 checks:
- - name: request_domains
+ - name: request_hostnames
    description: Requests domains correct
    check: |
     request IS NULL OR
     (ssl.request_info(request))."subjectAltName" = domains
- - name: cert_domains
+ - name: cert_hostnames
    description: Certificate domains correct
    check: |
     cert IS NULL OR

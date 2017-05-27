@@ -10,7 +10,7 @@ foreign_keys:
   name: reference to a list
   columns:
    - list_localpart
-   - list_domain
+   - list_hostname
   ref_table: email.list
   ref_columns:
    - localpart
@@ -20,7 +20,7 @@ foreign_keys:
 primary_key:
  - address
  - list_localpart
- - list_domain
+ - list_hostname
 
 columns:
  -
@@ -32,6 +32,6 @@ columns:
   type: email.t_localpart
   description: List
  -
-  name: list_domain
-  type: dns.t_domain
+  name: list_hostname
+  type: dns.t_hostname
   description: List

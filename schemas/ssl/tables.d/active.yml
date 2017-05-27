@@ -15,7 +15,7 @@ columns:
    description: X
 
  - name: machine_name
-   type: dns.t_domain
+   type: dns.t_hostname
    description: Machine
 
  - name: used

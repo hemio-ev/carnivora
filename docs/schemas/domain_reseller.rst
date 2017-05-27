@@ -66,7 +66,7 @@ Foreign keys
 Columns
  - .. _COLUMN-domain_reseller.handle.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -266,7 +266,7 @@ Primary key
 Columns
  - .. _COLUMN-domain_reseller.registered.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain
 
 
@@ -384,7 +384,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
@@ -454,7 +454,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -484,7 +484,7 @@ Execute privilege
 Update status
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_payable`` :ref:`timestamp <DOMAIN-timestamp>`
@@ -508,7 +508,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -546,7 +546,7 @@ Parameters
  - ``p_alias`` :ref:`varchar <DOMAIN-varchar>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_fname`` :ref:`varchar <DOMAIN-varchar>`
@@ -663,7 +663,7 @@ Execute privilege
 Inserts details for registered domain
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_registrant`` :ref:`varchar <DOMAIN-varchar>`
@@ -771,7 +771,7 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``registrant`` :ref:`varchar <DOMAIN-varchar>`
     
@@ -853,7 +853,7 @@ Returns
 Returned columns
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -872,7 +872,7 @@ Execute privilege
        COALESCE(t.subservice, s.subservice) AS subservice,
        COALESCE(t.service_entity_name, s.service_entity_name) AS service_entity_name
    FROM system._effective_contingent() AS t
-   FULL OUTER JOIN system._effective_contingent_domain() AS s
+   FULL OUTER JOIN system._effective_contingent_hostname() AS s
    USING (service, subservice, service_entity_name, owner)
    WHERE
        COALESCE(t.service, s.service) = 'domain_reseller' AND
@@ -897,7 +897,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -954,7 +954,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -962,7 +962,7 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``registrant`` :ref:`varchar <DOMAIN-varchar>`
     
@@ -1055,7 +1055,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
@@ -1113,7 +1113,7 @@ Execute privilege
 Updates details for registered domain
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_admin_c`` :ref:`varchar <DOMAIN-varchar>`
@@ -1122,7 +1122,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`

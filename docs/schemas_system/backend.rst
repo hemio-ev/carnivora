@@ -47,7 +47,7 @@ Columns
 
  - .. _COLUMN-backend.auth.machine:
    
-   ``machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Machine for which the rights are granted.
 
 
@@ -78,7 +78,7 @@ Primary key
 Columns
  - .. _COLUMN-backend.machine.name:
    
-   ``name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Machine name
 
 
@@ -138,7 +138,7 @@ Parameters
  - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -171,7 +171,7 @@ Parameters
  - ``p_condition`` :ref:`boolean <DOMAIN-boolean>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -243,7 +243,7 @@ Returns
  TABLE
 
 Returned columns
- - ``machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 
@@ -278,13 +278,13 @@ Parameters
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -333,13 +333,13 @@ Parameters
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -383,10 +383,10 @@ on the machine. The payload has the form
 ``mail.domain.example/email/mailbox`` for a mailbox related update.
 
 Parameters
- - ``p_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -432,7 +432,7 @@ Parameters
  - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -474,7 +474,7 @@ Informs all machines about changes.
  confused with a domain.
 
 Parameters
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`

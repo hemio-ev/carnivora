@@ -53,7 +53,7 @@ parameters:
 variables:
  -
   name: v_service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
 ---
 
 UPDATE domain_reseller.handle

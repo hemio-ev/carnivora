@@ -10,7 +10,7 @@ parameters:
   type: boolean
  -
   name: p_service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_service
   type: commons.t_key

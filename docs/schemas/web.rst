@@ -87,7 +87,7 @@ Foreign keys
 Columns
  - .. _COLUMN-web.alias.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -105,7 +105,7 @@ Columns
 
  - .. _COLUMN-web.alias.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -139,7 +139,7 @@ Columns
 
  - .. _COLUMN-web.alias.site:
    
-   ``site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Site
 
 
@@ -231,7 +231,7 @@ Foreign keys
 Columns
  - .. _COLUMN-web.site.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -249,7 +249,7 @@ Columns
 
  - .. _COLUMN-web.site.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -323,7 +323,7 @@ Columns
 
  - .. _COLUMN-web.site.storage_service_entity_name:
    
-   ``storage_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``storage_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      TODO
 
 
@@ -384,7 +384,7 @@ Foreign keys
 Columns
  - .. _COLUMN-web.storage.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -420,7 +420,7 @@ Columns
 
  - .. _COLUMN-web.storage.storage_service_entity_name:
    
-   ``storage_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``storage_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      TODO
 
 
@@ -445,7 +445,7 @@ Functions
 del
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -503,7 +503,7 @@ Execute privilege
 del
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -558,10 +558,10 @@ Execute privilege
 Insert alias
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
- - ``p_site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -630,7 +630,7 @@ Insert site
 .. todo:: check owner and contingent
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -639,7 +639,7 @@ Parameters
  - ``p_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -703,9 +703,9 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
@@ -773,13 +773,13 @@ Returned columns
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
  - ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``https`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
@@ -833,7 +833,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -841,9 +841,9 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
@@ -906,7 +906,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -914,13 +914,13 @@ Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
  - ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``ssl_cert_id`` :ref:`uuid <DOMAIN-uuid>`
     

@@ -1,0 +1,14 @@
+name: t_domain_rdata
+description: |
+  Fully qualified or relative domain name. Trailing dot marks a FQDN.
+  
+  .. todo :: checks might be off
+type: varchar
+checks:
+ -
+  name: invalid rdata domain
+  description: check
+  check: |
+   (VALUE ~ '^([a-z\d][a-z\d-]{0,62}\.)+$' OR
+    VALUE ~ '^([a-z\d][a-z\d-]{0,62}\.)*[a-z\d][a-z\d-]{1,63}$') AND
+   octet_length(VALUE) <= 253

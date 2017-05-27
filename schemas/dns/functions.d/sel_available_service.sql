@@ -13,7 +13,7 @@ returns: TABLE
 returns_columns:
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: service
   type: commons.t_key
@@ -33,7 +33,7 @@ RETURN QUERY
                     p_service_entity_name := t.service_entity_name
             ) IS NOT NULL
         ) OR
-        system._contingent_domain(
+        system._contingent_hostname(
                     p_owner := s.owner,
                     p_service := t.service,
                     p_service_entity_name := t.service_entity_name,

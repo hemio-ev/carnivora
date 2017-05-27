@@ -10,7 +10,7 @@ returns: varchar[]
 parameters:
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
 ---
 
 RETURN commons._reverse_array(regexp_split_to_array(p_domain, E'\\.'));

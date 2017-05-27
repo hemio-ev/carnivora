@@ -14,7 +14,7 @@ parameters:
   type: varchar
  -
   name: p_service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
 
 # mandatory fields
  -

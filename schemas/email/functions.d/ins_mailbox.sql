@@ -15,7 +15,7 @@ parameters:
   type: email.t_localpart
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_password
   type: commons.t_password_plaintext

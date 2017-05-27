@@ -12,7 +12,7 @@ returns_columns:
   type: email.t_localpart
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: address
   type: email.t_address
@@ -29,7 +29,7 @@ RETURN QUERY
         DELETE FROM email.list_subscriber AS t
         USING email.list AS l
         WHERE
-            t.list_domain = l.domain AND
+            t.list_hostname = l.domain AND
             t.list_localpart = l.localpart AND
 
             backend._deleted(t.backend_status) AND
@@ -42,7 +42,7 @@ RETURN QUERY
             SET backend_status = NULL
         FROM email.list AS l
         WHERE
-            t.list_domain = l.domain AND
+            t.list_hostname = l.domain AND
             t.list_localpart = l.localpart AND
 
             backend._machine_priviledged_domain(l.service, l.domain) AND
@@ -52,13 +52,13 @@ RETURN QUERY
     -- SELECT
     SELECT
         t.list_localpart,
-        t.list_domain,
+        t.list_hostname,
         t.address,
         t.backend_status
     FROM email.list_subscriber AS t
 
     JOIN email.list AS l ON
-        t.list_domain = l.domain AND
+        t.list_hostname = l.domain AND
         t.list_localpart = l.localpart
 
     WHERE

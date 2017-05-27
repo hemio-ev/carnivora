@@ -89,7 +89,7 @@ Foreign keys
 Columns
  - .. _COLUMN-ssl.active.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -116,7 +116,7 @@ Columns
 
  - .. _COLUMN-ssl.active.machine_name:
    
-   ``machine_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``machine_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Machine
 
 
@@ -206,7 +206,7 @@ Columns
 
  - .. _COLUMN-ssl.cert.machine_name:
    
-   ``machine_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``machine_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Machine
 
 
@@ -295,7 +295,7 @@ Foreign keys
 Columns
  - .. _COLUMN-ssl.demand.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -344,7 +344,7 @@ Columns
 
  - .. _COLUMN-ssl.demand.ca_name:
    
-   ``ca_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``ca_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Name of certificate authority
 
 
@@ -386,7 +386,7 @@ Columns
 
  - .. _COLUMN-ssl.demand_domain.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain
 
 
@@ -395,7 +395,7 @@ Columns
 
  - .. _COLUMN-ssl.demand_domain.registered:
    
-   ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      registered domain
 
 
@@ -689,7 +689,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -836,7 +836,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -934,7 +934,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -946,7 +946,7 @@ Returned columns
     
  - ``request`` :ref:`ssl.t_request <DOMAIN-ssl.t_request>`
     
- - ``ca_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``ca_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -987,7 +987,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -1001,7 +1001,7 @@ Returned columns
     
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege

@@ -62,7 +62,7 @@ Foreign keys
 Columns
  - .. _COLUMN-jabber.account.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -80,7 +80,7 @@ Columns
 
  - .. _COLUMN-jabber.account.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -162,7 +162,7 @@ Parameters
  - ``p_node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -212,7 +212,7 @@ Parameters
  - ``p_node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
@@ -294,7 +294,7 @@ Returns
 Returned columns
  - ``node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -336,7 +336,7 @@ Parameters
 
 
 Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
@@ -346,7 +346,7 @@ Returns
 Returned columns
  - ``node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``password`` :ref:`commons.t_password <DOMAIN-commons.t_password>`
     
@@ -406,7 +406,7 @@ Parameters
  - ``p_node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
