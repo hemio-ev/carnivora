@@ -20,8 +20,8 @@ Client Software
 `Edentata <https://git.hemio.de/hemio/edentata>`__
  An unprivileged webinterface without superadmin capabilities. Targeting end-users and focused on usability. Supports adding additional modules via config. Written in PHP 5.
 
-`Genconfig (to be released soon) <#>`__
- A generic config producer which can use carnivora as backend. Written in Python 3.
+`Genconfig <https://git.hemio.de/hemio/genconfig>`__
+ A generic config producer which can use carnivora as backend. Written in Python.
 
 `PgListend <https://git.hemio.de/hemio/pglistend>`__
  Daemon that executes tasks on PostgreSQL push signals. Designed to call genconfig on database updates. Written in Python 3.
