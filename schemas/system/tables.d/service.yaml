@@ -9,6 +9,9 @@ description: |
 primary_key:
  - service
 
+templates:
+ - commons.options
+
 columns:
  -
   name: service

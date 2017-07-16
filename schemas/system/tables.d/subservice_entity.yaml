@@ -11,6 +11,9 @@ primary_key:
  - service
  - subservice
 
+templates:
+ - commons.options
+
 columns:
  -
   name: service_entity_name

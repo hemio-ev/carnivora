@@ -15,6 +15,7 @@ primary_key:
 templates:
  - system.reference_service_entity
  - dns.resource_record
+ - commons.options
 
 columns:
  -
