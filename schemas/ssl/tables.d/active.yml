@@ -12,7 +12,7 @@ templates:
 columns:
  - name: demand_id
    type: uuid
-   description: X
+   description: ""
 
  - name: machine_name
    type: dns.t_hostname

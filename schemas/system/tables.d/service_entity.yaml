@@ -20,6 +20,9 @@ primary_key:
  - service_entity_name
  - service
 
+templates:
+ - commons.options
+
 columns:
  -
   name: service_entity_name

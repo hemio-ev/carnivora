@@ -13,6 +13,7 @@ primary_key:
 
 templates:
  - system.reference_service_entity
+ - commons.options
 
 columns:
  -
