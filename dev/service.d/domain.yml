@@ -1,0 +1,26 @@
+services:
+
+ - service: domain_reseller
+   subservices:
+    - domain
+    - handle
+   entity_name: reseller.invalid
+   machines:
+    - server.example
+   dns: []
+  
+ - service: domain_registered
+   subservices:
+    - managed
+   entity_name: nameserver.invalid
+   machines:
+    - server.example
+   dns: []
+
+ - service: dns
+   subservices:
+    - managed
+   entity_name: dns.invalid
+   machines:
+    - server.example
+   dns: []

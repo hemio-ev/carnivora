@@ -1,0 +1,12 @@
+services:
+ - service: email
+   subservices:
+    - mailbox
+    - alias
+    - list
+    - redirection
+    - dns_activatable
+   entity_name: mail.my-org.example
+   machines:
+    - server.example
+   dns: []

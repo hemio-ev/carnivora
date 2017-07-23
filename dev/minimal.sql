@@ -1,26 +1,6 @@
+\! bash -c "canini service reload --config-dir ."
+
 SET search_path = NOTHING;
-
-INSERT INTO system.service_entity (service, service_entity_name) VALUES ('email', 'mail.my-org.example');
-INSERT INTO system.service_entity (service, service_entity_name) VALUES ('server_access', 'ssh.my-org.example');
-
-INSERT INTO system.service_entity (service, service_entity_name) VALUES ('jabber', 'jabber.my-org.example');
-INSERT INTO system.service_entity (service, service_entity_name) VALUES ('domain_reseller', 'reseller.invalid');
-INSERT INTO system.service_entity (service, service_entity_name) VALUES ('domain_registered', 'nameserver.invalid');
-INSERT INTO system.service_entity (service, service_entity_name) VALUES ('dns', 'dns.invalid');
-INSERT INTO system.service_entity (service, service_entity_name) VALUES ('ssl', 'le.example');
-
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('email', 'mail.my-org.example', 'list');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('email', 'mail.my-org.example', 'mailbox');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('email', 'mail.my-org.example', 'alias');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('email', 'mail.my-org.example', 'redirection');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('server_access', 'ssh.my-org.example', 'ssh');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('jabber', 'jabber.my-org.example', 'account');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('domain_reseller', 'reseller.invalid', 'domain');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('domain_registered', 'nameserver.invalid', 'managed');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('domain_reseller', 'reseller.invalid', 'handle');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('dns', 'dns.invalid', 'managed');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('email', 'mail.my-org.example', 'dns_activatable');
-INSERT INTO system.subservice_entity (service, subservice, service_entity_name) VALUES ('ssl', 'acme', 'le.example');
 
 INSERT INTO "user"."user" (contact_email, option, owner, password) VALUES (NULL, '{}', 'user-1', '$6$jFYU9r3PuU5K0nq0$rz4wbtPvkdA2N2xXLGGkHKBEZjPOj9qdF6laEWd.vlLx6G5E/sbGGQ/mhJTRTytEEG4JZBrM1hBxYZw8S5DMD/');
 
@@ -35,14 +15,6 @@ INSERT INTO "user".deputy (deputy, represented) VALUES ('user-1', 'grp-A');
 INSERT INTO "user".deputy (deputy, represented) VALUES ('user-1', 'grp-Z');
 INSERT INTO "user".deputy (deputy, represented) VALUES ('user-1', 'grp-1');
 INSERT INTO "user".deputy (deputy, represented) VALUES ('user-1', 'grp-5');
-
-INSERT INTO backend.machine (name) VALUES ('server.example');
-INSERT INTO backend.auth (machine, role) VALUES ('server.example', 'postgres');
-
-INSERT INTO system.service_entity_machine (machine_name, service_entity_name, service) VALUES ('server.example', 'mail.my-org.example', 'email');
-INSERT INTO system.service_entity_machine (machine_name, service_entity_name, service) VALUES ('server.example', 'ssh.my-org.example', 'server_access');
-
-
 
 -- CONTINGENT
 
@@ -93,12 +65,6 @@ SELECT server_access.ins_user(p_user:='sshusr', p_service_entity_name:='ssh.my-o
 
 -- WEB
 
-INSERT INTO system.service_entity (service, service_entity_name) VALUES ('web', 'web.my-org.example');
-INSERT INTO system.subservice_entity (service, service_entity_name, subservice) VALUES ('web', 'web.my-org.example', 'site');
-INSERT INTO system.service_entity_machine
-  (machine_name, service_entity_name, service) VALUES
-  ('server.example', 'web.my-org.example', 'web');
-
 INSERT INTO web.storage
  (service, port, service_entity_name, storage_service, storage_service_entity_name)
  VALUES
@@ -147,4 +113,6 @@ SELECT ssl.fwd_renew('28d', '29d');
 
 SELECT ca_name FROM ssl.srv_acme_request();
 SELECT service, service_entity_name FROM ssl.srv_cert();
+SELECT ssl.fwd_acme_dns01('fun.example', 'x');
+SELECT ssl.fwd_acme_dns01('fun.example', 'y');
 

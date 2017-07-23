@@ -1,0 +1,17 @@
+services:
+
+ - service: server_access
+   subservices:
+    - ssh
+   entity_name: ssh.my-org.example
+   machines:
+    - server.example
+   dns: []
+
+ - service: web
+   subservices:
+    - site
+   entity_name: web.my-org.example
+   machines:
+    - server.example
+   dns: []

@@ -1,0 +1,8 @@
+services:
+ - service: ssl
+   subservices:
+    - acme
+   entity_name: le.example
+   machines:
+    - server.example
+   dns: []
