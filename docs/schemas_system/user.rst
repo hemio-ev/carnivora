@@ -16,26 +16,27 @@ Tables
 
 .. _TABLE-user.deputy:
 
-``user.deputy``
+user.deputy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Deputies for users
 
 Primary key
- - deputy
- - represented
++++++++++++
 
+- deputy
+- represented
 
-.. BEGIN FKs
-
-
-.. END FKs
 
 
 Columns
- - .. _COLUMN-user.deputy.deputy:
++++++++
+
+.. _COLUMN-user.deputy.deputy:
    
-   ``deputy`` :ref:`user.t_user <DOMAIN-user.t_user>`
+``deputy``
+     :ref:`user.t_user <DOMAIN-user.t_user>`
+
      Deputy
 
 
@@ -45,9 +46,11 @@ Columns
 
    On Update: CASCADE
 
- - .. _COLUMN-user.deputy.represented:
+.. _COLUMN-user.deputy.represented:
    
-   ``represented`` :ref:`user.t_user <DOMAIN-user.t_user>`
+``represented``
+     :ref:`user.t_user <DOMAIN-user.t_user>`
+
      User for which the deputy can act
 
 
@@ -58,28 +61,34 @@ Columns
    On Update: CASCADE
 
 
-
-.. _TABLE-user.session:
-
-``user.session``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-User login sessions
-
-Primary key
- - id
-
-
 .. BEGIN FKs
 
 
 .. END FKs
 
 
+.. _TABLE-user.session:
+
+user.session
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+User login sessions
+
+Primary key
++++++++++++
+
+- id
+
+
+
 Columns
- - .. _COLUMN-user.session.owner:
++++++++
+
+.. _COLUMN-user.session.owner:
    
-   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+``owner``
+     :ref:`user.t_user <DOMAIN-user.t_user>`
+
      Owner
 
 
@@ -89,9 +98,11 @@ Columns
 
    On Update: CASCADE
 
- - .. _COLUMN-user.session.id:
+.. _COLUMN-user.session.id:
    
-   ``id`` :ref:`varchar <DOMAIN-varchar>`
+``id``
+     :ref:`varchar <DOMAIN-varchar>`
+
      Session id
 
    Default
@@ -102,18 +113,22 @@ Columns
 
 
 
- - .. _COLUMN-user.session.act_as:
+.. _COLUMN-user.session.act_as:
    
-   ``act_as`` :ref:`user.t_user <DOMAIN-user.t_user>`
+``act_as``
+     :ref:`user.t_user <DOMAIN-user.t_user>`
+
      Act as
 
 
 
 
 
- - .. _COLUMN-user.session.started:
+.. _COLUMN-user.session.started:
    
-   ``started`` :ref:`timestamp <DOMAIN-timestamp>`
+``started``
+     :ref:`timestamp <DOMAIN-timestamp>`
+
      Session started at this time
 
    Default
@@ -125,10 +140,15 @@ Columns
 
 
 
+.. BEGIN FKs
+
+
+.. END FKs
+
 
 .. _TABLE-user.user:
 
-``user.user``
+user.user
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Users
@@ -136,19 +156,20 @@ Users
 Users with password set to ``NULL`` can be used as groups.
 
 Primary key
- - owner
++++++++++++
 
+- owner
 
-.. BEGIN FKs
-
-
-.. END FKs
 
 
 Columns
- - .. _COLUMN-user.user.option:
++++++++
+
+.. _COLUMN-user.user.option:
    
-   ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+``option``
+     :ref:`jsonb <DOMAIN-jsonb>`
+
      Free options in JSON format
 
    Default
@@ -159,33 +180,44 @@ Columns
 
 
 
- - .. _COLUMN-user.user.owner:
+.. _COLUMN-user.user.owner:
    
-   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+``owner``
+     :ref:`user.t_user <DOMAIN-user.t_user>`
+
      User name, login name
 
 
 
 
 
- - .. _COLUMN-user.user.password:
+.. _COLUMN-user.user.password:
    
-   ``password`` *NULL* | :ref:`commons.t_password <DOMAIN-commons.t_password>`
+``password``
+     *NULL* | :ref:`commons.t_password <DOMAIN-commons.t_password>`
+
      Unix shadow crypt format, NULL value disables login
 
 
 
 
 
- - .. _COLUMN-user.user.contact_email:
+.. _COLUMN-user.user.contact_email:
    
-   ``contact_email`` *NULL* | :ref:`email.t_address <DOMAIN-email.t_address>`
+``contact_email``
+     *NULL* | :ref:`email.t_address <DOMAIN-email.t_address>`
+
      Optional contact email address, can be used as login name
 
 
 
 
 
+
+.. BEGIN FKs
+
+
+.. END FKs
 
 
 
@@ -198,27 +230,29 @@ Functions
 
 .. _FUNCTION-user._get_login:
 
-``user._get_login``
+user._get_login
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Shows informations for the current user login.
 Throws an exception if no login is associated to the
 current database connection.
 
-Parameters
- *None*
-
-
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
     
  - ``act_as`` :ref:`user.t_user <DOMAIN-user.t_user>`
     
 
+
+ *None*
+
+
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -237,7 +271,7 @@ Returned columns
 
 .. _FUNCTION-user._session_id:
 
-``user._session_id``
+user._session_id
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Gives an id for the database connection that is unique over all database connections.
@@ -245,15 +279,17 @@ It is used to identify user logins.
 
 Not sure if this stays unique with distributed infrastructure!
 
-Parameters
+Returns
+ :ref:`varchar <DOMAIN-varchar>`
+
+
+
  *None*
 
 
 
-Returns
- varchar
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -268,18 +304,24 @@ Returns
 
 .. _FUNCTION-user.ins_deputy:
 
-``user.ins_deputy``
+user.ins_deputy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Act as deputy
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_act_as`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -287,12 +329,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -319,12 +361,21 @@ Execute privilege
 
 .. _FUNCTION-user.ins_login:
 
-``user.ins_login``
+user.ins_login
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Try to bind database connection to new user session.
 
-Parameters
+Returns
+ :ref:`TABLE <DOMAIN-TABLE>`
+
+Returned Columns
+ - ``user`` :ref:`user.t_user <DOMAIN-user.t_user>`
+    
+
+
+Parameters 
+++++++++++
  - ``p_login`` :ref:`varchar <DOMAIN-varchar>`
    
     
@@ -332,21 +383,18 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_login_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
-Returns
- TABLE
-
-Returned columns
- - ``user`` :ref:`user.t_user <DOMAIN-user.t_user>`
-    
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -370,16 +418,23 @@ Execute privilege
 
 .. _FUNCTION-user.sel_deputy:
 
-``user.sel_deputy``
+user.sel_deputy
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 sel deputy
 
-Parameters
+Returns
+ :ref:`TABLE <DOMAIN-TABLE>`
+
+Returned Columns
+ - ``represented`` :ref:`user.t_user <DOMAIN-user.t_user>`
+    
+
+
  *None*
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -387,15 +442,12 @@ Variables defined for body
    
    
 
-Returns
- TABLE
-
-Returned columns
- - ``represented`` :ref:`user.t_user <DOMAIN-user.t_user>`
-    
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -414,18 +466,24 @@ Execute privilege
 
 .. _FUNCTION-user.upd_user:
 
-``user.upd_user``
+user.upd_user
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 change user passwd
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -433,12 +491,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -462,13 +520,14 @@ Domains
 -------
 
 
-
 .. _DOMAIN-user.t_user:
 
-``user.t_user``
+user.t_user
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Username
+
+
 
 
 
@@ -480,7 +539,7 @@ Roles
 
 .. _ROLE-userlogin:
 
-``userlogin``
+userlogin
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Do user actions via this group
@@ -491,7 +550,7 @@ Login
 
 .. _ROLE-system:
 
-``system``
+system
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Highly priviledged user

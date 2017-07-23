@@ -18,87 +18,71 @@ Tables
 
 .. _TABLE-jabber.account:
 
-``jabber.account``
+jabber.account
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Jabber accounts
 
 Primary key
- - node
- - domain
++++++++++++
 
+- node
+- domain
 
-.. BEGIN FKs
-
-Foreign keys
- - reference dns (service)
-
-   Local Columns
-    - domain
-    - service
-    - service_entity_name
-
-   Referenced Columns
-    - :ref:`dns.service.domain <COLUMN-dns.service.domain>`
-    - :ref:`dns.service.service <COLUMN-dns.service.service>`
-    - :ref:`dns.service.service_entity_name <COLUMN-dns.service.service_entity_name>`
-
- - Reference subservice entity
-
-   Local Columns
-    - service_entity_name
-    - service
-    - subservice
-
-   Referenced Columns
-    - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
-    - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
-    - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
-
-
-.. END FKs
 
 
 Columns
- - .. _COLUMN-jabber.account.domain:
++++++++
+
+.. _COLUMN-jabber.account.domain:
    
-   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``domain``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Domain name
 
 
 
 
 
- - .. _COLUMN-jabber.account.service:
+.. _COLUMN-jabber.account.service:
    
-   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``service``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Service
 
 
 
 
 
- - .. _COLUMN-jabber.account.service_entity_name:
+.. _COLUMN-jabber.account.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``service_entity_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      ent. name
 
 
 
 
 
- - .. _COLUMN-jabber.account.subservice:
+.. _COLUMN-jabber.account.subservice:
    
-   ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``subservice``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Subservice (e.g. account, alias)
 
 
 
 
 
- - .. _COLUMN-jabber.account.owner:
+.. _COLUMN-jabber.account.owner:
    
-   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+``owner``
+     :ref:`user.t_user <DOMAIN-user.t_user>`
+
      Owner
 
 
@@ -107,9 +91,11 @@ Columns
 
    On Update: CASCADE
 
- - .. _COLUMN-jabber.account.backend_status:
+.. _COLUMN-jabber.account.backend_status:
    
-   ``backend_status`` *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+``backend_status``
+     *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+
      Status of database entry in backend. NULL: nothing pending,
      'ins': entry not present on backend client, 'upd': update
      pending on backend client, 'del': deletion peding on
@@ -123,24 +109,63 @@ Columns
 
 
 
- - .. _COLUMN-jabber.account.node:
+.. _COLUMN-jabber.account.node:
    
-   ``node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+``node``
+     :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
+
      part in front of the @ in account name
 
 
 
 
 
- - .. _COLUMN-jabber.account.password:
+.. _COLUMN-jabber.account.password:
    
-   ``password`` :ref:`commons.t_password <DOMAIN-commons.t_password>`
+``password``
+     :ref:`commons.t_password <DOMAIN-commons.t_password>`
+
      Unix shadow crypt format
 
 
 
 
 
+
+.. BEGIN FKs
+
+Foreign keys
+++++++++++++
+
+reference dns (service)
+   *Local Columns*
+
+   - domain
+   - service
+   - service_entity_name
+
+   *Referenced Columns*
+
+   - :ref:`dns.service.domain <COLUMN-dns.service.domain>`
+   - :ref:`dns.service.service <COLUMN-dns.service.service>`
+   - :ref:`dns.service.service_entity_name <COLUMN-dns.service.service_entity_name>`
+
+
+Reference subservice entity
+   *Local Columns*
+
+   - service_entity_name
+   - service
+   - subservice
+
+   *Referenced Columns*
+
+   - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
+   - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
+   - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
+
+
+.. END FKs
 
 
 
@@ -153,12 +178,18 @@ Functions
 
 .. _FUNCTION-jabber.del_account:
 
-``jabber.del_account``
+jabber.del_account
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Delete jabber account
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
@@ -166,8 +197,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -175,12 +206,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -203,12 +234,18 @@ Execute privilege
 
 .. _FUNCTION-jabber.ins_account:
 
-``jabber.ins_account``
+jabber.ins_account
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Insert jabber account
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
@@ -219,8 +256,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_num_total`` :ref:`integer <DOMAIN-integer>`
    
    
@@ -234,12 +271,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -271,27 +308,15 @@ Execute privilege
 
 .. _FUNCTION-jabber.sel_account:
 
-``jabber.sel_account``
+jabber.sel_account
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Select jabber accounts
 
-Parameters
- *None*
-
-
-Variables defined for body
- - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
  - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
@@ -299,8 +324,24 @@ Returned columns
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
 
-Execute privilege
+
+ *None*
+
+Variables
++++++++++
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -324,26 +365,15 @@ Execute privilege
 
 .. _FUNCTION-jabber.srv_account:
 
-``jabber.srv_account``
+jabber.srv_account
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Lists all jabber accounts
 
-Parameters
- - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
-   
-    
-
-
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
  - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
@@ -353,8 +383,25 @@ Returned columns
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
 
-Execute privilege
+
+Parameters 
+++++++++++
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+Variables
++++++++++
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -397,12 +444,18 @@ Execute privilege
 
 .. _FUNCTION-jabber.upd_account:
 
-``jabber.upd_account``
+jabber.upd_account
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Change jabber account password
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_node`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
@@ -413,8 +466,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -422,12 +475,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -446,6 +499,8 @@ Execute privilege
        owner = v_owner;
    
    PERFORM backend._conditional_notify(FOUND, 'jabber', 'account', p_domain);
+
+
 
 
 

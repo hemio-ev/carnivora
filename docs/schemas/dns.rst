@@ -26,52 +26,59 @@ Tables
 
 .. _TABLE-dns.custom:
 
-``dns.custom``
+dns.custom
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Direct name server entries.
 
 Primary key
- - id
++++++++++++
 
+- id
 
-.. BEGIN FKs
-
-
-.. END FKs
 
 
 Columns
- - .. _COLUMN-dns.custom.type:
++++++++
+
+.. _COLUMN-dns.custom.type:
    
-   ``type`` :ref:`dns.t_type <DOMAIN-dns.t_type>`
+``type``
+     :ref:`dns.t_type <DOMAIN-dns.t_type>`
+
      Type (A, AAAA, CNAME, MX, SRV, TXT, ...)
 
 
 
 
 
- - .. _COLUMN-dns.custom.rdata:
+.. _COLUMN-dns.custom.rdata:
    
-   ``rdata`` :ref:`dns.t_rdata <DOMAIN-dns.t_rdata>`
+``rdata``
+     :ref:`dns.t_rdata <DOMAIN-dns.t_rdata>`
+
      fancy rdata storage
 
 
 
 
 
- - .. _COLUMN-dns.custom.ttl:
+.. _COLUMN-dns.custom.ttl:
    
-   ``ttl`` *NULL* | :ref:`dns.t_ttl <DOMAIN-dns.t_ttl>`
+``ttl``
+     *NULL* | :ref:`dns.t_ttl <DOMAIN-dns.t_ttl>`
+
      Time to live, NULL indicates default value
 
 
 
 
 
- - .. _COLUMN-dns.custom.backend_status:
+.. _COLUMN-dns.custom.backend_status:
    
-   ``backend_status`` *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+``backend_status``
+     *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+
      Status of database entry in backend. NULL: nothing pending,
      'ins': entry not present on backend client, 'upd': update
      pending on backend client, 'del': deletion peding on
@@ -85,9 +92,11 @@ Columns
 
 
 
- - .. _COLUMN-dns.custom.registered:
+.. _COLUMN-dns.custom.registered:
    
-   ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``registered``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Registered domain of which domain is a sub domain
 
 
@@ -95,18 +104,22 @@ Columns
 
 
 
- - .. _COLUMN-dns.custom.domain:
+.. _COLUMN-dns.custom.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+``domain``
+     :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+
      domain of entry
 
 
 
 
 
- - .. _COLUMN-dns.custom.id:
+.. _COLUMN-dns.custom.id:
    
-   ``id`` :ref:`uuid <DOMAIN-uuid>`
+``id``
+     :ref:`uuid <DOMAIN-uuid>`
+
      uuid serial number to identify database elements uniquely
 
    Default
@@ -118,51 +131,34 @@ Columns
 
 
 
-
-.. _TABLE-dns.registered:
-
-``dns.registered``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Domains registered under a public suffix.
-
-Primary key
- - domain
-
-
 .. BEGIN FKs
-
-Foreign keys
- - Reference service entity
-
-   Local Columns
-    - service_entity_name
-    - service
-
-   Referenced Columns
-    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
-
- - Reference subservice entity
-
-   Local Columns
-    - service_entity_name
-    - service
-    - subservice
-
-   Referenced Columns
-    - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
-    - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
-    - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
 
 
 .. END FKs
 
 
+.. _TABLE-dns.registered:
+
+dns.registered
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Domains registered under a public suffix.
+
+Primary key
++++++++++++
+
+- domain
+
+
+
 Columns
- - .. _COLUMN-dns.registered.owner:
++++++++
+
+.. _COLUMN-dns.registered.owner:
    
-   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+``owner``
+     :ref:`user.t_user <DOMAIN-user.t_user>`
+
      Owner
 
 
@@ -171,9 +167,11 @@ Columns
 
    On Update: CASCADE
 
- - .. _COLUMN-dns.registered.backend_status:
+.. _COLUMN-dns.registered.backend_status:
    
-   ``backend_status`` *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+``backend_status``
+     *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+
      Status of database entry in backend. NULL: nothing pending,
      'ins': entry not present on backend client, 'upd': update
      pending on backend client, 'del': deletion peding on
@@ -187,45 +185,55 @@ Columns
 
 
 
- - .. _COLUMN-dns.registered.service_entity_name:
+.. _COLUMN-dns.registered.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``service_entity_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Service entity name
 
 
 
 
 
- - .. _COLUMN-dns.registered.service:
+.. _COLUMN-dns.registered.service:
    
-   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``service``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Service (e.g. email, jabber)
 
 
 
 
 
- - .. _COLUMN-dns.registered.subservice:
+.. _COLUMN-dns.registered.subservice:
    
-   ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``subservice``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Subservice (e.g. account, alias)
 
 
 
 
 
- - .. _COLUMN-dns.registered.domain:
+.. _COLUMN-dns.registered.domain:
    
-   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``domain``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Domain
 
 
 
 
 
- - .. _COLUMN-dns.registered.public_suffix:
+.. _COLUMN-dns.registered.public_suffix:
    
-   ``public_suffix`` :ref:`varchar <DOMAIN-varchar>`
+``public_suffix``
+     :ref:`varchar <DOMAIN-varchar>`
+
      Public Suffix
 
 
@@ -233,58 +241,85 @@ Columns
 
 
 
-
-.. _TABLE-dns.service:
-
-``dns.service``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Name server entries based on system.service (i.e. system.service_dns)
-
-Primary key
- - domain
- - service
-
-
 .. BEGIN FKs
 
 Foreign keys
- - Reference service entity
+++++++++++++
 
-   Local Columns
-    - service_entity_name
-    - service
+Reference service entity
+   *Local Columns*
 
-   Referenced Columns
-    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+   - service_entity_name
+   - service
+
+   *Referenced Columns*
+
+   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+
+
+Reference subservice entity
+   *Local Columns*
+
+   - service_entity_name
+   - service
+   - subservice
+
+   *Referenced Columns*
+
+   - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
+   - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
+   - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
 
 
 .. END FKs
 
 
+.. _TABLE-dns.service:
+
+dns.service
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Name server entries based on system.service (i.e. system.service_dns)
+
+Primary key
++++++++++++
+
+- domain
+- service
+
+
+
 Columns
- - .. _COLUMN-dns.service.service_entity_name:
++++++++
+
+.. _COLUMN-dns.service.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``service_entity_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Service entity name
 
 
 
 
 
- - .. _COLUMN-dns.service.service:
+.. _COLUMN-dns.service.service:
    
-   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``service``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Service (e.g. email, jabber)
 
 
 
 
 
- - .. _COLUMN-dns.service.backend_status:
+.. _COLUMN-dns.service.backend_status:
    
-   ``backend_status`` *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+``backend_status``
+     *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+
      Status of database entry in backend. NULL: nothing pending,
      'ins': entry not present on backend client, 'upd': update
      pending on backend client, 'del': deletion peding on
@@ -298,9 +333,11 @@ Columns
 
 
 
- - .. _COLUMN-dns.service.registered:
+.. _COLUMN-dns.service.registered:
    
-   ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``registered``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Registered domain of which domain is a sub domain
 
 
@@ -308,15 +345,36 @@ Columns
 
 
 
- - .. _COLUMN-dns.service.domain:
+.. _COLUMN-dns.service.domain:
    
-   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``domain``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      domain for which the entries should be created
 
 
 
 
 
+
+.. BEGIN FKs
+
+Foreign keys
+++++++++++++
+
+Reference service entity
+   *Local Columns*
+
+   - service_entity_name
+   - service
+
+   *Referenced Columns*
+
+   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+
+
+.. END FKs
 
 
 
@@ -329,25 +387,30 @@ Functions
 
 .. _FUNCTION-dns._domain_order:
 
-``dns._domain_order``
+dns._domain_order
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 ORDER
 
-Parameters
+Returns
+ :ref:`varchar[] <DOMAIN-varchar[]>`
+
+
+
+Parameters 
+++++++++++
  - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
-
-Returns
- varchar[]
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -358,22 +421,26 @@ Execute privilege
 
 .. _FUNCTION-dns._rdata_txtdata_valid:
 
-``dns._rdata_txtdata_valid``
+dns._rdata_txtdata_valid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Rdata txt-data valid
 
-Parameters
+Returns
+ :ref:`bool <DOMAIN-bool>`
+
+
+
+Parameters 
+++++++++++
  - ``p_txtdata`` :ref:`varchar[] <DOMAIN-varchar[]>`
    
     
 
 
 
-Returns
- bool
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -388,18 +455,24 @@ Returns
 
 .. _FUNCTION-dns.del_custom:
 
-``dns.del_custom``
+dns.del_custom
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Delete Custom
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_id`` :ref:`uuid <DOMAIN-uuid>`
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
@@ -413,12 +486,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -448,18 +521,24 @@ Execute privilege
 
 .. _FUNCTION-dns.del_registered:
 
-``dns.del_registered``
+dns.del_registered
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Delete registered domain
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
@@ -473,12 +552,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -503,12 +582,18 @@ Execute privilege
 
 .. _FUNCTION-dns.del_service:
 
-``dns.del_service``
+dns.del_service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 deletes all service entries of a specific domain
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -516,8 +601,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
@@ -531,12 +616,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -583,12 +668,18 @@ Execute privilege
 
 .. _FUNCTION-dns.fwd_registered_status:
 
-``dns.fwd_registered_status``
+dns.fwd_registered_status
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Update status
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -599,18 +690,18 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -626,12 +717,18 @@ Execute privilege
 
 .. _FUNCTION-dns.ins_custom:
 
-``dns.ins_custom``
+dns.ins_custom
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Ins Custom
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -648,8 +745,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
@@ -663,12 +760,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -702,12 +799,18 @@ Execute privilege
 
 .. _FUNCTION-dns.ins_registered:
 
-``dns.ins_registered``
+dns.ins_registered
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 registeres new domain
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -721,8 +824,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -730,12 +833,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -756,12 +859,18 @@ Execute privilege
 
 .. _FUNCTION-dns.ins_service:
 
-``dns.ins_service``
+dns.ins_service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Creates service dns entry
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -775,8 +884,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
@@ -790,12 +899,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -823,16 +932,25 @@ Execute privilege
 
 .. _FUNCTION-dns.sel_activatable_service:
 
-``dns.sel_activatable_service``
+dns.sel_activatable_service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Activatable services
 
-Parameters
+Returns
+ :ref:`TABLE <DOMAIN-TABLE>`
+
+Returned Columns
+ - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+    
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+    
+
+
  *None*
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -840,17 +958,12 @@ Variables defined for body
    
    
 
-Returns
- TABLE
-
-Returned columns
- - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-    
- - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-    
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -878,7 +991,7 @@ Execute privilege
 
 .. _FUNCTION-dns.sel_available_service:
 
-``dns.sel_available_service``
+dns.sel_available_service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 List all domains that have a service entry in dns with their service.
@@ -886,11 +999,20 @@ This is particularly usefull since these domains are ready for use with
 this service. Usually this means that accounts etc. can be created for this
 domain.
 
-Parameters
+Returns
+ :ref:`TABLE <DOMAIN-TABLE>`
+
+Returned Columns
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+    
+ - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+    
+
+
  *None*
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -898,17 +1020,12 @@ Variables defined for body
    
    
 
-Returns
- TABLE
-
-Returned columns
- - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-    
- - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-    
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -945,27 +1062,15 @@ Execute privilege
 
 .. _FUNCTION-dns.sel_custom:
 
-``dns.sel_custom``
+dns.sel_custom
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 sel custom
 
-Parameters
- *None*
-
-
-Variables defined for body
- - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``id`` :ref:`uuid <DOMAIN-uuid>`
     
  - ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
@@ -981,8 +1086,24 @@ Returned columns
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
 
-Execute privilege
+
+ *None*
+
+Variables
++++++++++
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -1012,16 +1133,25 @@ Execute privilege
 
 .. _FUNCTION-dns.sel_nameserver:
 
-``dns.sel_nameserver``
+dns.sel_nameserver
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Select available nameservers
 
-Parameters
+Returns
+ :ref:`TABLE <DOMAIN-TABLE>`
+
+Returned Columns
+ - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+    
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+    
+
+
  *None*
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -1029,17 +1159,12 @@ Variables defined for body
    
    
 
-Returns
- TABLE
-
-Returned columns
- - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-    
- - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-    
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -1069,27 +1194,15 @@ Execute privilege
 
 .. _FUNCTION-dns.sel_registered:
 
-``dns.sel_registered``
+dns.sel_registered
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 List registered domains
 
-Parameters
- *None*
-
-
-Variables defined for body
- - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``public_suffix`` :ref:`varchar <DOMAIN-varchar>`
@@ -1101,8 +1214,24 @@ Returned columns
  - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
-Execute privilege
+
+ *None*
+
+Variables
++++++++++
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -1123,27 +1252,15 @@ Execute privilege
 
 .. _FUNCTION-dns.sel_service:
 
-``dns.sel_service``
+dns.sel_service
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Select service based dns entries
 
-Parameters
- *None*
-
-
-Variables defined for body
- - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
@@ -1155,8 +1272,24 @@ Returned columns
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
 
-Execute privilege
+
+ *None*
+
+Variables
++++++++++
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -1184,12 +1317,23 @@ Execute privilege
 
 .. _FUNCTION-dns.sel_usable_domain:
 
-``dns.sel_usable_domain``
+dns.sel_usable_domain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Usable domains
 
-Parameters
+Returns
+ :ref:`TABLE <DOMAIN-TABLE>`
+
+Returned Columns
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+    
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+    
+
+
+Parameters 
+++++++++++
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
@@ -1197,8 +1341,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -1206,17 +1350,12 @@ Variables defined for body
    
    
 
-Returns
- TABLE
-
-Returned columns
- - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-    
- - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-    
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -1256,27 +1395,16 @@ Execute privilege
 
 .. _FUNCTION-dns.srv_record:
 
-``dns.srv_record``
+dns.srv_record
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Servers both record types combined: Raw entries and the ones assembled
 from records templates for services (system.service_entity_dns).
 
-Parameters
- - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
-   
-    
-
-
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
@@ -1290,8 +1418,25 @@ Returned columns
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
 
-Execute privilege
+
+Parameters 
+++++++++++
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+Variables
++++++++++
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -1380,12 +1525,18 @@ Execute privilege
 
 .. _FUNCTION-dns.upd_custom:
 
-``dns.upd_custom``
+dns.upd_custom
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Ins Custom
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_id`` :ref:`uuid <DOMAIN-uuid>`
    
     
@@ -1396,8 +1547,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
@@ -1411,12 +1562,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -1447,17 +1598,17 @@ Domains
 -------
 
 
-
 .. _DOMAIN-dns.t_domain:
 
-``dns.t_domain``
+dns.t_domain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Fully qualified hostname (without trailing dot)
 
 Checks
- - ``hostname valid regex``
-    Hostname
+++++++
+hostname valid regex
+   Hostname
 
    .. code-block:: sql
 
@@ -1466,10 +1617,9 @@ Checks
 
 
 
-
 .. _DOMAIN-dns.t_domain_rdata:
 
-``dns.t_domain_rdata``
+dns.t_domain_rdata
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Fully qualified or relative domain name. Trailing dot marks a FQDN.
@@ -1477,8 +1627,9 @@ Fully qualified or relative domain name. Trailing dot marks a FQDN.
 .. todo :: checks might be off
 
 Checks
- - ``invalid rdata domain``
-    check
+++++++
+invalid rdata domain
+   check
 
    .. code-block:: sql
 
@@ -1488,17 +1639,17 @@ Checks
 
 
 
-
 .. _DOMAIN-dns.t_hostname:
 
-``dns.t_hostname``
+dns.t_hostname
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Fully qualified hostname (without trailing dot)
 
 Checks
- - ``hostname valid regex``
-    Hostname
+++++++
+hostname valid regex
+   Hostname
 
    .. code-block:: sql
 
@@ -1507,27 +1658,26 @@ Checks
 
 
 
-
 .. _DOMAIN-dns.t_rdata:
 
-``dns.t_rdata``
+dns.t_rdata
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Resource record data (Rdata)
 
 
 
-
 .. _DOMAIN-dns.t_ttl:
 
-``dns.t_ttl``
+dns.t_ttl
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 time to live
 
 Checks
- - ``ttl range``
-    Ensure that TTL is at least one minute and put maximum to 48h
+++++++
+ttl range
+   Ensure that TTL is at least one minute and put maximum to 48h
 
    .. code-block:: sql
 
@@ -1535,17 +1685,17 @@ Checks
 
 
 
-
 .. _DOMAIN-dns.t_type:
 
-``dns.t_type``
+dns.t_type
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Resource record type
 
 Checks
- - ``Invalid or unsupported resource type``
-    Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
+++++++
+Invalid or unsupported resource type
+   Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
 
    .. code-block:: sql
 
@@ -1559,6 +1709,8 @@ Checks
      'SSHFP',
      'TXT'
     )
+
+
 
 
 

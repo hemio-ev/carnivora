@@ -19,25 +19,26 @@ Tables
 
 .. _TABLE-backend.auth:
 
-``backend.auth``
+backend.auth
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Grants rights to backend API clients based on SQL roles.
 
 Primary key
- - role
++++++++++++
 
+- role
 
-.. BEGIN FKs
-
-
-.. END FKs
 
 
 Columns
- - .. _COLUMN-backend.auth.role:
++++++++
+
+.. _COLUMN-backend.auth.role:
    
-   ``role`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``role``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Grantee for right to access the backend date for the defined machine.
      A role is basically a user or a user group on the SQL server.
 
@@ -45,9 +46,11 @@ Columns
 
 
 
- - .. _COLUMN-backend.auth.machine:
+.. _COLUMN-backend.auth.machine:
    
-   ``machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``machine``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Machine for which the rights are granted.
 
 
@@ -57,34 +60,45 @@ Columns
 
 
 
-
-.. _TABLE-backend.machine:
-
-``backend.machine``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Physical or virtual machines that hosts services.
-
-Primary key
- - name
-
-
 .. BEGIN FKs
 
 
 .. END FKs
 
 
+.. _TABLE-backend.machine:
+
+backend.machine
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Physical or virtual machines that hosts services.
+
+Primary key
++++++++++++
+
+- name
+
+
+
 Columns
- - .. _COLUMN-backend.machine.name:
++++++++
+
+.. _COLUMN-backend.machine.name:
    
-   ``name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Machine name
 
 
 
 
 
+
+.. BEGIN FKs
+
+
+.. END FKs
 
 
 
@@ -97,22 +111,26 @@ Functions
 
 .. _FUNCTION-backend._active:
 
-``backend._active``
+backend._active
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Is not 'del'
 
-Parameters
+Returns
+ :ref:`boolean <DOMAIN-boolean>`
+
+
+
+Parameters 
+++++++++++
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
    
     
 
 
 
-Returns
- boolean
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -123,12 +141,18 @@ Returns
 
 .. _FUNCTION-backend._conditional_notify:
 
-``backend._conditional_notify``
+backend._conditional_notify
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Notifies if first argument is true. Throws inaccessible otherwise.
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_condition`` :ref:`boolean <DOMAIN-boolean>`
    
     
@@ -144,10 +168,8 @@ Parameters
 
 
 
-Returns
- void
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -162,12 +184,18 @@ Returns
 
 .. _FUNCTION-backend._conditional_notify_service_entity_name:
 
-``backend._conditional_notify_service_entity_name``
+backend._conditional_notify_service_entity_name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Notifies if first argument is true. Throws inaccessible otherwise.
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_condition`` :ref:`boolean <DOMAIN-boolean>`
    
     
@@ -183,10 +211,8 @@ Parameters
 
 
 
-Returns
- void
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -201,22 +227,26 @@ Returns
 
 .. _FUNCTION-backend._deleted:
 
-``backend._deleted``
+backend._deleted
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Is 'del'
 
-Parameters
+Returns
+ :ref:`boolean <DOMAIN-boolean>`
+
+
+
+Parameters 
+++++++++++
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
    
     
 
 
 
-Returns
- boolean
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -227,25 +257,27 @@ Returns
 
 .. _FUNCTION-backend._get_login:
 
-``backend._get_login``
+backend._get_login
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Shows informations for the current backend login.
 Throws an error if the current user is not a grantee
 for a machine.
 
-Parameters
+Returns
+ :ref:`TABLE <DOMAIN-TABLE>`
+
+Returned Columns
+ - ``machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+    
+
+
  *None*
 
 
 
-Returns
- TABLE
-
-Returned columns
- - ``machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-    
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -263,7 +295,7 @@ Returned columns
 
 .. _FUNCTION-backend._machine_priviledged_domain:
 
-``backend._machine_priviledged_domain``
+backend._machine_priviledged_domain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Checks if a currently connected machine is priviledged to obtain data for
@@ -274,7 +306,13 @@ a certain service for a certain domain name.
    the column dns.service.domain. It must not be confused with a
    ``service_entity_name``.
 
-Parameters
+Returns
+ :ref:`boolean <DOMAIN-boolean>`
+
+
+
+Parameters 
+++++++++++
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
@@ -282,18 +320,18 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
-Returns
- boolean
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -319,7 +357,7 @@ Execute privilege
 
 .. _FUNCTION-backend._machine_priviledged_entity:
 
-``backend._machine_priviledged_entity``
+backend._machine_priviledged_entity
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Checks if a currently connected machine is priviledged to obtain data for
@@ -329,7 +367,13 @@ a certain service for a certain servicee name.
  The parameter ``p_service_entity_name`` must be the name of a service entity. 
  It must not be confused with a domain.
 
-Parameters
+Returns
+ :ref:`boolean <DOMAIN-boolean>`
+
+
+
+Parameters 
+++++++++++
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
@@ -337,18 +381,18 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
-Returns
- boolean
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -369,7 +413,7 @@ Execute privilege
 
 .. _FUNCTION-backend._notify:
 
-``backend._notify``
+backend._notify
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Informs a machine about changes. To listen to signals use
@@ -382,7 +426,13 @@ on the machine. The payload has the form
 ``<service_entity_name>/<service>/<subservice>``. For example
 ``mail.domain.example/email/mailbox`` for a mailbox related update.
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -398,10 +448,8 @@ Parameters
 
 
 
-Returns
- void
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -416,7 +464,7 @@ Returns
 
 .. _FUNCTION-backend._notify_domain:
 
-``backend._notify_domain``
+backend._notify_domain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Informs all machines about changes.
@@ -425,7 +473,13 @@ Informs all machines about changes.
  The parameter p_domain must be a domain, which means an entry in
  the column dns.service.domain. It must not be confused with a service_entity_name.
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
@@ -438,10 +492,8 @@ Parameters
 
 
 
-Returns
- void
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -464,7 +516,7 @@ Returns
 
 .. _FUNCTION-backend._notify_service_entity_name:
 
-``backend._notify_service_entity_name``
+backend._notify_service_entity_name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Informs all machines about changes.
@@ -473,7 +525,13 @@ Informs all machines about changes.
  The parameter p_service_entity_name must be a servcie name. It must not be
  confused with a domain.
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -486,10 +544,8 @@ Parameters
 
 
 
-Returns
- void
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -511,13 +567,14 @@ Domains
 -------
 
 
-
 .. _DOMAIN-backend.t_status:
 
-``backend.t_status``
+backend.t_status
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Backend status
+
+
 
 
 
@@ -529,7 +586,7 @@ Roles
 
 .. _ROLE-backend:
 
-``backend``
+backend
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 vms

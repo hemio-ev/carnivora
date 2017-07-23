@@ -20,112 +20,71 @@ Tables
 
 .. _TABLE-ssl.active:
 
-``ssl.active``
+ssl.active
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Active cert_active
 
 Primary key
- - demand_id
- - machine_name
++++++++++++
 
+- demand_id
+- machine_name
 
-.. BEGIN FKs
-
-Foreign keys
- - Reference service entity
-
-   Local Columns
-    - service_entity_name
-    - service
-
-   Referenced Columns
-    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
-
- - machine_with_service
-
-   Local Columns
-    - service
-    - service_entity_name
-    - machine_name
-
-   Referenced Columns
-
- - used_cert
-
-   Local Columns
-    - used
-    - machine_name
-
-   Referenced Columns
-    - :ref:`ssl.cert.id <COLUMN-ssl.cert.id>`
-    - :ref:`ssl.cert.machine_name <COLUMN-ssl.cert.machine_name>`
-
- - scheduled_cert
-
-   Local Columns
-    - scheduled
-    - machine_name
-
-   Referenced Columns
-    - :ref:`ssl.cert.id <COLUMN-ssl.cert.id>`
-    - :ref:`ssl.cert.machine_name <COLUMN-ssl.cert.machine_name>`
-
- - renew_cert
-
-   Local Columns
-    - renew
-    - machine_name
-
-   Referenced Columns
-    - :ref:`ssl.cert.id <COLUMN-ssl.cert.id>`
-    - :ref:`ssl.cert.machine_name <COLUMN-ssl.cert.machine_name>`
-
-
-.. END FKs
 
 
 Columns
- - .. _COLUMN-ssl.active.service_entity_name:
++++++++
+
+.. _COLUMN-ssl.active.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``service_entity_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Service entity name
 
 
 
 
 
- - .. _COLUMN-ssl.active.service:
+.. _COLUMN-ssl.active.service:
    
-   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``service``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Service (e.g. email, jabber)
 
 
 
 
 
- - .. _COLUMN-ssl.active.demand_id:
+.. _COLUMN-ssl.active.demand_id:
    
-   ``demand_id`` :ref:`uuid <DOMAIN-uuid>`
-     X
+``demand_id``
+     :ref:`uuid <DOMAIN-uuid>`
+
+     
 
 
 
 
 
- - .. _COLUMN-ssl.active.machine_name:
+.. _COLUMN-ssl.active.machine_name:
    
-   ``machine_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``machine_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Machine
 
 
 
 
 
- - .. _COLUMN-ssl.active.used:
+.. _COLUMN-ssl.active.used:
    
-   ``used`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
+``used``
+     *NULL* | :ref:`uuid <DOMAIN-uuid>`
+
      Currently active certificate. Taken from scheduled
      if the scheduled certificate has been deployed.
 
@@ -133,9 +92,11 @@ Columns
 
 
 
- - .. _COLUMN-ssl.active.scheduled:
+.. _COLUMN-ssl.active.scheduled:
    
-   ``scheduled`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
+``scheduled``
+     *NULL* | :ref:`uuid <DOMAIN-uuid>`
+
      Certificate to be deployed on machine. Renew is always based
      in relation to the scheduled to simplify the logic.
 
@@ -143,9 +104,11 @@ Columns
 
 
 
- - .. _COLUMN-ssl.active.renew:
+.. _COLUMN-ssl.active.renew:
    
-   ``renew`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
+``renew``
+     *NULL* | :ref:`uuid <DOMAIN-uuid>`
+
      Available if renew is in preparation. Moved to ``scheduled``
      if certificate available and time for replacement has come.
 
@@ -154,37 +117,98 @@ Columns
 
 
 
-
-.. _TABLE-ssl.cert:
-
-``ssl.cert``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-SSL (X.509) certificate
-
-Primary key
- - id
-
-
 .. BEGIN FKs
 
 Foreign keys
- - active_fk
+++++++++++++
 
-   Local Columns
-    - demand_id
-    - machine_name
+Reference service entity
+   *Local Columns*
 
-   Referenced Columns
+   - service_entity_name
+   - service
+
+   *Referenced Columns*
+
+   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+
+
+machine_with_service
+   *Local Columns*
+
+   - service
+   - service_entity_name
+   - machine_name
+
+   *Referenced Columns*
+
+   - :ref:`system.service_entity_machine.service <COLUMN-system.service_entity_machine.service>`
+   - :ref:`system.service_entity_machine.service_entity_name <COLUMN-system.service_entity_machine.service_entity_name>`
+   - :ref:`system.service_entity_machine.machine_name <COLUMN-system.service_entity_machine.machine_name>`
+
+
+used_cert
+   *Local Columns*
+
+   - used
+   - machine_name
+
+   *Referenced Columns*
+
+   - :ref:`ssl.cert.id <COLUMN-ssl.cert.id>`
+   - :ref:`ssl.cert.machine_name <COLUMN-ssl.cert.machine_name>`
+
+
+scheduled_cert
+   *Local Columns*
+
+   - scheduled
+   - machine_name
+
+   *Referenced Columns*
+
+   - :ref:`ssl.cert.id <COLUMN-ssl.cert.id>`
+   - :ref:`ssl.cert.machine_name <COLUMN-ssl.cert.machine_name>`
+
+
+renew_cert
+   *Local Columns*
+
+   - renew
+   - machine_name
+
+   *Referenced Columns*
+
+   - :ref:`ssl.cert.id <COLUMN-ssl.cert.id>`
+   - :ref:`ssl.cert.machine_name <COLUMN-ssl.cert.machine_name>`
 
 
 .. END FKs
 
 
+.. _TABLE-ssl.cert:
+
+ssl.cert
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+SSL (X.509) certificate
+
+Primary key
++++++++++++
+
+- id
+
+
+
 Columns
- - .. _COLUMN-ssl.cert.id:
++++++++
+
+.. _COLUMN-ssl.cert.id:
    
-   ``id`` :ref:`uuid <DOMAIN-uuid>`
+``id``
+     :ref:`uuid <DOMAIN-uuid>`
+
      UUID
 
    Default
@@ -195,54 +219,66 @@ Columns
 
 
 
- - .. _COLUMN-ssl.cert.demand_id:
+.. _COLUMN-ssl.cert.demand_id:
    
-   ``demand_id`` :ref:`uuid <DOMAIN-uuid>`
+``demand_id``
+     :ref:`uuid <DOMAIN-uuid>`
+
      UUID
 
 
 
 
 
- - .. _COLUMN-ssl.cert.machine_name:
+.. _COLUMN-ssl.cert.machine_name:
    
-   ``machine_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``machine_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Machine
 
 
 
 
 
- - .. _COLUMN-ssl.cert.domains:
+.. _COLUMN-ssl.cert.domains:
    
-   ``domains`` :ref:`varchar[] <DOMAIN-varchar[]>`
+``domains``
+     :ref:`varchar[] <DOMAIN-varchar[]>`
+
      Domains
 
 
 
 
 
- - .. _COLUMN-ssl.cert.request:
+.. _COLUMN-ssl.cert.request:
    
-   ``request`` *NULL* | :ref:`ssl.t_request <DOMAIN-ssl.t_request>`
+``request``
+     *NULL* | :ref:`ssl.t_request <DOMAIN-ssl.t_request>`
+
      Certificate request
 
 
 
 
 
- - .. _COLUMN-ssl.cert.cert:
+.. _COLUMN-ssl.cert.cert:
    
-   ``cert`` *NULL* | :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
+``cert``
+     *NULL* | :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
+
      Certificate
 
 
 
 
 
- - .. _COLUMN-ssl.cert.intermediate:
+.. _COLUMN-ssl.cert.intermediate:
    
-   ``intermediate`` *NULL* | :ref:`varchar <DOMAIN-varchar>`
+``intermediate``
+     *NULL* | :ref:`varchar <DOMAIN-varchar>`
+
      Intermediate
 
 
@@ -251,69 +287,70 @@ Columns
 
 
 
-
-.. _TABLE-ssl.demand:
-
-``ssl.demand``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Service needs certificates
-
-Primary key
- - id
-
-
 .. BEGIN FKs
 
 Foreign keys
- - Reference service entity
+++++++++++++
 
-   Local Columns
-    - service_entity_name
-    - service
+active_fk
+   *Local Columns*
 
-   Referenced Columns
-    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+   - demand_id
+   - machine_name
 
- - ssl_service
+   *Referenced Columns*
 
-   Local Columns
-    - ca_type
-    - ca_system
-    - ca_name
-
-   Referenced Columns
-    - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
-    - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
-    - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
+   - :ref:`ssl.active.demand_id <COLUMN-ssl.active.demand_id>`
+   - :ref:`ssl.active.machine_name <COLUMN-ssl.active.machine_name>`
 
 
 .. END FKs
 
 
+.. _TABLE-ssl.demand:
+
+ssl.demand
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Service needs certificates
+
+Primary key
++++++++++++
+
+- id
+
+
+
 Columns
- - .. _COLUMN-ssl.demand.service_entity_name:
++++++++
+
+.. _COLUMN-ssl.demand.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``service_entity_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Service entity name
 
 
 
 
 
- - .. _COLUMN-ssl.demand.service:
+.. _COLUMN-ssl.demand.service:
    
-   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``service``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Service (e.g. email, jabber)
 
 
 
 
 
- - .. _COLUMN-ssl.demand.id:
+.. _COLUMN-ssl.demand.id:
    
-   ``id`` :ref:`uuid <DOMAIN-uuid>`
+``id``
+     :ref:`uuid <DOMAIN-uuid>`
+
      UUID
 
    Default
@@ -324,27 +361,37 @@ Columns
 
 
 
- - .. _COLUMN-ssl.demand.ca_type:
+.. _COLUMN-ssl.demand.ca_type:
    
-   ``ca_type`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``ca_type``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Usually 'ssl'
 
+   Default
+    .. code-block:: sql
+
+     'ssl'
 
 
 
 
- - .. _COLUMN-ssl.demand.ca_system:
+.. _COLUMN-ssl.demand.ca_system:
    
-   ``ca_system`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``ca_system``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Usually 'acme' or 'manual'
 
 
 
 
 
- - .. _COLUMN-ssl.demand.ca_name:
+.. _COLUMN-ssl.demand.ca_name:
    
-   ``ca_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``ca_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Name of certificate authority
 
 
@@ -352,10 +399,43 @@ Columns
 
 
 
+.. BEGIN FKs
+
+Foreign keys
+++++++++++++
+
+Reference service entity
+   *Local Columns*
+
+   - service_entity_name
+   - service
+
+   *Referenced Columns*
+
+   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+
+
+ssl_service
+   *Local Columns*
+
+   - ca_type
+   - ca_system
+   - ca_name
+
+   *Referenced Columns*
+
+   - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
+   - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
+   - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
+
+
+.. END FKs
+
 
 .. _TABLE-ssl.demand_domain:
 
-``ssl.demand_domain``
+ssl.demand_domain
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Domains for which the cert should be issued
@@ -363,20 +443,21 @@ Domains for which the cert should be issued
 .. todo:: check domain is subdomain of registered
 
 Primary key
- - demand_id
- - domain
++++++++++++
 
+- demand_id
+- domain
 
-.. BEGIN FKs
-
-
-.. END FKs
 
 
 Columns
- - .. _COLUMN-ssl.demand_domain.demand_id:
++++++++
+
+.. _COLUMN-ssl.demand_domain.demand_id:
    
-   ``demand_id`` :ref:`uuid <DOMAIN-uuid>`
+``demand_id``
+     :ref:`uuid <DOMAIN-uuid>`
+
      Certificate demand id
 
 
@@ -384,18 +465,22 @@ Columns
 
 
 
- - .. _COLUMN-ssl.demand_domain.domain:
+.. _COLUMN-ssl.demand_domain.domain:
    
-   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``domain``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Domain
 
 
 
 
 
- - .. _COLUMN-ssl.demand_domain.registered:
+.. _COLUMN-ssl.demand_domain.registered:
    
-   ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``registered``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      registered domain
 
 
@@ -404,46 +489,56 @@ Columns
 
 
 
-
-.. _TABLE-ssl.intermediate:
-
-``ssl.intermediate``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Intermediate certificates
-
-Primary key
- - subject_key_identifier
-
-
 .. BEGIN FKs
 
 
 .. END FKs
 
 
+.. _TABLE-ssl.intermediate:
+
+ssl.intermediate
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Intermediate certificates
+
+Primary key
++++++++++++
+
+- subject_key_identifier
+
+
+
 Columns
- - .. _COLUMN-ssl.intermediate.subject_key_identifier:
++++++++
+
+.. _COLUMN-ssl.intermediate.subject_key_identifier:
    
-   ``subject_key_identifier`` :ref:`varchar <DOMAIN-varchar>`
+``subject_key_identifier``
+     :ref:`varchar <DOMAIN-varchar>`
+
      Identifier
 
 
 
 
 
- - .. _COLUMN-ssl.intermediate.cert:
+.. _COLUMN-ssl.intermediate.cert:
    
-   ``cert`` :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
+``cert``
+     :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
+
      Certificate
 
 
 
 
 
- - .. _COLUMN-ssl.intermediate.intermediate:
+.. _COLUMN-ssl.intermediate.intermediate:
    
-   ``intermediate`` *NULL* | :ref:`varchar <DOMAIN-varchar>`
+``intermediate``
+     *NULL* | :ref:`varchar <DOMAIN-varchar>`
+
      Intermediate
 
 
@@ -451,6 +546,11 @@ Columns
 
 
 
+
+.. BEGIN FKs
+
+
+.. END FKs
 
 
 
@@ -463,24 +563,28 @@ Functions
 
 .. _FUNCTION-ssl.cert_info:
 
-``ssl.cert_info``
+ssl.cert_info
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Certificate signing request information
 
-Parameters
- - ``p_cert`` :ref:`bytea <DOMAIN-bytea>`
-   
-    
+Returns
+ :ref:`ssl.t_cert_info <DOMAIN-ssl.t_cert_info>`
+
 
 Language
  plpython3u
 
+Parameters 
+++++++++++
+ - ``p_cert`` :ref:`bytea <DOMAIN-bytea>`
+   
+    
 
-Returns
- ssl.t_cert_info
 
 
+Code
+++++
 
 .. code-block:: guess
 
@@ -533,14 +637,22 @@ Returns
 
 .. _FUNCTION-ssl.cert_is_signed:
 
-``ssl.cert_is_signed``
+ssl.cert_is_signed
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Check signed
 
 .. todo :: use ``set_time()`` with pyopenssl >= v17.0
 
-Parameters
+Returns
+ :ref:`bool <DOMAIN-bool>`
+
+
+Language
+ plpython3u
+
+Parameters 
+++++++++++
  - ``p_cert`` :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
    
     
@@ -548,14 +660,10 @@ Parameters
    
     
 
-Language
- plpython3u
 
 
-Returns
- bool
-
-
+Code
+++++
 
 .. code-block:: guess
 
@@ -603,24 +711,28 @@ Returns
 
 .. _FUNCTION-ssl.cert_is_trusted:
 
-``ssl.cert_is_trusted``
+ssl.cert_is_trusted
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 trusted?
 
-Parameters
- - ``p_cert`` :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
-   
-    
+Returns
+ :ref:`bool <DOMAIN-bool>`
+
 
 Language
  plpython3u
 
+Parameters 
+++++++++++
+ - ``p_cert`` :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
+   
+    
 
-Returns
- bool
 
 
+Code
+++++
 
 .. code-block:: guess
 
@@ -663,9 +775,67 @@ Returns
 
 
 
+.. _FUNCTION-ssl.fwd_acme_dns01:
+
+ssl.fwd_acme_dns01
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Fulfill ACME dns-01 challenge
+
+.. todo :: Restrict updates to plausible domains
+
+.. todo :: Add dns01 delete function for cleanup
+
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
+ - ``p_registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+   
+    
+ - ``p_digest`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+
+Variables
++++++++++
+ - ``v_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   (default: ``'_acme-challenge.' || p_registered``)
+   
+
+
+Code
+++++
+
+.. code-block:: plpgsql
+
+   
+   WITH
+     deleted AS (
+       DELETE FROM dns.custom
+       WHERE
+         type = 'TXT'
+         AND domain = v_domain
+     )
+   
+     INSERT INTO dns.custom
+       (registered, domain, type, rdata)
+     VALUES (
+       p_registered,
+       v_domain,
+       'TXT',
+       json_build_object('txtdata', json_build_array(p_digest))
+     )
+   ;
+
+
+
 .. _FUNCTION-ssl.fwd_cert:
 
-``ssl.fwd_cert``
+ssl.fwd_cert
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Insert cert
@@ -676,7 +846,13 @@ Insert cert
 
 .. todo :: Fail if no update
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_id`` :ref:`uuid <DOMAIN-uuid>`
    
     
@@ -687,18 +863,18 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -723,7 +899,7 @@ Execute privilege
 
 .. _FUNCTION-ssl.fwd_renew:
 
-``ssl.fwd_renew``
+ssl.fwd_renew
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Creates new certificate request entries if current certificate is expiring.
@@ -733,7 +909,13 @@ Additional buffers can be specified to execute those tasks earlier.
 Typically, both parameters should be set to the interval at which this function
 is called as a cron job.
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_buffer_request`` :ref:`interval <DOMAIN-interval>`
    
     
@@ -743,17 +925,36 @@ Parameters
 
 
 
-Returns
- void
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
    
    WITH
-    new_cert AS
-    (
+     active_missing AS (
+       SELECT d.id, d.service, d.service_entity_name, m.machine_name
+       FROM ssl.demand AS d
+       
+       JOIN system.service_entity_machine AS m
+         ON d.service = m.service
+         AND d.service_entity_name = m.service_entity_name
+       
+       LEFT JOIN ssl.active AS a
+         ON a.demand_id = d.id
+         AND a.machine_name = m.machine_name
+       
+       WHERE
+         a.demand_id IS NULL
+     )
+     
+     INSERT INTO ssl.active
+     (demand_id, service, service_entity_name, machine_name)
+     SELECT * FROM active_missing;
+   
+   -- insert new certs
+   WITH
+    new_cert AS (
      INSERT INTO ssl.cert
      (demand_id, machine_name, domains)
      -- ssl.active where subsequent cert exists and the current cert is expiring 
@@ -814,7 +1015,7 @@ Returns
 
 .. _FUNCTION-ssl.fwd_request:
 
-``ssl.fwd_request``
+ssl.fwd_request
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 X.509 certifiacte signing request
@@ -823,7 +1024,13 @@ X.509 certifiacte signing request
 
 .. todo :: Error on not updating anything
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_id`` :ref:`uuid <DOMAIN-uuid>`
    
     
@@ -834,18 +1041,18 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -859,24 +1066,28 @@ Execute privilege
 
 .. _FUNCTION-ssl.request_info:
 
-``ssl.request_info``
+ssl.request_info
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Certificate signing request information
 
-Parameters
- - ``p_request`` :ref:`bytea <DOMAIN-bytea>`
-   
-    
+Returns
+ :ref:`ssl.t_request_info <DOMAIN-ssl.t_request_info>`
+
 
 Language
  plpython3u
 
+Parameters 
+++++++++++
+ - ``p_request`` :ref:`bytea <DOMAIN-bytea>`
+   
+    
 
-Returns
- ssl.t_request_info
 
 
+Code
+++++
 
 .. code-block:: guess
 
@@ -922,26 +1133,15 @@ Returns
 
 .. _FUNCTION-ssl.srv_acme_request:
 
-``ssl.srv_acme_request``
+ssl.srv_acme_request
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Open certificate requests
 
-Parameters
- - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
-   
-    
-
-
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``id`` :ref:`uuid <DOMAIN-uuid>`
     
  - ``request`` :ref:`ssl.t_request <DOMAIN-ssl.t_request>`
@@ -949,8 +1149,25 @@ Returned columns
  - ``ca_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
-Execute privilege
+
+Parameters 
+++++++++++
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+Variables
++++++++++
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -973,28 +1190,17 @@ Execute privilege
 
 .. _FUNCTION-ssl.srv_cert:
 
-``ssl.srv_cert``
+ssl.srv_cert
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Certs
 
 .. todo :: This could be the point where old certificates are deleted.
 
-Parameters
- - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
-   
-    
-
-
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``id`` :ref:`uuid <DOMAIN-uuid>`
     
  - ``cert`` :ref:`ssl.t_cert <DOMAIN-ssl.t_cert>`
@@ -1004,8 +1210,25 @@ Returned columns
  - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
-Execute privilege
+
+Parameters 
+++++++++++
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+Variables
++++++++++
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -1041,17 +1264,17 @@ Domains
 -------
 
 
-
 .. _DOMAIN-ssl.t_cert:
 
-``ssl.t_cert``
+ssl.t_cert
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 DER cert
 
 Checks
- - ``cert``
-    really a cert?
+++++++
+cert
+   really a cert?
 
    .. code-block:: sql
 
@@ -1060,23 +1283,45 @@ Checks
 
 
 
-
 .. _DOMAIN-ssl.t_request:
 
-``ssl.t_request``
+ssl.t_request
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 DER cert
 
 Checks
- - ``cert``
-    really a cert?
+++++++
+cert
+   really a cert?
 
    .. code-block:: sql
 
     VALUE IS NULL OR
     array_length((ssl.request_info(VALUE))."subjectAltName", 1) > 0
 
+
+
+
+
+Types
+-----
+
+
+.. _DOMAIN-ssl.t_cert_info:
+
+ssl.t_cert_info
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Certificate information
+
+
+.. _DOMAIN-ssl.t_request_info:
+
+ssl.t_request_info
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Certificate information
 
 
 

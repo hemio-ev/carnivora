@@ -20,25 +20,29 @@ Functions
 
 .. _FUNCTION-commons._hash_password:
 
-``commons._hash_password``
+commons._hash_password
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 SHA512 hash of the password with 16 charcters random salt.
 The returned format is the traditional 'crypt(3)' format.
 
-Parameters
- - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
-   
-    
+Returns
+ :ref:`commons.t_password <DOMAIN-commons.t_password>`
+
 
 Language
  plpython3u
 
+Parameters 
+++++++++++
+ - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
+   
+    
 
-Returns
- commons.t_password
 
 
+Code
+++++
 
 .. code-block:: guess
 
@@ -51,29 +55,34 @@ Returns
 
 .. _FUNCTION-commons._idn:
 
-``commons._idn``
+commons._idn
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Converts a unicode domain name to IDN (ASCII)
 
 Currently using IDNA2003.
 
-Parameters
- - ``p_domain`` :ref:`varchar <DOMAIN-varchar>`
-   
-    
+Returns
+ :ref:`varchar <DOMAIN-varchar>`
+
 
 Language
  plpython3u
 
+Parameters 
+++++++++++
+ - ``p_domain`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
 
-Returns
- varchar
 
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: guess
 
@@ -90,22 +99,26 @@ Execute privilege
 
 .. _FUNCTION-commons._jsonb_to_array:
 
-``commons._jsonb_to_array``
+commons._jsonb_to_array
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Converts a JSONB array to a PostgreSQL text[] array
 
-Parameters
+Returns
+ :ref:`text[] <DOMAIN-text[]>`
+
+
+
+Parameters 
+++++++++++
  - ``p_jsonb`` :ref:`jsonb <DOMAIN-jsonb>`
    
     
 
 
 
-Returns
- text[]
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -116,14 +129,22 @@ Returns
 
 .. _FUNCTION-commons._passwords_equal:
 
-``commons._passwords_equal``
+commons._passwords_equal
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Compares a plaintext password with an arbitrary 'crypt(3)' hashed password.
 
 Uses <https://docs.python.org/3/library/hmac.html>
 
-Parameters
+Returns
+ :ref:`boolean <DOMAIN-boolean>`
+
+
+Language
+ plpython3u
+
+Parameters 
+++++++++++
  - ``p_password_plaintext`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
    
     
@@ -131,14 +152,10 @@ Parameters
    
     
 
-Language
- plpython3u
 
 
-Returns
- boolean
-
-
+Code
+++++
 
 .. code-block:: guess
 
@@ -154,23 +171,27 @@ Returns
 
 .. _FUNCTION-commons._raise_inaccessible_or_missing:
 
-``commons._raise_inaccessible_or_missing``
+commons._raise_inaccessible_or_missing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Raised whenever a operation on an object failes because it is not owned by
 the user or it is not found.
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_raise`` :ref:`boolean <DOMAIN-boolean>`
    
     Controls if the exception is raised
 
 
 
-Returns
- void
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -184,25 +205,30 @@ Returns
 
 .. _FUNCTION-commons._reverse_array:
 
-``commons._reverse_array``
+commons._reverse_array
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Copied from <https://wiki.postgresql.org/wiki/Array_reverse>
 
-Parameters
+Returns
+ :ref:`anyarray <DOMAIN-anyarray>`
+
+
+
+Parameters 
+++++++++++
  - ``p_array`` :ref:`anyarray <DOMAIN-anyarray>`
    
     
 
 
-
-Returns
- anyarray
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -221,20 +247,22 @@ Execute privilege
 
 .. _FUNCTION-commons._uuid:
 
-``commons._uuid``
+commons._uuid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Returns a random uuid
 
-Parameters
+Returns
+ :ref:`uuid <DOMAIN-uuid>`
+
+
+
  *None*
 
 
 
-Returns
- uuid
-
-
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -249,17 +277,17 @@ Domains
 -------
 
 
-
 .. _DOMAIN-commons.t_port:
 
-``commons.t_port``
+commons.t_port
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Port
 
 Checks
- - ``invalid_port``
-    Only allow port values
+++++++
+invalid_port
+   Only allow port values
 
    .. code-block:: sql
 
@@ -267,10 +295,9 @@ Checks
 
 
 
-
 .. _DOMAIN-commons.t_password:
 
-``commons.t_password``
+commons.t_password
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 unix hash thingy
@@ -278,8 +305,9 @@ unix hash thingy
 .. todo:: propper checking of format
 
 Checks
- - ``crypt(3) password format``
-    Only allows SHA512 strings.
+++++++
+crypt(3) password format
+   Only allows SHA512 strings.
 
    .. code-block:: sql
 
@@ -287,17 +315,17 @@ Checks
 
 
 
-
 .. _DOMAIN-commons.t_password_plaintext:
 
-``commons.t_password_plaintext``
+commons.t_password_plaintext
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Password in plaintext
 
 Checks
- - ``minimum password length 8``
-    Ensures that passwords at least have 8 chars
+++++++
+minimum password length 8
+   Ensures that passwords at least have 8 chars
 
    .. code-block:: sql
 
@@ -305,31 +333,32 @@ Checks
 
 
 
-
 .. _DOMAIN-commons.t_key:
 
-``commons.t_key``
+commons.t_key
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Key
 
 
 
-
 .. _DOMAIN-commons.t_hexvarchar:
 
-``commons.t_hexvarchar``
+commons.t_hexvarchar
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Varchar only with HEX values
 
 Checks
- - ``invalid characters``
-    Only allows numbers and chars a-f for hex representation
+++++++
+invalid characters
+   Only allows numbers and chars a-f for hex representation
 
    .. code-block:: sql
 
     VALUE ~ '^[0-9a-f]*$'
+
+
 
 
 
@@ -343,7 +372,7 @@ Sequences
 
 .. _SEQUENCE-commons.uid:
 
-``commons.uid``
+commons.uid
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Unix user id

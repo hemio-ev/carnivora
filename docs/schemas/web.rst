@@ -19,111 +19,71 @@ Tables
 
 .. _TABLE-web.alias:
 
-``web.alias``
+web.alias
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Aliases
 
 Primary key
- - domain
- - site_port
++++++++++++
 
+- domain
+- site_port
 
-.. BEGIN FKs
-
-Foreign keys
- - reference dns (service)
-
-   Local Columns
-    - domain
-    - service
-    - service_entity_name
-
-   Referenced Columns
-    - :ref:`dns.service.domain <COLUMN-dns.service.domain>`
-    - :ref:`dns.service.service <COLUMN-dns.service.service>`
-    - :ref:`dns.service.service_entity_name <COLUMN-dns.service.service_entity_name>`
-
- - Reference subservice entity
-
-   Local Columns
-    - service_entity_name
-    - service
-    - subservice
-
-   Referenced Columns
-    - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
-    - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
-    - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
-
- - site
-
-   Local Columns
-    - site
-    - service_entity_name
-    - site_port
-
-   Referenced Columns
-    - :ref:`web.site.domain <COLUMN-web.site.domain>`
-    - :ref:`web.site.service_entity_name <COLUMN-web.site.service_entity_name>`
-    - :ref:`web.site.port <COLUMN-web.site.port>`
-
- - dns
-
-   Local Columns
-    - domain
-    - service
-    - service_entity_name
-
-   Referenced Columns
-    - :ref:`dns.service.domain <COLUMN-dns.service.domain>`
-    - :ref:`dns.service.service <COLUMN-dns.service.service>`
-    - :ref:`dns.service.service_entity_name <COLUMN-dns.service.service_entity_name>`
-
-
-.. END FKs
 
 
 Columns
- - .. _COLUMN-web.alias.domain:
++++++++
+
+.. _COLUMN-web.alias.domain:
    
-   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``domain``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Domain name
 
 
 
 
 
- - .. _COLUMN-web.alias.service:
+.. _COLUMN-web.alias.service:
    
-   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``service``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Service
 
 
 
 
 
- - .. _COLUMN-web.alias.service_entity_name:
+.. _COLUMN-web.alias.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``service_entity_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      ent. name
 
 
 
 
 
- - .. _COLUMN-web.alias.subservice:
+.. _COLUMN-web.alias.subservice:
    
-   ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``subservice``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Subservice (e.g. account, alias)
 
 
 
 
 
- - .. _COLUMN-web.alias.backend_status:
+.. _COLUMN-web.alias.backend_status:
    
-   ``backend_status`` *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+``backend_status``
+     *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+
      Status of database entry in backend. NULL: nothing pending,
      'ins': entry not present on backend client, 'upd': update
      pending on backend client, 'del': deletion peding on
@@ -137,18 +97,22 @@ Columns
 
 
 
- - .. _COLUMN-web.alias.site:
+.. _COLUMN-web.alias.site:
    
-   ``site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``site``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Site
 
 
 
 
 
- - .. _COLUMN-web.alias.site_port:
+.. _COLUMN-web.alias.site_port:
    
-   ``site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+``site_port``
+     :ref:`commons.t_port <DOMAIN-commons.t_port>`
+
      port
 
    Default
@@ -160,114 +124,137 @@ Columns
 
 
 
-
-.. _TABLE-web.site:
-
-``web.site``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Website
-
-Primary key
- - domain
- - port
-
-
 .. BEGIN FKs
 
 Foreign keys
- - reference dns (service)
+++++++++++++
 
-   Local Columns
-    - domain
-    - service
-    - service_entity_name
+reference dns (service)
+   *Local Columns*
 
-   Referenced Columns
-    - :ref:`dns.service.domain <COLUMN-dns.service.domain>`
-    - :ref:`dns.service.service <COLUMN-dns.service.service>`
-    - :ref:`dns.service.service_entity_name <COLUMN-dns.service.service_entity_name>`
+   - domain
+   - service
+   - service_entity_name
 
- - Reference subservice entity
+   *Referenced Columns*
 
-   Local Columns
-    - service_entity_name
-    - service
-    - subservice
+   - :ref:`dns.service.domain <COLUMN-dns.service.domain>`
+   - :ref:`dns.service.service <COLUMN-dns.service.service>`
+   - :ref:`dns.service.service_entity_name <COLUMN-dns.service.service_entity_name>`
 
-   Referenced Columns
-    - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
-    - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
-    - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
 
- - https
+Reference subservice entity
+   *Local Columns*
 
-   Local Columns
-    - ssl
-    - service
-    - service_entity_name
+   - service_entity_name
+   - service
+   - subservice
 
-   Referenced Columns
-    - :ref:`ssl.demand.id <COLUMN-ssl.demand.id>`
-    - :ref:`ssl.demand.service <COLUMN-ssl.demand.service>`
-    - :ref:`ssl.demand.service_entity_name <COLUMN-ssl.demand.service_entity_name>`
+   *Referenced Columns*
 
- - server_access
+   - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
+   - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
+   - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
 
-   Local Columns
-    - storage_user
-    - storage_service
-    - storage_service_entity_name
 
-   Referenced Columns
-    - :ref:`server_access.user.user <COLUMN-server_access.user.user>`
-    - :ref:`server_access.user.service <COLUMN-server_access.user.service>`
-    - :ref:`server_access.user.service_entity_name <COLUMN-server_access.user.service_entity_name>`
+site
+   *Local Columns*
+
+   - site
+   - service_entity_name
+   - site_port
+
+   *Referenced Columns*
+
+   - :ref:`web.site.domain <COLUMN-web.site.domain>`
+   - :ref:`web.site.service_entity_name <COLUMN-web.site.service_entity_name>`
+   - :ref:`web.site.port <COLUMN-web.site.port>`
+
+
+dns
+   *Local Columns*
+
+   - domain
+   - service
+   - service_entity_name
+
+   *Referenced Columns*
+
+   - :ref:`dns.service.domain <COLUMN-dns.service.domain>`
+   - :ref:`dns.service.service <COLUMN-dns.service.service>`
+   - :ref:`dns.service.service_entity_name <COLUMN-dns.service.service_entity_name>`
 
 
 .. END FKs
 
 
+.. _TABLE-web.site:
+
+web.site
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Website
+
+Primary key
++++++++++++
+
+- domain
+- port
+
+
+
 Columns
- - .. _COLUMN-web.site.domain:
++++++++
+
+.. _COLUMN-web.site.domain:
    
-   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``domain``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Domain name
 
 
 
 
 
- - .. _COLUMN-web.site.service:
+.. _COLUMN-web.site.service:
    
-   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``service``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Service
 
 
 
 
 
- - .. _COLUMN-web.site.service_entity_name:
+.. _COLUMN-web.site.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``service_entity_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      ent. name
 
 
 
 
 
- - .. _COLUMN-web.site.subservice:
+.. _COLUMN-web.site.subservice:
    
-   ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``subservice``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Subservice (e.g. account, alias)
 
 
 
 
 
- - .. _COLUMN-web.site.backend_status:
+.. _COLUMN-web.site.backend_status:
    
-   ``backend_status`` *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+``backend_status``
+     *NULL* | :ref:`backend.t_status <DOMAIN-backend.t_status>`
+
      Status of database entry in backend. NULL: nothing pending,
      'ins': entry not present on backend client, 'upd': update
      pending on backend client, 'del': deletion peding on
@@ -281,9 +268,11 @@ Columns
 
 
 
- - .. _COLUMN-web.site.option:
+.. _COLUMN-web.site.option:
    
-   ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+``option``
+     :ref:`jsonb <DOMAIN-jsonb>`
+
      Free options in JSON format
 
    Default
@@ -294,45 +283,55 @@ Columns
 
 
 
- - .. _COLUMN-web.site.port:
+.. _COLUMN-web.site.port:
    
-   ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+``port``
+     :ref:`commons.t_port <DOMAIN-commons.t_port>`
+
      Port
 
 
 
 
 
- - .. _COLUMN-web.site.storage_user:
+.. _COLUMN-web.site.storage_user:
    
-   ``storage_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+``storage_user``
+     :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
+
      Server account under which the htdocs reside
 
 
 
 
 
- - .. _COLUMN-web.site.storage_service:
+.. _COLUMN-web.site.storage_service:
    
-   ``storage_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``storage_service``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      TODO
 
 
 
 
 
- - .. _COLUMN-web.site.storage_service_entity_name:
+.. _COLUMN-web.site.storage_service_entity_name:
    
-   ``storage_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``storage_service_entity_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      TODO
 
 
 
 
 
- - .. _COLUMN-web.site.ssl:
+.. _COLUMN-web.site.ssl:
    
-   ``ssl`` *NULL* | :ref:`uuid <DOMAIN-uuid>`
+``ssl``
+     *NULL* | :ref:`uuid <DOMAIN-uuid>`
+
      If null, HTTPS is deactivated
 
 
@@ -340,93 +339,175 @@ Columns
 
 
 
-
-.. _TABLE-web.storage:
-
-``web.storage``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Where to place stuff
-
-Primary key
- - service
- - service_entity_name
- - port
-
-
 .. BEGIN FKs
 
 Foreign keys
- - Reference service entity
+++++++++++++
 
-   Local Columns
-    - service_entity_name
-    - service
+reference dns (service)
+   *Local Columns*
 
-   Referenced Columns
-    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
-    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+   - domain
+   - service
+   - service_entity_name
 
- - r
+   *Referenced Columns*
 
-   Local Columns
-    - storage_service
-    - storage_service_entity_name
+   - :ref:`dns.service.domain <COLUMN-dns.service.domain>`
+   - :ref:`dns.service.service <COLUMN-dns.service.service>`
+   - :ref:`dns.service.service_entity_name <COLUMN-dns.service.service_entity_name>`
 
-   Referenced Columns
-    - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
-    - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+
+Reference subservice entity
+   *Local Columns*
+
+   - service_entity_name
+   - service
+   - subservice
+
+   *Referenced Columns*
+
+   - :ref:`system.subservice_entity.service_entity_name <COLUMN-system.subservice_entity.service_entity_name>`
+   - :ref:`system.subservice_entity.service <COLUMN-system.subservice_entity.service>`
+   - :ref:`system.subservice_entity.subservice <COLUMN-system.subservice_entity.subservice>`
+
+
+https
+   *Local Columns*
+
+   - ssl
+   - service
+   - service_entity_name
+
+   *Referenced Columns*
+
+   - :ref:`ssl.demand.id <COLUMN-ssl.demand.id>`
+   - :ref:`ssl.demand.service <COLUMN-ssl.demand.service>`
+   - :ref:`ssl.demand.service_entity_name <COLUMN-ssl.demand.service_entity_name>`
+
+
+server_access
+   *Local Columns*
+
+   - storage_user
+   - storage_service
+   - storage_service_entity_name
+
+   *Referenced Columns*
+
+   - :ref:`server_access.user.user <COLUMN-server_access.user.user>`
+   - :ref:`server_access.user.service <COLUMN-server_access.user.service>`
+   - :ref:`server_access.user.service_entity_name <COLUMN-server_access.user.service_entity_name>`
 
 
 .. END FKs
 
 
+.. _TABLE-web.storage:
+
+web.storage
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Where to place stuff
+
+Primary key
++++++++++++
+
+- service
+- service_entity_name
+- port
+
+
+
 Columns
- - .. _COLUMN-web.storage.service_entity_name:
++++++++
+
+.. _COLUMN-web.storage.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``service_entity_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      Service entity name
 
 
 
 
 
- - .. _COLUMN-web.storage.service:
+.. _COLUMN-web.storage.service:
    
-   ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``service``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      Service (e.g. email, jabber)
 
 
 
 
 
- - .. _COLUMN-web.storage.port:
+.. _COLUMN-web.storage.port:
    
-   ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
+``port``
+     :ref:`commons.t_port <DOMAIN-commons.t_port>`
+
      X
 
 
 
 
 
- - .. _COLUMN-web.storage.storage_service:
+.. _COLUMN-web.storage.storage_service:
    
-   ``storage_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+``storage_service``
+     :ref:`commons.t_key <DOMAIN-commons.t_key>`
+
      TODO
 
 
 
 
 
- - .. _COLUMN-web.storage.storage_service_entity_name:
+.. _COLUMN-web.storage.storage_service_entity_name:
    
-   ``storage_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+``storage_service_entity_name``
+     :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+
      TODO
 
 
 
 
 
+
+.. BEGIN FKs
+
+Foreign keys
+++++++++++++
+
+Reference service entity
+   *Local Columns*
+
+   - service_entity_name
+   - service
+
+   *Referenced Columns*
+
+   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+
+
+r
+   *Local Columns*
+
+   - storage_service
+   - storage_service_entity_name
+
+   *Referenced Columns*
+
+   - :ref:`system.service_entity.service <COLUMN-system.service_entity.service>`
+   - :ref:`system.service_entity.service_entity_name <COLUMN-system.service_entity.service_entity_name>`
+
+
+.. END FKs
 
 
 
@@ -439,12 +520,18 @@ Functions
 
 .. _FUNCTION-web.del_alias:
 
-``web.del_alias``
+web.del_alias
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 del
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -452,8 +539,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -461,12 +548,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -497,12 +584,18 @@ Execute privilege
 
 .. _FUNCTION-web.del_site:
 
-``web.del_site``
+web.del_site
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 del
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -510,8 +603,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -519,12 +612,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -552,12 +645,18 @@ Execute privilege
 
 .. _FUNCTION-web.ins_alias:
 
-``web.ins_alias``
+web.ins_alias
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Insert alias
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -568,8 +667,8 @@ Parameters
    
     
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -577,12 +676,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -622,14 +721,20 @@ Execute privilege
 
 .. _FUNCTION-web.ins_site:
 
-``web.ins_site``
+web.ins_site
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Insert site
 
 .. todo:: check owner and contingent
 
-Parameters
+Returns
+ :ref:`void <DOMAIN-void>`
+
+
+
+Parameters 
+++++++++++
  - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
@@ -642,9 +747,15 @@ Parameters
  - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
+ - ``p_ca_system`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
+   
+    
+ - ``p_ca_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+   
+    
 
-
-Variables defined for body
+Variables
++++++++++
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
@@ -652,12 +763,12 @@ Variables defined for body
    
    
 
-Returns
- void
-
-
-Execute privilege
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -667,13 +778,25 @@ Execute privilege
    -- end userlogin prelude
    
    
-   INSERT INTO web.site
-       (domain, service, subservice, port, service_entity_name, storage_user, storage_service, storage_service_entity_name)
-       SELECT p_domain, 'web', 'site', p_port, p_service_entity_name, p_user, s.storage_service, s.storage_service_entity_name
-        FROM web.storage AS s
-         WHERE s.service = 'web'
-         AND s.service_entity_name = p_service_entity_name
-         AND s.port = p_port
+   WITH
+     ssl_demand AS (
+       INSERT INTO ssl.demand
+         (ca_system, ca_name, service, service_entity_name)
+       SELECT p_ca_system, p_ca_name, 'web', p_service_entity_name
+         WHERE p_ca_system IS NOT NULL AND p_ca_name IS NOT NULL
+       RETURNING id
+     )
+       
+     INSERT INTO web.site
+       (domain, service, subservice, port, service_entity_name, storage_user,
+        storage_service, storage_service_entity_name, ssl)
+       SELECT p_domain, 'web', 'site', p_port, p_service_entity_name, p_user,
+        s.storage_service, s.storage_service_entity_name, (SELECT id FROM ssl_demand)
+       FROM web.storage AS s
+         WHERE
+           s.service = 'web'
+           AND s.service_entity_name = p_service_entity_name
+           AND s.port = p_port
    ;
    
    PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
@@ -682,27 +805,15 @@ Execute privilege
 
 .. _FUNCTION-web.sel_alias:
 
-``web.sel_alias``
+web.sel_alias
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Select alias
 
-Parameters
- *None*
-
-
-Variables defined for body
- - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
@@ -712,8 +823,24 @@ Returned columns
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
 
-Execute privilege
+
+ *None*
+
+Variables
++++++++++
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -748,27 +875,15 @@ Execute privilege
 
 .. _FUNCTION-web.sel_site:
 
-``web.sel_site``
+web.sel_site
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Owner defined via server_access
 
-Parameters
- *None*
-
-
-Variables defined for body
- - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -788,8 +903,24 @@ Returned columns
  - ``option`` :ref:`jsonb <DOMAIN-jsonb>`
     
 
-Execute privilege
+
+ *None*
+
+Variables
++++++++++
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+ - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`userlogin <ROLE-userlogin>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -821,26 +952,15 @@ Execute privilege
 
 .. _FUNCTION-web.srv_alias:
 
-``web.srv_alias``
+web.srv_alias
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 backend web.alias
 
-Parameters
- - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
-   
-    
-
-
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
@@ -850,8 +970,25 @@ Returned columns
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
 
-Execute privilege
+
+Parameters 
+++++++++++
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+Variables
++++++++++
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -894,26 +1031,15 @@ Execute privilege
 
 .. _FUNCTION-web.srv_site:
 
-``web.srv_site``
+web.srv_site
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 backend web.site
 
-Parameters
- - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
-   
-    
-
-
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
-   
-   
-
 Returns
- TABLE
+ :ref:`TABLE <DOMAIN-TABLE>`
 
-Returned columns
+Returned Columns
  - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -931,8 +1057,25 @@ Returned columns
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
 
-Execute privilege
+
+Parameters 
+++++++++++
+ - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+   
+    
+
+Variables
++++++++++
+ - ``v_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
+   
+   
+
+Execute Privilege
++++++++++++++++++
  - :ref:`backend <ROLE-backend>`
+
+Code
+++++
 
 .. code-block:: plpgsql
 
@@ -985,21 +1128,23 @@ Domains
 -------
 
 
-
 .. _DOMAIN-web.t_cert:
 
-``web.t_cert``
+web.t_cert
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 PEM cert
 
 Checks
- - ``base64``
-    no newlines in db
+++++++
+base64
+   no newlines in db
 
    .. code-block:: sql
 
     VALUE ~ '^[a-zA-Z\d/+]+[=]{0,2}$'
+
+
 
 
 
