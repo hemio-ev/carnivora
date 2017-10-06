@@ -28,7 +28,10 @@ variables:
 ---
 
 UPDATE dns.custom AS t
-    SET rdata = p_rdata, ttl = p_ttl
+    SET
+        rdata = p_rdata,
+        ttl = p_ttl,
+        backend_status = 'upd'
 FROM dns.registered AS s
 
 WHERE
