@@ -9,8 +9,8 @@ description: |
  this service. Usually this means that accounts etc. can be created for this
  domain.
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: domain
   type: dns.t_hostname

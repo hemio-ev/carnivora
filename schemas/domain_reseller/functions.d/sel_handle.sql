@@ -5,7 +5,8 @@ description: Selects handles
 templates:
  - user.userlogin
 
-returns: SETOF domain_reseller."handle"
+returns:
+ setof: domain_reseller.handle
 
 parameters:
  -

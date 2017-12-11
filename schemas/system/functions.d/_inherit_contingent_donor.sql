@@ -3,8 +3,8 @@ name: _inherit_contingent_donor
 description: |
  Returns all contingent donors for a given user with their priority.
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: donor
   description: User from which contingents are inherited

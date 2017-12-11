@@ -5,8 +5,8 @@ description: sel user
 templates:
  - user.userlogin
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: user
   type: server_access.t_user

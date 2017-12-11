@@ -5,8 +5,8 @@ description: Select service based dns entries
 templates:
  - user.userlogin
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: registered
   type: dns.t_hostname

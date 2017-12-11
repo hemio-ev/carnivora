@@ -5,8 +5,8 @@ description: backend web.alias
 templates:
  - backend.backend
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: domain
   type: dns.t_hostname

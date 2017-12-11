@@ -6,8 +6,8 @@ description: |
 templates:
  - user.userlogin
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: owner
   type: user.t_user

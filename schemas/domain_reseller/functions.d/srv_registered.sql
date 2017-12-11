@@ -5,8 +5,8 @@ description: Serves details for registered domains
 templates:
  - backend.backend
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: domain
   type: dns.t_hostname

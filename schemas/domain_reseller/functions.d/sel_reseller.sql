@@ -5,8 +5,8 @@ description: Selects available resellers
 templates:
  - user.userlogin
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: subservice
   type: commons.t_key

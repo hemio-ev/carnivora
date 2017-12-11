@@ -5,8 +5,8 @@ description: List all lists
 templates:
  - user.userlogin
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: domain
   type: dns.t_hostname

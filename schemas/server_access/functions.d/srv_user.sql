@@ -5,8 +5,8 @@ description: backend server_access.user
 templates:
  - backend.backend
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: user
   type: server_access.t_user

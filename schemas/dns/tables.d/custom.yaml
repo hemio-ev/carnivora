@@ -24,3 +24,12 @@ columns:
       uuid serial number to identify database elements uniquely
   type: uuid
   default: commons._uuid()
+
+#triggers:
+# - name: test1
+#   description: x
+#   moment: BEFORE
+#   events: [UPDATE]
+#   for_each: ROW
+#   execute: |
+#    RETURN 1;

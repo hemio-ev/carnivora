@@ -7,8 +7,8 @@ priv_execute: [userlogin]
 security_definer: true
 owner: system
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  - name: user
    type: user.t_user
 

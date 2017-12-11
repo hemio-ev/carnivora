@@ -5,8 +5,8 @@ description: Lists all jabber accounts
 templates:
  - backend.backend
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: node
   type: email.t_localpart

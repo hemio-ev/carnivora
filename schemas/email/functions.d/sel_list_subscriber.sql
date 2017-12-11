@@ -5,8 +5,8 @@ description: a
 templates:
  - user.userlogin
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: address
   type: email.t_address

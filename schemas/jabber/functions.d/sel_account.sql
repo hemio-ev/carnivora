@@ -5,8 +5,8 @@ description: Select jabber accounts
 templates:
  - user.userlogin
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: node
   type: email.t_localpart

@@ -5,7 +5,8 @@ description: Serves handles
 templates:
  - backend.backend
 
-returns: SETOF domain_reseller."handle"
+returns:
+ setof: domain_reseller.handle
 ---
 
 RETURN QUERY

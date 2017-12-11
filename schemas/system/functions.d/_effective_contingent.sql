@@ -2,8 +2,8 @@
 name: _effective_contingent
 description: contingent
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: service
   type: commons.t_key

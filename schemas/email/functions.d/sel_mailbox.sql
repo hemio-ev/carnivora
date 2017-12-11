@@ -6,8 +6,8 @@ name: sel_mailbox
 description: List all mailboxes
 
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: domain
   type: dns.t_hostname

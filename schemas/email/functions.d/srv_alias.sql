@@ -5,8 +5,8 @@ description: Lists all email aliases
 templates:
  - backend.backend
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: localpart
   type: email.t_localpart

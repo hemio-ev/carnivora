@@ -2,8 +2,8 @@
 name: _address
 description: List all addresses
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: localpart
   type: email.t_localpart

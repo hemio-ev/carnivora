@@ -8,8 +8,8 @@ description: |
 templates:
  - backend.backend
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: id
   type: uuid

@@ -5,8 +5,8 @@ description: sel deputy
 templates:
  - user.userlogin
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: represented
   type: user.t_user

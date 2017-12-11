@@ -6,8 +6,8 @@ name: sel_redirection
 description: Lists all redirections
 
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: domain
   type: dns.t_hostname

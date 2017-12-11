@@ -7,8 +7,8 @@ description: |
 templates:
  - backend.backend
 
-returns: TABLE
-returns_columns:
+returns:
+ table:
  -
   name: registered
   type: dns.t_hostname
