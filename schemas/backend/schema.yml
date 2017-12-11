@@ -22,7 +22,7 @@ domains:
  -
   name: t_status
   description: Backend status
-  type: VARCHAR(20)
+  type: character varying(20)
 
 function_templates:
  -

@@ -55,7 +55,7 @@ domains:
  -
   name: t_localpart
   description: Local part of an email address, the thing in front of the @
-  type: varchar(64)
+  type: character varying(64)
 
   checks:
    -
@@ -77,4 +77,4 @@ domains:
       Email address
 
       .. todo:: validity checks
-  type: varchar(253)
+  type: character varying(253)

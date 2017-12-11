@@ -1,6 +1,6 @@
 name: t_type
 description: Resource record type
-type: varchar(253)
+type: character varying(253)
 checks:
  -
   name: Invalid or unsupported resource type

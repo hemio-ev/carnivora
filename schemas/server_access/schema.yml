@@ -25,7 +25,7 @@ exec_post_install_and_upgrade: |
 domains:
  -
   name: t_user
-  type: varchar(30)
+  type: character varying(30)
   description: |
    Unix user. This type only allows a subset of those names allowed by POSIX.
 
