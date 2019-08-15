@@ -30,7 +30,7 @@ SELECT owner INTO v_login_owner FROM "user"."user" AS t
        WHERE
            p_login IS NOT NULL AND
            t.password IS NOT NULL AND
-           p_login IN (owner, contact_email) AND
+           lower(p_login) IN (owner, contact_email) AND
            commons._passwords_equal(p_password, t.password);
 
 IF v_login_owner IS NOT NULL THEN
