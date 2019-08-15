@@ -82,5 +82,5 @@ domains:
    -
     name: valid_characters
     description: Only lower-case letters, numbers and .-_
-    check: VALUE ~ '^[a-z0-9.-_]+$'
+    check: VALUE ~ '^[a-z0-9_.-]+$'
 
