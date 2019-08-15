@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 log=/tmp/carnivora-dev-deploy.log
+yamsql=/tmp/yamsql-out
 setup=../examples/setup.yml
 db=postgresql://postgres@/carnivora
 
@@ -25,3 +26,5 @@ psql $db --file $1 --set ON_ERROR_STOP=on
 sleep 2
 echo "---"
 fi
+
+hamsql yamsql --connection $db "${yamsql}"

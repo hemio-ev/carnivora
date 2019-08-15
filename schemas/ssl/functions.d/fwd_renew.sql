@@ -55,7 +55,7 @@ WITH
           scheduled IS NULL OR -- if there is not even a current cert
           (c.cert IS NOT NULL -- only check expiry if current has a cert
            AND
-           now() - (ssl.cert_info(cert))."notAfter"
+           (ssl.cert_info(cert))."notAfter" - now()
             < p_buffer_request
           )
          )
@@ -86,7 +86,7 @@ WITH
            AND
            s.cert IS NOT NULL -- subsequent is issued
            AND
-           now() - (ssl.cert_info(c.cert))."notAfter"
+           (ssl.cert_info(c.cert))."notAfter" - now()
             < p_buffer_switch
           )
          )

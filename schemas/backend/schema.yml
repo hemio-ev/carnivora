@@ -35,7 +35,7 @@ function_templates:
     -
      name: p_include_inactive
      type: boolean
-     default: "FALSE"
+     default: "false"
   variables:
    -
     name: v_machine
