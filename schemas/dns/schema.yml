@@ -42,7 +42,7 @@ domains:
     name: domain valid regex
     description: check domain validity
     check: |
-     VALUE ~ '^[a-z\d][a-z\d-]{0,62}(\.[a-z\d][a-z\d-]{0,62})+$' AND
+     VALUE ~ '^[a-z\d][a-z\d\-]{0,62}(\.[a-z\d][a-z\d\-]{0,62})+$' AND
      octet_length(VALUE) <= 253
  -
   name: t_domain_rdata
@@ -54,8 +54,8 @@ domains:
     name: invalid rdata domain
     description: check
     check: |
-     (VALUE ~ '^([a-z\d][a-z\d-]{0,62}\.)+$' OR
-      VALUE ~ '^([a-z\d][a-z\d-]{0,62}\.)*[a-z\d][a-z\d-]{1,63}$') AND
+     (VALUE ~ '^([a-z\d][a-z\d\-]{0,62}\.)+$' OR
+      VALUE ~ '^([a-z\d][a-z\d\-]{0,62}\.)*[a-z\d][a-z\d\-]{1,63}$') AND
      octet_length(VALUE) <= 253
 
  -

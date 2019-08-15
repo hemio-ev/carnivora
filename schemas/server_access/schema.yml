@@ -34,7 +34,7 @@ domains:
    -
     name: valid_characters
     description: Only allow lower-case characters.
-    check: VALUE ~ '^[a-z0-9_-]+$'
+    check: VALUE ~ '^[a-z0-9\-_]+$'
    -
     name: no_repeated_hyphens
     description: |

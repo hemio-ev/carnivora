@@ -60,7 +60,7 @@ domains:
    -
     name: valid_characters
     description: Only allow lower-case addresses
-    check: VALUE ~ '^[a-z0-9.-]+$'
+    check: VALUE ~ '^[a-z0-9.\-]+$'
    -
     name: no_starting_dot
     description: b
