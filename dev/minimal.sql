@@ -78,15 +78,13 @@ SELECT web.ins_site(
   p_domain:='www.fun.example',
   p_port:=80,
   p_user:='sshusr',
-  p_service_entity_name:='web.my-org.example',
-  p_https:=FALSE
+  p_service_entity_name:='web.my-org.example'
 );
 
 SELECT web.ins_site(
   p_domain:='www.fun.example',
   p_port:=443,
   p_user:='sshusr',
-  p_service_entity_name:='web.my-org.example',
-  p_https:=TRUE
+  p_service_entity_name:='web.my-org.example'
 );
 

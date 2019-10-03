@@ -23,9 +23,6 @@ parameters:
  -
   name: p_service_entity_name
   type: dns.t_hostname
- -
-  name: p_https
-  type: bool
 ---
 
 INSERT INTO web.site
