@@ -9,10 +9,10 @@ returns: TABLE
 returns_columns:
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: site
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: site_port
   type: commons.t_port

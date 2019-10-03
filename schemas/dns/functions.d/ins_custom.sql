@@ -10,7 +10,7 @@ returns: void
 parameters:
  -
   name: p_registered
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_domain
   type: dns.t_domain
@@ -27,7 +27,7 @@ parameters:
 variables:
  -
   name: v_nameserver
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: v_managed
   type: commons.t_key

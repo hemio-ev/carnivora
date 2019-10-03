@@ -12,13 +12,13 @@ returns_columns:
   type: email.t_localpart
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: mailbox_localpart
   type: email.t_localpart
  -
   name: mailbox_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: backend_status
   type: backend.t_status

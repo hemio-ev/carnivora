@@ -16,7 +16,7 @@ returns_columns:
   type: commons.t_key
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: port
   type: commons.t_port
@@ -25,7 +25,7 @@ returns_columns:
   type: server_access.t_user
  -
   name: service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: https
   type: commons.t_key

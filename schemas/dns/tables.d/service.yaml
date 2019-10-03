@@ -20,12 +20,12 @@ unique:
 columns:
  -
   name: registered
-  type: dns.t_domain
+  type: dns.t_hostname
   description: Registered domain of which domain is a sub domain
   references: dns.registered.domain
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
   description: domain for which the entries should be created
 
 checks:

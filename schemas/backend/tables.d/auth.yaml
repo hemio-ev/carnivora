@@ -17,7 +17,7 @@ columns:
    A role is basically a user or a user group on the SQL server.
  -
   name: machine
-  type: dns.t_domain
+  type: dns.t_hostname
   references: backend.machine.name
   on_ref_delete: CASCADE
   description: Machine for which the rights are granted.

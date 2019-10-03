@@ -9,7 +9,7 @@ returns_columns:
   type: email.t_localpart
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: owner
   type: user.t_user

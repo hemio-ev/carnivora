@@ -9,16 +9,16 @@ returns: TABLE
 returns_columns:
  -
   name: registered
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: service
   type: commons.t_key
  -
   name: service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: backend_status
   type: backend.t_status

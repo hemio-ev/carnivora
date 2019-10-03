@@ -11,7 +11,7 @@ returns: TABLE
 returns_columns:
  -
   name: registered
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: domain
   type: varchar

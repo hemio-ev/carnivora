@@ -198,7 +198,7 @@ table_templates:
   columns:
    -
     name: domain
-    type: dns.t_domain
+    type: dns.t_hostname
     description: Domain name
    -
     name: service
@@ -206,7 +206,7 @@ table_templates:
     description: Service
    -
     name: service_entity_name
-    type: dns.t_domain
+    type: dns.t_hostname
     description: ent. name
 
   foreign_keys:

@@ -1,0 +1,12 @@
+name: t_hostname
+description: Fully qualified hostname (without trailing dot)
+type: varchar
+checks:
+ -
+  name: hostname valid regex
+  description: |
+   Hostname
+  check: |
+   VALUE ~ '^([a-z\d]|[a-z\d][a-z\d-]{0,61}[a-z\d])(\.([a-z\d]|[a-z\d][a-z\d-]{0,61}[a-z\d]))+$' AND
+   octet_length(VALUE) <= 253
+

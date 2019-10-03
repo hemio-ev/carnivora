@@ -15,7 +15,7 @@ returns_columns:
   type: email.t_localpart
  -
   name: list_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: backend_status
   type: backend.t_status

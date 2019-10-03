@@ -9,10 +9,10 @@ returns: TABLE
 returns_columns:
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
 
 parameters:
  -

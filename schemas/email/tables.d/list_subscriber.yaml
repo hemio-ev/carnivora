@@ -33,5 +33,5 @@ columns:
   description: List
  -
   name: list_domain
-  type: dns.t_domain
+  type: dns.t_hostname
   description: List

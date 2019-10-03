@@ -21,7 +21,7 @@ columns:
   description: Mailbox to which the mails will be delivered
  -
   name: mailbox_domain
-  type: dns.t_domain
+  type: dns.t_hostname
   description: Mailbox to which the mails will be delivered
 
 foreign_keys:

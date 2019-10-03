@@ -12,7 +12,7 @@ returns_columns:
   type: uuid
  -
   name: registered
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: domain
   type: dns.t_domain

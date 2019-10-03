@@ -9,7 +9,7 @@ returns: TABLE
 returns_columns:
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: port
   type: commons.t_port

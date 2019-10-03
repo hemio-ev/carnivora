@@ -17,7 +17,7 @@ parameters:
   type: commons.t_key
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_current_quantity_total
   type: integer
@@ -43,7 +43,7 @@ variables:
   type: integer
  -
   name: v_service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: v_domain_owner
   type: user.t_user

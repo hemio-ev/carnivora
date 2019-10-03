@@ -17,7 +17,7 @@ parameters:
   type: email.t_localpart
  -
   name: p_list_domain
-  type: dns.t_domain
+  type: dns.t_hostname
 ---
 
 PERFORM commons._raise_inaccessible_or_missing(

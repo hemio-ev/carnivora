@@ -10,7 +10,7 @@ primary_key:
 columns:
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
   description: Domain
  -
   name: port

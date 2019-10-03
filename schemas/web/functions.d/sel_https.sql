@@ -12,7 +12,7 @@ returns_columns:
   type: commons.t_key
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: port
   type: commons.t_port

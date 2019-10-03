@@ -18,6 +18,6 @@ templates:
 columns:
  -
   name: machine_name
-  type: dns.t_domain
+  type: dns.t_hostname
   description: Assigns machine
   references: backend.machine.name

@@ -11,5 +11,5 @@ templates:
 columns:
  -
   name: name
-  type: dns.t_domain
+  type: dns.t_hostname
   description: Machine name

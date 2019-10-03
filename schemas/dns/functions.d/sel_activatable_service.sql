@@ -13,7 +13,7 @@ returns_columns:
   type: commons.t_key
  -
   name: service_entity_name
-  type: dns.t_domain
+  type: dns.t_hostname
 ---
 
 RETURN QUERY

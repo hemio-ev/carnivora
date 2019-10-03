@@ -9,7 +9,7 @@ returns: TABLE
 returns_columns:
  -
   name: machine
-  type: dns.t_domain
+  type: dns.t_hostname
 ---
 
 IF (SELECT TRUE FROM "backend"."auth"

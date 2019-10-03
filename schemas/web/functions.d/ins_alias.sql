@@ -10,10 +10,10 @@ returns: void
 parameters:
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_site
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_site_port
   type: commons.t_port

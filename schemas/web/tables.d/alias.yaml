@@ -13,7 +13,7 @@ primary_key:
 columns:
  -
   name: site
-  type: dns.t_domain
+  type: dns.t_hostname
   description: Site
  -
   name: site_port

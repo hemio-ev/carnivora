@@ -13,7 +13,7 @@ parameters:
   type: email.t_localpart
  -
   name: p_list_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_address
   type: email.t_address

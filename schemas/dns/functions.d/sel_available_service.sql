@@ -13,7 +13,7 @@ returns: TABLE
 returns_columns:
  -
   name: domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: service
   type: commons.t_key

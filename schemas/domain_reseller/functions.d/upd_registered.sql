@@ -10,7 +10,7 @@ returns: void
 variables:
  -
   name: v_nameserver
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: v_managed
   type: commons.t_key
@@ -18,7 +18,7 @@ variables:
 parameters:
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_admin_c
   type: varchar

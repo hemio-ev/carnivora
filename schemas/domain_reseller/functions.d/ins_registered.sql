@@ -10,7 +10,7 @@ returns: void
 parameters:
  -
   name: p_domain
-  type: dns.t_domain
+  type: dns.t_hostname
  -
   name: p_registrant
   type: varchar
