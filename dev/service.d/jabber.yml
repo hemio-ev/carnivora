@@ -1,0 +1,51 @@
+services:
+ - service: jabber
+   subservices:
+    - account
+   entity_name: jabber.my-org.example
+   machines: 
+    - server.example
+   dns:
+
+    - type: A
+      domain_prefix: jabber-server
+      rdata:
+       address: 127.0.0.1
+
+    - type: SRV
+      rdata:
+       port: 5222
+       proto: tcp
+       target: jabber-server
+       weight: 5
+       service: xmpp-client
+       priority: 0
+
+    - type: SRV
+      domain_prefix: conference.
+      rdata:
+       port: 5222
+       proto: tcp
+       target: jabber-server
+       weight: 5
+       service: xmpp-client
+       priority: 0
+
+    - type: SRV
+      rdata:
+       port: 5269
+       proto: tcp
+       target: jabber-server
+       weight: 5
+       service: xmpp-server
+       priority: 0
+
+    - type: SRV
+      rdata:
+       port: 5269
+       proto: tcp
+       target: jabber-server
+       weight: 5
+       service: xmpp-server
+       priority: 0
+

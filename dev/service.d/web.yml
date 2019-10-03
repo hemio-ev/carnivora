@@ -1,0 +1,23 @@
+services:
+
+ - service: server_access
+   subservices:
+    - ssh
+   entity_name: web.my-org.example
+   machines:
+    - server.example
+   dns: []
+
+ - service: web
+   subservices:
+    - site
+   entity_name: web.my-org.example
+   machines:
+    - server.example
+   dns:
+    - type: A
+      rdata:
+       address: 127.0.0.1
+    - type: AAAA
+      rdata:
+       address: ::1

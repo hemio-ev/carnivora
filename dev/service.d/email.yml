@@ -1,0 +1,51 @@
+services:
+ - service: email
+   subservices:
+    - mailbox
+    - alias
+    - list
+    - redirection
+    - dns_activatable
+   entity_name: mail.my-org.example
+   machines:
+    - server.example
+   dns:
+
+    # MX
+    - type: MX
+      rdata:
+       exchange: mail.example.org.
+       priority: 20
+
+    # SPF
+    - type: TXT
+      rdata:
+       txtdata:
+        - "v=spf1 +mx ~all"
+
+    # Auto-configuration for email clients
+    # <https://tools.ietf.org/html/rfc6186>
+    - type: SRV
+      rdata:
+       service: imap
+       proto: tcp
+       port: 143
+       target: mail.example.org.
+       weight: 1
+       priority: 0
+    - type: SRV
+      rdata:
+       service: submission
+       proto: tcp
+       port: 587
+       target: mail.example.org.
+       weight: 1
+       priority: 0
+
+    # Thunderbird autoconfig
+    # <https://developer.mozilla.org/docs/Mozilla/Thunderbird/Autoconfiguration>
+    - type: A
+      domain_prefix: autoconfig.
+      rdata:
+       address: 127.0.0.1
+

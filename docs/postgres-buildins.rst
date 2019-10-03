@@ -4,17 +4,32 @@ PostgreSQL
 Types
 -----
 
+.. _DOMAIN-anyarray:
+
+``anyarray``
+~~~~~~~~~~~~
+
+.. _DOMAIN-bigint:
+.. _DOMAIN-bigint[]:
+
+``bigint``
+~~~~~~~~~~~
+
+.. _DOMAIN-bool:
 .. _DOMAIN-boolean:
+
 
 ``boolean``
 ~~~~~~~~~~~
 
 .. _DOMAIN-integer:
+.. _DOMAIN-int:
+.. _DOMAIN-integer[]:
+.. _DOMAIN-int[]:
 
 ``integer``
 ~~~~~~~~~~~
 
-.. _DOMAIN-int:
 - int
 
 .. _DOMAIN-jsonb:
@@ -37,6 +52,8 @@ Types
 - https://www.postgresql.org/docs/current/static/uuid-ossp.html
 
 .. _DOMAIN-varchar:
+.. _DOMAIN-varchar[]:
+
 
 ``varchar``
 ~~~~~~~~~~~
