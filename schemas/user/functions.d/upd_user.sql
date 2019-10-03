@@ -17,4 +17,4 @@ UPDATE "user".user
     SET password = commons._hash_password(p_password)
 
 WHERE
-    owner = v_login;
+    owner = "user"._login_user();

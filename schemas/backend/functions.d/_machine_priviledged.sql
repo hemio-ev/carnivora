@@ -10,9 +10,6 @@ description: |
 
 returns: boolean
 
-templates:
- - backend.backend
-
 parameters:
  -
   name: p_service
@@ -33,6 +30,6 @@ RETURN COALESCE(
         WHERE
             t.service = p_service AND
             t.service_entity_name = s.service_entity_name AND
-            t.machine_name = v_machine
+            t.machine_name = backend._login_machine()
     )
 , FALSE);

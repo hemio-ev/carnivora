@@ -22,6 +22,7 @@ if [ ! "$2" ] || [ "$2" == "2" ]; then
 echo "LISTEN \"carnivora/server.example\"; SELECT pg_sleep(2); SELECT 1;" | psql carnivora postgres &
 
 psql $db --file $1 --set ON_ERROR_STOP=on
+echo "CREATE EXTENSION plpgsql_check;" | psql $db
 
 sleep 2
 echo "---"

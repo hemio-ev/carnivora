@@ -17,5 +17,5 @@ parameters:
 RETURN QUERY
     SELECT * FROM domain_reseller.handle
 WHERE
-    owner=v_owner OR (owner=v_login AND NOT p_hide_foreign)
+    owner=v_owner OR (owner="user"._login_user() AND NOT p_hide_foreign)
 ORDER BY backend_status, fname, lname, alias;

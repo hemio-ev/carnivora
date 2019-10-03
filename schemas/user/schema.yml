@@ -34,13 +34,9 @@ function_templates:
    -
     name: v_owner
     type: user.t_user
-   -
-    name: v_login
-    type: user.t_user
 
   body_prelude: |
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
 

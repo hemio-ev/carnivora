@@ -39,17 +39,13 @@ function_templates:
      name: p_include_inactive
      type: boolean
      default: "FALSE"
-  variables:
-   -
-    name: v_machine
-    type: dns.t_hostname
   security_definer: true
   owner: system
   priv_execute:
    - backend
 
   body_prelude: |
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
 
 table_templates:
  -

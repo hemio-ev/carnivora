@@ -14,5 +14,5 @@ returns_columns:
 
 RETURN QUERY
     SELECT t.represented FROM "user".deputy AS t
-    WHERE t.deputy = v_login
+    WHERE t.deputy = "user"._login_user()
     ORDER BY t.represented;
