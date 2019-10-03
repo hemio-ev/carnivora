@@ -34,17 +34,6 @@ exec_post_install_and_upgrade: |
 domains:
 
  -
-  name: t_domain
-  description: Fully qualified domain name (without trailing dot)
-  type: varchar
-  checks:
-   -
-    name: domain valid regex
-    description: check domain validity
-    check: |
-     VALUE ~ '^[a-z\d][a-z\d\-]{0,62}(\.[a-z\d][a-z\d\-]{0,62})+$' AND
-     octet_length(VALUE) <= 253
- -
   name: t_domain_rdata
   description: |
     Fully qualified or relative domain name. Trailing dot marks a FQDN.

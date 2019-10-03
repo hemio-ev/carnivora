@@ -11,14 +11,12 @@ parameters:
   type: anyarray
 
 returns: anyarray
+language: sql
 ---
 
-RETURN
+SELECT
     ARRAY(
-        SELECT p_array[i]
-        FROM generate_series(
-            array_lower(p_array,1),
-            array_upper(p_array,1)
-        ) AS s(i)
+        SELECT $1[i]
+        FROM generate_subscripts($1,1) AS s(i)
         ORDER BY i DESC
     );
