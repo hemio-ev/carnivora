@@ -18,9 +18,9 @@ Client Software
  Full privileged superadmin CLI. Supports adding additional modules via config. Written in Python 3.
 
 `Edentata <https://git.hemio.de/hemio/edentata>`__
- An unprivileged webinterface without superadmin capabilities. Targeting end-users and focused on usability. Supports adding additional modules via config. Written in PHP 5.
+ An unprivileged webinterface without superadmin capabilities. Targeting end-users and focused on usability. Supports adding additional modules via config. Written in PHP 7.
 
-`Genconfig (to be released soon) <#>`__
+`Genconfig <https://git.hemio.de/hemio/genconfig>`__
  A generic config producer which can use carnivora as backend. Written in Python 3.
 
 `PgListend <https://git.hemio.de/hemio/pglistend>`__
@@ -39,11 +39,11 @@ The setup is performed via
 `HamSql <https://git.hemio.de/hemio/hamsql>`__. It should be callable as
 ``hamsql`` in your shell.
 
-Install PostgreSQL on Debian 8 (Jessie)
+Install PostgreSQL on Debian
 
 .. code-block:: sh
 
-    apt-get install postgresql postgresql-contrib postgresql-plpython3-9.4
+    apt install postgresql postgresql-contrib postgresql-plpython3
 
 Configuration
 ~~~~~~~~~~~~~
