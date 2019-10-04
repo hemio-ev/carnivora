@@ -19,7 +19,8 @@ UPDATE "user".session AS t
     WHERE
         s.deputy = t.owner AND
         s.represented = p_act_as AND
-        t.id = "user"._session_id();
+        t.id = "user"._session_id() AND
+        t.owner = v_owner;
 
 IF NOT FOUND THEN
     RAISE 'Acting as deputy failed.'

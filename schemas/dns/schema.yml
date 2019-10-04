@@ -14,7 +14,7 @@ description: |
   Document *managed_custom*. Unclear if this is even properly supported or checked.
 
 dependencies:
- - commons
+ - system
 
 priv_all_all:
  - system
@@ -30,57 +30,6 @@ exec_post_install_and_upgrade: |
  SELECT system._setup_register_subservice('domain_registered', 'managed_custom');
  SELECT system._setup_register_subservice('domain_registered', 'unmanaged');
  SELECT system._setup_register_subservice('dns', 'managed');
-
-domains:
-
- -
-  name: t_domain_rdata
-  description: |
-    Fully qualified or relative domain name. Trailing dot marks a FQDN.
-  type: varchar
-  checks:
-   -
-    name: invalid rdata domain
-    description: check
-    check: |
-     (VALUE ~ '^([a-z\d][a-z\d\-]{0,62}\.)+$' OR
-      VALUE ~ '^([a-z\d][a-z\d\-]{0,62}\.)*[a-z\d][a-z\d\-]{1,63}$') AND
-     octet_length(VALUE) <= 253
-
- -
-  name: t_type
-  description: Resource record type
-  type: varchar(253)
-  checks:
-   -
-    name: Invalid or unsupported resource type
-    description: Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
-    check: |
-     VALUE IN (
-      'A',
-      'AAAA',
-      'CNAME',
-      'MX',
-      'NS',
-      'SRV',
-      'SSHFP',
-      'TXT'
-     )
-
- -
-  name: t_rdata
-  description: Resource record data (Rdata)
-  type: jsonb
-
- -
-  name: t_ttl
-  description: time to live
-  type: integer
-  checks:
-   -
-    name: ttl range
-    description: Ensure that TTL is at least one minute and put maximum to 48h
-    check: VALUE >= 60 AND VALUE <= 172800
 
 table_templates:
  -

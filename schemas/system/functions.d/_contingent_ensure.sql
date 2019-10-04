@@ -26,9 +26,9 @@ parameters:
   type: integer
 
 variables:
- -
-  name: v_remaining
-  type: integer
+# -
+#  name: v_remaining
+#  type: integer
  -
   name: v_total_contingent
   type: integer

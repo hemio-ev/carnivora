@@ -39,7 +39,8 @@ SET
     backend_status = 'upd'
 WHERE
     "user" = p_user AND
-    service_entity_name = p_service_entity_name
+    service_entity_name = p_service_entity_name AND
+    owner = v_owner
 RETURNING subservice INTO v_subservice;
 
 PERFORM backend._conditional_notify_service_entity_name(

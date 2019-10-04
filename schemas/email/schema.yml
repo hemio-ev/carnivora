@@ -9,7 +9,7 @@ description: |
   - email/redirection
 
 dependencies:
- - dns
+ - system
 
 priv_all_all:
  - system

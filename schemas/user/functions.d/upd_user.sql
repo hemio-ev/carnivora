@@ -2,9 +2,6 @@
 name: upd_user
 description: change user passwd
 
-templates:
- - user.userlogin
-
 returns: void
 
 parameters:

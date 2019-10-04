@@ -1,0 +1,3 @@
+name: t_rdata
+description: Resource record data (Rdata)
+type: jsonb
