@@ -28,4 +28,5 @@ unique:
   columns:
    - user
    - service_entity_name
+   - owner
 

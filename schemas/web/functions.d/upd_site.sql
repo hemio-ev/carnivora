@@ -19,19 +19,11 @@ parameters:
   type: commons.t_key
 ---
 
-UPDATE web.site AS t
+UPDATE web.site AS s
     SET https = p_identifier
-FROM server_access.user AS s, dns.service AS u
 WHERE
-    s.user = t.user AND
-    s.service_entity_name = u.service_entity_name AND
-
-    -- dns.service JOIN
-    t.domain = u.domain AND
-    t.service = u.service AND
-
     s.owner = v_owner AND
-    t.domain = p_domain AND
-    t.port = p_port;
+    s.domain = p_domain AND
+    s.port = p_port;
 
 PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);

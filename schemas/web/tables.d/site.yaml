@@ -7,6 +7,7 @@ templates:
  - system.reference_subservice_entity
  - backend.status
  - commons.options
+ - user.ownable
 
 primary_key:
  - domain
@@ -51,10 +52,12 @@ foreign_keys:
   columns:
    - user
    - service_entity_name
+   - owner
   ref_table: server_access.user
   ref_columns:
    - user
    - service_entity_name
+   - owner
 
 unique:
  -
