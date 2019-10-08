@@ -24,3 +24,9 @@ columns:
       uuid serial number to identify database elements uniquely
   type: uuid
   default: commons._uuid()
+
+checks:
+ -
+  name: is_subdomainof_registered
+  description: Ensures that domain is a subdomain of registered
+  check: dns._is_subdomain_of(domain, registered)

@@ -19,3 +19,10 @@ columns:
   name: public_suffix
   type: varchar
   description: Public Suffix
+
+
+checks:
+ -
+  name: is_registered_under_public_suffix
+  description: Checks if domain ending is correct
+  check: dns._is_subdomain_of(domain, public_suffix)

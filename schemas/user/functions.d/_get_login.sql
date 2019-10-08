@@ -22,5 +22,5 @@ THEN
        WHERE "id"="user"._session_id();
 ELSE
    RAISE 'Database connection is not associated to a user login.'
-       USING HINT := 'Use user.login(...) first.';
+       USING HINT := 'Use user.ins_login(...) first.';
 END IF;

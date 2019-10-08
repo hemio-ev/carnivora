@@ -26,7 +26,7 @@ INSERT INTO system.subservice_entity_contingent (domain_contingent, owner, servi
  VALUES
     (2, 'user-1', 'web', 'web.my-org.example', 'site', 2),
     (2, 'user-2', 'web', 'web.my-org.example', 'site', 2),
-    (2, 'user-1', 'email', 'mail.my-org.example', 'mailbox', 2),
+    (3, 'user-1', 'email', 'mail.my-org.example', 'mailbox', 3),
     (2, 'user-1', 'email', 'mail.my-org.example', 'list', 3),
     (1, 'user-1', 'domain_registered', 'nameserver.invalid', 'managed', 1),
     (1, 'user-1', 'domain_reseller', 'reseller.invalid', 'handle', 1),

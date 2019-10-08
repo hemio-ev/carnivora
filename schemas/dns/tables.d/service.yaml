@@ -30,6 +30,6 @@ columns:
 
 checks:
  -
-  name: proper_subdomain
+  name: is_subdomainof_registered
   description: Ensures that domain is a subdomain of registered
-  check: registered = domain OR '.' || registered = right(domain, char_length(registered)+1)
+  check: dns._is_subdomain_of(domain, registered)

@@ -11,6 +11,9 @@ priv_all_all:
 priv_usage:
  - userlogin
 
+exec_post_install_and_upgrade: |
+ ALTER FUNCTION "user"._session_id() STABLE;
+
 roles:
  -
   name: userlogin

@@ -14,7 +14,7 @@ returns_columns:
   type: dns.t_hostname
  -
   name: domain
-  type: varchar
+  type: dns.t_domain
  -
   name: type
   type: dns.t_type
