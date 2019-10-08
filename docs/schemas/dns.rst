@@ -87,12 +87,13 @@ Columns
 
  - .. _COLUMN-dns.custom.registered:
    
-   ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Registered domain of which domain is a sub domain
 
 
    References :ref:`dns.registered.domain <COLUMN-dns.registered.domain>`
 
+   On Delete: CASCADE
 
 
  - .. _COLUMN-dns.custom.domain:
@@ -189,7 +190,7 @@ Columns
 
  - .. _COLUMN-dns.registered.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -216,7 +217,7 @@ Columns
 
  - .. _COLUMN-dns.registered.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain
 
 
@@ -266,7 +267,7 @@ Foreign keys
 Columns
  - .. _COLUMN-dns.service.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -300,7 +301,7 @@ Columns
 
  - .. _COLUMN-dns.service.registered:
    
-   ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Registered domain of which domain is a sub domain
 
 
@@ -310,7 +311,7 @@ Columns
 
  - .. _COLUMN-dns.service.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      domain for which the entries should be created
 
 
@@ -353,6 +354,36 @@ Execute privilege
 
    
    RETURN commons._reverse_array(regexp_split_to_array(p_domain, E'\\.'));
+
+
+
+.. _FUNCTION-dns._is_subdomain_of:
+
+``dns._is_subdomain_of``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Checks if `p_subdomain` is a subdomain of `p_domain`
+
+Parameters
+ - ``p_subdomain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   
+    
+ - ``p_domain`` :ref:`varchar <DOMAIN-varchar>`
+   
+    
+
+
+
+Returns
+ bool
+
+
+
+.. code-block:: plpgsql
+
+   
+   RETURN p_domain = p_subdomain OR
+    '.' || p_domain = right(p_subdomain, char_length(p_domain) + 1);
 
 
 
@@ -400,16 +431,13 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -423,7 +451,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -454,22 +481,19 @@ Execute privilege
 Delete registered domain
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -483,7 +507,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -509,7 +532,7 @@ Execute privilege
 deletes all service entries of a specific domain
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -518,16 +541,13 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -541,7 +561,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -589,7 +608,7 @@ Execute privilege
 Update status
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
@@ -600,10 +619,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  void
@@ -614,7 +629,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    UPDATE dns.registered
@@ -632,7 +647,7 @@ Execute privilege
 Ins Custom
 
 Parameters
- - ``p_registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
@@ -650,16 +665,13 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -673,7 +685,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -708,13 +719,13 @@ Execute privilege
 registeres new domain
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_public_suffix`` :ref:`varchar <DOMAIN-varchar>`
@@ -724,9 +735,6 @@ Parameters
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -740,7 +748,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -762,13 +769,13 @@ Execute privilege
 Creates service dns entry
 
 Parameters
- - ``p_registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -777,16 +784,13 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -800,7 +804,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -836,9 +839,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -846,7 +846,7 @@ Returns
 Returned columns
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -855,7 +855,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -876,73 +875,6 @@ Execute privilege
 
 
 
-.. _FUNCTION-dns.sel_available_service:
-
-``dns.sel_available_service``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-List all domains that have a service entry in dns with their service.
-This is particularly usefull since these domains are ready for use with
-this service. Usually this means that accounts etc. can be created for this
-domain.
-
-Parameters
- *None*
-
-
-Variables defined for body
- - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
-
-Returns
- TABLE
-
-Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-    
- - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-    
-
-Execute privilege
- - :ref:`userlogin <ROLE-userlogin>`
-
-.. code-block:: plpgsql
-
-   -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
-   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
-   -- end userlogin prelude
-   
-   
-   RETURN QUERY
-       SELECT t.domain, t.service FROM dns.service AS t
-       JOIN dns.registered AS s
-           ON s.domain = t.registered
-       WHERE
-           (
-               s.owner = v_owner AND
-   
-                   system._contingent_total(
-                       p_owner := s.owner,
-                       p_service := t.service,
-                       p_service_entity_name := t.service_entity_name
-               ) IS NOT NULL
-           ) OR
-           system._contingent_domain(
-                       p_owner := s.owner,
-                       p_service := t.service,
-                       p_service_entity_name := t.service_entity_name,
-                       p_domain := t.domain
-               ) IS NOT NULL
-       ORDER BY t.service
-   ;
-
-
-
 .. _FUNCTION-dns.sel_custom:
 
 ``dns.sel_custom``
@@ -958,9 +890,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -968,7 +897,7 @@ Returns
 Returned columns
  - ``id`` :ref:`uuid <DOMAIN-uuid>`
     
- - ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
     
@@ -987,7 +916,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1025,9 +953,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -1035,7 +960,7 @@ Returns
 Returned columns
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -1044,7 +969,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1082,15 +1006,12 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``public_suffix`` :ref:`varchar <DOMAIN-varchar>`
     
@@ -1098,7 +1019,7 @@ Returned columns
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -1107,7 +1028,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1136,21 +1056,18 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -1161,7 +1078,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1202,17 +1118,14 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -1221,7 +1134,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1268,18 +1180,14 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``registered`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``registered`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``domain`` :ref:`varchar <DOMAIN-varchar>`
+ - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
     
  - ``type`` :ref:`dns.t_type <DOMAIN-dns.t_type>`
     
@@ -1295,7 +1203,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -1398,16 +1306,13 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -1421,13 +1326,15 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
    
    UPDATE dns.custom AS t
-       SET rdata = p_rdata, ttl = p_ttl
+       SET
+           rdata = p_rdata,
+           ttl = p_ttl,
+           backend_status = 'upd'
    FROM dns.registered AS s
    
    WHERE
@@ -1453,15 +1360,15 @@ Domains
 ``dns.t_domain``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Fully qualified domain name (without trailing dot)
+Fully qualified hostname (without trailing dot)
 
 Checks
- - ``domain valid regex``
-    check domain validity
+ - ``hostname valid regex``
+    Hostname
 
    .. code-block:: sql
 
-    VALUE ~ '^[a-z\d][a-z\d-]{0,62}(\.[a-z\d][a-z\d-]{0,62})+$' AND
+    VALUE ~ '^[a-z\d_-]{1,63}(\.[a-z\d_-]{1,63})+$' AND
     octet_length(VALUE) <= 253
 
 
@@ -1473,6 +1380,8 @@ Checks
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Fully qualified or relative domain name. Trailing dot marks a FQDN.
+
+.. todo :: checks might be off
 
 Checks
  - ``invalid rdata domain``
@@ -1487,29 +1396,21 @@ Checks
 
 
 
-.. _DOMAIN-dns.t_type:
+.. _DOMAIN-dns.t_hostname:
 
-``dns.t_type``
+``dns.t_hostname``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Resource record type
+Fully qualified hostname (without trailing dot)
 
 Checks
- - ``Invalid or unsupported resource type``
-    Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
+ - ``hostname valid regex``
+    Hostname
 
    .. code-block:: sql
 
-    VALUE IN (
-     'A',
-     'AAAA',
-     'CNAME',
-     'MX',
-     'NS',
-     'SRV',
-     'SSHFP',
-     'TXT'
-    )
+    VALUE ~ '^([a-z\d]|[a-z\d][a-z\d-]{0,61}[a-z\d])(\.([a-z\d]|[a-z\d][a-z\d-]{0,61}[a-z\d]))+$' AND
+    octet_length(VALUE) <= 253
 
 
 
@@ -1538,6 +1439,33 @@ Checks
    .. code-block:: sql
 
     VALUE >= 60 AND VALUE <= 172800
+
+
+
+
+.. _DOMAIN-dns.t_type:
+
+``dns.t_type``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Resource record type
+
+Checks
+ - ``Invalid or unsupported resource type``
+    Resource type (A, AAAA, CNAME, MX, SRV, TXT, ...)
+
+   .. code-block:: sql
+
+    VALUE IN (
+     'A',
+     'AAAA',
+     'CNAME',
+     'MX',
+     'NS',
+     'SRV',
+     'SSHFP',
+     'TXT'
+    )
 
 
 

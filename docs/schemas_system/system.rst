@@ -93,6 +93,19 @@ Primary key
 
 
 Columns
+ - .. _COLUMN-system.service.option:
+   
+   ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+     Free options in JSON format
+
+   Default
+    .. code-block:: sql
+
+     '{}'
+
+
+
+
  - .. _COLUMN-system.service.service:
    
    ``service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -146,9 +159,22 @@ Primary key
 
 
 Columns
+ - .. _COLUMN-system.service_entity.option:
+   
+   ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+     Free options in JSON format
+
+   Default
+    .. code-block:: sql
+
+     '{}'
+
+
+
+
  - .. _COLUMN-system.service_entity.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Host name
 
 
@@ -205,7 +231,7 @@ Foreign keys
 Columns
  - .. _COLUMN-system.service_entity_dns.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -244,6 +270,19 @@ Columns
    ``ttl`` *NULL* | :ref:`dns.t_ttl <DOMAIN-dns.t_ttl>`
      Time to live, NULL indicates default value
 
+
+
+
+
+ - .. _COLUMN-system.service_entity_dns.option:
+   
+   ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+     Free options in JSON format
+
+   Default
+    .. code-block:: sql
+
+     '{}'
 
 
 
@@ -309,7 +348,7 @@ Foreign keys
 Columns
  - .. _COLUMN-system.service_entity_machine.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -325,9 +364,22 @@ Columns
 
 
 
+ - .. _COLUMN-system.service_entity_machine.option:
+   
+   ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+     Free options in JSON format
+
+   Default
+    .. code-block:: sql
+
+     '{}'
+
+
+
+
  - .. _COLUMN-system.service_entity_machine.machine_name:
    
-   ``machine_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``machine_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Assigns machine
 
 
@@ -422,9 +474,22 @@ Foreign keys
 
 
 Columns
+ - .. _COLUMN-system.subservice_entity.option:
+   
+   ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+     Free options in JSON format
+
+   Default
+    .. code-block:: sql
+
+     '{}'
+
+
+
+
  - .. _COLUMN-system.subservice_entity.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -497,7 +562,7 @@ Foreign keys
 Columns
  - .. _COLUMN-system.subservice_entity_contingent.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -601,7 +666,7 @@ Foreign keys
 Columns
  - .. _COLUMN-system.subservice_entity_domain_contingent.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -640,7 +705,7 @@ Columns
 
  - .. _COLUMN-system.subservice_entity_domain_contingent.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Specific domain for which the access is granted
 
 
@@ -683,7 +748,7 @@ Parameters
  - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_current_quantity_total`` :ref:`integer <DOMAIN-integer>`
@@ -695,9 +760,6 @@ Parameters
 
 
 Variables defined for body
- - ``v_remaining`` :ref:`integer <DOMAIN-integer>`
-   
-   
  - ``v_total_contingent`` :ref:`integer <DOMAIN-integer>`
    
    
@@ -710,7 +772,7 @@ Variables defined for body
  - ``v_domain_contingent_specific`` :ref:`integer <DOMAIN-integer>`
    
    
- - ``v_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_domain_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
@@ -812,62 +874,6 @@ Returns
 
 
 
-.. _FUNCTION-system._contingent_total:
-
-``system._contingent_total``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Contingent
-
-Parameters
- - ``p_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-    
- - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
-   
-    
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-    
-
-
-Variables defined for body
- - ``v_user`` :ref:`integer <DOMAIN-integer>`
-   
-   
- - ``v_default`` :ref:`integer <DOMAIN-integer>`
-   
-   
-
-Returns
- integer
-
-
-
-.. code-block:: plpgsql
-
-   
-   v_user := (
-       SELECT t.quantity
-       FROM system.contingent_total AS t
-       WHERE
-           t.owner = p_owner AND
-           t.service = p_service AND
-           t.service_entity_name = p_service_entity_name
-   );
-   
-   v_default := (
-       SELECT t.quantity
-       FROM system.contingent_default_total AS t
-       WHERE
-           t.service = p_service AND
-           t.service_entity_name = p_service_entity_name
-   );
-   
-   RETURN COALESCE(v_user, v_default);
-
-
-
 .. _FUNCTION-system._effective_contingent:
 
 ``system._effective_contingent``
@@ -888,7 +894,7 @@ Returned columns
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
     
@@ -947,9 +953,9 @@ Returned columns
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
     
@@ -1130,9 +1136,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -1151,7 +1154,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1180,9 +1182,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -1190,7 +1189,7 @@ Returns
 Returned columns
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -1199,7 +1198,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    

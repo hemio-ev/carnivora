@@ -66,7 +66,7 @@ Foreign keys
 Columns
  - .. _COLUMN-domain_reseller.handle.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -266,7 +266,7 @@ Primary key
 Columns
  - .. _COLUMN-domain_reseller.registered.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain
 
 
@@ -384,13 +384,10 @@ Parameters
 
 
 Variables defined for body
- - ``v_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -404,7 +401,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -453,10 +449,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  void
@@ -467,7 +459,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    UPDATE domain_reseller.handle
@@ -484,7 +476,7 @@ Execute privilege
 Update status
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_payable`` :ref:`timestamp <DOMAIN-timestamp>`
@@ -507,10 +499,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  void
@@ -521,7 +509,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    UPDATE domain_reseller.registered
@@ -546,7 +534,7 @@ Parameters
  - ``p_alias`` :ref:`varchar <DOMAIN-varchar>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_fname`` :ref:`varchar <DOMAIN-varchar>`
@@ -591,9 +579,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -605,7 +590,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -663,7 +647,7 @@ Execute privilege
 Inserts details for registered domain
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_registrant`` :ref:`varchar <DOMAIN-varchar>`
@@ -678,9 +662,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -692,7 +673,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -721,9 +701,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  SETOF domain_reseller."handle"
@@ -735,7 +712,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -743,7 +719,7 @@ Execute privilege
    RETURN QUERY
        SELECT * FROM domain_reseller.handle
    WHERE
-       owner=v_owner OR (owner=v_login AND NOT p_hide_foreign)
+       owner=v_owner OR (owner="user"._login_user() AND NOT p_hide_foreign)
    ORDER BY backend_status, fname, lname, alias;
 
 
@@ -763,15 +739,12 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``registrant`` :ref:`varchar <DOMAIN-varchar>`
     
@@ -800,7 +773,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -843,9 +815,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -853,7 +822,7 @@ Returns
 Returned columns
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 Execute privilege
@@ -862,7 +831,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -896,10 +864,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  SETOF domain_reseller."handle"
@@ -910,7 +874,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -953,16 +917,12 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``registrant`` :ref:`varchar <DOMAIN-varchar>`
     
@@ -988,7 +948,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -1055,13 +1015,10 @@ Parameters
 
 
 Variables defined for body
- - ``v_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -1075,7 +1032,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1113,7 +1069,7 @@ Execute privilege
 Updates details for registered domain
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_admin_c`` :ref:`varchar <DOMAIN-varchar>`
@@ -1122,16 +1078,13 @@ Parameters
 
 
 Variables defined for body
- - ``v_nameserver`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``v_nameserver`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
    
  - ``v_managed`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -1145,7 +1098,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    

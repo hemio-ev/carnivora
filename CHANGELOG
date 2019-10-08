@@ -1,3 +1,13 @@
+v0.13.0
+  - [dns] Adds differentiation between domains and hostnames, allowing to use
+    additional valid custom dns entries.
+  - Adds option field to several more tables
+  - Adds some basic tests for development
+  - Changes to only allow a more limited set of login names
+  - Changes to a better structure in docs
+  - Fixes performance issue
+  - Fixes many static code anlaysis warnings
+  - Fixes missing consitency checks
 v0.12.0
   - Changes uids to centralized sequence
   - Fixes srv_record cannot serve if "domain_prefix" contains underscore (#21)

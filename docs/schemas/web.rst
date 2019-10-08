@@ -87,7 +87,7 @@ Foreign keys
 Columns
  - .. _COLUMN-web.alias.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -105,7 +105,7 @@ Columns
 
  - .. _COLUMN-web.alias.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -139,7 +139,7 @@ Columns
 
  - .. _COLUMN-web.alias.site:
    
-   ``site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Site
 
 
@@ -219,7 +219,7 @@ Columns
 
  - .. _COLUMN-web.https.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain
 
 
@@ -355,7 +355,7 @@ Foreign keys
 Columns
  - .. _COLUMN-web.intermediate_chain.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain
 
 
@@ -457,10 +457,12 @@ Foreign keys
    Local Columns
     - user
     - service_entity_name
+    - owner
 
    Referenced Columns
     - :ref:`server_access.user.user <COLUMN-server_access.user.user>`
     - :ref:`server_access.user.service_entity_name <COLUMN-server_access.user.service_entity_name>`
+    - :ref:`server_access.user.owner <COLUMN-server_access.user.owner>`
 
 
 .. END FKs
@@ -469,7 +471,7 @@ Foreign keys
 Columns
  - .. _COLUMN-web.site.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -487,7 +489,7 @@ Columns
 
  - .. _COLUMN-web.site.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -531,6 +533,17 @@ Columns
 
 
 
+
+ - .. _COLUMN-web.site.owner:
+   
+   ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+     Owner
+
+
+   References :ref:`user.user.owner <COLUMN-user.user.owner>`
+
+
+   On Update: CASCADE
 
  - .. _COLUMN-web.site.port:
    
@@ -577,7 +590,7 @@ Functions
 del
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -587,9 +600,6 @@ Parameters
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -603,7 +613,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -635,7 +644,7 @@ Execute privilege
 sdf
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -650,9 +659,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -664,7 +670,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -685,7 +690,7 @@ Execute privilege
 del
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -695,9 +700,6 @@ Parameters
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -711,7 +713,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -740,7 +741,7 @@ Execute privilege
 x509 request
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -757,10 +758,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  void
@@ -771,7 +768,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    UPDATE web.https
@@ -791,10 +788,10 @@ Execute privilege
 Insert alias
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
- - ``p_site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -804,9 +801,6 @@ Parameters
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -820,7 +814,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -864,7 +857,7 @@ Create new HTTPS certificate
  Fix missing owner verification (not critical)
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -879,9 +872,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -893,7 +883,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -930,9 +919,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -944,7 +930,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -964,7 +949,7 @@ Execute privilege
 sdf
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -985,9 +970,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -999,7 +981,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1021,7 +1002,7 @@ Insert site
 .. todo:: check owner and contingent
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -1030,16 +1011,13 @@ Parameters
  - ``p_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -1053,15 +1031,25 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
    
+   PERFORM system._contingent_ensure(
+       p_owner:=v_owner,
+       p_domain:=p_domain,
+       p_service:='web',
+       p_subservice:='site',
+       p_current_quantity_total:=
+           (SELECT COUNT(*) FROM web.site WHERE owner=v_owner)::int,
+       p_current_quantity_domain:=
+           (SELECT COUNT(*) FROM web.site WHERE owner=v_owner AND domain = p_domain)::int
+       );
+   
    INSERT INTO web.site
-       (domain, service, subservice, port, "user", service_entity_name)
+       (domain, service, subservice, port, "user", service_entity_name, owner)
        VALUES
-       (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name);
+       (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name, v_owner);
    
        PERFORM backend._notify_domain('web', 'site', p_domain);
 
@@ -1082,17 +1070,14 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
@@ -1105,7 +1090,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1148,9 +1132,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -1158,7 +1139,7 @@ Returns
 Returned columns
  - ``identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
@@ -1177,7 +1158,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1213,9 +1193,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -1234,7 +1211,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1265,15 +1241,12 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
@@ -1292,7 +1265,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1327,9 +1299,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -1339,13 +1308,13 @@ Returned columns
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
  - ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``https`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
@@ -1360,7 +1329,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1398,18 +1366,14 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
- - ``site`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``site`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``site_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
@@ -1421,7 +1385,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -1471,10 +1435,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
@@ -1482,7 +1442,7 @@ Returns
 Returned columns
  - ``identifier`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
@@ -1500,7 +1460,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -1557,22 +1517,18 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
     
  - ``user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``https`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
@@ -1588,7 +1544,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -1637,7 +1593,7 @@ Execute privilege
 upd https
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -1658,9 +1614,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -1672,7 +1625,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1698,7 +1650,7 @@ Execute privilege
 set https identif.
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_port`` :ref:`commons.t_port <DOMAIN-commons.t_port>`
@@ -1713,9 +1665,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -1727,25 +1676,16 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
    
-   UPDATE web.site AS t
+   UPDATE web.site AS s
        SET https = p_identifier
-   FROM server_access.user AS s, dns.service AS u
    WHERE
-       s.user = t.user AND
-       s.service_entity_name = u.service_entity_name AND
-   
-       -- dns.service JOIN
-       t.domain = u.domain AND
-       t.service = u.service AND
-   
        s.owner = v_owner AND
-       t.domain = p_domain AND
-       t.port = p_port;
+       s.domain = p_domain AND
+       s.port = p_port;
    
    PERFORM backend._conditional_notify(FOUND, 'web', 'site', p_domain);
 

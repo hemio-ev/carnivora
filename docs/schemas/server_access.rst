@@ -62,7 +62,7 @@ Foreign keys
 Columns
  - .. _COLUMN-server_access.user.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Service entity name
 
 
@@ -166,7 +166,7 @@ Parameters
  - ``p_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -176,9 +176,6 @@ Variables defined for body
    
    
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -192,7 +189,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -235,7 +231,7 @@ Parameters
  - ``p_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -253,9 +249,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -267,7 +260,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -302,9 +294,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -318,7 +307,7 @@ Returned columns
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -329,7 +318,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -364,10 +352,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
@@ -381,7 +365,7 @@ Returned columns
     
  - ``subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
     
- - ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -393,7 +377,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -444,7 +428,7 @@ Parameters
  - ``p_user`` :ref:`server_access.t_user <DOMAIN-server_access.t_user>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
@@ -462,9 +446,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -476,7 +457,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -491,7 +471,8 @@ Execute privilege
        backend_status = 'upd'
    WHERE
        "user" = p_user AND
-       service_entity_name = p_service_entity_name
+       service_entity_name = p_service_entity_name AND
+       owner = v_owner
    RETURNING subservice INTO v_subservice;
    
    PERFORM backend._conditional_notify_service_entity_name(
@@ -520,7 +501,7 @@ Checks
 
    .. code-block:: sql
 
-    VALUE ~ '^[a-z0-9_-]+$'
+    VALUE ~ '^[a-z0-9\-_]+$'
 
  - ``no_repeated_hyphens``
     Reserve double hyphens as a seperator for system generated users.

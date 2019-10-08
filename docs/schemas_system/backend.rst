@@ -35,6 +35,19 @@ Primary key
 
 
 Columns
+ - .. _COLUMN-backend.auth.option:
+   
+   ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+     Free options in JSON format
+
+   Default
+    .. code-block:: sql
+
+     '{}'
+
+
+
+
  - .. _COLUMN-backend.auth.role:
    
    ``role`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -47,7 +60,7 @@ Columns
 
  - .. _COLUMN-backend.auth.machine:
    
-   ``machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Machine for which the rights are granted.
 
 
@@ -76,9 +89,22 @@ Primary key
 
 
 Columns
+ - .. _COLUMN-backend.machine.option:
+   
+   ``option`` :ref:`jsonb <DOMAIN-jsonb>`
+     Free options in JSON format
+
+   Default
+    .. code-block:: sql
+
+     '{}'
+
+
+
+
  - .. _COLUMN-backend.machine.name:
    
-   ``name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Machine name
 
 
@@ -138,7 +164,7 @@ Parameters
  - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -171,7 +197,7 @@ Parameters
  - ``p_condition`` :ref:`boolean <DOMAIN-boolean>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -243,7 +269,7 @@ Returns
  TABLE
 
 Returned columns
- - ``machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
 
 
@@ -261,6 +287,30 @@ Returned columns
 
 
 
+.. _FUNCTION-backend._login_machine:
+
+``backend._login_machine``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Shows machine for the current backend login.
+
+Parameters
+ *None*
+
+
+
+Returns
+ dns.t_hostname
+
+
+
+.. code-block:: plpgsql
+
+   
+   RETURN (SELECT machine FROM backend._get_login());
+
+
+
 .. _FUNCTION-backend._machine_priviledged:
 
 ``backend._machine_priviledged``
@@ -270,37 +320,27 @@ Checks if a currently connected machine is priviledged to obtain data for
 a certain service for a certain domain name.
 
 .. warning::
-   The parameter p_domain must be a domain, which means an entry in
-   the column dns.service.domain. It must not be confused with a service_entity_name.
+   The parameter ``p_domain`` must be a domain, which means an entry in
+   the column dns.service.domain. It must not be confused with a
+   ``service_entity_name``.
 
 Parameters
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-    
- - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  boolean
 
 
-Execute privilege
- - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
-   
    
    RETURN COALESCE(
        (
@@ -313,7 +353,7 @@ Execute privilege
            WHERE
                t.service = p_service AND
                t.service_entity_name = s.service_entity_name AND
-               t.machine_name = v_machine
+               t.machine_name = backend._login_machine()
        )
    , FALSE);
 
@@ -328,37 +368,26 @@ Checks if a currently connected machine is priviledged to obtain data for
 a certain service for a certain servicee name.
 
 .. warning:: 
- The parameter p_server_name must be a service name. It must not be
- confused with a domain.
+ The parameter ``p_service_entity_name`` must be the name of a service entity. 
+ It must not be confused with a domain.
 
 Parameters
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-    
- - ``p_include_inactive`` :ref:`boolean <DOMAIN-boolean>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  boolean
 
 
-Execute privilege
- - :ref:`backend <ROLE-backend>`
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
-   
    
    RETURN COALESCE(
        (
@@ -366,7 +395,7 @@ Execute privilege
            WHERE
                t.service = p_service AND
                t.service_entity_name = p_service_entity_name AND
-               t.machine_name = v_machine
+               t.machine_name = backend._login_machine()
        )
    , FALSE);
 
@@ -377,16 +406,21 @@ Execute privilege
 ``backend._notify``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Informs all machines about changes.
+Informs a machine about changes. To listen to signals use
 
-To listen to signals use LISTEN "carnivora/machine.name.example".
-The payload has the form 'mail.domain.example/email/list'.
+.. code-block :: sql
+ 
+ LISTEN "carnivora/machine.name.example"
+
+on the machine. The payload has the form
+``<service_entity_name>/<service>/<subservice>``. For example
+``mail.domain.example/email/mailbox`` for a mailbox related update.
 
 Parameters
- - ``p_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_machine`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
@@ -432,7 +466,7 @@ Parameters
  - ``p_subservice`` :ref:`commons.t_key <DOMAIN-commons.t_key>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -474,7 +508,7 @@ Informs all machines about changes.
  confused with a domain.
 
 Parameters
- - ``p_service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_service`` :ref:`commons.t_key <DOMAIN-commons.t_key>`

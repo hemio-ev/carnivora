@@ -65,7 +65,7 @@ Foreign keys
 Columns
  - .. _COLUMN-email.address.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -83,7 +83,7 @@ Columns
 
  - .. _COLUMN-email.address.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -166,7 +166,7 @@ Foreign keys
 Columns
  - .. _COLUMN-email.alias.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -184,7 +184,7 @@ Columns
 
  - .. _COLUMN-email.alias.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -236,7 +236,7 @@ Columns
 
  - .. _COLUMN-email.alias.mailbox_domain:
    
-   ``mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``mailbox_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Mailbox to which the mails will be delivered
 
 
@@ -291,7 +291,7 @@ Foreign keys
 Columns
  - .. _COLUMN-email.list.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -309,7 +309,7 @@ Columns
 
  - .. _COLUMN-email.list.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -474,7 +474,7 @@ Columns
 
  - .. _COLUMN-email.list_subscriber.list_domain:
    
-   ``list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``list_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      List
 
 
@@ -531,7 +531,7 @@ Foreign keys
 Columns
  - .. _COLUMN-email.mailbox.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -549,7 +549,7 @@ Columns
 
  - .. _COLUMN-email.mailbox.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -693,7 +693,7 @@ Foreign keys
 Columns
  - .. _COLUMN-email.redirection.domain:
    
-   ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      Domain name
 
 
@@ -711,7 +711,7 @@ Columns
 
  - .. _COLUMN-email.redirection.service_entity_name:
    
-   ``service_entity_name`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+   ``service_entity_name`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
      ent. name
 
 
@@ -800,7 +800,7 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
     
@@ -838,7 +838,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -875,22 +875,19 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_mailbox_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -904,7 +901,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -936,7 +932,7 @@ Execute privilege
 Delete mailing list
 
 Parameters
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
@@ -946,9 +942,6 @@ Parameters
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -962,7 +955,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -988,7 +980,7 @@ Parameters
  - ``p_list_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_list_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_address`` :ref:`email.t_address <DOMAIN-email.t_address>`
@@ -998,9 +990,6 @@ Parameters
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -1014,7 +1003,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1047,16 +1035,13 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -1070,7 +1055,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1097,16 +1081,13 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -1120,7 +1101,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1147,13 +1127,13 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_mailbox_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
@@ -1171,9 +1151,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -1185,7 +1162,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1237,7 +1213,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
@@ -1258,9 +1234,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -1272,7 +1245,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1313,16 +1285,13 @@ Parameters
  - ``p_list_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_list_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
 
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -1336,7 +1305,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1371,7 +1339,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
@@ -1392,9 +1360,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -1406,7 +1371,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1447,7 +1411,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_destination`` :ref:`email.t_address <DOMAIN-email.t_address>`
@@ -1468,9 +1432,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -1482,7 +1443,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1526,9 +1486,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -1536,11 +1493,11 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``mailbox_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -1551,7 +1508,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1590,15 +1546,12 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
@@ -1619,7 +1572,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1658,9 +1610,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -1670,7 +1619,7 @@ Returned columns
     
  - ``list_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``list_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``list_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -1681,7 +1630,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1719,15 +1667,12 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
@@ -1744,7 +1689,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1780,15 +1724,12 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
 
 Returned columns
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
@@ -1803,7 +1744,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -1835,10 +1775,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
@@ -1846,11 +1782,11 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``mailbox_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``mailbox_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``mailbox_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``backend_status`` :ref:`backend.t_status <DOMAIN-backend.t_status>`
     
@@ -1860,7 +1796,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -1911,10 +1847,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
@@ -1922,7 +1854,7 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
     
@@ -1936,7 +1868,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -1987,10 +1919,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
@@ -1998,7 +1926,7 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``address`` :ref:`email.t_address <DOMAIN-email.t_address>`
     
@@ -2010,7 +1938,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -2072,10 +2000,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
@@ -2083,7 +2007,7 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``password`` :ref:`commons.t_password <DOMAIN-commons.t_password>`
     
@@ -2101,7 +2025,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -2154,10 +2078,6 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_machine`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
-   
-   
 
 Returns
  TABLE
@@ -2165,7 +2085,7 @@ Returns
 Returned columns
  - ``localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
     
- - ``domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
     
  - ``destination`` :ref:`email.t_address <DOMAIN-email.t_address>`
     
@@ -2177,7 +2097,7 @@ Execute privilege
 
 .. code-block:: plpgsql
 
-   v_machine := (SELECT "machine" FROM "backend"._get_login());
+   PERFORM backend._get_login();
    
    
    RETURN QUERY
@@ -2225,7 +2145,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_admin`` :ref:`email.t_address <DOMAIN-email.t_address>`
@@ -2235,9 +2155,6 @@ Parameters
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -2251,7 +2168,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -2281,7 +2197,7 @@ Parameters
  - ``p_localpart`` :ref:`email.t_localpart <DOMAIN-email.t_localpart>`
    
     
- - ``p_domain`` :ref:`dns.t_domain <DOMAIN-dns.t_domain>`
+ - ``p_domain`` :ref:`dns.t_hostname <DOMAIN-dns.t_hostname>`
    
     
  - ``p_password`` :ref:`commons.t_password_plaintext <DOMAIN-commons.t_password_plaintext>`
@@ -2291,9 +2207,6 @@ Parameters
 
 Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
 
@@ -2307,7 +2220,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -2346,7 +2258,7 @@ Checks
 
    .. code-block:: sql
 
-    VALUE ~ '^[a-z0-9.-]+$'
+    VALUE ~ '^[a-z0-9.\-]+$'
 
  - ``no_starting_dot``
     b

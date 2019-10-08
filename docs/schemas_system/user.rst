@@ -230,8 +230,34 @@ Returned columns
           WHERE "id"="user"._session_id();
    ELSE
       RAISE 'Database connection is not associated to a user login.'
-          USING HINT := 'Use user.login(...) first.';
+          USING HINT := 'Use user.ins_login(...) first.';
    END IF;
+
+
+
+.. _FUNCTION-user._login_user:
+
+``user._login_user``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Shows informations for the current user login.
+Throws an exception if no login is associated to the
+current database connection.
+
+Parameters
+ *None*
+
+
+
+Returns
+ user.t_user
+
+
+
+.. code-block:: plpgsql
+
+   
+   RETURN (SELECT owner FROM "user"._get_login());
 
 
 
@@ -259,10 +285,40 @@ Returns
 
    
    RETURN
-       session_user || '.' ||
        pg_backend_pid() || '.' ||
        COALESCE((SELECT backend_start FROM pg_stat_get_activity(pg_backend_pid()))::varchar, 'xxx') || '.' ||
        pg_conf_load_time();
+
+
+
+.. _FUNCTION-user.del_login:
+
+``user.del_login``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Try to logout
+
+Parameters
+ *None*
+
+
+
+Returns
+ void
+
+
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
+
+.. code-block:: plpgsql
+
+   
+   DELETE FROM "user".session WHERE id = "user"._session_id();
+   
+   IF NOT FOUND THEN
+      RAISE 'Carnivora: user logout failed, not logged in'
+       USING DETAIL = '$carnivora:user:logout_failed$';
+   END IF;
 
 
 
@@ -283,9 +339,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
@@ -297,7 +350,6 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
@@ -308,7 +360,8 @@ Execute privilege
        WHERE
            s.deputy = t.owner AND
            s.represented = p_act_as AND
-           t.id = "user"._session_id();
+           t.id = "user"._session_id() AND
+           t.owner = v_owner;
    
    IF NOT FOUND THEN
        RAISE 'Acting as deputy failed.'
@@ -355,7 +408,7 @@ Execute privilege
           WHERE
               p_login IS NOT NULL AND
               t.password IS NOT NULL AND
-              p_login IN (owner, contact_email) AND
+              lower(p_login) IN (owner, contact_email) AND
               commons._passwords_equal(p_password, t.password);
    
    IF v_login_owner IS NOT NULL THEN
@@ -383,9 +436,6 @@ Variables defined for body
  - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
    
    
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  TABLE
@@ -400,14 +450,13 @@ Execute privilege
 .. code-block:: plpgsql
 
    -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
    v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
    -- end userlogin prelude
    
    
    RETURN QUERY
        SELECT t.represented FROM "user".deputy AS t
-       WHERE t.deputy = v_login
+       WHERE t.deputy = "user"._login_user()
        ORDER BY t.represented;
 
 
@@ -425,34 +474,20 @@ Parameters
     
 
 
-Variables defined for body
- - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
- - ``v_login`` :ref:`user.t_user <DOMAIN-user.t_user>`
-   
-   
 
 Returns
  void
 
 
-Execute privilege
- - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
-   -- begin userlogin prelude
-   v_login := (SELECT t.owner FROM "user"._get_login() AS t);
-   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
-   -- end userlogin prelude
-   
    
    UPDATE "user".user
        SET password = commons._hash_password(p_password)
    
    WHERE
-       owner = v_login;
+       owner = "user"._login_user();
 
 
 
@@ -469,6 +504,14 @@ Domains
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Username
+
+Checks
+ - ``valid_characters``
+    Only lower-case letters, numbers and .-_
+
+   .. code-block:: sql
+
+    VALUE ~ '^[a-z0-9.\-_]+$'
 
 
 
