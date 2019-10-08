@@ -14,6 +14,7 @@ columns:
   type: dns.t_hostname
   description: Registered domain of which domain is a sub domain
   references: dns.registered.domain
+  on_ref_delete: CASCADE
  -
   name: domain
   type: dns.t_domain

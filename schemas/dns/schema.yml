@@ -159,3 +159,4 @@ table_templates:
      - domain
      - service
      - service_entity_name
+    on_delete: CASCADE
