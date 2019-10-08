@@ -28,4 +28,4 @@ sleep 2
 echo "---"
 fi
 
-hamsql yamsql --connection $db "${yamsql}"
+#hamsql yamsql --connection $db "${yamsql}"

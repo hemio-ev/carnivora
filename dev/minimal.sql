@@ -67,11 +67,13 @@ SELECT server_access.ins_user(p_user:='sshusr', p_service_entity_name:='web.my-o
 
 -- WEB
 
---INSERT INTO web.storage
--- (service, port, service_entity_name, storage_service, storage_service_entity_name)
--- VALUES
--- ('web', 80, 'web.my-org.example', 'server_access', 'ssh.my-org.example'),
--- ('web', 443, 'web.my-org.example', 'server_access', 'ssh.my-org.example');
+/*
+INSERT INTO web.storage
+ (service, port, service_entity_name, storage_service, storage_service_entity_name)
+ VALUES
+ ('web', 80, 'web.my-org.example', 'server_access', 'ssh.my-org.example'),
+ ('web', 443, 'web.my-org.example', 'server_access', 'ssh.my-org.example');
+*/
 
 INSERT INTO dns.service (backend_status, domain, registered, service, service_entity_name)
  VALUES ('ins', 'www.fun.example', 'fun.example', 'web', 'web.my-org.example');
@@ -137,6 +139,7 @@ $$ BEGIN
             RAISE NOTICE 'Test #3 passed.';
     END;
 
+    /*
     BEGIN
         PERFORM server_access.ins_user(
             p_user:='sshusr-2',
@@ -149,6 +152,7 @@ $$ BEGIN
         WHEN raise_exception THEN
             RAISE NOTICE 'Test #4 passed.';
     END;
+    */
 
 END $$ LANGUAGE plpgsql;
 
