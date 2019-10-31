@@ -48,7 +48,7 @@ domains:
    -
     name: invalid_port
     description: Only allow port values
-    check: VALUE >= 0 AND VALUE <= 65535
+    check: VALUE BETWEEN 0 AND 65535
  -
   name: t_password
   type: varchar(250)

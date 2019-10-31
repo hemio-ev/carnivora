@@ -56,6 +56,8 @@ INSERT INTO dns.service (backend_status, domain, registered, service, service_en
 SELECT "user".ins_login('user-1', 'FOMgwkMXmS');
 SELECT 'user login', 'user-1', 'FOMgwkMXmS';
 
+SELECT "user".upd_user('FOMgwkMXmS');
+
 -- EMAIL
 
 SELECT email.ins_mailbox('have', 'fun.example', 'myPassword');

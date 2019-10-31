@@ -7,11 +7,6 @@ description: |
  Not sure if this stays unique with distributed infrastructure!
 
 returns: varchar
-security_definer: false
-owner: system
 ---
 
-RETURN
-    pg_backend_pid() || '.' ||
-    COALESCE((SELECT backend_start FROM pg_stat_get_activity(pg_backend_pid()))::varchar, 'xxx') || '.' ||
-    pg_conf_load_time();
+RETURN pg_backend_pid()::varchar;

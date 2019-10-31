@@ -74,7 +74,7 @@ RETURN QUERY
 
     SELECT
         t.registered,
-        COALESCE(s.domain_prefix || t.domain, t.domain)::varchar,
+        COALESCE(s.domain_prefix || t.domain, t.domain)::dns.t_domain,
         s.type,
         s.rdata,
         s.ttl,

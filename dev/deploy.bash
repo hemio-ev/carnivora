@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-log=/tmp/carnivora-dev-deploy.log
+log=/tmp/carnivora-dev-deploy_`date +%F_%T`.log
 yamsql=/tmp/yamsql-out
 setup=../examples/setup.yml
 db=postgresql://postgres@/carnivora

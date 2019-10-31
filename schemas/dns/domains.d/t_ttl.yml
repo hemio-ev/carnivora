@@ -5,4 +5,4 @@ checks:
  -
   name: ttl range
   description: Ensure that TTL is at least one minute and put maximum to 48h
-  check: VALUE >= 60 AND VALUE <= 172800
+  check: VALUE BETWEEN 60 AND EXTRACT(EPOCH FROM INTERVAL '2 days')
