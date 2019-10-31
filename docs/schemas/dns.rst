@@ -1251,7 +1251,7 @@ Execute privilege
    
        SELECT
            t.registered,
-           COALESCE(s.domain_prefix || t.domain, t.domain)::varchar,
+           COALESCE(s.domain_prefix || t.domain, t.domain)::dns.t_domain,
            s.type,
            s.rdata,
            s.ttl,
@@ -1438,7 +1438,7 @@ Checks
 
    .. code-block:: sql
 
-    VALUE >= 60 AND VALUE <= 172800
+    VALUE BETWEEN 60 AND EXTRACT(EPOCH FROM INTERVAL '2 days')
 
 
 

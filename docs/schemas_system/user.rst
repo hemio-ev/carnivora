@@ -284,10 +284,7 @@ Returns
 .. code-block:: plpgsql
 
    
-   RETURN
-       pg_backend_pid() || '.' ||
-       COALESCE((SELECT backend_start FROM pg_stat_get_activity(pg_backend_pid()))::varchar, 'xxx') || '.' ||
-       pg_conf_load_time();
+   RETURN pg_backend_pid()::varchar;
 
 
 
@@ -474,14 +471,24 @@ Parameters
     
 
 
+Variables defined for body
+ - ``v_owner`` :ref:`user.t_user <DOMAIN-user.t_user>`
+   
+   
 
 Returns
  void
 
 
+Execute privilege
+ - :ref:`userlogin <ROLE-userlogin>`
 
 .. code-block:: plpgsql
 
+   -- begin userlogin prelude
+   v_owner := (SELECT t.act_as FROM "user"._get_login() AS t);
+   -- end userlogin prelude
+   
    
    UPDATE "user".user
        SET password = commons._hash_password(p_password)

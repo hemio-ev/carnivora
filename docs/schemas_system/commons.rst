@@ -262,7 +262,7 @@ Checks
 
    .. code-block:: sql
 
-    VALUE >= 0 AND VALUE <= 65535
+    VALUE BETWEEN 0 AND 65535
 
 
 
