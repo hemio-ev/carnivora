@@ -67,4 +67,6 @@ RETURN QUERY
 
     WHERE
         backend._machine_priviledged(t.service, t.domain) AND
-        (backend._active(t.backend_status) OR p_include_inactive);
+        (backend._active(t.backend_status) OR p_include_inactive)
+
+    ORDER BY t.domain, t.port;
