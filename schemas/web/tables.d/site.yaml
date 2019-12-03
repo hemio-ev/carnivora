@@ -58,6 +58,7 @@ foreign_keys:
    - user
    - service_entity_name
    - owner
+  on_update: cascade
 
 unique:
  -
