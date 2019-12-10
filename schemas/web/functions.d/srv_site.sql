@@ -21,7 +21,7 @@ returns_columns:
   type: dns.t_hostname
  -
   name: https
-  type: commons.t_key
+  type: bool
  -
   name: subservice
   type: commons.t_key

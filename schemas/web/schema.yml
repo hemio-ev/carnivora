@@ -22,14 +22,3 @@ exec_post_install_and_upgrade: |
  SELECT system._setup_register_subservice('web', 'dns_activatable');
  SELECT system._setup_register_subservice('web', 'http_redirect');
 
-
-domains:
- -
-  name: t_cert
-  type: text
-  description: PEM cert
-  checks:
-   -
-    name: base64
-    description: no newlines in db
-    check: VALUE ~ '^[a-zA-Z\d/+]+[=]{0,2}$'

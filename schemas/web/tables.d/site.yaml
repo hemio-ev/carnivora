@@ -24,9 +24,8 @@ columns:
   description: Server account under which the htdocs reside
  -
   name: https
-  type: commons.t_key
-  null: true
-  description: If null, HTTPS is deactivated
+  type: bool
+  description: HTTPS
 
 checks:
  -
@@ -35,18 +34,6 @@ checks:
   check: subservice <> 'http_redirect' OR (option->>'redirect_url')::varchar IS NOT NULL
 
 foreign_keys:
- -
-  name: https
-  columns:
-   - domain
-   - port
-   - https
-  ref_table: web.https
-  ref_columns:
-   - domain
-   - port
-   - identifier
-
  -
   name: server_access
   columns:

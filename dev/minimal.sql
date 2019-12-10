@@ -83,15 +83,15 @@ INSERT INTO dns.service (backend_status, domain, registered, service, service_en
 SELECT web.ins_site(
   p_domain:='www.fun.example',
   p_port:=80,
+  p_https:=FALSE,
   p_user:='sshusr',
   p_service_entity_name:='web.my-org.example'
 );
 
-SELECT web.upd_site('www.fun.example', 80, NULL);
-
 SELECT web.ins_site(
   p_domain:='www.fun.example',
   p_port:=443,
+  p_https:=TRUE,
   p_user:='sshusr',
   p_service_entity_name:='web.my-org.example'
 );
@@ -130,6 +130,7 @@ $$ BEGIN
         PERFORM web.ins_site(
           p_domain:='www.fun.example',
           p_port:=81,
+          p_https:=FALSE,
           p_user:='sshusr',
           p_service_entity_name:='web.my-org.example'
         );

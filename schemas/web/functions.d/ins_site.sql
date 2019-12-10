@@ -18,6 +18,9 @@ parameters:
   name: p_port
   type: commons.t_port
  -
+  name: p_https
+  type: bool
+ -
   name: p_user
   type: server_access.t_user
  -
@@ -37,8 +40,8 @@ PERFORM system._contingent_ensure(
     );
 
 INSERT INTO web.site
-    (domain, service, subservice, port, "user", service_entity_name, owner)
+    (domain, service, subservice, port, https, "user", service_entity_name, owner)
     VALUES
-    (p_domain, 'web', 'site', p_port, p_user, p_service_entity_name, v_owner);
+    (p_domain, 'web', 'site', p_port, p_https, p_user, p_service_entity_name, v_owner);
 
     PERFORM backend._notify_domain('web', 'site', p_domain);
