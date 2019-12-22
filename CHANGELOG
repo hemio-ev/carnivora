@@ -1,3 +1,5 @@
+v0.14.0
+  - [web] Remove X.509 support, use ACME server side instead
 v0.13.0
   - [dns] Adds differentiation between domains and hostnames, allowing to use
     additional valid custom dns entries.
